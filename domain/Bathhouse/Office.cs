@@ -2,7 +2,7 @@
 
 namespace Bathhouse
 {
-    public class Office : DBEntity
+    public class Office : Entity
     {
         public int Number { get; set; }
     }
