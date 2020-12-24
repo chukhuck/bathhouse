@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Bathhouse.Memory
@@ -13,6 +14,11 @@ namespace Bathhouse.Memory
       new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000035"), Number = 35 },
       new () { Id = Guid.Parse("00000000-0000-0000-0000-000000001276"), Number = 1276 }
     };
+
+    public IEnumerable<Office> GetAll()
+    {
+      return offices;
+    }
 
     public Office GetById(Guid id) => offices.FirstOrDefault(o=>o.Id == id);
 
