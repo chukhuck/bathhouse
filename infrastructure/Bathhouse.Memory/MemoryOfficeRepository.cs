@@ -8,11 +8,14 @@ namespace Bathhouse.Memory
   {
     private List<Office> offices = new List<Office>
     {
-      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000126"), Number = 126 },
-      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000001099"), Number = 1099 },
-      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000005"), Number = 5 },
-      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000035"), Number = 35 },
-      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000001276"), Number = 1276 }
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000001"), Number = 1, Address = "ЮАО, ул. Радиальная, д.1", Phone = "+7-499-000-00-01", TimeOfOpen = DateTime.MinValue.AddHours(8), TimeOfClose = DateTime.MinValue.AddHours(18)},
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000002"), Number = 2, Address = "ЮАО, ул. Радиальная, д.2", Phone = "+7-499-000-00-02", TimeOfOpen = DateTime.MinValue.AddHours(0), TimeOfClose = DateTime.MinValue.AddHours(0) },
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000003"), Number = 3, Address = "ЮАО, ул. Радиальная, д.3", Phone = "+7-499-000-00-03", TimeOfOpen = DateTime.MinValue.AddHours(10) },
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000004"), Number = 4, Address = "ЮАО, ул. Радиальная, д.4", Phone = "+7-499-000-00-04" },
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000005"), Number = 5, Address = "ЮАО, ул. Радиальная, д.5" },
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000006"), Number = 6},
+      new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000007")},
+      new () { }
     };
 
     public void Add(Office office)
@@ -42,6 +45,10 @@ namespace Bathhouse.Memory
       if (offices.Find(o => o.Id == id) is Office o)
       {
         o.Number = office.Number;
+        o.Address = office.Address;
+        o.Phone = office.Phone;
+        o.TimeOfOpen = office.TimeOfOpen;
+        o.TimeOfClose = office.TimeOfClose;
       }
     }
   }

@@ -2,6 +2,7 @@
 @inject HttpClient Http
 
 <h1>Аптеки</h1>
+<h2>@editItem.TimeOfClose</h2>
 
 
 
@@ -14,18 +15,29 @@ else
   <table class="table">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Номер</th>
+        <th>Телефон</th>
+        <th>Адрес</th>
+        <th>Время работы</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <tr id="editRow" style="display:@editRowStyle">
         <td>
-          <input @bind="editItem.Id" />
+          <input @bind="editItem.Number" type="number"/>
         </td>
         <td>
-          <input @bind="editItem.Number" />
+          <input @bind="editItem.Phone" type="tel"/>
+        </td>
+        <td>
+          <input @bind="editItem.Address" />
+        </td>
+        <td>
+          <input @bind="editItem.TimeOfOpen" type="time"/>
+        </td>
+        <td>
+          <input @bind-value="editItem.TimeOfClose" type="time" />
         </td>
         <td class="text-center">
           <button class="btn btn-success" @onclick="@SaveItem">Сохранить</button>
@@ -34,24 +46,37 @@ else
       </tr>
       @foreach (var item in offices)
       {
-        <tr>
-          <td>@item.Id</td>
-          <td>@item.Number</td>
-          <td class="text-center">
-            <button class="btn btn-warning" @onclick="@(() => EditItem(item.Id))">Редактировать</button>
-            <button class="btn btn-danger" @onclick="@(async () => await DeleteItem(item.Id))">Удалить</button>
-          </td>
-        </tr>
+    <tr>
+      <td>@item.Number</td>
+      <td>@item.Phone</td>
+      <td>@item.Address</td>
+      <td>@item.WorkingTimeRange</td>
+      <td class="text-center">
+        <button class="btn btn-warning" @onclick="@(() => EditItem(item.Id))">Редактировать</button>
+        <button class="btn btn-danger" @onclick="@(async () => await DeleteItem(item.Id))">Удалить</button>
+      </td>
+    </tr>
       }
-      <tr id="addRow">
-        <td></td>
-        <td>
-          <input @bind="newItemNumber" placeholder="Номер новой аптеки" />
-        </td>
-        <td class="text-center">
-          <button class="btn btn-success" @onclick="@AddItem">Добавить</button>
-        </td>
-      </tr>
+    <tr id="addRow">
+      <td>
+        <input @bind="editItem.Number"  type="number" placeholder="Номер новой аптеки" />
+      </td>
+      <td>
+        <input @bind="editItem.Phone" type="tel" placeholder="Телефон новой аптеки" />
+      </td>
+      <td>
+        <input @bind="editItem.Address" placeholder="Адрес новой аптеки" />
+      </td>
+      <td>
+        <input @bind="editItem.TimeOfOpen" type="time"  placeholder="Время открытия" />
+      </td>
+      <td>
+        <input @bind="editItem.TimeOfClose" type="time" placeholder="Время закрытия" />
+      </td>
+      <td class="text-center">
+        <button class="btn btn-success" @onclick="@AddItem">Добавить</button>
+      </td>
+    </tr>
     </tbody>
   </table>
 }
@@ -63,7 +88,7 @@ else
   private OfficeDTO[] offices;
   private OfficeDTO editItem = new OfficeDTO();
   private string editRowStyle = "none";
-  private int newItemNumber;
+
 
   protected override async Task OnInitializedAsync() => await GetOffices();
 
@@ -77,15 +102,17 @@ else
 
   private async Task AddItem()
   {
-    var addItem = new OfficeDTO { Number = newItemNumber };
-    await Http.PostAsJsonAsync(ServiceEndpoint, addItem);
-    newItemNumber = 0;
+    await Http.PostAsJsonAsync(ServiceEndpoint, editItem);
+    editItem = new OfficeDTO();
+    editItem.TimeOfOpen =  DateTime.MinValue.AddHours(8);
+    editItem.TimeOfClose = DateTime.MinValue.AddHours(22);
     await GetOffices();
     editRowStyle = "none";
   }
 
   private async Task SaveItem()
   {
+
     await Http.PutAsJsonAsync($"{ServiceEndpoint}/{editItem.Id}", editItem);
     await GetOffices();
     editRowStyle = "none";
@@ -103,6 +130,11 @@ else
   {
     public Guid Id { get; set; }
 
-    public int Number { get; set; }
-  }
+    public int Number { get; set; } = 0;
+    public string Address { get; set; } = "Москва, ";
+    public string Phone { get; set; } = "+7-495-XXX-XX-XX";
+    public DateTime TimeOfOpen { get; set; } =  DateTime.MinValue.AddHours(8);
+    public DateTime TimeOfClose { get; set; } = DateTime.MinValue.AddHours(22);
+    public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
+}
 }
