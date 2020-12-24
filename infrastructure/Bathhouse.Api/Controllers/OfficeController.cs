@@ -26,5 +26,48 @@ namespace Bathhouse.Api.Controllers
     {
       return _officeRepository.GetAll();
     }
+
+    [HttpGet]
+    [Route("{id:guid}")]
+    public Office GetById(Guid id)
+    {
+      return _officeRepository.GetById(id);
+    }
+
+    [HttpGet]
+    [Route("{numberOfOffice:int}")]
+    public Office GetByNumber(int numberOfOffice)
+    {
+      return _officeRepository.GetByNumber(numberOfOffice);
+    }
+
+    [HttpPost]
+    public IActionResult Add(Office office)
+    {
+      _officeRepository.Add(office);
+
+      return Ok();
+    }
+
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult Update(Guid id, Office office)
+    {
+      _officeRepository.Update(id, office);
+
+      return Ok();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult Delete(Guid id)
+    {
+      if (_officeRepository.GetById(id) is not Office)
+        return NotFound();
+
+      _officeRepository.Delete(id);
+
+      return Ok();
+    }
   }
 }

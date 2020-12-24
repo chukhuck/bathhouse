@@ -1,0 +1,108 @@
+﻿@page "/Office"
+@inject HttpClient Http
+
+<h1>Аптеки</h1>
+
+
+
+@if (offices == null)
+{
+  <p>Нет аптек</p>
+}
+else
+{
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Номер</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="editRow" style="display:@editRowStyle">
+        <td>
+          <input @bind="editItem.Id" />
+        </td>
+        <td>
+          <input @bind="editItem.Number" />
+        </td>
+        <td class="text-center">
+          <button class="btn btn-success" @onclick="@SaveItem">Сохранить</button>
+          <button class="btn btn-danger" @onclick="@(() => editRowStyle = "none")">Отменить</button>
+        </td>
+      </tr>
+      @foreach (var item in offices)
+      {
+        <tr>
+          <td>@item.Id</td>
+          <td>@item.Number</td>
+          <td class="text-center">
+            <button class="btn btn-warning" @onclick="@(() => EditItem(item.Id))">Редактировать</button>
+            <button class="btn btn-danger" @onclick="@(async () => await DeleteItem(item.Id))">Удалить</button>
+          </td>
+        </tr>
+      }
+      <tr id="addRow">
+        <td></td>
+        <td>
+          <input @bind="newItemNumber" placeholder="Номер новой аптеки" />
+        </td>
+        <td class="text-center">
+          <button class="btn btn-success" @onclick="@AddItem">Добавить</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+}
+
+
+
+@code {
+  private const string ServiceEndpoint = "https://localhost:5001/Office";
+  private OfficeDTO[] offices;
+  private OfficeDTO editItem = new OfficeDTO();
+  private string editRowStyle = "none";
+  private int newItemNumber;
+
+  protected override async Task OnInitializedAsync() => await GetOffices();
+
+  private async Task GetOffices() => offices = await Http.GetFromJsonAsync<OfficeDTO[]>(ServiceEndpoint);
+
+  private void EditItem(Guid id)
+  {
+    editItem = offices.Single(i => i.Id == id);
+    editRowStyle = "table-row";
+  }
+
+  private async Task AddItem()
+  {
+    var addItem = new OfficeDTO { Number = newItemNumber };
+    await Http.PostAsJsonAsync(ServiceEndpoint, addItem);
+    newItemNumber = 0;
+    await GetOffices();
+    editRowStyle = "none";
+  }
+
+  private async Task SaveItem()
+  {
+    await Http.PutAsJsonAsync($"{ServiceEndpoint}/{editItem.Id}", editItem);
+    await GetOffices();
+    editRowStyle = "none";
+  }
+
+  private async Task DeleteItem(Guid id)
+  {
+    await Http.DeleteAsync($"{ServiceEndpoint}/{id}");
+    await GetOffices();
+    editRowStyle = "none";
+  }
+
+
+  private class OfficeDTO
+  {
+    public Guid Id { get; set; }
+
+    public int Number { get; set; }
+  }
+}

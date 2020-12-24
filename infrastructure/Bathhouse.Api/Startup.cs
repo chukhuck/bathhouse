@@ -35,7 +35,9 @@ namespace Bathhouse.Api
       });
 
 
-      services.AddScoped<IOfficeRepository, MemoryOfficeRepository>();
+      services.AddSingleton<IOfficeRepository, MemoryOfficeRepository>();
+
+      services.AddCors();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,12 +54,20 @@ namespace Bathhouse.Api
 
       app.UseRouting();
 
+      app.UseCors(policy =>
+        policy
+        .AllowAnyMethod()
+        .AllowAnyOrigin()
+        .AllowAnyHeader());
+
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllers();
       });
+
+
     }
   }
 }

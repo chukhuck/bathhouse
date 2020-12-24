@@ -10,5 +10,8 @@ namespace Bathhouse
     Office GetById(Guid id);
 
     Office GetByNumber(int numberOfOffice);
+    void Add(Office office);
+    void Update(Guid id, Office office);
+    void Delete(Guid id);
   }
 }
