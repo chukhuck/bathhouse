@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\domain\Bathhouse\Bathhouse.csproj" />
     <ProjectReference Include="..\Bathhouse.Memory\Bathhouse.Memory.csproj" />
   </ItemGroup>
 

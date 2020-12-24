@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Bathhouse.Memory
 {
-  public class OfficeRepository : IOfficeRepository
+  public class MemoryOfficeRepository : IOfficeRepository
   {
     private readonly Office[] offices = new Office[]
     {

@@ -24,7 +24,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet]
     public IEnumerable<Office> Get()
     {
-      throw new NotImplementedException();
+      return _officeRepository.GetAll();
     }
   }
 }
