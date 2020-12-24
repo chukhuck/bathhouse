@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Web", "presentation\Bathhouse.Web\Bathhouse.Web.csproj", "{23C7FCAE-19DA-476B-B811-474B91B5FE4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Api", "infrastructure\Bathhouse.Api\Bathhouse.Api.csproj", "{30614294-F1DD-499C-8680-A9E6A0BC248E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,18 @@ Global
 		{23C7FCAE-19DA-476B-B811-474B91B5FE4D}.Release|x64.Build.0 = Release|Any CPU
 		{23C7FCAE-19DA-476B-B811-474B91B5FE4D}.Release|x86.ActiveCfg = Release|Any CPU
 		{23C7FCAE-19DA-476B-B811-474B91B5FE4D}.Release|x86.Build.0 = Release|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Debug|x64.Build.0 = Debug|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Debug|x86.Build.0 = Debug|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Release|x64.ActiveCfg = Release|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Release|x64.Build.0 = Release|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Release|x86.ActiveCfg = Release|Any CPU
+		{30614294-F1DD-499C-8680-A9E6A0BC248E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +83,7 @@ Global
 		{6CE117B4-2772-484A-A067-5EFA829D7A07} = {7A3A31A6-AAB8-44AC-9ADB-B2372B1E3674}
 		{59122341-1177-4531-87BF-B5373394F374} = {BA1760D6-E6A4-4E68-AF3D-02E112D102B5}
 		{23C7FCAE-19DA-476B-B811-474B91B5FE4D} = {EF05D28C-4F6C-4C52-8D2C-5151A1BE93A0}
+		{30614294-F1DD-499C-8680-A9E6A0BC248E} = {BA1760D6-E6A4-4E68-AF3D-02E112D102B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCC43692-0E4B-45C2-907D-222FBB234B1A}
