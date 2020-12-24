@@ -1,15 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{7A3A31A6-AAB8-44AC-9ADB-B2372B1E3674}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse", "domain\Bathhouse\Bathhouse.csproj", "{6CE117B4-2772-484A-A067-5EFA829D7A07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse", "domain\Bathhouse\Bathhouse.csproj", "{6CE117B4-2772-484A-A067-5EFA829D7A07}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{BA1760D6-E6A4-4E68-AF3D-02E112D102B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Memory", "infrastructure\Bathhouse.Memory\Bathhouse.Memory.csproj", "{59122341-1177-4531-87BF-B5373394F374}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.Memory", "infrastructure\Bathhouse.Memory\Bathhouse.Memory.csproj", "{59122341-1177-4531-87BF-B5373394F374}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentation", "{EF05D28C-4F6C-4C52-8D2C-5151A1BE93A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Web", "presentation\Bathhouse.Web\Bathhouse.Web.csproj", "{91A57283-040C-4E52-8B7B-861ADC899982}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6CE117B4-2772-484A-A067-5EFA829D7A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -48,9 +49,28 @@ Global
 		{59122341-1177-4531-87BF-B5373394F374}.Release|x64.Build.0 = Release|Any CPU
 		{59122341-1177-4531-87BF-B5373394F374}.Release|x86.ActiveCfg = Release|Any CPU
 		{59122341-1177-4531-87BF-B5373394F374}.Release|x86.Build.0 = Release|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Debug|x64.Build.0 = Debug|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Debug|x86.Build.0 = Debug|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Release|x64.ActiveCfg = Release|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Release|x64.Build.0 = Release|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Release|x86.ActiveCfg = Release|Any CPU
+		{91A57283-040C-4E52-8B7B-861ADC899982}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6CE117B4-2772-484A-A067-5EFA829D7A07} = {7A3A31A6-AAB8-44AC-9ADB-B2372B1E3674}
 		{59122341-1177-4531-87BF-B5373394F374} = {BA1760D6-E6A4-4E68-AF3D-02E112D102B5}
+		{91A57283-040C-4E52-8B7B-861ADC899982} = {EF05D28C-4F6C-4C52-8D2C-5151A1BE93A0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCC43692-0E4B-45C2-907D-222FBB234B1A}
 	EndGlobalSection
 EndGlobal
