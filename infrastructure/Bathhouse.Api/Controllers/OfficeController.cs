@@ -1,4 +1,6 @@
-﻿using Bathhouse.Entities;
+﻿using AutoMapper;
+using Bathhouse.Entities;
+using Bathhouse.Models;
 using Bathhouse.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,45 +19,48 @@ namespace Bathhouse.Api.Controllers
 
     private readonly ILogger<OfficeController> _logger;
 
-    public OfficeController(ILogger<OfficeController> logger, IOfficeRepository office)
+    private readonly IMapper _mapper;
+
+    public OfficeController(ILogger<OfficeController> logger, IMapper mapper, IOfficeRepository officeRepository)
     {
       _logger = logger;
-      _officeRepository = office;
+      _officeRepository = officeRepository;
+      _mapper = mapper;
     }
 
     [HttpGet]
-    public IEnumerable<Office> Get()
+    public IEnumerable<OfficeModel> Get()
     {
-      return _officeRepository.GetAll();
+      return _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeModel>>(_officeRepository.GetAll());
     }
 
     [HttpGet]
     [Route("{id:guid}")]
-    public Office GetById(Guid id)
+    public OfficeModel GetById(Guid id)
     {
-      return _officeRepository.GetById(id);
+      return _mapper.Map<Office, OfficeModel>(_officeRepository.GetById(id));
     }
 
     [HttpGet]
     [Route("{numberOfOffice:int}")]
-    public Office GetByNumber(int numberOfOffice)
+    public OfficeModel GetByNumber(int numberOfOffice)
     {
-      return _officeRepository.GetByNumber(numberOfOffice);
+      return _mapper.Map<Office, OfficeModel>(_officeRepository.GetByNumber(numberOfOffice));
     }
 
     [HttpPost]
-    public IActionResult Add(Office office)
+    public IActionResult Add(OfficeModel office)
     {
-      _officeRepository.Add(office);
+      _officeRepository.Add(_mapper.Map<OfficeModel, Office>(office));
 
       return Ok();
     }
 
     [HttpPut]
     [Route("{id}")]
-    public IActionResult Update(Guid id, Office office)
+    public IActionResult Update(Guid id, OfficeModel office)
     {
-      _officeRepository.Update(id, office);
+      _officeRepository.Update(id, _mapper.Map<OfficeModel, Office>(office));
 
       return Ok();
     }

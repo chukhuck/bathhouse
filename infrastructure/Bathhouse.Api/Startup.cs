@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Bathhouse.Api
 {
@@ -35,6 +36,8 @@ namespace Bathhouse.Api
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bathhouse.Api", Version = "v1" });
       });
+
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
       services.AddSingleton<IOfficeRepository, MemoryOfficeRepository>();
