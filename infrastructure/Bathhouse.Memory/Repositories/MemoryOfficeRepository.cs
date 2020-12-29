@@ -1,8 +1,10 @@
+using Bathhouse.Entities;
+using Bathhouse.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bathhouse.Memory
+namespace Bathhouse.Memory.Repositories
 {
   public class MemoryOfficeRepository : IOfficeRepository
   {

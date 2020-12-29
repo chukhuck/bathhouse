@@ -1,4 +1,6 @@
 using Bathhouse.Memory;
+using Bathhouse.Memory.Repositories;
+using Bathhouse.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

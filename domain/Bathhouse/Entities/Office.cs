@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bathhouse
+namespace Bathhouse.Entities
 {
   public class Office : Entity
   {

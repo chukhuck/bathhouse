@@ -1,7 +1,8 @@
+using Bathhouse.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace Bathhouse
+namespace Bathhouse.Repositories
 {
   public interface IOfficeRepository
   {

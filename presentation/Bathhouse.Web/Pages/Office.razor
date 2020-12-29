@@ -1,14 +1,15 @@
-﻿@page "/Office"
+﻿@using Bathhouse.Models
+@page "/Office"
 @inject HttpClient Http
 
-<h1>Аптеки</h1>
+<h1>Подразделения</h1>
 <h2>@editItem.TimeOfClose</h2>
 
 
 
 @if (offices == null)
 {
-  <p>Нет аптек</p>
+  <p>У Вас еще нет подразделений для управления</p>
 }
 else
 {
@@ -84,15 +85,16 @@ else
 
 
 @code {
+
   private const string ServiceEndpoint = "https://localhost:5001/Office";
-  private OfficeDTO[] offices;
-  private OfficeDTO editItem = new OfficeDTO();
+  private OfficeModel[] offices;
+  private OfficeModel editItem = new OfficeModel();
   private string editRowStyle = "none";
 
 
   protected override async Task OnInitializedAsync() => await GetOffices();
 
-  private async Task GetOffices() => offices = await Http.GetFromJsonAsync<OfficeDTO[]>(ServiceEndpoint);
+  private async Task GetOffices() => offices = await Http.GetFromJsonAsync<OfficeModel[]>(ServiceEndpoint);
 
   private void EditItem(Guid id)
   {
@@ -103,7 +105,7 @@ else
   private async Task AddItem()
   {
     await Http.PostAsJsonAsync(ServiceEndpoint, editItem);
-    editItem = new OfficeDTO();
+    editItem = new OfficeModel();
     editItem.TimeOfOpen =  DateTime.MinValue.AddHours(8);
     editItem.TimeOfClose = DateTime.MinValue.AddHours(22);
     await GetOffices();
@@ -126,15 +128,5 @@ else
   }
 
 
-  private class OfficeDTO
-  {
-    public Guid Id { get; set; }
 
-    public int Number { get; set; } = 0;
-    public string Address { get; set; } = "Москва, ";
-    public string Phone { get; set; } = "+7-495-XXX-XX-XX";
-    public DateTime TimeOfOpen { get; set; } =  DateTime.MinValue.AddHours(8);
-    public DateTime TimeOfClose { get; set; } = DateTime.MinValue.AddHours(22);
-    public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
-}
 }
