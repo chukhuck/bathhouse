@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bathhouse</name>
+    </assembly>
+    <members>
+        <member name="P:Bathhouse.Models.EntityModel.Id">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="T:Bathhouse.Models.OfficeModel">
+            <summary>
+            DTO for offices
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.Number">
+            <summary>
+            Number of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.Address">
+            <summary>
+            Address of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.Phone">
+            <summary>
+            Phone of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.TimeOfOpen">
+            <summary>
+            Time when office will be opened
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.TimeOfClose">
+            <summary>
+            Time when office will be closed
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.WorkingTimeRange">
+            <summary>
+            Working time of office
+            </summary>
+        </member>
+    </members>
+</doc>

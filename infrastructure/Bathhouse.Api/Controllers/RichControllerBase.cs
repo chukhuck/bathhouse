@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Bathhouse.Models;
 using Bathhouse.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,11 +12,10 @@ using System.Threading.Tasks;
 
 namespace Bathhouse.Api.Controllers
 {
-
   [ApiController]
   public class RichControllerBase<TEntity, TEntityModel> : ControllerBase
     where TEntity: Entity 
-    where TEntityModel : class  
+    where TEntityModel : EntityModel  
   {
     protected readonly ICRUDRepository<TEntity> _repository;
 
@@ -22,6 +23,12 @@ namespace Bathhouse.Api.Controllers
 
     protected readonly IMapper _mapper;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="logger">Logger</param>
+    /// <param name="mapper">Mapper</param>
+    /// <param name="repository">Repository</param>
     public RichControllerBase(ILogger<RichControllerBase<TEntity, TEntityModel>> logger, IMapper mapper, ICRUDRepository<TEntity> repository)
     {
       _logger = logger;
@@ -30,41 +37,83 @@ namespace Bathhouse.Api.Controllers
       
     }
 
+    /// <summary>
+    /// Get all of entities
+    /// </summary>
+    /// <returns>Entities</returns>
     [HttpGet]
     public IEnumerable<TEntityModel> Get()
     {
       return _mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityModel>>(_repository.GetAll());
     }
 
+    /// <summary>
+    /// Get entity by ID
+    /// </summary>
+    /// <param name="id">The entity ID</param>
+    /// <returns>The finding entity</returns>
     [HttpGet]
     [Route("{id:guid}")]
-    public TEntityModel GetById(Guid id)
+    public ActionResult<TEntityModel> GetById(Guid id)
     {
-      return _mapper.Map<TEntity, TEntityModel>(_repository.Get(id));
+      return Ok(_mapper.Map<TEntity, TEntityModel>(_repository.Get(id)));
     }
 
+    /// <summary>
+    /// Create entiry and add it.
+    /// </summary>
+    /// <param name="entityModel">Newly creating entity</param>
+    /// <returns>Newly created entity</returns>
     [HttpPost]
-    public IActionResult Add(TEntityModel office)
+    public ActionResult<TEntityModel> Create(TEntityModel entityModel)
     {
-      _repository.Create(_mapper.Map<TEntityModel, TEntity>(office));
+      TEntity newEntity = _repository.Create(_mapper.Map<TEntityModel, TEntity>(entityModel));
 
-      return Ok();
+      return Ok(_mapper.Map<TEntity, TEntityModel>(newEntity));
+
     }
 
+    /// <summary>
+    /// Update Entity
+    /// </summary>
+    /// <param name="entity">Entity for updating</param>
+    /// <returns></returns>
     [HttpPut]
-    public IActionResult Update(TEntityModel office)
+    public ActionResult Update(TEntityModel entity)
     {
-      _repository.Update(_mapper.Map<TEntityModel, TEntity>(office));
+      TEntity updatedEntity = _repository.Update(_mapper.Map<TEntityModel, TEntity>(entity));
 
-      return Ok();
+      return Ok(_mapper.Map<TEntity, TEntityModel>(updatedEntity));
     }
 
+    /// <summary>
+    /// Delete entity by ID
+    /// </summary>
+    /// <param name="id">Entity ID</param>
     [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult Delete(Guid id)
     {
-      _repository.Delete(id);
+      try
+      {
+        if (!_repository.Exist(id))
+        {
+          _logger.LogInformation($"Request on deleting unexisting entity id={id} of type {typeof(TEntity)} was received.");
+          return NotFound();
+        }
 
-      return Ok();
+        _repository.Delete(id);
+        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting entity id={id} of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting entity id={id} of type {typeof(TEntity)} an exception was fired");
+      }
+
+      return NoContent();
     }
   }
 }

@@ -16,6 +16,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Bathhouse.Entities;
+using System.IO;
+using System.Reflection;
 
 namespace Bathhouse.Api
 {
@@ -36,7 +38,18 @@ namespace Bathhouse.Api
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bathhouse.Api", Version = "v1" });
+
+        // Set the comments path for the Swagger JSON and UI.
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        c.IncludeXmlComments(xmlPath);
+
+        // Set the comments path for the Swagger JSON and UI.
+        var xmlFileDTO = $"Bathhouse.xml";
+        var xmlPathDTO = Path.Combine(AppContext.BaseDirectory, xmlFileDTO);
+        c.IncludeXmlComments(xmlPathDTO);
       });
+
 
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -53,7 +66,11 @@ namespace Bathhouse.Api
       {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bathhouse.Api v1"));
+        app.UseSwaggerUI(c =>
+        {
+          c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bathhouse.Api v1");
+        }
+        );
       }
 
       app.UseHttpsRedirection();

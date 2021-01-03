@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bathhouse.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.#ctor(Microsoft.Extensions.Logging.ILogger{Bathhouse.Api.Controllers.RichControllerBase{`0,`1}},AutoMapper.IMapper,Bathhouse.Repositories.ICRUDRepository{`0})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger">Logger</param>
+            <param name="mapper">Mapper</param>
+            <param name="repository">Repository</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Get">
+            <summary>
+            Get all of entities
+            </summary>
+            <returns>Entities</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.GetById(System.Guid)">
+            <summary>
+            Get entity by ID
+            </summary>
+            <param name="id">The entity ID</param>
+            <returns>The finding entity</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Create(`1)">
+            <summary>
+            Create entiry and add it.
+            </summary>
+            <param name="entityModel">Newly creating entity</param>
+            <returns>Newly created entity</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Update(`1)">
+            <summary>
+            Update Entity
+            </summary>
+            <param name="entity">Entity for updating</param>
+            <returns></returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Delete(System.Guid)">
+            <summary>
+            Delete entity by ID
+            </summary>
+            <param name="id">Entity ID</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
