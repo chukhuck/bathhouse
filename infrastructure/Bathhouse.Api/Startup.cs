@@ -41,7 +41,7 @@ namespace Bathhouse.Api
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
-      services.AddSingleton<ICRUDRepository<Office>, MemoryOfficeRepository>();
+      services.AddSingleton<ICRUDRepository<Office>, MemoryBaseCRUDRepository<Office>>();
 
       services.AddCors();
     }
