@@ -57,7 +57,6 @@ namespace Bathhouse.Api.Controllers
     }
 
     [HttpPut]
-    [Route("{id}")]
     public IActionResult Update(Guid id, OfficeModel office)
     {
       _officeRepository.Update(id, _mapper.Map<OfficeModel, Office>(office));
@@ -66,7 +65,6 @@ namespace Bathhouse.Api.Controllers
     }
 
     [HttpDelete]
-    [Route("{id}")]
     public IActionResult Delete(Guid id)
     {
       if (_officeRepository.GetById(id) is not Office)
