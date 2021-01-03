@@ -44,7 +44,10 @@
             Delete entity by ID
             </summary>
             <param name="id">Entity ID</param>
-            <returns></returns>
+            <response code="404">Entity with current ID is not found</response>
+            <response code="400">If the item is null</response>
+            <response code="204">Deleting entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
         </member>
     </members>
 </doc>

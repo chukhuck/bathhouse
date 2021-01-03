@@ -23,12 +23,6 @@ namespace Bathhouse.Api.Controllers
 
     protected readonly IMapper _mapper;
 
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="logger">Logger</param>
-    /// <param name="mapper">Mapper</param>
-    /// <param name="repository">Repository</param>
     public RichControllerBase(ILogger<RichControllerBase<TEntity, TEntityModel>> logger, IMapper mapper, ICRUDRepository<TEntity> repository)
     {
       _logger = logger;
@@ -77,6 +71,7 @@ namespace Bathhouse.Api.Controllers
     /// Update Entity
     /// </summary>
     /// <param name="entity">Entity for updating</param>
+    /// <response code="400">If the item is null</response>
     /// <returns></returns>
     [HttpPut]
     public ActionResult Update(TEntityModel entity)
@@ -90,10 +85,14 @@ namespace Bathhouse.Api.Controllers
     /// Delete entity by ID
     /// </summary>
     /// <param name="id">Entity ID</param>
+    /// <response code="404">Entity with current ID is not found</response>
+    /// <response code="204">Deleting entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
     [HttpDelete]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
     public IActionResult Delete(Guid id)
     {
       try
