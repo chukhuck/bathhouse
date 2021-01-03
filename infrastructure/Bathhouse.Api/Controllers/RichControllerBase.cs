@@ -88,17 +88,30 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Create entiry and add it.
+    /// Create and add entity.
     /// </summary>
     /// <param name="entityModel">Newly creating entity</param>
-    /// <returns>Newly created entity</returns>
+    /// <response code="200">Creating entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     public ActionResult<TEntityModel> Create(TEntityModel entityModel)
     {
-      TEntity newEntity = _repository.Create(_mapper.Map<TEntityModel, TEntity>(entityModel));
+      try
+      {
+        TEntity newEntity = _repository.Create(_mapper.Map<TEntityModel, TEntity>(entityModel));
 
-      return Ok(_mapper.Map<TEntity, TEntityModel>(newEntity));
+        _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
 
+        return Ok(_mapper.Map<TEntity, TEntityModel>(newEntity));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While creating entity of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating entity of type {typeof(TEntity)} an exception was fired");
+      }
     }
 
     /// <summary>

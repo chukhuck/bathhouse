@@ -17,15 +17,17 @@
             </summary>
             <param name="id">The entity ID</param>
             <response code="404">Entity with current ID is not found</response>
-            <response code="204">Deleting entity is successul</response>
+            <response code="200">Getting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Create(`1)">
             <summary>
-            Create entiry and add it.
+            Create and add entity.
             </summary>
             <param name="entityModel">Newly creating entity</param>
-            <returns>Newly created entity</returns>
+            <response code="200">Creating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Update(`1)">
             <summary>
