@@ -34,11 +34,24 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of entities
     /// </summary>
-    /// <returns>Entities</returns>
+    /// <response code="200">Getting all of entities was successful</response>
+    /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
-    public IEnumerable<TEntityModel> Get()
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<TEntityModel>> Get()
     {
-      return _mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityModel>>(_repository.GetAll());
+      try
+      {
+        _logger.LogInformation($"All of entities was getting.");
+
+        return Ok(_mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityModel>>(_repository.GetAll()));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting all of entities an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of entities an exception was fired.");
+      }
     }
 
     /// <summary>
@@ -105,14 +118,14 @@ namespace Bathhouse.Api.Controllers
 
         _repository.Delete(id);
         _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
+
+        return NoContent();
       }
       catch (Exception ex)
       {
         _logger.LogError($"While deleting entity id={id} of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting entity id={id} of type {typeof(TEntity)} an exception was fired");
       }
-
-      return NoContent();
     }
   }
 }

@@ -4,19 +4,12 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.#ctor(Microsoft.Extensions.Logging.ILogger{Bathhouse.Api.Controllers.RichControllerBase{`0,`1}},AutoMapper.IMapper,Bathhouse.Repositories.ICRUDRepository{`0})">
-            <summary>
-            Constructor
-            </summary>
-            <param name="logger">Logger</param>
-            <param name="mapper">Mapper</param>
-            <param name="repository">Repository</param>
-        </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Get">
             <summary>
             Get all of entities
             </summary>
-            <returns>Entities</returns>
+            <response code="200">Getting all of entities was successful</response>
+            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.GetById(System.Guid)">
             <summary>
@@ -37,6 +30,7 @@
             Update Entity
             </summary>
             <param name="entity">Entity for updating</param>
+            <response code="400">If the item is null</response>
             <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Delete(System.Guid)">
@@ -45,7 +39,6 @@
             </summary>
             <param name="id">Entity ID</param>
             <response code="404">Entity with current ID is not found</response>
-            <response code="400">If the item is null</response>
             <response code="204">Deleting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
