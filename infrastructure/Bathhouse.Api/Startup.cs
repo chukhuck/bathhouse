@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Bathhouse.Entities;
 
 namespace Bathhouse.Api
 {
@@ -40,7 +41,7 @@ namespace Bathhouse.Api
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
-      services.AddSingleton<IOfficeRepository, MemoryOfficeRepository>();
+      services.AddSingleton<ICRUDRepository<Office>, MemoryOfficeRepository>();
 
       services.AddCors();
     }

@@ -6,9 +6,11 @@ using System.Linq;
 
 namespace Bathhouse.Memory.Repositories
 {
-  public class MemoryOfficeRepository : IOfficeRepository
+  public class MemoryOfficeRepository : MemoryBaseCRUDRepository<Office>
   {
-    private List<Office> offices = new List<Office>
+    public MemoryOfficeRepository()
+    {
+      entities = new List<Office>
     {
       new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000001"), Number = 1, Address = "ЮАО, ул. Радиальная, д.1", Phone = "+7-499-000-00-01", TimeOfOpen = DateTime.MinValue.AddHours(8), TimeOfClose = DateTime.MinValue.AddHours(18)},
       new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000002"), Number = 2, Address = "ЮАО, ул. Радиальная, д.2", Phone = "+7-499-000-00-02", TimeOfOpen = DateTime.MinValue.AddHours(0), TimeOfClose = DateTime.MinValue.AddHours(0) },
@@ -19,39 +21,14 @@ namespace Bathhouse.Memory.Repositories
       new () { Id = Guid.Parse("00000000-0000-0000-0000-000000000007")},
       new () { }
     };
-
-    public void Add(Office office)
-    {
-      offices.Add(office);
     }
 
-    public void Delete(Guid id)
+    public Office GetByNumber(int numberOfOffice)
     {
-      if (offices.Find(o => o.Id == id) is Office o)
-      {
-        offices.Remove(o);
-      }
-    }
+      if (!entities.Exists(office => office.Number == numberOfOffice))
+        throw new ArgumentException("The resource is not found.");
 
-    public IEnumerable<Office> GetAll()
-    {
-      return offices;
-    }
-
-    public Office GetById(Guid id) => offices.FirstOrDefault(o=>o.Id == id);
-
-    public Office GetByNumber(int numberOfOffice) => offices.FirstOrDefault(o => o.Number == numberOfOffice);
-
-    public void Update(Guid id, Office office)
-    {
-      if (offices.Find(o => o.Id == id) is Office o)
-      {
-        o.Number = office.Number;
-        o.Address = office.Address;
-        o.Phone = office.Phone;
-        o.TimeOfOpen = office.TimeOfOpen;
-        o.TimeOfClose = office.TimeOfClose;
-      }
+      return entities.FirstOrDefault(o => o.Number == numberOfOffice);
     }
   }
 }
