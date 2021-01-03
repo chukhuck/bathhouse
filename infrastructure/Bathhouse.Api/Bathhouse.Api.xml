@@ -25,7 +25,7 @@
             Create and add entity.
             </summary>
             <param name="entityModel">Newly creating entity</param>
-            <response code="200">Creating entity is successul</response>
+            <response code="201">Creating entity is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
         </member>
@@ -34,7 +34,10 @@
             Update Entity
             </summary>
             <param name="entity">Entity for updating</param>
+            <response code="201">Updating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
+            <response code="404">Entity with current ID is not found</response>
             <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Delete(System.Guid)">

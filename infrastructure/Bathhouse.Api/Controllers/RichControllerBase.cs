@@ -91,11 +91,11 @@ namespace Bathhouse.Api.Controllers
     /// Create and add entity.
     /// </summary>
     /// <param name="entityModel">Newly creating entity</param>
-    /// <response code="200">Creating entity is successul</response>
+    /// <response code="201">Creating entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     public ActionResult<TEntityModel> Create(TEntityModel entityModel)
     {
@@ -105,7 +105,7 @@ namespace Bathhouse.Api.Controllers
 
         _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
 
-        return Ok(_mapper.Map<TEntity, TEntityModel>(newEntity));
+        return CreatedAtRoute( newEntity.Id, _mapper.Map<TEntity, TEntityModel>(newEntity));
       }
       catch (Exception ex)
       {
@@ -118,14 +118,36 @@ namespace Bathhouse.Api.Controllers
     /// Update Entity
     /// </summary>
     /// <param name="entity">Entity for updating</param>
+    /// <response code="201">Updating entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
+    /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
     public ActionResult Update(TEntityModel entity)
     {
-      TEntity updatedEntity = _repository.Update(_mapper.Map<TEntityModel, TEntity>(entity));
+      try
+      {
+        if (!_repository.Exist(entity.Id))
+        {
+          _logger.LogInformation($"Request on updating unexisting entity id={entity.Id} of type {typeof(TEntity)} was received.");
+          return NotFound();
+        }
 
-      return Ok(_mapper.Map<TEntity, TEntityModel>(updatedEntity));
+        TEntity updatedEntity = _repository.Update(_mapper.Map<TEntityModel, TEntity>(entity));
+
+        _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updating successfully.");
+
+        return CreatedAtRoute(updatedEntity.Id, _mapper.Map<TEntity, TEntityModel>(updatedEntity));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating entity of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating entity of type {typeof(TEntity)} an exception was fired");
+      }
     }
 
     /// <summary>
