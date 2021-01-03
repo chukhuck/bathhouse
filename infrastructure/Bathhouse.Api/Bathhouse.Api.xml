@@ -16,7 +16,9 @@
             Get entity by ID
             </summary>
             <param name="id">The entity ID</param>
-            <returns>The finding entity</returns>
+            <response code="404">Entity with current ID is not found</response>
+            <response code="204">Deleting entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Create(`1)">
             <summary>

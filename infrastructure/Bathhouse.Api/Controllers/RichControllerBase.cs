@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace Bathhouse.Api.Controllers
 {
   [ApiController]
+  [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
   public class RichControllerBase<TEntity, TEntityModel> : ControllerBase
     where TEntity: Entity 
     where TEntityModel : EntityModel  
@@ -38,7 +39,6 @@ namespace Bathhouse.Api.Controllers
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<TEntityModel>> Get()
     {
       try
@@ -58,12 +58,33 @@ namespace Bathhouse.Api.Controllers
     /// Get entity by ID
     /// </summary>
     /// <param name="id">The entity ID</param>
-    /// <returns>The finding entity</returns>
+    /// <response code="404">Entity with current ID is not found</response>
+    /// <response code="200">Getting entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
     [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
     public ActionResult<TEntityModel> GetById(Guid id)
     {
-      return Ok(_mapper.Map<TEntity, TEntityModel>(_repository.Get(id)));
+      try
+      {
+        if (!_repository.Exist(id))
+        {
+          _logger.LogInformation($"Request on getting unexisting entity id={id} of type {typeof(TEntity)} was received.");
+          return NotFound();
+        }
+
+        TEntity entity = _repository.Get(id);
+        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
+
+        return Ok(_mapper.Map<TEntity, TEntityModel>(entity));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting entity id={id} of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting entity id={id} of type {typeof(TEntity)} an exception was fired");
+      }
     }
 
     /// <summary>
@@ -105,7 +126,6 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
-    [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
     public IActionResult Delete(Guid id)
     {
       try
