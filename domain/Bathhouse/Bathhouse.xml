@@ -4,6 +4,26 @@
         <name>Bathhouse</name>
     </assembly>
     <members>
+        <member name="P:Bathhouse.Models.ClientModel.LastName">
+            <summary>
+            LastName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.FirstName">
+            <summary>
+            FirstName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.Phone">
+            <summary>
+            Phone of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.DoB">
+            <summary>
+            Day of Birth
+            </summary>
+        </member>
         <member name="P:Bathhouse.Models.EmployeeModel.LastName">
             <summary>
             LastName of employee
