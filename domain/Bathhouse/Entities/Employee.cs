@@ -33,6 +33,6 @@ namespace Bathhouse.Entities
     Director,
     Manager,
     Employee,
-    TEchnicalSupport
+    TechnicalSupport
   }
 }

@@ -14,6 +14,7 @@ namespace Bathhouse.Infrastructure
     public EntityMappingProfile()
     {
       CreateMap<Office, OfficeModel>().ReverseMap();
+      CreateMap<Employee, EmployeeModel>().ReverseMap();
     }
   }
 }
