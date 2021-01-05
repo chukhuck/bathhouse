@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
   public class SurveyResultModel
   {
-    [DataType(DataType.Text)]
+    public Guid Id { get; set; }
     public string Name { get; set; }
+    public List<SurveyResultHeader> Headers { get; set; }
+    public List<List<string>> Data { get; set; }
+  }
 
-    [DataType(DataType.Text)]
-    public string Description { get; set; } 
 
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    public DateTime CreationDate { get; set; }
+  public struct SurveyResultHeader
+  {
+    public SurveyResultHeaderType Type { get; set; }
+    public string Text { get; set; }
+  }
 
-    public ICollection<AnswerModel> Answers { get; set; }
+  public enum SurveyResultHeaderType
+  {
+    Text,
+    Number,
+    Decimal,
+    Datetime,
+    Bool
   }
 }

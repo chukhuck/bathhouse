@@ -4,6 +4,24 @@
         <name>Bathhouse</name>
     </assembly>
     <members>
+        <member name="M:Bathhouse.Entities.Survey.GetResult">
+            <summary>
+            Get All of results of this survey
+            </summary>
+            <returns>Result</returns>
+        </member>
+        <member name="M:Bathhouse.Entities.Survey.GetData">
+            <summary>
+            Get all of results of this survey as List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Bathhouse.Entities.Survey.GetHeaders">
+            <summary>
+            Get headrers for this survey
+            </summary>
+            <returns>List of headers</returns>
+        </member>
         <member name="P:Bathhouse.Models.ClientModel.LastName">
             <summary>
             LastName of client

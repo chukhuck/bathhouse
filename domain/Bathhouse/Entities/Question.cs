@@ -18,8 +18,6 @@ namespace Bathhouse.Entities
 
     public bool IsKey { get; set; } = false;
 
-    public ICollection<Answer> Answers { get; set; }
-
     public Survey Survey { get; set; }
 
     public Guid SurveyId { get; set; }

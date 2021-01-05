@@ -28,13 +28,13 @@ namespace Bathhouse.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Route("{id}/Result")]
-    public ActionResult<IEnumerable<SurveyResultModel>> GetSurveyResult(Guid id)
+    public ActionResult<SurveyResultModel> GetSurveyResult(Guid id)
     {
       try
       {       
         _logger.LogInformation($"All of entities was getting.");
 
-        return Ok(_mapper.Map<Survey, SurveyResultModel>(_repository.Get(id)));
+        return Ok(_repository.Get(id).GetResult());
       }
       catch (Exception ex)
       {
