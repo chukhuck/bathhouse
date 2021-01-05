@@ -25,6 +25,12 @@ namespace Bathhouse.Entities
     public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
 
     public EmployeeType Type { get; set; } = EmployeeType.Manager;
+
+    public ICollection<Answer> Answers { get; set; }
+
+    public Guid OfficeId { get; set; }
+
+    public Office Office { get; set; }
   }
 
 

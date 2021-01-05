@@ -49,5 +49,12 @@
             <response code="204">Deleting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveyResult(System.Guid)">
+            <summary>
+            Get all survey result
+            </summary>
+            <response code="200">Getting all of entities was successful</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
     </members>
 </doc>
