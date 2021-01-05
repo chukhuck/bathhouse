@@ -21,31 +21,35 @@ namespace Bathhouse.Models
     /// Number of office
     /// </summary>
     [DefaultValue(0)]
-    [Required]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "This field is required for filling.")]
     public int Number { get; set; }
 
     /// <summary>
     /// Address of office
     /// </summary>
     [DefaultValue("Москва, ")]
+    [MaxLength(150, ErrorMessage = "Max lenght of field is 150 symbols.")]
     public string Address { get; set; } = "Москва, ";
 
     /// <summary>
     /// Phone of office
     /// </summary>
-    [DefaultValue("+7-495-XXX-XX-XX")]
-    public string Phone { get; set; } = "+7-495-XXX-XX-XX";
+    [DefaultValue("+7-495-000-00-00")]
+    [Phone(ErrorMessage = "Incorrect phone format.")]
+    public string Phone { get; set; } = "+7-495-000-00-00";
 
     /// <summary>
     /// Time when office will be opened
     /// </summary>
     //[DefaultValue("")]
+    [DataType(DataType.Time, ErrorMessage = "Incorrect time format.")]
     public DateTime TimeOfOpen { get; set; } = DateTime.MinValue.AddHours(Hour_Of_Openning);
 
     /// <summary>
     /// Time when office will be closed
     /// </summary>
     //[DefaultValue("")]
+    [DataType(DataType.Time, ErrorMessage = "Incorrect time format.")]
     public DateTime TimeOfClose { get; set; } = DateTime.MinValue.AddHours(Hour_Of_Closing);
 
     /// <summary>
