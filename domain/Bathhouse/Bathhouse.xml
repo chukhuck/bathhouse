@@ -89,5 +89,30 @@
             Working time of office
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.Description">
+            <summary>
+            Description of task.
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.CreationDate">
+            <summary>
+            Day of creation work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.StartDate">
+            <summary>
+            Day of start work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.EndDate">
+            <summary>
+            Day of end work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.Status">
+            <summary>
+            Status  of work item
+            </summary>
+        </member>
     </members>
 </doc>

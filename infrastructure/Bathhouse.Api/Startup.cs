@@ -57,6 +57,7 @@ namespace Bathhouse.Api
       services.AddSingleton<ICRUDRepository<Office>, MemoryBaseCRUDRepository<Office>>();
       services.AddSingleton<ICRUDRepository<Employee>, MemoryBaseCRUDRepository<Employee>>();
       services.AddSingleton<ICRUDRepository<Client>, MemoryBaseCRUDRepository<Client>>();
+      services.AddSingleton<ICRUDRepository<WorkItem>, MemoryBaseCRUDRepository<WorkItem>>();
 
       services.AddCors();
     }
