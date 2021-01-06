@@ -61,7 +61,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="404">Entity with current ID is not found</response>
     /// <response code="200">Getting entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
-    [HttpGet]
+    [HttpGet()]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
@@ -105,7 +105,7 @@ namespace Bathhouse.Api.Controllers
 
         _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
 
-        return CreatedAtRoute( newEntity.Id, _mapper.Map<TEntity, TEntityModel>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<TEntity, TEntityModel>(newEntity));
       }
       catch (Exception ex)
       {
