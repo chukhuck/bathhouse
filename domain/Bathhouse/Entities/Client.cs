@@ -28,8 +28,17 @@ namespace Bathhouse.Entities
     [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string Comment { get; set; } = "Комментарий";
 
+    public Sex Sex { get; set; } = Sex.Unknown;
+
     public Office Office { get; set; }
 
     public Guid OfficeId { get; set; }
+  }
+
+  public enum Sex
+  {
+    Male,
+    Female,
+    Unknown
   }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -45,6 +46,9 @@ namespace Bathhouse.Models
     [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Комментарий")]
     public string Comment { get; set; } = "Комментарий";
+
+    [DefaultValue(Sex.Unknown)]
+    public Sex Sex { get; set; } = Sex.Unknown;
 
     public int OfficeNumber { get; set; }
 
