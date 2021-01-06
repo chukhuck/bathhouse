@@ -40,5 +40,14 @@ namespace Bathhouse.Models
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
     [DefaultValue("1950-01-01")]
     public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
+
+    [DataType(DataType.Text)]
+    [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [DefaultValue("Комментарий")]
+    public string Comment { get; set; } = "Комментарий";
+
+    public int OfficeNumber { get; set; }
+
+    public Guid OfficeId { get; set; }
   }
 }

@@ -15,7 +15,9 @@ namespace Bathhouse.Infrastructure
     {
       CreateMap<Office, OfficeModel>().ReverseMap();
       CreateMap<Employee, EmployeeModel>().ReverseMap();
-      CreateMap<Client, ClientModel>().ReverseMap();
+      CreateMap<Client, ClientModel>()
+      //  .ForMember(dest => dest.OfficeNumber, act => act.MapFrom(src => src.Office.Number))
+        .ReverseMap();
       CreateMap<WorkItem, WorkItemModel>().ReverseMap();
       CreateMap<Survey, SurveyModel>().ReverseMap();
 

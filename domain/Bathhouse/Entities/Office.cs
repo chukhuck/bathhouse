@@ -19,5 +19,7 @@ namespace Bathhouse.Entities
 
 
     public ICollection<Employee> Employees { get; set; }
+
+    public ICollection<Client> Clients { get; set; }
   }
 }
