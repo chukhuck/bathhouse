@@ -15,16 +15,7 @@ namespace Bathhouse.Memory.Repositories
 
     public MemoryBaseCRUDRepository()
     {
-      string seedContent = File.ReadAllText(Path.Combine(
-                                                    Directory.GetParent(Directory.GetCurrentDirectory()).FullName,
-                                                    $@"Bathhouse.Memory\SeedData\{typeof(TEntity).Name}.json"));
-
-      var options = new JsonSerializerOptions
-      {
-        PropertyNameCaseInsensitive = true,
-      };
-
-      entities = JsonSerializer.Deserialize<List<TEntity>>(seedContent, options);
+      entities = InMemoryContext.Init(entities);
     }
 
     public virtual IEnumerable<TEntity> GetAll()

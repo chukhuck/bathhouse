@@ -21,5 +21,7 @@ namespace Bathhouse.Entities
     public Survey Survey { get; set; }
 
     public Guid SurveyId { get; set; }
+
+    public ICollection<Answer> Answers { get; set; }
   }
 }

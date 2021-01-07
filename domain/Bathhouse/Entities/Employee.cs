@@ -26,16 +26,14 @@ namespace Bathhouse.Entities
 
     public EmployeeType Type { get; set; } = EmployeeType.Manager;
 
-    public ICollection<Answer> Answers { get; set; }
 
-    public Guid OfficeId { get; set; }
-
-    public Office Office { get; set; }
-
+    public ICollection<Office> Offices { get; set; }
 
     public ICollection<WorkItem> CreatedWorkItems { get; set; }
 
     public ICollection<WorkItem> WorkItems { get; set; }
+
+    public ICollection<SurveyResult> SurveyResults { get; set; }
   }
 
 

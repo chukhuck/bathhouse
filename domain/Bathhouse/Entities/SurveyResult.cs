@@ -14,6 +14,10 @@ namespace Bathhouse.Entities
 
     public Guid AuthorId { get; set; }
 
+    public Survey Survey { get; set; }
+
+    public Guid SurveyId { get; set; }
+
     public ICollection<Answer> Answers { get; set; }
 
 
@@ -23,7 +27,6 @@ namespace Bathhouse.Entities
 
       row.Add(CreationDate.ToString());
       row.Add(Author.LastName);
-      row.Add(Author?.Office?.Number.ToString() ?? string.Empty);
 
       row.AddRange(Answers.Select(a => a.Value));
 

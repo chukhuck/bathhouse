@@ -62,7 +62,6 @@ namespace Bathhouse.Entities
 
       headers.Add(new SurveyResultHeader() { Type = SurveyResultHeaderType.Datetime, Text = "Date" });
       headers.Add(new SurveyResultHeader() { Type = SurveyResultHeaderType.Text, Text = "Employee" });
-      headers.Add(new SurveyResultHeader() { Type = SurveyResultHeaderType.Text, Text = "Office" });
 
       headers.AddRange(Questions.Select(q => new SurveyResultHeader() { Type = SurveyResultHeaderType.Text, Text = q.Name }));
 
