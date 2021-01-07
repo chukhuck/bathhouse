@@ -26,6 +26,15 @@ namespace Bathhouse.Entities
     public DateTime EndDate { get; set; } = DateTime.Now;
 
     public bool IsImportant { get; set; } = false;
+
+
+    public Employee Creator { get; set; }
+
+    public Guid CreatorId { get; set; }
+
+    public Employee Executor { get; set; }
+
+    public Guid ExecutorId { get; set; }
   }
 
   public enum WorkItemStatus

@@ -49,5 +49,25 @@ namespace Bathhouse.Models
     /// </summary>
     [DefaultValue(false)]
     public bool IsImportant { get; set; } = false;
+
+    /// <summary>
+    /// Shortname of workitem creator
+    /// </summary>
+    public string CreatorShortName { get; set; }
+
+    /// <summary>
+    /// Id of workitem creator
+    /// </summary>
+    public Guid CreatorId { get; set; }
+
+    /// <summary>
+    /// Shortname of workitem executor
+    /// </summary>
+    public string ExecutorShortName { get; set; }
+
+    /// <summary>
+    /// Id of workitem executor
+    /// </summary>
+    public Guid ExecutorId { get; set; }
   }
 }

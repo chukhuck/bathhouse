@@ -31,6 +31,11 @@ namespace Bathhouse.Entities
     public Guid OfficeId { get; set; }
 
     public Office Office { get; set; }
+
+
+    public ICollection<WorkItem> CreatedWorkItems { get; set; }
+
+    public ICollection<WorkItem> WorkItems { get; set; }
   }
 
 

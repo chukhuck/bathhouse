@@ -137,5 +137,25 @@
             Flag that indicate importance of workitem
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.CreatorShortName">
+            <summary>
+            Shortname of workitem creator
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.CreatorId">
+            <summary>
+            Id of workitem creator
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.ExecutorShortName">
+            <summary>
+            Shortname of workitem executor
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.ExecutorId">
+            <summary>
+            Id of workitem executor
+            </summary>
+        </member>
     </members>
 </doc>

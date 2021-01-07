@@ -28,6 +28,13 @@ namespace Bathhouse.Models
     [DefaultValue("Имя")]
     public string FirstName { get; set; } = "Имя";
 
+
+    [DataType(DataType.Text)]
+    public string ShortName => LastName + " " + FirstName?.FirstOrDefault() + ".";
+
+    [DataType(DataType.Text)]
+    public string FullName  => LastName + " " + FirstName;
+
     /// <summary>
     /// Phone of employee
     /// </summary>
