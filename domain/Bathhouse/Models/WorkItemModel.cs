@@ -43,5 +43,11 @@ namespace Bathhouse.Models
     /// </summary>
     [DefaultValue(WorkItemStatus.Created)]
     public WorkItemStatus Status { get; set; } = WorkItemStatus.Created;
+
+    /// <summary>
+    /// Flag that indicate importance of workitem
+    /// </summary>
+    [DefaultValue(false)]
+    public bool IsImportant { get; set; } = false;
   }
 }

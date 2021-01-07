@@ -24,6 +24,8 @@ namespace Bathhouse.Entities
 
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime EndDate { get; set; } = DateTime.Now;
+
+    public bool IsImportant { get; set; } = false;
   }
 
   public enum WorkItemStatus

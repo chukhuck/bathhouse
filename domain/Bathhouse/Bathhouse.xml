@@ -132,5 +132,10 @@
             Status  of work item
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.WorkItemModel.IsImportant">
+            <summary>
+            Flag that indicate importance of workitem
+            </summary>
+        </member>
     </members>
 </doc>
