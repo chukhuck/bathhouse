@@ -21,6 +21,14 @@ namespace Bathhouse.Models
     public string LastName { get; set; } = "Фамилия";
 
     /// <summary>
+    /// MiddleName of client
+    /// </summary>
+    [DataType(DataType.Text)]
+    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [DefaultValue("Имя")]
+    public string MiddleName { get; set; } = "Отчество";
+
+    /// <summary>
     /// FirstName of client
     /// </summary>
     [DataType(DataType.Text)]

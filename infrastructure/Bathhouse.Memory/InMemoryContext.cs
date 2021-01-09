@@ -252,6 +252,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Comment, f => f.Lorem.Sentence())
         .RuleFor(a => a.DoB, f => f.Date.Between(DateTime.Parse(start_birthday), DateTime.Parse(end_birthday)))
         .RuleFor(a => a.LastName, f => f.Person.LastName)
+        .RuleFor(a => a.MiddleName, f => "Отчество")
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
         .RuleFor(a => a.Phone, f => f.Person.Phone)
         .RuleFor(a => a.Sex, f => f.PickRandom<Sex>())

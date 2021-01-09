@@ -16,6 +16,10 @@ namespace Bathhouse.Entities
 
     [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    public string MiddleName { get; set; } = "Отчество";
+
+    [DataType(DataType.Text)]
+    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string FirstName { get; set; } = "Имя";
 
     [Phone(ErrorMessage = "Incorrect phone format.")]
