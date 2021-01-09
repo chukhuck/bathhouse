@@ -13,10 +13,10 @@ namespace Bathhouse.Infrastructure
   {
     public EntityMappingProfile()
     {
-      CreateMap<Office, OfficeModel>().ReverseMap();
+      CreateMap<Office, OfficeModel>()
+        .ReverseMap();
       CreateMap<Employee, EmployeeModel>().ReverseMap();
       CreateMap<Client, ClientModel>()
-      //  .ForMember(dest => dest.OfficeNumber, act => act.MapFrom(src => src.Office.Number))
         .ReverseMap();
       CreateMap<WorkItem, WorkItemModel>()
         .ForMember(dest => dest.CreatorShortName, act => act.MapFrom(src => src.Creator.LastName + " " + src.Creator.FirstName.First() + "."))

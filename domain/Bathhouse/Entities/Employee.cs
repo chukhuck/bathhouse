@@ -18,6 +18,8 @@ namespace Bathhouse.Entities
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string FirstName { get; set; } = "Имя";
 
+    public string FullName => LastName + " " + FirstName;
+
     [Phone(ErrorMessage = "Incorrect phone format.")]
     public string Phone { get; set; } = "+7-495-000-00-00";
 
@@ -34,6 +36,8 @@ namespace Bathhouse.Entities
     public ICollection<WorkItem> WorkItems { get; set; }
 
     public ICollection<SurveyResult> SurveyResults { get; set; }
+
+
   }
 
 

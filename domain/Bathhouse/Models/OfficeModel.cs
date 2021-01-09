@@ -63,5 +63,15 @@ namespace Bathhouse.Models
     /// Working time of office
     /// </summary>
     public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
+
+    /// <summary>
+    /// Manager Fullname of office
+    /// </summary>
+    public string ManagerFullName { get; set; }
+
+    /// <summary>
+    /// ID Manager of office
+    /// </summary>
+    public Guid ManagerId { get; set; }
   }
 }

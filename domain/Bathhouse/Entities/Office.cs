@@ -19,6 +19,9 @@ namespace Bathhouse.Entities
     [EmailAddress(ErrorMessage = "Incorrect phone format.")]
     public string Email { get; set; } = "noreply@mail.com";
 
+    public Employee Manager { get; set; }
+    public string ManagerFullName => Manager?.FullName ?? "nobody";
+    public Guid ManagerId { get; set; }
 
     public ICollection<Employee> Employees { get; set; }
 

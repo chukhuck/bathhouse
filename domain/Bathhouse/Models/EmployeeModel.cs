@@ -30,7 +30,7 @@ namespace Bathhouse.Models
 
 
     [DataType(DataType.Text)]
-    public string ShortName => LastName + " " + FirstName?.FirstOrDefault() + ".";
+    public string ShortName => LastName + " " + FirstName.FirstOrDefault() + ".";
 
     [DataType(DataType.Text)]
     public string FullName  => LastName + " " + FirstName;

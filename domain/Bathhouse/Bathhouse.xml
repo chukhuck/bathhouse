@@ -27,6 +27,11 @@
             LastName of client
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.ClientModel.MiddleName">
+            <summary>
+            MiddleName of client
+            </summary>
+        </member>
         <member name="P:Bathhouse.Models.ClientModel.FirstName">
             <summary>
             FirstName of client
@@ -40,6 +45,26 @@
         <member name="P:Bathhouse.Models.ClientModel.DoB">
             <summary>
             Day of Birth
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.Comment">
+            <summary>
+            Comment for client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.Sex">
+            <summary>
+            Gender of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.OfficeNumber">
+            <summary>
+            Number of "home" office for client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientModel.OfficeId">
+            <summary>
+            ID of "home" office for client
             </summary>
         </member>
         <member name="P:Bathhouse.Models.EmployeeModel.LastName">
@@ -92,6 +117,11 @@
             Phone of office
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.OfficeModel.Email">
+            <summary>
+            Email of office
+            </summary>
+        </member>
         <member name="P:Bathhouse.Models.OfficeModel.TimeOfOpen">
             <summary>
             Time when office will be opened
@@ -105,6 +135,16 @@
         <member name="P:Bathhouse.Models.OfficeModel.WorkingTimeRange">
             <summary>
             Working time of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.ManagerFullName">
+            <summary>
+            Manager Fullname of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeModel.ManagerId">
+            <summary>
+            ID Manager of office
             </summary>
         </member>
         <member name="P:Bathhouse.Models.WorkItemModel.Description">
