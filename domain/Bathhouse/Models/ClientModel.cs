@@ -50,16 +50,28 @@ namespace Bathhouse.Models
     [DefaultValue("1950-01-01")]
     public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
 
+    /// <summary>
+    /// Comment for client
+    /// </summary>
     [DataType(DataType.Text)]
     [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Комментарий")]
     public string Comment { get; set; } = "Комментарий";
 
+    /// <summary>
+    /// Gender of client
+    /// </summary>
     [DefaultValue(Sex.Unknown)]
     public Sex Sex { get; set; } = Sex.Unknown;
 
+    /// <summary>
+    /// Number of "home" office for client
+    /// </summary>
     public int OfficeNumber { get; set; }
 
+    /// <summary>
+    /// ID of "home" office for client
+    /// </summary>
     public Guid OfficeId { get; set; }
   }
 }

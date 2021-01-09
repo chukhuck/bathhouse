@@ -16,6 +16,8 @@ namespace Bathhouse.Entities
     public DateTime TimeOfOpen { get; set; } = DateTime.MinValue.AddHours(8).AddMinutes(0);
     [DataType(DataType.Time, ErrorMessage = "Incorrect time format.")]
     public DateTime TimeOfClose { get; set; } = DateTime.MinValue.AddHours(22).AddMinutes(0);
+    [EmailAddress(ErrorMessage = "Incorrect phone format.")]
+    public string Email { get; set; } = "noreply@mail.com";
 
 
     public ICollection<Employee> Employees { get; set; }

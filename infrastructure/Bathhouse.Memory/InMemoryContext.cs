@@ -323,6 +323,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.TimeOfOpen, f => f.Date.Between(DateTime.MinValue.AddHours(Min_Hour_Of_Openning_Office), DateTime.MinValue.AddHours(Max_Hour_Of_Openning_Office)))
         .RuleFor(a => a.TimeOfClose, f => f.Date.Between(DateTime.MinValue.AddHours(Min_Hour_Of_Closing_Office), DateTime.MinValue.AddHours(Max_Hour_Of_Closing_Office)))
         .RuleFor(a => a.Phone, f => f.Person.Phone)
+        .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Address, f => f.Address.FullAddress())
         .RuleFor(a => a.Number, f => f.Random.Number(Min_number_of_office, Max_number_of_office))
         .RuleFor(a => a.Clients, (f, o) => GenerateClients(locale, Count_clients_per_office, o))
