@@ -16,6 +16,8 @@ namespace Bathhouse.Entities
     [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
     public string Description { get; set; }
     public DateTime CreationDate { get; set; }
+    public SurveyStatus Status { get; set; }
+
 
 
     public ICollection<Question> Questions { get; set; }
@@ -38,5 +40,12 @@ namespace Bathhouse.Entities
   public enum SurveyResultSummaryType
   {
     Base
+  }
+
+  public enum SurveyStatus
+  {
+    Work,
+    Archive,
+    Deleted
   }
 }

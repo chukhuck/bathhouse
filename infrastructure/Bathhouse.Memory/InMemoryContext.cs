@@ -90,6 +90,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.CreationDate, f => f.Date.Between(DateTime.Parse(common_start_day), DateTime.Parse(common_end_day)))
         .RuleFor(a => a.Description, f => "Description " + f.IndexFaker.ToString())
         .RuleFor(a => a.Name, f => "Survey " + f.IndexFaker.ToString())
+        .RuleFor(a => a.Status, f => f.PickRandom<SurveyStatus>())
         .RuleFor(a => a.Questions, (f, o) => GenerateQuestions(locale: locale, count: f.Random.Number(Min_Count_Of_Question_In_Survey, Max_Count_Of_Question_In_Survey), survey: o))
         .RuleFor(a => a.Results, (f, o) => new List<SurveyResult>())
         ;
