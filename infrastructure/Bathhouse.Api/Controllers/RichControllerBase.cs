@@ -126,6 +126,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
+    [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
@@ -146,7 +147,7 @@ namespace Bathhouse.Api.Controllers
 
         _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updating successfully.");
 
-        return CreatedAtRoute(updatedEntity.Id, _mapper.Map<TEntity, TEntityResponse>(updatedEntity));
+        return CreatedAtAction("GetById", new { id = updatedEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(updatedEntity));
       }
       catch (Exception ex)
       {
