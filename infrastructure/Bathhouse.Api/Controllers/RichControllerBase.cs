@@ -40,7 +40,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<IEnumerable<TEntityResponse>> Get()
+    public virtual ActionResult<IEnumerable<TEntityResponse>> Get()
     {
       try
       {
@@ -66,7 +66,7 @@ namespace Bathhouse.Api.Controllers
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
-    public ActionResult<TEntityResponse> GetById(Guid id)
+    public virtual ActionResult<TEntityResponse> GetById(Guid id)
     {
       try
       {
@@ -129,7 +129,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
-    public ActionResult Update(Guid id, TEntityRequest request)
+    public virtual ActionResult Update(Guid id, TEntityRequest request)
     {
       try
       {
@@ -166,7 +166,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
-    public IActionResult Delete(Guid id)
+    public virtual IActionResult Delete(Guid id)
     {
       try
       {
