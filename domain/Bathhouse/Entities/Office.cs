@@ -17,7 +17,7 @@ namespace Bathhouse.Entities
     public string Email { get; set; }
 
     public Employee Manager { get; set; }
-    public Guid ManagerId { get; set; }
+    public Guid? ManagerId { get; set; }
 
     public ICollection<Employee> Employees { get; set; }
     public ICollection<Client> Clients { get; set; }

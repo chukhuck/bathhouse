@@ -26,6 +26,15 @@
             <response code="404">Client with current ID is not found or Office with defined ID was not found</response>
             <returns></returns>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManager(System.Guid)">
+            <summary>
+            Get entity by ID
+            </summary>
+            <param name="id">The entity ID</param>
+            <response code="404">Office with current ID is not found of there is no manager at the office with current ID</response>
+            <response code="200">Getting entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
             <summary>
             Get all of entities
