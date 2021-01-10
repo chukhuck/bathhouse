@@ -16,6 +16,7 @@ namespace Bathhouse.Models
     string ShortName,
     string FullName,
     string Phone,
+    string Email,
     DateTime DoB,
     EmployeeType Type
     );

@@ -72,6 +72,11 @@
             Phone of employee
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.Email">
+            <summary>
+            Email of employee
+            </summary>
+        </member>
         <member name="P:Bathhouse.Models.EmployeeRequest.DoB">
             <summary>
             Day of Birth

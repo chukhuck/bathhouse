@@ -174,6 +174,7 @@ namespace Bathhouse.Memory
         LastName = "Потапчук",
         FirstName = "Александр",
         Phone = "916-099-68-36",
+        Email = "techsupport@mail.com",
         Type = EmployeeType.TechnicalSupport,
         Offices = new List<Office>(),
         SurveyResults = new List<SurveyResult>(),
@@ -195,6 +196,7 @@ namespace Bathhouse.Memory
         LastName = "Потапчук",
         FirstName = "Алёна",
         Phone = "926-920-15-16",
+        Email = "director@mail.com",
         Type = EmployeeType.Director,
         Offices = new List<Office>(),
         SurveyResults = new List<SurveyResult>(),
@@ -275,6 +277,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.LastName, f => f.Person.LastName)
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
         .RuleFor(a => a.Phone, f => f.Person.Phone)
+        .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Type, f => EmployeeType.Manager)
         .RuleFor(a => a.Offices, (f, o) => GenerateOffices(
           locale, 
@@ -301,6 +304,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.LastName, f => f.Person.LastName)
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
         .RuleFor(a => a.Phone, f => f.Person.Phone)
+        .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Type, f => EmployeeType.Employee)
         .RuleFor(a => a.Offices, (f, o) => 
         { 
