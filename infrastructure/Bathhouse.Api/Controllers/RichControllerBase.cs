@@ -73,7 +73,7 @@ namespace Bathhouse.Api.Controllers
         if (!_repository.Exist(id))
         {
           _logger.LogInformation($"Request on getting unexisting entity id={id} of type {typeof(TEntity)} was received.");
-          return NotFound();
+          return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
 
         TEntity entity = _repository.Get(id);
@@ -137,7 +137,7 @@ namespace Bathhouse.Api.Controllers
         if (!_repository.Exist(id))
         {
           _logger.LogInformation($"Request on updating unexisting entity id={id} of type {typeof(TEntity)} was received.");
-          return NotFound();
+          return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
 
         TEntity updatingEntity = _mapper.Map<TEntityRequest, TEntity>(request);
@@ -174,7 +174,7 @@ namespace Bathhouse.Api.Controllers
         if (!_repository.Exist(id))
         {
           _logger.LogInformation($"Request on deleting unexisting entity id={id} of type {typeof(TEntity)} was received.");
-          return NotFound();
+          return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
 
         _repository.Delete(id);
