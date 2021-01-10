@@ -18,6 +18,7 @@ using AutoMapper;
 using Bathhouse.Entities;
 using System.IO;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Bathhouse.Api
 {
@@ -34,10 +35,15 @@ namespace Bathhouse.Api
     public void ConfigureServices(IServiceCollection services)
     {
 
-      services.AddControllers();
+      services.AddControllers()
+              .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bathhouse.Api", Version = "v1" });
+
+        
 
         // Set the comments path for the Swagger JSON and UI.
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

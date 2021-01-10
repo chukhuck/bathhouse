@@ -31,9 +31,14 @@ namespace Bathhouse.Entities
     public ICollection<SurveyResult> SurveyResults { get; set; }
   }
 
-
+  /// <summary>
+  /// Type of employee
+  /// </summary>
   public enum EmployeeType
   {
+    /// <summary>
+    /// Director. It is an owner product
+    /// </summary>
     Director,
     Manager,
     Employee,

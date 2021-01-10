@@ -16,6 +16,16 @@
             </summary>
             <returns>List of headers</returns>
         </member>
+        <member name="T:Bathhouse.Entities.EmployeeType">
+            <summary>
+            Type of employee
+            </summary>
+        </member>
+        <member name="F:Bathhouse.Entities.EmployeeType.Director">
+            <summary>
+            Director. It is an owner product
+            </summary>
+        </member>
         <member name="M:Bathhouse.Entities.Survey.GetSummary(Bathhouse.Entities.SurveyResultSummaryType)">
             <summary>
             Get All of results of this survey
