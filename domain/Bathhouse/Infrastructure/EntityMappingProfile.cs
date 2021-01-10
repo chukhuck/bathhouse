@@ -13,26 +13,29 @@ namespace Bathhouse.Infrastructure
   {
     public EntityMappingProfile()
     {
-      CreateMap<Office, OfficeModel>()
-        .ReverseMap();
-      CreateMap<Employee, EmployeeModel>().ReverseMap();
-      CreateMap<Client, ClientModel>()
-        .ReverseMap();
-      CreateMap<WorkItem, WorkItemModel>()
-        .ForMember(dest => dest.CreatorShortName, act => act.MapFrom(src => src.Creator.LastName + " " + src.Creator.FirstName.First() + "."))
-        .ForMember(dest => dest.ExecutorShortName, act => act.MapFrom(src => src.Executor.LastName + " " + src.Executor.FirstName.First() + "."))
-        .ReverseMap();
-      CreateMap<Survey, SurveyModel>().ReverseMap();
+      CreateMap<Office, OfficeResponse>();
+      CreateMap<OfficeRequest, Office>();
 
-      CreateMap<Question, QuestionModel>().ReverseMap();
-      //CreateMap<Answer, AnswerModel>()
-      //  .ForMember(dest => dest.EmployeeName, act => act.MapFrom(src => src.Author.LastName + " " + src.Author.FirstName.First() + "."))
-      //  .ForMember(dest => dest.EmployeeOffice, act => act.MapFrom(src => src.Author.Office.Number))
-      //  .ReverseMap();
 
-      //CreateMap<Survey, Models.SurveyResultModel>()
-      //  .ForMember(dest => dest.Answers, act => act.MapFrom(src => src.Questions.SelectMany(q => q.Answers)))
-      //  .ReverseMap();
+      CreateMap<Employee, EmployeeResponse>();
+      CreateMap<EmployeeRequest, Employee > ();
+
+
+      CreateMap<Client, ClientResponse>();
+      CreateMap<ClientRequest, Client> ();
+
+
+      CreateMap<WorkItem, WorkItemResponse>();
+      CreateMap<WorkItemRequest, WorkItem>();
+
+      CreateMap<Survey, SurveyResponse>();
+      CreateMap<SurveyRequest, Survey > ();
+
+
+      CreateMap<Question, QuestionResponse>();
+      CreateMap<QuestionRequest, Question > ();
+
+      CreateMap<BaseSurveyResultSummary, BaseSurveyResultSummaryResponse>();
     }
   }
 }

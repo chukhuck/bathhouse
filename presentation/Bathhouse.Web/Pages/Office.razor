@@ -87,25 +87,25 @@ else
 @code {
 
   private const string ServiceEndpoint = "https://localhost:5001/Office";
-  private OfficeModel[] offices;
-  private OfficeModel editItem = new OfficeModel();
+  private OfficeResponse[] offices;
+  private OfficeRequest editItem = new OfficeRequest();
   private string editRowStyle = "none";
 
 
   protected override async Task OnInitializedAsync() => await GetOffices();
 
-  private async Task GetOffices() => offices = await Http.GetFromJsonAsync<OfficeModel[]>(ServiceEndpoint);
+  private async Task GetOffices() => offices = await Http.GetFromJsonAsync<OfficeResponse[]>(ServiceEndpoint);
 
   private void EditItem(Guid id)
   {
-    editItem = offices.Single(i => i.Id == id);
+    //editItem = offices.Single(i => i.Id == id);
     editRowStyle = "table-row";
   }
 
   private async Task AddItem()
   {
     await Http.PostAsJsonAsync(ServiceEndpoint, editItem);
-    editItem = new OfficeModel();
+    editItem = new OfficeRequest();
     editItem.TimeOfOpen =  DateTime.MinValue.AddHours(8);
     editItem.TimeOfClose = DateTime.MinValue.AddHours(22);
     await GetOffices();
@@ -115,7 +115,7 @@ else
   private async Task SaveItem()
   {
 
-    await Http.PutAsJsonAsync($"{ServiceEndpoint}/{editItem.Id}", editItem);
+    //await Http.PutAsJsonAsync($"{ServiceEndpoint}/{editItem.Id}", editItem);
     await GetOffices();
     editRowStyle = "none";
   }

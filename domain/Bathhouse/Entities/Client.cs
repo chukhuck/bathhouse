@@ -12,27 +12,27 @@ namespace Bathhouse.Entities
     [Required]
     [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    public string LastName { get; set; } = "Фамилия";
+    public string LastName { get; set; }
 
     [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    public string MiddleName { get; set; } = "Отчество";
+    public string MiddleName { get; set; }
 
     [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    public string FirstName { get; set; } = "Имя";
+    public string FirstName { get; set; }
 
     [Phone(ErrorMessage = "Incorrect phone format.")]
-    public string Phone { get; set; } = "+7-495-000-00-00";
+    public string Phone { get; set; }
 
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
+    public DateTime DoB { get; set; }
 
     [DataType(DataType.Text)]
     [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    public string Comment { get; set; } = "Комментарий";
+    public string Comment { get; set; }
 
-    public Sex Sex { get; set; } = Sex.Unknown;
+    public Sex Sex { get; set; }
 
     public Office Office { get; set; }
 

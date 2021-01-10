@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace Bathhouse.Api.Controllers
 {
   [Route("[controller]")]
-  public class EmployeeController : RichControllerBase<Employee, EmployeeModel>
+  public class EmployeeController : RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>
   {
-    public EmployeeController(ILogger<RichControllerBase<Employee, EmployeeModel>> logger, IMapper mapper, ICRUDRepository<Employee> repository)
+    public EmployeeController(ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger, IMapper mapper, ICRUDRepository<Employee> repository)
       : base(logger, mapper, repository)
     {
     }

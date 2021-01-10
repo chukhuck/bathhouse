@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace Bathhouse.Api.Controllers
 {
   [Route("[controller]")]
-  public class OfficeController : RichControllerBase<Office, OfficeModel>
+  public class OfficeController : RichControllerBase<Office, OfficeResponse, OfficeRequest>
   {
-    public OfficeController(ILogger<RichControllerBase<Office, OfficeModel>> logger, IMapper mapper, ICRUDRepository<Office> repository) 
+    public OfficeController(ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger, IMapper mapper, ICRUDRepository<Office> repository) 
       : base(logger, mapper, repository)
     {
     }

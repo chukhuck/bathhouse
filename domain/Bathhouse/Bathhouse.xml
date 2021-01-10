@@ -4,195 +4,150 @@
         <name>Bathhouse</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Entities.Survey.GetResult">
-            <summary>
-            Get All of results of this survey
-            </summary>
-            <returns>Result</returns>
-        </member>
-        <member name="M:Bathhouse.Entities.Survey.GetData">
+        <member name="M:Bathhouse.Entities.BaseSurveyResultSummary.GetData">
             <summary>
             Get all of results of this survey as List
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.Entities.Survey.GetHeaders">
+        <member name="M:Bathhouse.Entities.BaseSurveyResultSummary.GetHeaders">
             <summary>
             Get headrers for this survey
             </summary>
             <returns>List of headers</returns>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.LastName">
+        <member name="M:Bathhouse.Entities.Survey.GetSummary(Bathhouse.Entities.SurveyResultSummaryType)">
+            <summary>
+            Get All of results of this survey
+            </summary>
+            <returns>Result</returns>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.LastName">
             <summary>
             LastName of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.MiddleName">
+        <member name="P:Bathhouse.Models.ClientRequest.MiddleName">
             <summary>
             MiddleName of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.FirstName">
+        <member name="P:Bathhouse.Models.ClientRequest.FirstName">
             <summary>
             FirstName of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.Phone">
+        <member name="P:Bathhouse.Models.ClientRequest.Phone">
             <summary>
             Phone of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.DoB">
+        <member name="P:Bathhouse.Models.ClientRequest.DoB">
             <summary>
             Day of Birth
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.Comment">
+        <member name="P:Bathhouse.Models.ClientRequest.Comment">
             <summary>
             Comment for client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.Sex">
+        <member name="P:Bathhouse.Models.ClientRequest.Sex">
             <summary>
             Gender of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientModel.OfficeNumber">
-            <summary>
-            Number of "home" office for client
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.ClientModel.OfficeId">
-            <summary>
-            ID of "home" office for client
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.EmployeeModel.LastName">
+        <member name="P:Bathhouse.Models.EmployeeRequest.LastName">
             <summary>
             LastName of employee
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.EmployeeModel.FirstName">
+        <member name="P:Bathhouse.Models.EmployeeRequest.FirstName">
             <summary>
             FirstName of employee
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.EmployeeModel.Phone">
+        <member name="P:Bathhouse.Models.EmployeeRequest.Phone">
             <summary>
             Phone of employee
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.EmployeeModel.DoB">
+        <member name="P:Bathhouse.Models.EmployeeRequest.DoB">
             <summary>
             Day of Birth
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.EmployeeModel.Type">
+        <member name="P:Bathhouse.Models.EmployeeRequest.Type">
             <summary>
             Type of employee
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.EntityModel.Id">
-            <summary>
-            ID
-            </summary>
-        </member>
-        <member name="T:Bathhouse.Models.OfficeModel">
-            <summary>
-            DTO for offices
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.OfficeModel.Number">
+        <member name="P:Bathhouse.Models.OfficeRequest.Number">
             <summary>
             Number of office
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.OfficeModel.Address">
+        <member name="P:Bathhouse.Models.OfficeRequest.Address">
             <summary>
             Address of office
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.OfficeModel.Phone">
+        <member name="P:Bathhouse.Models.OfficeRequest.Phone">
             <summary>
             Phone of office
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.OfficeModel.Email">
+        <member name="P:Bathhouse.Models.OfficeRequest.Email">
             <summary>
             Email of office
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.OfficeModel.TimeOfOpen">
+        <member name="P:Bathhouse.Models.OfficeRequest.TimeOfOpen">
             <summary>
             Time when office will be opened
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.OfficeModel.TimeOfClose">
+        <member name="P:Bathhouse.Models.OfficeRequest.TimeOfClose">
             <summary>
             Time when office will be closed
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.OfficeModel.WorkingTimeRange">
-            <summary>
-            Working time of office
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.OfficeModel.ManagerFullName">
-            <summary>
-            Manager Fullname of office
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.OfficeModel.ManagerId">
-            <summary>
-            ID Manager of office
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.Description">
+        <member name="P:Bathhouse.Models.WorkItemRequest.Description">
             <summary>
             Description of task.
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.CreationDate">
+        <member name="P:Bathhouse.Models.WorkItemRequest.CreationDate">
             <summary>
             Day of creation work item
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.StartDate">
+        <member name="P:Bathhouse.Models.WorkItemRequest.StartDate">
             <summary>
             Day of start work item
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.EndDate">
+        <member name="P:Bathhouse.Models.WorkItemRequest.EndDate">
             <summary>
             Day of end work item
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.Status">
+        <member name="P:Bathhouse.Models.WorkItemRequest.Status">
             <summary>
             Status  of work item
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.IsImportant">
+        <member name="P:Bathhouse.Models.WorkItemRequest.IsImportant">
             <summary>
             Flag that indicate importance of workitem
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.CreatorShortName">
-            <summary>
-            Shortname of workitem creator
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.CreatorId">
+        <member name="P:Bathhouse.Models.WorkItemRequest.CreatorId">
             <summary>
             Id of workitem creator
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.ExecutorShortName">
-            <summary>
-            Shortname of workitem executor
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.WorkItemModel.ExecutorId">
+        <member name="P:Bathhouse.Models.WorkItemRequest.ExecutorId">
             <summary>
             Id of workitem executor
             </summary>

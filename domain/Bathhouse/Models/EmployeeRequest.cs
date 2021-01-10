@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
-  public class ClientModel : EntityModel
+  public class EmployeeRequest
   {
     /// <summary>
-    /// LastName of client
+    /// LastName of employee
     /// </summary>
     [Required]
     [DataType(DataType.Text)]
@@ -21,15 +21,7 @@ namespace Bathhouse.Models
     public string LastName { get; set; } = "Фамилия";
 
     /// <summary>
-    /// MiddleName of client
-    /// </summary>
-    [DataType(DataType.Text)]
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    [DefaultValue("Имя")]
-    public string MiddleName { get; set; } = "Отчество";
-
-    /// <summary>
-    /// FirstName of client
+    /// FirstName of employee
     /// </summary>
     [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
@@ -37,7 +29,7 @@ namespace Bathhouse.Models
     public string FirstName { get; set; } = "Имя";
 
     /// <summary>
-    /// Phone of client
+    /// Phone of employee
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
@@ -51,27 +43,9 @@ namespace Bathhouse.Models
     public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
 
     /// <summary>
-    /// Comment for client
+    /// Type of employee
     /// </summary>
-    [DataType(DataType.Text)]
-    [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    [DefaultValue("Комментарий")]
-    public string Comment { get; set; } = "Комментарий";
-
-    /// <summary>
-    /// Gender of client
-    /// </summary>
-    [DefaultValue(Sex.Unknown)]
-    public Sex Sex { get; set; } = Sex.Unknown;
-
-    /// <summary>
-    /// Number of "home" office for client
-    /// </summary>
-    public int OfficeNumber { get; set; }
-
-    /// <summary>
-    /// ID of "home" office for client
-    /// </summary>
-    public Guid OfficeId { get; set; }
+    [DefaultValue(EmployeeType.Manager)]
+    public EmployeeType Type { get; set; } = EmployeeType.Manager;
   }
 }

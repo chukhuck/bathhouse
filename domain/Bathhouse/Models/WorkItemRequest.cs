@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
-  public class WorkItemModel : EntityModel
+  public class WorkItemRequest
   {
     /// <summary>
     /// Description of task.
@@ -51,23 +51,15 @@ namespace Bathhouse.Models
     public bool IsImportant { get; set; } = false;
 
     /// <summary>
-    /// Shortname of workitem creator
-    /// </summary>
-    public string CreatorShortName { get; set; }
-
-    /// <summary>
     /// Id of workitem creator
     /// </summary>
+    [Required]
     public Guid CreatorId { get; set; }
-
-    /// <summary>
-    /// Shortname of workitem executor
-    /// </summary>
-    public string ExecutorShortName { get; set; }
 
     /// <summary>
     /// Id of workitem executor
     /// </summary>
+    [Required]
     public Guid ExecutorId { get; set; }
   }
 }

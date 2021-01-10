@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
-  public class EmployeeModel : EntityModel
+  public class ClientRequest
   {
     /// <summary>
-    /// LastName of employee
+    /// LastName of client
     /// </summary>
     [Required]
     [DataType(DataType.Text)]
@@ -21,22 +21,23 @@ namespace Bathhouse.Models
     public string LastName { get; set; } = "Фамилия";
 
     /// <summary>
-    /// FirstName of employee
+    /// MiddleName of client
+    /// </summary>
+    [DataType(DataType.Text)]
+    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [DefaultValue("Имя")]
+    public string MiddleName { get; set; } = "Отчество";
+
+    /// <summary>
+    /// FirstName of client
     /// </summary>
     [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Имя")]
     public string FirstName { get; set; } = "Имя";
 
-
-    [DataType(DataType.Text)]
-    public string ShortName => LastName + " " + FirstName.FirstOrDefault() + ".";
-
-    [DataType(DataType.Text)]
-    public string FullName  => LastName + " " + FirstName;
-
     /// <summary>
-    /// Phone of employee
+    /// Phone of client
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
@@ -50,9 +51,17 @@ namespace Bathhouse.Models
     public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
 
     /// <summary>
-    /// Type of employee
+    /// Comment for client
     /// </summary>
-    [DefaultValue(EmployeeType.Manager)]
-    public EmployeeType Type { get; set; } = EmployeeType.Manager;
+    [DataType(DataType.Text)]
+    [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [DefaultValue("Комментарий")]
+    public string Comment { get; set; } = "Комментарий";
+
+    /// <summary>
+    /// Gender of client
+    /// </summary>
+    [DefaultValue(Sex.Unknown)]
+    public Sex Sex { get; set; } = Sex.Unknown;
   }
 }

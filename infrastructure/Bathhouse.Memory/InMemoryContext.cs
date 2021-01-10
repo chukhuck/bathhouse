@@ -10,20 +10,20 @@ namespace Bathhouse.Memory
 {
   public static class InMemoryContext
   {
-    private const int Count_of_managers = 15;
-    private const int Count_Of_Eemployees = 300;
+    private const int Count_of_managers = 5;
+    private const int Count_Of_Eemployees = 10;
     private const string Locale = "ru";
-    private const int Count_Of_WorkItem = 50;
-    private const int Count_Of_Surveys = 30;
-    private const int Count_Of_ServeyResult = 20;
+    private const int Count_Of_WorkItem = 10;
+    private const int Count_Of_Surveys = 7;
+    private const int Count_Of_ServeyResult = 5;
     private const int Min_Count_Of_Question_In_Survey = 3;
     private const int Max_Count_Of_Question_In_Survey = 5;
     private const int Min_Answer_Value = 0;
-    private const int Max_Answer_Value = 100;
+    private const int Max_Answer_Value = 7;
     private const int Count_MyWorkItems = 10;
     private const int Min_count_of_office_for_manager = 1;
     private const int Max_count_of_office_for_manager = 3;
-    private const int Count_clients_per_office = 100;
+    private const int Count_clients_per_office = 2;
     private const int Min_number_of_office = 1;
     private const int Max_number_of_office = 2000;
     private const string common_start_day = "2020-01-01";

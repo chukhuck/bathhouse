@@ -7,15 +7,11 @@ namespace Bathhouse.Entities
 {
   public class SurveyResult : Entity
   {
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public DateTime CreationDate { get; set; }
 
     public Employee Author { get; set; }
-
     public Guid AuthorId { get; set; }
-
     public Survey Survey { get; set; }
-
     public Guid SurveyId { get; set; }
 
     public ICollection<Answer> Answers { get; set; }

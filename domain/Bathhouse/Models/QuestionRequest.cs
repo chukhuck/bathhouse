@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
-  public class QuestionModel : EntityModel
+  public class QuestionRequest
   {
     [Required]
     [DataType(DataType.Text)]
@@ -20,7 +24,5 @@ namespace Bathhouse.Models
 
     [DefaultValue(false)]
     public bool IsKey { get; set; } = false;
-
-//    public ICollection<AnswerModel> Answers { get; set; }
   }
 }

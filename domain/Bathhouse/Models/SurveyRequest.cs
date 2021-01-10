@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
-  public class SurveyModel : EntityModel
+  public class SurveyRequest
   {
     [Required]
     [DataType(DataType.Text)]
@@ -24,6 +24,6 @@ namespace Bathhouse.Models
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime CreationDate { get; set; } = DateTime.Now;
 
-    public ICollection<QuestionModel> Questions { get; set; }
+    public ICollection<QuestionRequest> Questions { get; set; }
   }
 }

@@ -13,7 +13,7 @@ namespace Bathhouse.Entities
 
     public Guid ResultId { get; set; }
 
-    [DataType(DataType.Text)]
+    [MaxLength(150, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 150 symbols.")]
     public string Value { get; set; }
   }
 }

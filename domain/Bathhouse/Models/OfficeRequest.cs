@@ -1,17 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
-  /// <summary>
-  /// DTO for offices
-  /// </summary>
-  public class OfficeModel : EntityModel
+  public class OfficeRequest
   {
     private const int Hour_Of_Openning = 8;
 
@@ -58,20 +55,5 @@ namespace Bathhouse.Models
     //[DefaultValue("")]
     [DataType(DataType.Time, ErrorMessage = "Incorrect time format.")]
     public DateTime TimeOfClose { get; set; } = DateTime.MinValue.AddHours(Hour_Of_Closing);
-
-    /// <summary>
-    /// Working time of office
-    /// </summary>
-    public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
-
-    /// <summary>
-    /// Manager Fullname of office
-    /// </summary>
-    public string ManagerFullName { get; set; }
-
-    /// <summary>
-    /// ID Manager of office
-    /// </summary>
-    public Guid ManagerId { get; set; }
   }
 }

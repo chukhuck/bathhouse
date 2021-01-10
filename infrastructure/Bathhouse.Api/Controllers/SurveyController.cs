@@ -13,28 +13,30 @@ using System.Threading.Tasks;
 namespace Bathhouse.Api.Controllers
 {
   [Route("[controller]")]
-  public class SurveyController : RichControllerBase<Survey, SurveyModel>
+  public class SurveyController : RichControllerBase<Survey, SurveyResponse, SurveyRequest>
   {
-    public SurveyController(ILogger<RichControllerBase<Survey, SurveyModel>> logger, IMapper mapper, ICRUDRepository<Survey> repository)
+    public SurveyController(ILogger<RichControllerBase<Survey, SurveyResponse, SurveyRequest>> logger, IMapper mapper, ICRUDRepository<Survey> repository)
       : base(logger, mapper, repository)
     {
     }
 
     /// <summary>
-    /// Get all survey result
+    /// Get summary of survey
     /// </summary>
+    /// <param name="id">Id of summary</param>
+    /// <param name="summaryType">Summary type</param>
     /// <response code="200">Getting all of entities was successful</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Route("{id}/Result")]
-    public ActionResult<SurveyResultModel> GetSurveyResult(Guid id)
+    public ActionResult<BaseSurveyResultSummaryResponse> GetSurveyResult(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
     {
       try
       {       
         _logger.LogInformation($"All of entities was getting.");
 
-        return Ok(_repository.Get(id).GetResult());
+        return Ok(_mapper.Map<BaseSurveyResultSummary, BaseSurveyResultSummaryResponse>( _repository.Get(id).GetSummary(summaryType)));
       }
       catch (Exception ex)
       {

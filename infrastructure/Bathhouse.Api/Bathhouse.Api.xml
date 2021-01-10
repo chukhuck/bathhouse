@@ -4,14 +4,14 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Get">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
             <summary>
             Get all of entities
             </summary>
             <response code="200">Getting all of entities was successful</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.GetById(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.GetById(System.Guid)">
             <summary>
             Get entity by ID
             </summary>
@@ -20,27 +20,28 @@
             <response code="200">Getting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Create(`1)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Create(`2)">
             <summary>
             Create and add entity.
             </summary>
-            <param name="entityModel">Newly creating entity</param>
+            <param name="request">Newly creating entity</param>
             <response code="201">Creating entity is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Update(`1)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Update(System.Guid,`2)">
             <summary>
             Update Entity
             </summary>
-            <param name="entity">Entity for updating</param>
+            <param name="request">Entity for updating</param>
+            <param name="id">ID of entity for updating</param>
             <response code="201">Updating entity is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
             <response code="404">Entity with current ID is not found</response>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`2.Delete(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Delete(System.Guid)">
             <summary>
             Delete entity by ID
             </summary>
@@ -49,10 +50,12 @@
             <response code="204">Deleting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveyResult(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveyResult(System.Guid,Bathhouse.Entities.SurveyResultSummaryType)">
             <summary>
-            Get all survey result
+            Get summary of survey
             </summary>
+            <param name="id">Id of summary</param>
+            <param name="summaryType">Summary type</param>
             <response code="200">Getting all of entities was successful</response>
             <response code="500">Exception on server side was fired</response>
         </member>

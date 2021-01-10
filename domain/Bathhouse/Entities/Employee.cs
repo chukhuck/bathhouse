@@ -10,23 +10,21 @@ namespace Bathhouse.Entities
   public class Employee : Entity
   {
     [Required]
-    [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    public string LastName { get; set; } = "Фамилия";
+    public string LastName { get; set; }
 
-    [DataType(DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    public string FirstName { get; set; } = "Имя";
+    public string FirstName { get; set; }
 
     public string FullName => LastName + " " + FirstName;
 
-    [Phone(ErrorMessage = "Incorrect phone format.")]
-    public string Phone { get; set; } = "+7-495-000-00-00";
+    public string ShortName => LastName + " " + FirstName.FirstOrDefault() + ".";
 
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
+    public string Phone { get; set; }
 
-    public EmployeeType Type { get; set; } = EmployeeType.Manager;
+    public DateTime DoB { get; set; }
+
+    public EmployeeType Type { get; set; }
 
 
     public ICollection<Office> Offices { get; set; }
@@ -36,8 +34,6 @@ namespace Bathhouse.Entities
     public ICollection<WorkItem> WorkItems { get; set; }
 
     public ICollection<SurveyResult> SurveyResults { get; set; }
-
-
   }
 
 
