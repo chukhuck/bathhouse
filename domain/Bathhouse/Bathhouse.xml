@@ -67,6 +67,11 @@
             Gender of client
             </summary>
         </member>
+        <member name="P:Bathhouse.Models.ClientRequest.OfficeId">
+            <summary>
+            OD of "home" office of client
+            </summary>
+        </member>
         <member name="P:Bathhouse.Models.EmployeeRequest.LastName">
             <summary>
             LastName of employee

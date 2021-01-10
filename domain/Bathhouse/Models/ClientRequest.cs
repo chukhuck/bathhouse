@@ -63,5 +63,11 @@ namespace Bathhouse.Models
     /// </summary>
     [DefaultValue(Sex.Unknown)]
     public Sex Sex { get; set; } = Sex.Unknown;
+
+    /// <summary>
+    /// OD of "home" office of client
+    /// </summary>
+    [Required]
+    public Guid OfficeId { get; set; }
   }
 }
