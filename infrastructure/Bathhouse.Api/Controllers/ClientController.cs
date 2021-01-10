@@ -49,6 +49,32 @@ namespace Bathhouse.Api.Controllers
       return base.Create(request);
     }
 
+    /// <summary>
+    /// Update Entity
+    /// </summary>
+    /// <param name="request">Entity for updating</param>
+    /// <param name="id">ID of entity for updating</param>
+    /// <response code="201">Updating entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Client with current ID is not found or Office with defined ID was not found</response>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    public override ActionResult Update(Guid id, ClientRequest request)
+    {
+      if (!_officeRepository.Exist(request.OfficeId))
+      {
+        _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
+        return NotFound($"Office with ID={request.OfficeId} was not found.");
+      }
+
+      return base.Update(id, request);
+    }
+
 
   }
 }

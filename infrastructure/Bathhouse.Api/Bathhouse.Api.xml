@@ -14,6 +14,18 @@
             <response code="400">If the item is null</response>
             <response code="404">Office was not found</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.ClientController.Update(System.Guid,Bathhouse.Models.ClientRequest)">
+            <summary>
+            Update Entity
+            </summary>
+            <param name="request">Entity for updating</param>
+            <param name="id">ID of entity for updating</param>
+            <response code="201">Updating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+            <response code="404">Client with current ID is not found or Office with defined ID was not found</response>
+            <returns></returns>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
             <summary>
             Get all of entities
