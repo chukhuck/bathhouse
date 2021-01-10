@@ -164,6 +164,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="204">Deleting entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete]
+    [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
