@@ -4,6 +4,16 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
+        <member name="M:Bathhouse.Api.Controllers.ClientController.Create(Bathhouse.Models.ClientRequest)">
+            <summary>
+            Create and add entity.
+            </summary>
+            <param name="request">Newly creating entity</param>
+            <response code="201">Creating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+            <response code="404">Office was not found</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
             <summary>
             Get all of entities

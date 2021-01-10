@@ -98,7 +98,7 @@ namespace Bathhouse.Api.Controllers
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
-    public ActionResult<TEntityResponse> Create(TEntityRequest request)
+    public virtual ActionResult<TEntityResponse> Create(TEntityRequest request)
     {
       try
       {
