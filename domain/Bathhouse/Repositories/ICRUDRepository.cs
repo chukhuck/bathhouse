@@ -14,5 +14,6 @@ namespace Bathhouse.Repositories
     public TEntity Update(TEntity model);
     public void Delete(Guid id);
     public bool Exist(Guid id);
+    public bool SaveChanges();
   }
 }

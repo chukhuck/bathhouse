@@ -15,7 +15,7 @@ namespace Bathhouse.Api.Controllers
   [ApiController]
   [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
   public class RichControllerBase<TEntity, TEntityResponse, TEntityRequest> : ControllerBase
-    where TEntity: Entity 
+    where TEntity : Entity
     where TEntityResponse : class
     where TEntityRequest : class
   {
@@ -30,7 +30,7 @@ namespace Bathhouse.Api.Controllers
       _logger = logger;
       _repository = repository;
       _mapper = mapper;
-      
+
     }
 
     /// <summary>
@@ -104,7 +104,8 @@ namespace Bathhouse.Api.Controllers
       {
         TEntity newEntity = _repository.Create(_mapper.Map<TEntityRequest, TEntity>(request));
 
-        _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
 
         return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
       }
@@ -145,7 +146,8 @@ namespace Bathhouse.Api.Controllers
 
         TEntity updatedEntity = _repository.Update(updatingEntity);
 
-        _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updating successfully.");
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updating successfully.");
 
         return CreatedAtAction("GetById", new { id = updatedEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(updatedEntity));
       }
@@ -179,7 +181,9 @@ namespace Bathhouse.Api.Controllers
         }
 
         _repository.Delete(id);
-        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
+
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
 
         return NoContent();
       }

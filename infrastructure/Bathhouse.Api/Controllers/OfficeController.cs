@@ -15,7 +15,7 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class OfficeController : RichControllerBase<Office, OfficeResponse, OfficeRequest>
   {
-    public OfficeController(ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger, IMapper mapper, ICRUDRepository<Office> repository) 
+    public OfficeController(ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger, IMapper mapper, ICRUDRepository<Office> repository)
       : base(logger, mapper, repository)
     {
     }
@@ -81,9 +81,11 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Office with ID={id} was not found.");
         }
 
-        var office =_repository.Get(id);
+        var office = _repository.Get(id);
         office.ClearManager();
-        _logger.LogInformation($"Manager of office id={id} was deleted successfully.");
+
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"Manager of office id={id} was deleted successfully.");
 
         return NoContent();
       }

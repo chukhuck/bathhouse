@@ -60,5 +60,10 @@ namespace Bathhouse.Memory.Repositories
     {
       return entities.Exists(entity => entity.Id == id);
     }
+
+    public bool SaveChanges()
+    {
+      return true;
+    }
   }
 }
