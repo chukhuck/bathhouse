@@ -14,6 +14,7 @@ namespace Bathhouse.Models
     Guid Id,
     string LastName,
     string FirstName,
+    string MiddleName,
     string ShortName,
     string FullName,
     string? Phone,

@@ -14,11 +14,13 @@ namespace Bathhouse.Entities
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string LastName { get; set; } = "DefaultLastName";
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    public string MiddleName { get; set; } = String.Empty;
+    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string FirstName { get; set; } = String.Empty;
     [NotMapped]
-    public string FullName => LastName + " " + FirstName;
+    public string FullName => LastName + " " + FirstName + " " + MiddleName;
     [NotMapped]
-    public string ShortName => LastName + " " + FirstName.FirstOrDefault() + ".";
+    public string ShortName => LastName + " " + FirstName.FirstOrDefault() + "." + MiddleName.FirstOrDefault() + ".";
     public string? Phone { get; set; }
     public string? Email { get; set; }
     public DateTime? DoB { get; set; }

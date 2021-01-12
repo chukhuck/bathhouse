@@ -174,6 +174,7 @@ namespace Bathhouse.Memory
         DoB = DateTime.Parse("1989-11-12"),
         LastName = "Потапчук",
         FirstName = "Александр",
+        MiddleName = "Владимирович",
         Phone = "916-099-68-36",
         Email = "techsupport@mail.com",
         Type = EmployeeType.TechnicalSupport,
@@ -196,6 +197,7 @@ namespace Bathhouse.Memory
         DoB = DateTime.Parse("1988-07-13"),
         LastName = "Потапчук",
         FirstName = "Алёна",
+        MiddleName = "Владимировна",
         Phone = "926-920-15-16",
         Email = "director@mail.com",
         Type = EmployeeType.Director,
@@ -277,6 +279,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.DoB, f => f.Date.Between(DateTime.Parse(start_birthday), DateTime.Parse(end_birthday)))
         .RuleFor(a => a.LastName, f => f.Person.LastName)
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
+        .RuleFor(a => a.FirstName, f => "Отчество")
         .RuleFor(a => a.Phone, f => f.Person.Phone)
         .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Type, f => EmployeeType.Manager)
@@ -304,6 +307,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.DoB, f => f.Date.Between(DateTime.Parse(start_birthday), DateTime.Parse(end_birthday)))
         .RuleFor(a => a.LastName, f => f.Person.LastName)
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
+        .RuleFor(a => a.FirstName, f => "Отчество")
         .RuleFor(a => a.Phone, f => f.Person.Phone)
         .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Type, f => EmployeeType.Employee)
