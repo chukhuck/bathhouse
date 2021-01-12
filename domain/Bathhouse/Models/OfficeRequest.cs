@@ -26,21 +26,21 @@ namespace Bathhouse.Models
     /// </summary>
     [DefaultValue("Москва, ")]
     [MaxLength(150, ErrorMessage = "Max lenght of field is 150 symbols.")]
-    public string Address { get; set; } = "Москва, ";
+    public string? Address { get; set; } = "Москва, ";
 
     /// <summary>
     /// Phone of office
     /// </summary>
     [DefaultValue("+7-495-000-00-00")]
     [Phone(ErrorMessage = "Incorrect phone format.")]
-    public string Phone { get; set; } = "+7-495-000-00-00";
+    public string? Phone { get; set; } = "+7-495-000-00-00";
 
     /// <summary>
     /// Email of office
     /// </summary>
     [DefaultValue("noreply@mail.com")]
     [EmailAddress(ErrorMessage = "Incorrect email address format.")]
-    public string Email { get; set; } = "noreply@mail.com";
+    public string? Email { get; set; } = "noreply@mail.com";
 
     /// <summary>
     /// Time when office will be opened

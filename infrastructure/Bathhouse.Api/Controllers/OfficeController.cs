@@ -25,11 +25,13 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
-    /// <response code="200">Getting manager is successul. Null is possible</response>
+    /// <response code="200">Getting manager is successul.</response>
+    /// <response code="204">There is no a manager in this office.</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/manager")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
     public ActionResult<EmployeeResponse> GetManager(Guid id)
     {
@@ -38,14 +40,23 @@ namespace Bathhouse.Api.Controllers
         if (_repository.Get(id) is Office office)
         {
           _logger.LogInformation($"Office id={id} was getting successfully.");
+
+          if (office.Manager == null)
+          {
+            _logger.LogInformation($"There is no a manager in office id={id}.");
+            return NoContent();
+          }
+          else
+          {
+            _logger.LogInformation($"Manager for office id={id} was getting successfully.");
+            return Ok(_mapper.Map<Employee, EmployeeResponse>(office.Manager));
+          }
         }
         else
         {
           _logger.LogInformation($"Office with ID={id} was not found.");
           return NotFound($"Office with ID={id} was not found.");
         }
-
-        return Ok(_mapper.Map<Employee, EmployeeResponse>(office.Manager));
       }
       catch (Exception ex)
       {

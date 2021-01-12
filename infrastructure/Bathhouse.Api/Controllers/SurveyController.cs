@@ -2,6 +2,7 @@
 using Bathhouse.Entities;
 using Bathhouse.Models;
 using Bathhouse.Repositories;
+using Bathhouse.ValueTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,14 +31,14 @@ namespace Bathhouse.Api.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [Route("{id}/summary")]
-    public ActionResult<BaseSurveyResultSummaryResponse> GetSurveySummary(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
+    public ActionResult<BaseSurveySummaryResponse> GetSurveySummary(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
     {
       try
       {
         if (_repository.Get(id) is Survey survey)
         {
           _logger.LogInformation($"The survey ID={id} was received successfully.");
-          return Ok(_mapper.Map<BaseSurveyResultSummary, BaseSurveyResultSummaryResponse>(survey.GetSummary(summaryType)));
+          return Ok(_mapper.Map<BaseSurveySummary, BaseSurveySummaryResponse>(survey.GetSummary(summaryType)));
         }
         else
         {

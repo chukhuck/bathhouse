@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bathhouse.Entities;
 using Bathhouse.Models;
+using Bathhouse.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace Bathhouse.Infrastructure
       CreateMap<Question, QuestionResponse>();
       CreateMap<QuestionRequest, Question > ();
 
-      CreateMap<BaseSurveyResultSummary, BaseSurveyResultSummaryResponse>();
+      CreateMap<BaseSurveySummary, BaseSurveySummaryResponse>();
     }
   }
 }

@@ -36,7 +36,7 @@ namespace Bathhouse.Models
     /// Day of end work item
     /// </summary>
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    public DateTime EndDate { get; set; } = DateTime.Now;
+    public DateTime EndDate { get; set; } = DateTime.Now.AddDays(1);
 
     /// <summary>
     /// Status  of work item

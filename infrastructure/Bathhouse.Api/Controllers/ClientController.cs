@@ -74,7 +74,5 @@ namespace Bathhouse.Api.Controllers
 
       return base.Update(id, request);
     }
-
-
   }
 }

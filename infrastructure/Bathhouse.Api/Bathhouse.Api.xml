@@ -31,8 +31,9 @@
             Get manager of office with ID
             </summary>
             <param name="id">The Office ID</param>
-            <response code="404">Office with current ID is not found of there is no manager at the office with current ID</response>
-            <response code="200">Getting manager is successul</response>
+            <response code="404">Office with current ID is not found</response>
+            <response code="200">Getting manager is successul.</response>
+            <response code="204">There is no a manager in this office.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.DeleteManager(System.Guid)">
@@ -90,7 +91,7 @@
             <response code="204">Deleting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveyResult(System.Guid,Bathhouse.Entities.SurveyResultSummaryType)">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveySummary(System.Guid,Bathhouse.Entities.SurveyResultSummaryType)">
             <summary>
             Get summary of survey
             </summary>

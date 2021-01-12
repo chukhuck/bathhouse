@@ -11,18 +11,17 @@ namespace Bathhouse.Entities
 {
   public class Survey : Entity
   {
-    [Required]
     [MaxLength(50, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 50 symbols.")]
-    public string Name { get; set; }
+    public string Name { get; set; } = "New survey";
     [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
-    public string Description { get; set; }
-    public DateTime CreationDate { get; set; }
-    public SurveyStatus Status { get; set; }
+    public string? Description { get; set; }
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public SurveyStatus Status { get; set; } = SurveyStatus.Work;
 
 
 
-    public ICollection<Question> Questions { get; set; }
-    public ICollection<SurveyResult> Results { get; set; }
+    public ICollection<Question> Questions { get; set; } = null!;
+    public ICollection<SurveyResult> Results { get; set; } = null!;
 
     /// <summary>
     /// Get All of results of this survey

@@ -10,9 +10,9 @@ namespace Bathhouse.ValueTypes
   {
     private BaseSurveySummary(){}
 
-    public Survey Survey { get; private set; }
-    public List<SurveySummaryHeader> Headers { get; private set; }
-    public List<List<string>> Data { get; private set; }
+    public Survey Survey { get; private set; } = null!;
+    public List<SurveySummaryHeader> Headers { get; private set; } = new List<SurveySummaryHeader>();
+    public List<List<string>> Data { get; private set; } = new List<List<string>>();
 
 
     public static BaseSurveySummary Create(Survey survey) 

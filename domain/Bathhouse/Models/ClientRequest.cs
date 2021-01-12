@@ -41,14 +41,14 @@ namespace Bathhouse.Models
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
-    public string Phone { get; set; } = "+7-495-000-00-00";
+    public string? Phone { get; set; } = "+7-495-000-00-00";
 
     /// <summary>
     /// Day of Birth
     /// </summary>
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
     [DefaultValue("1950-01-01")]
-    public DateTime DoB { get; set; } = DateTime.Parse("1950-01-01");
+    public DateTime? DoB { get; set; } = DateTime.Parse("1950-01-01");
 
     /// <summary>
     /// Comment for client
@@ -56,7 +56,7 @@ namespace Bathhouse.Models
     [DataType(DataType.Text)]
     [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Комментарий")]
-    public string Comment { get; set; } = "Комментарий";
+    public string? Comment { get; set; } = "Комментарий";
 
     /// <summary>
     /// Gender of client

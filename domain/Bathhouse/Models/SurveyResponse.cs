@@ -12,7 +12,7 @@ namespace Bathhouse.Models
   public record SurveyResponse(
   Guid Id,
   string Name,
-  string Description,
+  string? Description,
   DateTime CreationDate,
   SurveyStatus Status,
   ICollection<QuestionResponse> Questions);

@@ -19,11 +19,11 @@ namespace Bathhouse.Models
     [DataType(DataType.Text)]
     [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
     [DefaultValue("Описание нового опроса")]
-    public string Description { get; set; } = "Описание нового опроса";
+    public string? Description { get; set; } = "Описание нового опроса";
 
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime CreationDate { get; set; } = DateTime.Now;
 
-    public ICollection<QuestionRequest> Questions { get; set; }
+    public ICollection<QuestionRequest> Questions { get; set; } = new List<QuestionRequest>();
   }
 }

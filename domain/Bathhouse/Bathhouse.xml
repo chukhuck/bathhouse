@@ -4,18 +4,6 @@
         <name>Bathhouse</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Entities.BaseSurveyResultSummary.GetData">
-            <summary>
-            Get all of results of this survey as List
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Bathhouse.Entities.BaseSurveyResultSummary.GetHeaders">
-            <summary>
-            Get headrers for this survey
-            </summary>
-            <returns>List of headers</returns>
-        </member>
         <member name="T:Bathhouse.Entities.EmployeeType">
             <summary>
             Type of employee
@@ -171,6 +159,18 @@
             <summary>
             Id of workitem executor
             </summary>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetData">
+            <summary>
+            Get all of results of this survey as List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetHeaders">
+            <summary>
+            Get headrers for this survey
+            </summary>
+            <returns>List of headers</returns>
         </member>
     </members>
 </doc>
