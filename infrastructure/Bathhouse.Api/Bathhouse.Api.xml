@@ -26,24 +26,43 @@
             <response code="404">Client with current ID is not found or Office with defined ID was not found</response>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManager(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get manager of office with ID
             </summary>
             <param name="id">The Office ID</param>
             <response code="404">Office with current ID is not found</response>
             <response code="200">Getting manager is successul.</response>
-            <response code="204">There is no a manager in this office.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.DeleteManager(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetEmployees(System.Guid)">
             <summary>
-            Delete manager of office with ID
+            Get employees of office with ID
+            </summary>
+            <param name="id">The Office ID</param>
+            <response code="404">Office with current ID is not found</response>
+            <response code="200">Getting employees is successul.</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.DeleteEmployee(System.Guid,System.Guid)">
+            <summary>
+            Delete employee of office with ID
             </summary>
             <param name="id">Office ID</param>
+            <param name="employeeId">ID deleting employee</param>
             <response code="404">Office with current ID is not found</response>
-            <response code="204">Deleting manager is successul</response>
+            <response code="204">Deleting employee is successul</response>
             <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.AddEmployee(System.Guid,System.Guid)">
+            <summary>
+            Add employee to office
+            </summary>
+            <param name="id">Office ID</param>
+            <param name="employeeId">Employee ID</param>
+            <response code="201">Adding employee is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
             <summary>

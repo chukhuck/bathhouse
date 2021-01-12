@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Bathhouse.Entities
 {
@@ -17,16 +18,18 @@ namespace Bathhouse.Entities
     public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
     public string? Email { get; set; }
 
-    public Employee? Manager { get; set; }
-    public Guid? ManagerId { get; set; }
-
     public ICollection<Employee> Employees { get; set; } = null!;
     public ICollection<Client> Clients { get; set; } = null!;
 
-    public void ClearManager()
+    public IEnumerable<Employee> GetManagers()
     {
-      Manager = null;
-      ManagerId = null;
+      return Employees.Where(e => e.Type == EmployeeType.Manager);
+    }
+
+    public void DeleteEmployee(Guid employeeId)
+    {
+      if(Employees.FirstOrDefault(e => e.Id == employeeId) is Employee removingEmployee)
+        Employees.Remove(removingEmployee);
     }
   }
 }

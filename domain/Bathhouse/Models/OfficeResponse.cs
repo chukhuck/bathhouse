@@ -16,8 +16,6 @@ namespace Bathhouse.Models
     string? Email,
     DateTime TimeOfOpen,
     DateTime TimeOfClose,
-    string WorkingTimeRange,
-    string? ManagerFullName,
-    Guid? ManagerId
+    string WorkingTimeRange
     );
 }

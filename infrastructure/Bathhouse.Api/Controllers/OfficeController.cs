@@ -15,9 +15,16 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class OfficeController : RichControllerBase<Office, OfficeResponse, OfficeRequest>
   {
-    public OfficeController(ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger, IMapper mapper, ICRUDRepository<Office> repository)
+    ICRUDRepository<Employee> _employeeRepository;
+
+    public OfficeController(
+      ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger, 
+      IMapper mapper, 
+      ICRUDRepository<Office> repository,
+      ICRUDRepository<Employee> employeeRepository)
       : base(logger, mapper, repository)
     {
+      _employeeRepository = employeeRepository;
     }
 
     /// <summary>
@@ -26,31 +33,21 @@ namespace Bathhouse.Api.Controllers
     /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
     /// <response code="200">Getting manager is successul.</response>
-    /// <response code="204">There is no a manager in this office.</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
-    [Route("{id:guid}/manager")]
+    [Route("{id:guid}/managers")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
-    public ActionResult<EmployeeResponse> GetManager(Guid id)
+    public ActionResult<EmployeeResponse> GetManagers(Guid id)
     {
       try
       {
         if (_repository.Get(id) is Office office)
         {
           _logger.LogInformation($"Office id={id} was getting successfully.");
+          _logger.LogInformation($"Managers for office id={id} was getting successfully.");
 
-          if (office.Manager == null)
-          {
-            _logger.LogInformation($"There is no a manager in office id={id}.");
-            return NoContent();
-          }
-          else
-          {
-            _logger.LogInformation($"Manager for office id={id} was getting successfully.");
-            return Ok(_mapper.Map<Employee, EmployeeResponse>(office.Manager));
-          }
+          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.GetManagers()));
         }
         else
         {
@@ -66,27 +63,63 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Delete manager of office with ID
+    /// Get employees of office with ID
     /// </summary>
-    /// <param name="id">Office ID</param>
+    /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
-    /// <response code="204">Deleting manager is successul</response>
+    /// <response code="200">Getting employees is successul.</response>
     /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete]
-    [Route("{id:guid}/manager")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [HttpGet()]
+    [Route("{id:guid}/employees")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType((int)StatusCodes.Status404NotFound)]
-    public virtual IActionResult DeleteManager(Guid id)
+    public ActionResult<EmployeeResponse> GetEmployees(Guid id)
     {
       try
       {
         if (_repository.Get(id) is Office office)
         {
-          office.ClearManager();
+          _logger.LogInformation($"Office id={id} was getting successfully.");
+          _logger.LogInformation($"Employees for office id={id} was getting successfully.");
+
+          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+        }
+        else
+        {
+          _logger.LogInformation($"Office with ID={id} was not found.");
+          return NotFound($"Office with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting manager of office id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting manager of office id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Delete employee of office with ID
+    /// </summary>
+    /// <param name="id">Office ID</param>
+    /// <param name="employeeId">ID deleting employee</param>
+    /// <response code="404">Office with current ID is not found</response>
+    /// <response code="204">Deleting employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete]
+    [Route("{id:guid}/employees")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    public virtual IActionResult DeleteEmployee(Guid id, Guid employeeId)
+    {
+      try
+      {
+        if (_repository.Get(id) is Office office)
+        {
+          office.DeleteEmployee(employeeId);
 
           _repository.SaveChanges();
-          _logger.LogInformation($"Manager of office id={id} was deleted successfully.");
+          _logger.LogInformation($"Employee of office id={id} was deleted successfully.");
 
           return NoContent();
         }
@@ -100,6 +133,44 @@ namespace Bathhouse.Api.Controllers
       {
         _logger.LogError($"While deleting manager for office  id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting manager for office  id={id}  an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Add employee to office
+    /// </summary>
+    /// <param name="id">Office ID</param>
+    /// <param name="employeeId">Employee ID</param>
+    /// <response code="201">Adding employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    [HttpPost]
+    [Route("{id:guid}/employees")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual ActionResult<IEnumerable<EmployeeResponse>> AddEmployee(Guid id, Guid employeeId)
+    {
+      try
+      {
+        if (_repository.Get(id) is Office office && _employeeRepository.Get(employeeId) is Employee addingEmployee)
+        {
+          office.Employees.Add(addingEmployee);
+
+          if (_repository.SaveChanges())
+            _logger.LogInformation($"Employee id={employeeId} was added to Office ID={id} successfully.");
+
+          return CreatedAtAction( nameof(GetEmployees), new { id = id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+        }
+        else
+        {
+          _logger.LogInformation($"Office with ID={id} or Employee with ID={employeeId} was not found.");
+          return NotFound($"Office with ID={id} or Employee with ID={employeeId} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While adding employee to office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding employee to office an exception was fired");
       }
     }
   }

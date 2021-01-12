@@ -301,8 +301,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Offices, (f, o) => GenerateOffices(
           locale, 
           f.Random.Number(Min_count_of_office_for_manager, Max_count_of_office_for_manager), 
-          new List<Employee>() { o },
-          o))
+          new List<Employee>() { o }))
         .RuleFor(a => a.WorkItems, (f, o) => WorkItems.Where(wi => wi.ExecutorId == o.Id).ToList())
         .RuleFor(a => a.CreatedWorkItems, (f, o) => WorkItems.Where(wi => wi.CreatorId == o.Id).ToList())
         .RuleFor(a => a.SurveyResults, f => new List<SurveyResult>())
@@ -344,7 +343,7 @@ namespace Bathhouse.Memory
       return newEmployeees;
     }
 
-    private static List<Office> GenerateOffices(string locale, int count, List<Employee> employees, Employee manager)
+    private static List<Office> GenerateOffices(string locale, int count, List<Employee> employees)
     {
       var testOffices = new Faker<Office>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())
@@ -356,8 +355,6 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Number, f => f.Random.Number(Min_number_of_office, Max_number_of_office))
         .RuleFor(a => a.Clients, (f, o) => GenerateClients(locale, Count_clients_per_office, o))
         .RuleFor(a => a.Employees, f => employees)
-        .RuleFor(a => a.Manager, f => manager)
-        .RuleFor(a => a.ManagerId, f => manager.Id)
         ;
 
       var newOffices = testOffices.Generate(count).ToList();
