@@ -106,7 +106,7 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Id, f => f.Random.Guid())
         .RuleFor(a => a.Name, f => "Column " + f.IndexFaker.ToString())
         .RuleFor(a => a.Type, f => f.PickRandom<QuestionType>())
-        .RuleFor(a => a.Text, f => "Question " + f.IndexFaker.ToString())
+        .RuleFor(a => a.Text, (f, o) => "Question " + f.IndexFaker)
         .RuleFor(a => a.IsKey, f => f.Random.Bool())
         .RuleFor(a => a.Survey, f => survey)
         .RuleFor(a => a.SurveyId, (f, o) => survey.Id)
@@ -116,6 +116,20 @@ namespace Bathhouse.Memory
       var newQuestions = testQuestions.Generate(count).ToList();
       Questions.AddRange(newQuestions);
       return newQuestions;
+    }
+
+    private static string GenerateOneAnswer(QuestionType type, Faker faker)
+    {
+      return type switch
+      {
+        QuestionType.Text => "Answer " + faker.IndexFaker,
+        QuestionType.YesNo => faker.Random.Bool().ToString(),
+        QuestionType.Number => faker.Random.Number().ToString(),
+        QuestionType.Decimal => faker.Random.Decimal().ToString(),
+        QuestionType.Photo => Convert.ToBase64String(faker.Random.Bytes(10)),
+        QuestionType.DateTime => faker.Date.Between(DateTime.Parse(common_start_day), DateTime.Parse(common_end_day)).ToString(),
+        _ => throw new ArgumentException("Unrecognized question type")
+      };
     }
 
     private static List<SurveyResult> GenerateSurveyResults(string locale, int count, Survey survey)
@@ -149,12 +163,12 @@ namespace Bathhouse.Memory
     {
       var testAnswers = new Faker<Answer>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())
-        .RuleFor(a => a.Value, f => f.Random.Double(Min_Answer_Value, Max_Answer_Value).ToString())
         .RuleFor(a => a.Question, (f,o) => {
           question.Answers.Add(o);
           return question;
           })
         .RuleFor(a => a.QuestionId, (f, o) => o.Question.Id)
+        .RuleFor(a => a.Value, (f, o) => GenerateOneAnswer(o.Question.Type, f))
         .RuleFor(a => a.Result, (f, o) => {
           result.Answers.Add(o);
           return result;

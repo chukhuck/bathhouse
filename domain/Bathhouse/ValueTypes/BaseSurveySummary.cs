@@ -41,11 +41,11 @@ namespace Bathhouse.ValueTypes
     {
       List<SurveySummaryHeader> headers = new();
 
-      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.Datetime, Text = "Date" });
-      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.Text, Text = "Employee" });
+      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.DateTime, Text = "Date" });
+      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.Text, Text = "Author" });
 
       headers.AddRange(
-        Survey?.Questions?.Select(q => new SurveySummaryHeader() { Type = SurveySummaryHeaderType.Text, Text = q.Name }) 
+        Survey?.Questions?.Select(q => new SurveySummaryHeader() { Type = SurveySummaryHeader.ConvertType(q.Type), Text = q.Name }) 
         ?? new List<SurveySummaryHeader>());
 
       return headers;
@@ -56,6 +56,20 @@ namespace Bathhouse.ValueTypes
   {
     public SurveySummaryHeaderType Type { get; set; }
     public string Text { get; set; }
+
+    public static SurveySummaryHeaderType ConvertType(QuestionType questionType)
+    {
+      return questionType switch
+      {
+        QuestionType.DateTime => SurveySummaryHeaderType.DateTime,
+        QuestionType.Decimal => SurveySummaryHeaderType.Decimal,
+        QuestionType.Number => SurveySummaryHeaderType.Number,
+        QuestionType.YesNo => SurveySummaryHeaderType.Bool,
+        QuestionType.Photo => SurveySummaryHeaderType.Text,
+        QuestionType.Text => SurveySummaryHeaderType.Text,
+        _ => SurveySummaryHeaderType.Text
+      };
+    }
   }
 
   public enum SurveySummaryHeaderType
@@ -63,7 +77,8 @@ namespace Bathhouse.ValueTypes
     Text,
     Number,
     Decimal,
-    Datetime,
-    Bool
+    DateTime,
+    Bool,
+    Photo
   }
 }
