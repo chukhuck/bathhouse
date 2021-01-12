@@ -23,12 +23,9 @@ namespace Bathhouse.Memory.Repositories
       return entities;
     }
 
-    public virtual TEntity Get(Guid id)
+    public virtual TEntity? Get(Guid id)
     {
-      if (!Exist(id))
-        throw new ArgumentException("The resource is not found.");
-
-      return entities.FirstOrDefault(o => o.Id == id);
+      return entities.Find(o => o.Id == id);
     }
 
     public virtual TEntity Create(TEntity model)
@@ -40,7 +37,7 @@ namespace Bathhouse.Memory.Repositories
     public virtual TEntity Update(TEntity model)
     {
       if (!Exist(model.Id))
-        throw new ArgumentException("The resource is not found.");
+        throw new ArgumentException($"The resource with ID={model.Id} is not found.");
 
       entities.RemoveAll(entity => entity.Id == model.Id);
       entities.Add(model);
@@ -51,7 +48,7 @@ namespace Bathhouse.Memory.Repositories
     public virtual void Delete(Guid id)
     {
       if (!Exist(id))
-        throw new ArgumentException("The resource is not found.");
+        throw new ArgumentException("The resource with ID={model.Id} is not found.");
 
       entities.RemoveAll(entity => entity.Id == id);
     }
@@ -61,9 +58,17 @@ namespace Bathhouse.Memory.Repositories
       return entities.Exists(entity => entity.Id == id);
     }
 
-    public bool SaveChanges()
+    public virtual bool SaveChanges()
     {
-      return true;
+      try
+      {
+        return true;
+      }
+      catch (Exception ex)
+      {
+        throw new Exception(message: "The error occured when changes was saving.", innerException: ex);
+      }
+
     }
   }
 }

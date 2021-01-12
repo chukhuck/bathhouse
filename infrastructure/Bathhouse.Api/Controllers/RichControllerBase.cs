@@ -44,9 +44,10 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        _logger.LogInformation($"All of entities was getting.");
+        var allEntities = _repository.GetAll();
+        _logger.LogInformation($"All of entities was got.");
 
-        return Ok(_mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityResponse>>(_repository.GetAll()));
+        return Ok(_mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityResponse>>(allEntities));
       }
       catch (Exception ex)
       {
@@ -70,16 +71,16 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_repository.Exist(id))
+        if (_repository.Get(id) is TEntity entity)
+        {
+          _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
+          return Ok(_mapper.Map<TEntity, TEntityResponse>(entity));
+        }
+        else
         {
           _logger.LogInformation($"Request on getting unexisting entity id={id} of type {typeof(TEntity)} was received.");
           return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
-
-        TEntity entity = _repository.Get(id);
-        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
-
-        return Ok(_mapper.Map<TEntity, TEntityResponse>(entity));
       }
       catch (Exception ex)
       {
@@ -135,21 +136,20 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_repository.Exist(id))
+        if (_repository.Get(id) is TEntity entity)
         {
-          _logger.LogInformation($"Request on updating unexisting entity id={id} of type {typeof(TEntity)} was received.");
+          TEntity updatedEntity = _repository.Update(_mapper.Map<TEntityRequest, TEntity>(request, entity));
+
+          if (_repository.SaveChanges())
+            _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updated successfully.");
+
+          return CreatedAtAction("GetById", new { id = updatedEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(updatedEntity));
+        }
+        else
+        {
+          _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
           return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
-
-        TEntity updatingEntity = _mapper.Map<TEntityRequest, TEntity>(request);
-        updatingEntity.Id = id;
-
-        TEntity updatedEntity = _repository.Update(updatingEntity);
-
-        if (_repository.SaveChanges())
-          _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updating successfully.");
-
-        return CreatedAtAction("GetById", new { id = updatedEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(updatedEntity));
       }
       catch (Exception ex)
       {
@@ -176,7 +176,7 @@ namespace Bathhouse.Api.Controllers
       {
         if (!_repository.Exist(id))
         {
-          _logger.LogInformation($"Request on deleting unexisting entity id={id} of type {typeof(TEntity)} was received.");
+          _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
           return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
 

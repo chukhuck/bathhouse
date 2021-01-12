@@ -216,7 +216,7 @@ namespace Bathhouse.Memory
       return director;
     }
 
-    private static List<WorkItem> GenerateWorkItems(string locale, int count, Employee creator, Employee executor = null)
+    private static List<WorkItem> GenerateWorkItems(string locale, int count, Employee creator, Employee? executor = null)
     {
       var testWorkItems = new Faker<WorkItem>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())

@@ -24,8 +24,8 @@ namespace Bathhouse.Api.Controllers
     /// Get manager of office with ID
     /// </summary>
     /// <param name="id">The Office ID</param>
-    /// <response code="404">Office with current ID is not found of there is no manager at the office with current ID</response>
-    /// <response code="200">Getting manager is successul</response>
+    /// <response code="404">Office with current ID is not found</response>
+    /// <response code="200">Getting manager is successul. Null is possible</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/manager")]
@@ -35,22 +35,17 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_repository.Exist(id))
+        if (_repository.Get(id) is Office office)
+        {
+          _logger.LogInformation($"Office id={id} was getting successfully.");
+        }
+        else
         {
           _logger.LogInformation($"Office with ID={id} was not found.");
           return NotFound($"Office with ID={id} was not found.");
         }
 
-        Office entity = _repository.Get(id);
-        _logger.LogInformation($"Office id={id} was getting successfully.");
-
-        if (entity.Manager == null)
-        {
-          _logger.LogInformation($"There is no manager at the office with ID={id}");
-          return NotFound($"There is no manager at the office with ID={id}");
-        }
-
-        return Ok(_mapper.Map<Employee, EmployeeResponse>(entity.Manager));
+        return Ok(_mapper.Map<Employee, EmployeeResponse>(office.Manager));
       }
       catch (Exception ex)
       {
@@ -75,19 +70,20 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_repository.Exist(id))
+        if (_repository.Get(id) is Office office)
+        {
+          office.ClearManager();
+
+          _repository.SaveChanges();
+          _logger.LogInformation($"Manager of office id={id} was deleted successfully.");
+
+          return NoContent();
+        }
+        else
         {
           _logger.LogInformation($"Office with ID={id} was not found.");
           return NotFound($"Office with ID={id} was not found.");
         }
-
-        var office = _repository.Get(id);
-        office.ClearManager();
-
-        if (_repository.SaveChanges())
-          _logger.LogInformation($"Manager of office id={id} was deleted successfully.");
-
-        return NoContent();
       }
       catch (Exception ex)
       {

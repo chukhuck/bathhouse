@@ -29,19 +29,26 @@ namespace Bathhouse.Api.Controllers
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [Route("{id}/Result")]
-    public ActionResult<BaseSurveyResultSummaryResponse> GetSurveyResult(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
+    [Route("{id}/summary")]
+    public ActionResult<BaseSurveyResultSummaryResponse> GetSurveySummary(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
     {
       try
-      {       
-        _logger.LogInformation($"All of entities was getting.");
-
-        return Ok(_mapper.Map<BaseSurveyResultSummary, BaseSurveyResultSummaryResponse>( _repository.Get(id).GetSummary(summaryType)));
+      {
+        if (_repository.Get(id) is Survey survey)
+        {
+          _logger.LogInformation($"The survey ID={id} was received successfully.");
+          return Ok(_mapper.Map<BaseSurveyResultSummary, BaseSurveyResultSummaryResponse>(survey.GetSummary(summaryType)));
+        }
+        else
+        {
+          _logger.LogInformation($"The survey ID={id} was not found.");
+          return NotFound($"The survey ID={id} was not found.");
+        }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting all of entities an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of entities an exception was fired.");
+        _logger.LogError($"While getting the survey ID={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting the survey ID={id} an exception was fired.");
       }
     }
   }
