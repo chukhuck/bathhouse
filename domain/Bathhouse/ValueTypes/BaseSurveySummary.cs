@@ -1,22 +1,23 @@
-﻿using Bathhouse.Models;
+﻿using Bathhouse.Entities;
+using Bathhouse.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bathhouse.Entities
+namespace Bathhouse.ValueTypes
 {
-  public class BaseSurveyResultSummary
+  public class BaseSurveySummary
   {
-    private BaseSurveyResultSummary(){}
+    private BaseSurveySummary(){}
 
     public Survey Survey { get; private set; }
     public List<SurveySummaryHeader> Headers { get; private set; }
     public List<List<string>> Data { get; private set; }
 
 
-    public static BaseSurveyResultSummary Create(Survey survey) 
+    public static BaseSurveySummary Create(Survey survey) 
     {
-      BaseSurveyResultSummary summary = new BaseSurveyResultSummary();
+      BaseSurveySummary summary = new BaseSurveySummary();
 
       summary.Survey = survey;
 

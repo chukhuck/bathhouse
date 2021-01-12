@@ -1,4 +1,5 @@
 ﻿using Bathhouse.Models;
+using Bathhouse.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,11 +28,11 @@ namespace Bathhouse.Entities
     /// Get All of results of this survey
     /// </summary>
     /// <returns>Result</returns>
-    public BaseSurveyResultSummary GetSummary(SurveyResultSummaryType typeSummary)
+    public BaseSurveySummary GetSummary(SurveyResultSummaryType typeSummary)
     {
       return typeSummary switch
       {
-        SurveyResultSummaryType.Base => BaseSurveyResultSummary.Create(this),
+        SurveyResultSummaryType.Base => BaseSurveySummary.Create(this),
         _ => throw new ArgumentException("Type of summary is not defined.")
       };
     } 
