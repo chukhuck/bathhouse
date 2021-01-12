@@ -82,8 +82,7 @@ namespace Bathhouse.Api.Controllers
         }
 
         var office =_repository.Get(id);
-        office.Manager = null;
-        office.ManagerId = null;
+        office.ClearManager();
         _logger.LogInformation($"Manager of office id={id} was deleted successfully.");
 
         return NoContent();
