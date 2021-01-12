@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -24,5 +25,8 @@ namespace Bathhouse.Models
 
     [DefaultValue(false)]
     public bool IsKey { get; set; } = false;
+
+    [DefaultValue(QuestionType.Number)]
+    public QuestionType Type { get; set; } = QuestionType.Number;
   }
 }

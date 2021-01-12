@@ -11,10 +11,18 @@ namespace Bathhouse.Entities
     [MaxLength(50, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 50 symbols.")]
     public string Name { get; set; } = "Newquestion";
     public bool IsKey { get; set; } = false;
+    public QuestionType Type { get; set } = QuestionType.Number;
 
     public Survey Survey { get; set; } = null!;
     public Guid SurveyId { get; set; }
 
     public ICollection<Answer> Answers { get; set; } = null!;
+  }
+
+  public enum QuestionType
+  {
+    Number,
+    YesNo,
+    Text
   }
 }

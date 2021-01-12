@@ -105,6 +105,7 @@ namespace Bathhouse.Memory
       var testQuestions = new Faker<Question>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())
         .RuleFor(a => a.Name, f => "Column " + f.IndexFaker.ToString())
+        .RuleFor(a => a.Type, f => f.PickRandom<QuestionType>())
         .RuleFor(a => a.Text, f => "Question " + f.IndexFaker.ToString())
         .RuleFor(a => a.IsKey, f => f.Random.Bool())
         .RuleFor(a => a.Survey, f => survey)
