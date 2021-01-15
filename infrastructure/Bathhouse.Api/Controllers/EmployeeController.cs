@@ -120,7 +120,7 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Get offices with ID
+    /// Get offices for employee
     /// </summary>
     /// <param name="id">The Employee ID</param>
     /// <response code="404">Employee with current ID is not found</response>
@@ -155,7 +155,7 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Delete office for employee with ID
+    /// Delete office for employee
     /// </summary>
     /// <param name="id">Employee ID</param>
     /// <param name="officeId">ID deleting office</param>
@@ -194,11 +194,11 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Add office for employee with ID
+    /// Add office for employee
     /// </summary>
     /// <param name="id">Employee ID</param>
     /// <param name="officeId">Office ID</param>
-    /// <response code="201">Adding employee is successul</response>
+    /// <response code="201">Adding office is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     [HttpPost]
@@ -236,7 +236,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="id">Employee  ID</param>
     /// <param name="officeIds">Office IDs</param>
-    /// <response code="201">Adding office is successul</response>
+    /// <response code="201">Setting office is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     /// <response code="404">Office with current ID or one of Employee IDs is not found</response>

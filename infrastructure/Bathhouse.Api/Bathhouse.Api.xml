@@ -60,7 +60,7 @@
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetOffices(System.Guid)">
             <summary>
-            Get offices with ID
+            Get offices for employee
             </summary>
             <param name="id">The Employee ID</param>
             <response code="404">Employee with current ID is not found</response>
@@ -69,7 +69,7 @@
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteOffice(System.Guid,System.Guid)">
             <summary>
-            Delete office for employee with ID
+            Delete office for employee
             </summary>
             <param name="id">Employee ID</param>
             <param name="officeId">ID deleting office</param>
@@ -79,11 +79,11 @@
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddOffice(System.Guid,System.Guid)">
             <summary>
-            Add office for employee with ID
+            Add office for employee
             </summary>
             <param name="id">Employee ID</param>
             <param name="officeId">Office ID</param>
-            <response code="201">Adding employee is successul</response>
+            <response code="201">Adding office is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
         </member>
@@ -93,23 +93,23 @@
             </summary>
             <param name="id">Employee  ID</param>
             <param name="officeIds">Office IDs</param>
-            <response code="201">Adding office is successul</response>
+            <response code="201">Setting office is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
             <response code="404">Office with current ID or one of Employee IDs is not found</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
-            Get manager of office with ID
+            Get managers of office
             </summary>
             <param name="id">The Office ID</param>
             <response code="404">Office with current ID is not found</response>
-            <response code="200">Getting manager is successul.</response>
+            <response code="200">Getting managers is successul.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetEmployees(System.Guid)">
             <summary>
-            Get employees of office with ID
+            Get employees of office
             </summary>
             <param name="id">The Office ID</param>
             <response code="404">Office with current ID is not found</response>
@@ -118,7 +118,7 @@
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.DeleteEmployee(System.Guid,System.Guid)">
             <summary>
-            Delete employee of office with ID
+            Delete employee of office
             </summary>
             <param name="id">Office ID</param>
             <param name="employeeId">ID deleting employee</param>

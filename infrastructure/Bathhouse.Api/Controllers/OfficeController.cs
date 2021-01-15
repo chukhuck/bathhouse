@@ -28,11 +28,11 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Get manager of office with ID
+    /// Get managers of office
     /// </summary>
     /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
-    /// <response code="200">Getting manager is successul.</response>
+    /// <response code="200">Getting managers is successul.</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/managers")]
@@ -63,7 +63,7 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Get employees of office with ID
+    /// Get employees of office
     /// </summary>
     /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
@@ -98,7 +98,7 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Delete employee of office with ID
+    /// Delete employee of office
     /// </summary>
     /// <param name="id">Office ID</param>
     /// <param name="employeeId">ID deleting employee</param>
