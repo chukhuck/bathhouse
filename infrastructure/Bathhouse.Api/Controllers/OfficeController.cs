@@ -18,8 +18,8 @@ namespace Bathhouse.Api.Controllers
     ICRUDRepository<Employee> _employeeRepository;
 
     public OfficeController(
-      ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger, 
-      IMapper mapper, 
+      ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger,
+      IMapper mapper,
       ICRUDRepository<Office> repository,
       ICRUDRepository<Employee> employeeRepository)
       : base(logger, mapper, repository)
@@ -37,7 +37,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("{id:guid}/managers")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<EmployeeResponse> GetManagers(Guid id)
     {
       try
@@ -72,7 +72,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("{id:guid}/employees")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<EmployeeResponse> GetEmployees(Guid id)
     {
       try
@@ -108,8 +108,8 @@ namespace Bathhouse.Api.Controllers
     [HttpDelete]
     [Route("{id:guid}/employees")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual IActionResult DeleteEmployee(Guid id, Guid employeeId)
     {
       try
@@ -159,13 +159,66 @@ namespace Bathhouse.Api.Controllers
           if (_repository.SaveChanges())
             _logger.LogInformation($"Employee id={employeeId} was added to Office ID={id} successfully.");
 
-          return CreatedAtAction( nameof(GetEmployees), new { id = id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+          return CreatedAtAction(nameof(GetEmployees), new { id = id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
         }
         else
         {
           _logger.LogInformation($"Office with ID={id} or Employee with ID={employeeId} was not found.");
           return NotFound($"Office with ID={id} or Employee with ID={employeeId} was not found.");
         }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While adding employee to office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding employee to office an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Add employee to office
+    /// </summary>
+    /// <param name="id">Office ID</param>
+    /// <param name="employeeIds">Employees ID</param>
+    /// <response code="201">Adding employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
+    [HttpPost]
+    [Route("{id:guid}/employees")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployees(Guid id, IEnumerable<Guid> employeeIds)
+    {
+      try
+      {
+        Office? office = _repository.Get(id);
+        if (office == null)
+        {
+          _logger.LogInformation($"Office with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+
+        office.Employees.Clear();
+
+        foreach (var employeeId in employeeIds)
+        {
+          Employee? addingEmployee = _employeeRepository.Get(employeeId);
+
+          if (addingEmployee == null)
+          {
+            _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+            return NotFound($"Employee with ID={employeeId} was not found.");
+          }
+
+          office.Employees.Add(addingEmployee);
+          _logger.LogInformation($"Employee id={employeeId} was found.");
+        }
+
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"Employees was added to Office ID={id} successfully.");
+
+        return CreatedAtAction(nameof(GetEmployees), new { id = id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
       }
       catch (Exception ex)
       {
