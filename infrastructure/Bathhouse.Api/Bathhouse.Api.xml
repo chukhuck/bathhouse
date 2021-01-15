@@ -87,6 +87,17 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.SetEmployees(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Set new list of offices to employee
+            </summary>
+            <param name="id">Employee  ID</param>
+            <param name="officeIds">Office IDs</param>
+            <response code="201">Adding office is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+            <response code="404">Office with current ID or one of Employee IDs is not found</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get manager of office with ID

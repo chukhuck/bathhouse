@@ -230,5 +230,58 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While adding office to employee  an exception was fired");
       }
     }
+
+    /// <summary>
+    /// Set new list of offices to employee
+    /// </summary>
+    /// <param name="id">Employee  ID</param>
+    /// <param name="officeIds">Office IDs</param>
+    /// <response code="201">Adding office is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
+    [HttpPut]
+    [Route("{id:guid}/offices")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual ActionResult<IEnumerable<OfficeResponse>> SetEmployees(Guid id, [FromBody] IEnumerable<Guid> officeIds)
+    {
+      try
+      {
+        Employee? employee = _repository.Get(id);
+        if (employee == null)
+        {
+          _logger.LogInformation($"Employee with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+
+        employee.Offices.Clear();
+
+        foreach (var officeId in officeIds)
+        {
+          Office? addingOffice = _officesRepository.Get(officeId);
+
+          if (addingOffice == null)
+          {
+            _logger.LogInformation($"Office with ID={officeId} was not found.");
+            return NotFound($"Office with ID={officeId} was not found.");
+          }
+
+          employee.Offices.Add(addingOffice);
+          _logger.LogInformation($"Office id={officeId} was found.");
+        }
+
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"Office was added to Employee ID={id} successfully.");
+
+        return CreatedAtAction(nameof(GetOffices), new { id = id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While setting offices to employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While setting offices to employee an exception was fired");
+      }
+    }
   }
 }
