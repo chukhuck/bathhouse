@@ -37,7 +37,7 @@ namespace Bathhouse.Api.Controllers
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public override ActionResult<ClientResponse> Create(ClientRequest request)
     {
       if (!_officeRepository.Exist(request.OfficeId))
@@ -62,8 +62,8 @@ namespace Bathhouse.Api.Controllers
     [HttpPut]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public override ActionResult Update(Guid id, ClientRequest request)
     {
       if (!_officeRepository.Exist(request.OfficeId))

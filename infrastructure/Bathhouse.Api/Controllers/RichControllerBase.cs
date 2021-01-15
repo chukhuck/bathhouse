@@ -66,7 +66,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual ActionResult<TEntityResponse> GetById(Guid id)
     {
       try
@@ -98,7 +98,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="400">If the item is null</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual ActionResult<TEntityResponse> Create(TEntityRequest request)
     {
       try
@@ -130,8 +130,8 @@ namespace Bathhouse.Api.Controllers
     [HttpPut]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual ActionResult Update(Guid id, TEntityRequest request)
     {
       try
@@ -168,8 +168,8 @@ namespace Bathhouse.Api.Controllers
     [HttpDelete]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType((int)StatusCodes.Status400BadRequest)]
-    [ProducesResponseType((int)StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual IActionResult Delete(Guid id)
     {
       try
