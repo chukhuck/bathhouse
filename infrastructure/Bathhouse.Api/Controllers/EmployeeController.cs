@@ -121,7 +121,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="id">The Employee ID</param>
     /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting office is successul.</response>
+    /// <response code="200">Getting offices is successul.</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/offices")]
@@ -148,6 +148,45 @@ namespace Bathhouse.Api.Controllers
       {
         _logger.LogError($"While getting offices of employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While getting offices of employee id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Delete office for employee with ID
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <param name="officeId">ID deleting office</param>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// <response code="204">Deleting office is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete]
+    [Route("{id:guid}/offices")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual IActionResult DeleteOffice(Guid id, Guid officeId)
+    {
+      try
+      {
+        if (_repository.Get(id) is Employee employee)
+        {
+          employee.DeleteOffice(officeId);
+
+          _repository.SaveChanges();
+          _logger.LogInformation($"Office of employee id={id} was deleted successfully.");
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Employee with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting office for manager  id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting office for manager  id={id}  an exception was fired");
       }
     }
 

@@ -58,6 +58,25 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetOffices(System.Guid)">
+            <summary>
+            Get offices with ID
+            </summary>
+            <param name="id">The Employee ID</param>
+            <response code="404">Employee with current ID is not found</response>
+            <response code="200">Getting offices is successul.</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteOffice(System.Guid,System.Guid)">
+            <summary>
+            Delete office for employee with ID
+            </summary>
+            <param name="id">Employee ID</param>
+            <param name="officeId">ID deleting office</param>
+            <response code="404">Employee with current ID is not found</response>
+            <response code="204">Deleting office is successul</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get manager of office with ID

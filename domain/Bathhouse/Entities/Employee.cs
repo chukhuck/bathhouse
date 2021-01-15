@@ -39,6 +39,12 @@ namespace Bathhouse.Entities
     {
       return Offices;
     }
+
+    public void DeleteOffice(Guid officeId)
+    {
+      if (Offices.FirstOrDefault(e => e.Id == officeId) is Office removingOffice)
+        Offices.Remove(removingOffice);
+    }
   }
 
   /// <summary>
