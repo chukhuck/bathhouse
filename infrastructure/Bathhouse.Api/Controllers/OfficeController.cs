@@ -154,7 +154,7 @@ namespace Bathhouse.Api.Controllers
       {
         if (_repository.Get(id) is Office office && _employeeRepository.Get(employeeId) is Employee addingEmployee)
         {
-          office.Employees.Add(addingEmployee);
+          office.AddEmployee(addingEmployee);
 
           if (_repository.SaveChanges())
             _logger.LogInformation($"Employee id={employeeId} was added to Office ID={id} successfully.");
@@ -198,7 +198,7 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Office with ID={id} was not found.");
           return NotFound($"Employee with ID={id} was not found.");
         }
-
+        
         office.Employees.Clear();
 
         foreach (var employeeId in employeeIds)

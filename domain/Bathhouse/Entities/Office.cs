@@ -31,5 +31,10 @@ namespace Bathhouse.Entities
       if(Employees.FirstOrDefault(e => e.Id == employeeId) is Employee removingEmployee)
         Employees.Remove(removingEmployee);
     }
+
+    public void AddEmployee(Employee addingEmployee)
+    {
+      Employees.Add(addingEmployee);
+    }
   }
 }
