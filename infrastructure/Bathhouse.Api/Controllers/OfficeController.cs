@@ -175,10 +175,10 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Add employee to office
+    /// Set new list of employees to office
     /// </summary>
     /// <param name="id">Office ID</param>
-    /// <param name="employeeIds">Employees ID</param>
+    /// <param name="employeeIds">Employee IDs</param>
     /// <response code="201">Adding employee is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
@@ -188,7 +188,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployees(Guid id, IEnumerable<Guid> employeeIds)
+    public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployees(Guid id, [FromBody]IEnumerable<Guid> employeeIds)
     {
       try
       {
