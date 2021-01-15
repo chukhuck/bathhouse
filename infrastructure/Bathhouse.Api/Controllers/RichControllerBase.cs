@@ -95,7 +95,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="request">Newly creating entity</param>
     /// <response code="201">Creating entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
+    /// <response code="400">If the request is null</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

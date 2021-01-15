@@ -70,5 +70,10 @@ namespace Bathhouse.Memory.Repositories
       }
 
     }
+
+    public virtual IEnumerable<TEntity> Where(Func<TEntity, bool> predicate)
+    {
+      return entities.Where(predicate);
+    }
   }
 }

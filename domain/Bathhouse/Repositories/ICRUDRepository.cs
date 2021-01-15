@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,6 @@ namespace Bathhouse.Repositories
     public void Delete(Guid id);
     public bool Exist(Guid id);
     public bool SaveChanges();
+    IEnumerable<TEntity> Where(Func<TEntity, bool> predicate);
   }
 }

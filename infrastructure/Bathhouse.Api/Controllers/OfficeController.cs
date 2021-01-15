@@ -183,7 +183,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
-    [HttpPost]
+    [HttpPut]
     [Route("{id:guid}/employees")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

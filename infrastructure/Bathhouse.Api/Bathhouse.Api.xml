@@ -26,6 +26,38 @@
             <response code="404">Client with current ID is not found or Office with defined ID was not found</response>
             <returns></returns>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetDirectors">
+            <summary>
+            Get all of the directors in the system
+            </summary>
+            <response code="200">Getting the directors is successul.</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetEmployees">
+            <summary>
+            Get all of the employees in the system
+            </summary>
+            <response code="200">Getting employees is successul.</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetManagers">
+            <summary>
+            Get all of the managers in the system
+            </summary>
+            <response code="200">Getting the managers is successul.</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetTechSupporters">
+            <summary>
+            Get all of the tech supporters in the system
+            </summary>
+            <response code="200">Getting the tech supporters is successul.</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get manager of office with ID
@@ -64,6 +96,17 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.SetEmployees(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Set new list of employees to office
+            </summary>
+            <param name="id">Office ID</param>
+            <param name="employeeIds">Employee IDs</param>
+            <response code="201">Adding employee is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+            <response code="404">Office with current ID or one of Employee IDs is not found</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
             <summary>
             Get all of entities
@@ -87,7 +130,7 @@
             <param name="request">Newly creating entity</param>
             <response code="201">Creating entity is successul</response>
             <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
+            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Update(System.Guid,`2)">
             <summary>
