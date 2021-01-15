@@ -15,12 +15,15 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class EmployeeController : RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>
   {
+    ICRUDRepository<Office> _officesRepository;
     public EmployeeController(
       ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
       IMapper mapper,
-      ICRUDRepository<Employee> repository)
+      ICRUDRepository<Employee> repository,
+      ICRUDRepository<Office> officesRepository)
       : base(logger, mapper, repository)
     {
+      _officesRepository = officesRepository;
     }
 
     /// <summary>
@@ -190,5 +193,42 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Add office for employee with ID
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <param name="officeId">Office ID</param>
+    /// <response code="201">Adding employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    [HttpPost]
+    [Route("{id:guid}/offices")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual ActionResult<IEnumerable<OfficeResponse>> AddOffice(Guid id, Guid officeId)
+    {
+      try
+      {
+        if (_repository.Get(id) is Employee employee && _officesRepository.Get(officeId) is Office addingOffice)
+        {
+          employee.AddOffice(addingOffice);
+
+          if (_repository.SaveChanges())
+            _logger.LogInformation($"Office id={officeId} was added to Employee ID={id} successfully.");
+
+          return CreatedAtAction(nameof(GetOffices), new { id = id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+        }
+        else
+        {
+          _logger.LogInformation($"Employee with ID={id} or Office with ID={officeId} was not found.");
+          return NotFound($"Employee with ID={id} or Office with ID={officeId} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While adding office to employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding office to employee  an exception was fired");
+      }
+    }
   }
 }

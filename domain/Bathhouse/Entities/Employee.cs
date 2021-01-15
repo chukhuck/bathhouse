@@ -45,6 +45,11 @@ namespace Bathhouse.Entities
       if (Offices.FirstOrDefault(e => e.Id == officeId) is Office removingOffice)
         Offices.Remove(removingOffice);
     }
+
+    public void AddOffice(Office addingEmployee)
+    {
+      Offices.Add(addingEmployee);
+    }
   }
 
   /// <summary>

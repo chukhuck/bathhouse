@@ -77,6 +77,16 @@
             <response code="204">Deleting office is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddOffice(System.Guid,System.Guid)">
+            <summary>
+            Add office for employee with ID
+            </summary>
+            <param name="id">Employee ID</param>
+            <param name="officeId">Office ID</param>
+            <response code="201">Adding employee is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get manager of office with ID
