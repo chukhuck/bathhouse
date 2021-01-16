@@ -62,10 +62,12 @@ namespace Bathhouse.Api.Controllers
     /// <param name="id">The entity ID</param>
     /// <response code="404">Entity with current ID is not found</response>
     /// <response code="200">Getting entity is successul</response>
+    /// <response code="400">If the request is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual ActionResult<TEntityResponse> GetById(Guid id)
     {

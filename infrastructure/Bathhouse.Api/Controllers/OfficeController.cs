@@ -33,10 +33,12 @@ namespace Bathhouse.Api.Controllers
     /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
     /// <response code="200">Getting managers is successul.</response>
+    /// <response code="400">If the item is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/managers")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<EmployeeResponse> GetManagers(Guid id)
     {
@@ -68,10 +70,12 @@ namespace Bathhouse.Api.Controllers
     /// <param name="id">The Office ID</param>
     /// <response code="404">Office with current ID is not found</response>
     /// <response code="200">Getting employees is successul.</response>
+    /// <response code="400">If the item is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/employees")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<EmployeeResponse> GetEmployees(Guid id)
     {
@@ -104,6 +108,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="employeeId">ID deleting employee</param>
     /// <response code="404">Office with current ID is not found</response>
     /// <response code="204">Deleting employee is successul</response>
+    /// <response code="400">If the item is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete]
     [Route("{id:guid}/employees")]

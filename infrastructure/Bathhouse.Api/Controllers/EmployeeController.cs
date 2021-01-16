@@ -30,12 +30,10 @@ namespace Bathhouse.Api.Controllers
     /// Get all of the directors in the system
     /// </summary>
     /// <response code="200">Getting the directors is successul.</response>
-    /// <response code="400">If the request is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("directors")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<EmployeeResponse> GetDirectors()
     {
       try
@@ -54,12 +52,10 @@ namespace Bathhouse.Api.Controllers
     /// Get all of the employees in the system
     /// </summary>
     /// <response code="200">Getting employees is successul.</response>
-    /// <response code="400">If the request is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("employees")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<EmployeeResponse> GetEmployees()
     {
       try
@@ -77,12 +73,10 @@ namespace Bathhouse.Api.Controllers
     /// Get all of the managers in the system
     /// </summary>
     /// <response code="200">Getting the managers is successul.</response>
-    /// <response code="400">If the request is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("managers")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<EmployeeResponse> GetManagers()
     {
       try
@@ -100,12 +94,10 @@ namespace Bathhouse.Api.Controllers
     /// Get all of the tech supporters in the system
     /// </summary>
     /// <response code="200">Getting the tech supporters is successul.</response>
-    /// <response code="400">If the request is null</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("techsupporters")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<EmployeeResponse> GetTechSupporters()
     {
       try
@@ -125,11 +117,13 @@ namespace Bathhouse.Api.Controllers
     /// <param name="id">The Employee ID</param>
     /// <response code="404">Employee with current ID is not found</response>
     /// <response code="200">Getting offices is successul.</response>
+    /// <response code="400">If the ID is not valid</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
     [Route("{id:guid}/offices")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<EmployeeResponse> GetOffices(Guid id)
     {
       try
@@ -161,6 +155,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="officeId">ID deleting office</param>
     /// <response code="404">Employee with current ID is not found</response>
     /// <response code="204">Deleting office is successul</response>
+    /// <response code="400">If the request is not valid</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete]
     [Route("{id:guid}/offices")]
