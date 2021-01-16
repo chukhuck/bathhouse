@@ -50,6 +50,16 @@ namespace Bathhouse.Entities
     {
       Offices.Add(addingEmployee);
     }
+
+    public IEnumerable<WorkItem> GetMyWorkItems()
+    {
+      return WorkItems;
+    }
+
+    public IEnumerable<WorkItem> GetCreatedWorkItems()
+    {
+      return CreatedWorkItems;
+    }
   }
 
   /// <summary>

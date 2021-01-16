@@ -96,6 +96,26 @@
             <response code="400">If the item is null</response>
             <response code="404">Office with current ID or one of Employee IDs is not found</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetMyWorkItems(System.Guid)">
+            <summary>
+            Get workitems for current employee
+            </summary>
+            <param name="id">The Employee ID</param>
+            <response code="404">Employee with current ID is not found</response>
+            <response code="200">Getting offices is successul.</response>
+            <response code="400">If the ID is not valid</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetCreatedWorkItems(System.Guid)">
+            <summary>
+            Get workitems created by current employee
+            </summary>
+            <param name="id">The Employee ID</param>
+            <response code="404">Employee with current ID is not found</response>
+            <response code="200">Getting offices is successul.</response>
+            <response code="400">If the ID is not valid</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office
@@ -162,6 +182,7 @@
             <param name="id">The entity ID</param>
             <response code="404">Entity with current ID is not found</response>
             <response code="200">Getting entity is successul</response>
+            <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Create(`2)">
