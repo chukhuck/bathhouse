@@ -2,6 +2,15 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Bathhouse.Api",
+    "description": "An API to Bathhouse",
+    "contact": {
+      "name": "Alex Potapchuk",
+      "email": "a.v.potapchuk@yandex.ru"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
     "version": "v1"
   },
   "paths": {
