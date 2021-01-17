@@ -116,6 +116,16 @@
             <response code="400">If the ID is not valid</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteCreatedWorkItem(System.Guid,System.Guid)">
+            <summary>
+            Delete workItem
+            </summary>
+            <param name="id">Employee ID</param>
+            <param name="workItemId">WorkItem ID</param>
+            <response code="404">Employee or WorkItem is not found</response>
+            <response code="204">Deleting workItem is successul</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office

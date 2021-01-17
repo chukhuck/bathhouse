@@ -16,14 +16,18 @@ namespace Bathhouse.Api.Controllers
   public class EmployeeController : RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>
   {
     ICRUDRepository<Office> _officesRepository;
+    ICRUDRepository<WorkItem> _workItemRepository;
+
     public EmployeeController(
       ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
       IMapper mapper,
       ICRUDRepository<Employee> repository,
-      ICRUDRepository<Office> officesRepository)
+      ICRUDRepository<Office> officesRepository,
+      ICRUDRepository<WorkItem> workItemRepository)
       : base(logger, mapper, repository)
     {
       _officesRepository = officesRepository;
+      _workItemRepository = workItemRepository;
     }
 
     /// <summary>
@@ -350,6 +354,45 @@ namespace Bathhouse.Api.Controllers
       {
         _logger.LogError($"While getting workitems created by employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems created by employee id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Delete workItem
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <param name="workItemId">WorkItem ID</param>
+    /// <response code="404">Employee or WorkItem is not found</response>
+    /// <response code="204">Deleting workItem is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete()]
+    [Route("{id:guid}/workitems/{workitemid:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult DeleteCreatedWorkItem(Guid id, Guid workItemId)
+    {
+      try
+      {
+        Employee? currentEmployee = _repository.Get(id);
+
+        if (currentEmployee?.CreatedWorkItems.FirstOrDefault(wi => wi.Id == workItemId) == null && !_workItemRepository.Exist(workItemId))
+        {
+          _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
+        }
+
+        _workItemRepository.Delete(workItemId);
+
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"WorkItem id={workItemId} was deleted successfully.");
+
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting WorkItem id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting WorkItem id={id} an exception was fired");
       }
     }
   }
