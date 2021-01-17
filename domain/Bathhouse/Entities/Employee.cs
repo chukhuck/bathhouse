@@ -62,6 +62,11 @@ namespace Bathhouse.Entities
     {
       return CreatedWorkItems;
     }
+
+    public IEnumerable<Survey> GetSurveys()
+    {
+      return Surveys;
+    }
   }
 
   /// <summary>

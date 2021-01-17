@@ -17,17 +17,23 @@ namespace Bathhouse.Api.Controllers
   {
     ICRUDRepository<Office> _officesRepository;
     ICRUDRepository<WorkItem> _workItemRepository;
+    ICRUDRepository<Survey> _surveyRepository;
+    ICRUDRepository<SurveyResult> _surveyResultRepository;
 
     public EmployeeController(
       ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
       IMapper mapper,
       ICRUDRepository<Employee> repository,
       ICRUDRepository<Office> officesRepository,
-      ICRUDRepository<WorkItem> workItemRepository)
+      ICRUDRepository<WorkItem> workItemRepository,
+      ICRUDRepository<Survey> surveyRepository,
+      ICRUDRepository<SurveyResult> surveyResultRepository)
       : base(logger, mapper, repository)
     {
       _officesRepository = officesRepository;
       _workItemRepository = workItemRepository;
+      _surveyRepository = surveyRepository;
+      _surveyResultRepository = surveyResultRepository;
     }
 
     #region Static endpoints
@@ -560,6 +566,48 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
       }
     }
+
+    #endregion
+
+    #region Survey
+
+    /// <summary>
+    /// Get all of surveys for current employee
+    /// </summary>
+    /// <param name="id">The Employee ID</param>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// <response code="200">Getting offices is successul.</response>
+    /// <response code="400">If the ID is not valid</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet()]
+    [Route("{id:guid}/surveys")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<EmployeeResponse> GetAllSurveys(Guid id)
+    {
+      try
+      {
+        if (_repository.Get(id) is Employee employee)
+        {
+          _logger.LogInformation($"Employee id={id} was getting successfully.");
+          _logger.LogInformation($"Surveys for employee id={id} was getting successfully.");
+
+          return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(employee.GetSurveys()));
+        }
+        else
+        {
+          _logger.LogInformation($"Employee with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting surveys of employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting surveys of employee id={id} an exception was fired");
+      }
+    }
+
 
     #endregion
   }
