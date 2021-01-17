@@ -124,14 +124,14 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">Entity for updating</param>
     /// <param name="id">ID of entity for updating</param>
-    /// <response code="201">Updating entity is successul</response>
+    /// <response code="204">Updating entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
     [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual ActionResult Update(Guid id, TEntityRequest request)
@@ -145,7 +145,7 @@ namespace Bathhouse.Api.Controllers
           if (_repository.SaveChanges())
             _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updated successfully.");
 
-          return CreatedAtAction("GetById", new { id = updatedEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(updatedEntity));
+          return NoContent();
         }
         else
         {

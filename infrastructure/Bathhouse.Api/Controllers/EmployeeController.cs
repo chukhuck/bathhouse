@@ -467,14 +467,14 @@ namespace Bathhouse.Api.Controllers
     /// <param name="request">WorkItem for updating</param>
     /// <param name="id">ID of entity for updating</param>
     /// <param name="workItemId"></param>
-    /// <response code="201">Updating entity is successul</response>
+    /// <response code="204">Updating entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
     [Route("{id:guid}/workitems/{workitemid:guid}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual ActionResult UpdateCreatedWorkItem(Guid id, Guid workItemId, WorkItemRequest request)
@@ -489,7 +489,7 @@ namespace Bathhouse.Api.Controllers
           if (_workItemRepository.SaveChanges())
             _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
 
-          return CreatedAtAction("GetCreatedWorkItem", new { id = id, workitemid = updatedEntity.Id }, _mapper.Map<WorkItem, WorkItemResponse>(updatedEntity));
+          return NoContent();
         }
         else
         {
