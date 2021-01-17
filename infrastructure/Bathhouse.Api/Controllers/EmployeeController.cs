@@ -651,7 +651,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="204">Deleting Survey is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete()]
-    [Route("{id:guid}/workitems/{surveyId:guid}")]
+    [Route("{id:guid}/surveys/{surveyId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -678,6 +678,37 @@ namespace Bathhouse.Api.Controllers
       {
         _logger.LogError($"While deleting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Survey id={surveyId} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Create Survey.
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <param name="survey">Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID</param>
+    /// <response code="201">Creating Survey is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
+    [HttpPost]
+    [Route("{id:guid}/surveys")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual ActionResult<WorkItem> CreateSurvey(Guid id, SurveyRequest survey)
+    {
+      try
+      {
+        survey.AuthorId = id;
+        Survey newSurvey = _surveyRepository.Create(_mapper.Map<SurveyRequest, Survey>(survey));
+
+        if (_surveyRepository.SaveChanges())
+          _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
+
+        return CreatedAtAction("GetSurvey", new { id = id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While creating Survey an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Survey an exception was fired");
       }
     }
     #endregion

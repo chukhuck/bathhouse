@@ -202,6 +202,16 @@
             <response code="204">Deleting Survey is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateSurvey(System.Guid,Bathhouse.Models.SurveyRequest)">
+            <summary>
+            Create Survey.
+            </summary>
+            <param name="id">Employee ID</param>
+            <param name="survey">Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID</param>
+            <response code="201">Creating Survey is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the request is null</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office
