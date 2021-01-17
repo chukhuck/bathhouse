@@ -408,9 +408,9 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        Employee? currentEmployee = _repository.Get(id);
+        WorkItem? workItem = _workItemRepository.Get(workItemId); ;
 
-        if (currentEmployee?.CreatedWorkItems.FirstOrDefault(wi => wi.Id == workItemId) == null && !_workItemRepository.Exist(workItemId))
+        if (workItem?.CreatorId != id)
         {
           _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
           return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
@@ -418,7 +418,7 @@ namespace Bathhouse.Api.Controllers
 
         _workItemRepository.Delete(workItemId);
 
-        if (_repository.SaveChanges())
+        if (_workItemRepository.SaveChanges())
           _logger.LogInformation($"WorkItem id={workItemId} was deleted successfully.");
 
         return NoContent();
