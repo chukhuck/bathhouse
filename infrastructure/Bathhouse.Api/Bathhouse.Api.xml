@@ -146,6 +146,19 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateCreatedWorkItem(System.Guid,System.Guid,Bathhouse.Models.WorkItemRequest)">
+            <summary>
+            Update WorkItem
+            </summary>
+            <param name="request">WorkItem for updating</param>
+            <param name="id">ID of entity for updating</param>
+            <param name="workItemId"></param>
+            <response code="201">Updating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+            <response code="404">Entity with current ID is not found</response>
+            <returns></returns>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office

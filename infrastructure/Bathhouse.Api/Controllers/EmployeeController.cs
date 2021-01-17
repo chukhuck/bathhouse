@@ -460,5 +460,48 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While creating workitem an exception was fired");
       }
     }
+
+    /// <summary>
+    /// Update WorkItem
+    /// </summary>
+    /// <param name="request">WorkItem for updating</param>
+    /// <param name="id">ID of entity for updating</param>
+    /// <param name="workItemId"></param>
+    /// <response code="201">Updating entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Entity with current ID is not found</response>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:guid}/workitems/{workitemid:guid}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual ActionResult UpdateCreatedWorkItem(Guid id, Guid workItemId, WorkItemRequest request)
+    {
+      try
+      {
+        if (_workItemRepository.Get(workItemId) is WorkItem workItem && workItem.CreatorId == id)
+        {
+          request.CreatorId = id;
+          WorkItem updatedEntity = _workItemRepository.Update(_mapper.Map<WorkItemRequest, WorkItem>(request, workItem));
+
+          if (_workItemRepository.SaveChanges())
+            _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
+
+          return CreatedAtAction("GetCreatedWorkItem", new { id = id, workitemid = updatedEntity.Id }, _mapper.Map<WorkItem, WorkItemResponse>(updatedEntity));
+        }
+        else
+        {
+          _logger.LogInformation($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
+          return NotFound($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating workitem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
+      }
+    }
   }
 }
