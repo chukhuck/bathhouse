@@ -333,7 +333,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetCreatedWorkItems(Guid id)
+    public ActionResult<EmployeeResponse> GetAllCreatedWorkItems(Guid id)
     {
       try
       {
@@ -354,6 +354,40 @@ namespace Bathhouse.Api.Controllers
       {
         _logger.LogError($"While getting workitems created by employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems created by employee id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Get workitem created by current employee
+    /// </summary>
+    /// <param name="id">The Employee ID</param>
+    /// <param name="workItemId">WorkItem ID</param>
+    /// <response code="404">Employee or WorkItem is not found</response>
+    /// <response code="200">Getting offices is successul.</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet()]
+    [Route("{id:guid}/workitems/{workitemid:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<EmployeeResponse> GetCreatedWorkItem(Guid id, Guid workItemId)
+    {
+      try
+      {
+        var workItem = _workItemRepository.Get(workItemId);
+
+        if (workItem?.CreatorId != id)
+        {
+          _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
+        }
+
+        return Ok(_mapper.Map<WorkItem, WorkItemResponse>(workItem));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting workitem id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitem id={id} an exception was fired");
       }
     }
 
@@ -418,7 +452,7 @@ namespace Bathhouse.Api.Controllers
         if (_repository.SaveChanges())
           _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
+        return CreatedAtAction("GetCreatedWorkItems", new { id = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
       }
       catch (Exception ex)
       {

@@ -106,7 +106,7 @@
             <response code="400">If the ID is not valid</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetCreatedWorkItems(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllCreatedWorkItems(System.Guid)">
             <summary>
             Get workitems created by current employee
             </summary>
@@ -114,6 +114,16 @@
             <response code="404">Employee with current ID is not found</response>
             <response code="200">Getting offices is successul.</response>
             <response code="400">If the ID is not valid</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetCreatedWorkItem(System.Guid,System.Guid)">
+            <summary>
+            Get workitem created by current employee
+            </summary>
+            <param name="id">The Employee ID</param>
+            <param name="workItemId">WorkItem ID</param>
+            <response code="404">Employee or WorkItem is not found</response>
+            <response code="200">Getting offices is successul.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteCreatedWorkItem(System.Guid,System.Guid)">
