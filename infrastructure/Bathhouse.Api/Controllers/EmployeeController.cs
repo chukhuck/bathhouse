@@ -452,7 +452,7 @@ namespace Bathhouse.Api.Controllers
         if (_repository.SaveChanges())
           _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
-        return CreatedAtAction("GetCreatedWorkItems", new { id = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
+        return CreatedAtAction("GetCreatedWorkItem", new { id = id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
       }
       catch (Exception ex)
       {
