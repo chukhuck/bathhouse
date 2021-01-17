@@ -19,7 +19,8 @@ namespace Bathhouse.Entities
     public SurveyStatus Status { get; set; } = SurveyStatus.Work;
 
 
-
+    public Employee Author { get; set; } = null!;
+    public Guid AuthorId { get; set; }
     public ICollection<Question> Questions { get; set; } = null!;
     public ICollection<SurveyResult> Results { get; set; } = null!;
 

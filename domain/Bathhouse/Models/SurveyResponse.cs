@@ -15,5 +15,6 @@ namespace Bathhouse.Models
   string? Description,
   DateTime CreationDate,
   SurveyStatus Status,
+  string AuthorShortName,
   ICollection<QuestionResponse> Questions);
 }

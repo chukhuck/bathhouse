@@ -35,6 +35,8 @@ namespace Bathhouse.Entities
 
     public ICollection<SurveyResult> SurveyResults { get; set; } = null!;
 
+    public ICollection<Survey> Surveys { get; set; } = null!;
+
     public IEnumerable<Office> GetOffices()
     {
       return Offices;

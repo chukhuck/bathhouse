@@ -24,6 +24,9 @@ namespace Bathhouse.Models
     [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime CreationDate { get; set; } = DateTime.Now;
 
+    [Required]
+    public Guid AuthorId { get; set; }
+
     public ICollection<QuestionRequest> Questions { get; set; } = new List<QuestionRequest>();
   }
 }

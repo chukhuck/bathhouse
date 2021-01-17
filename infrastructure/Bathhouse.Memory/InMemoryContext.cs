@@ -71,7 +71,7 @@ namespace Bathhouse.Memory
 
       director.CreatedWorkItems = GenerateWorkItems(locale: InMemoryContext.Locale, count: Count_Of_WorkItem, creator: director);
 
-      foreach (var survey in GenerateSurveys(locale: Locale, count: Count_Of_Surveys))
+      foreach (var survey in GenerateSurveys(locale: Locale, count: Count_Of_Surveys, author: director))
       {
         foreach (var result in GenerateSurveyResults(locale: Locale, count: Count_Of_ServeyResult, survey: survey))
         {
@@ -83,10 +83,16 @@ namespace Bathhouse.Memory
       }
     }
 
-    private static List<Survey> GenerateSurveys(string locale, int count)
+    private static List<Survey> GenerateSurveys(string locale, int count, Employee author)
     {
       var testSurveys = new Faker<Survey>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())
+        .RuleFor(a => a.Author, (f, o) =>
+        {
+          author.Surveys.Add(o);
+          return author;
+        })
+        .RuleFor(a => a.AuthorId, f => author.Id)
         .RuleFor(a => a.CreationDate, f => f.Date.Between(DateTime.Parse(common_start_day), DateTime.Parse(common_end_day)))
         .RuleFor(a => a.Description, f => "Description " + f.IndexFaker.ToString())
         .RuleFor(a => a.Name, f => "Survey " + f.IndexFaker.ToString())
@@ -137,18 +143,19 @@ namespace Bathhouse.Memory
       var testSurveyResults = new Faker<SurveyResult>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())
         .RuleFor(a => a.CreationDate, f => f.Date.Between(DateTime.Parse(common_start_day), DateTime.Parse(common_end_day)))
-        .RuleFor(a => a.Author, (f,o) => {
+        .RuleFor(a => a.Author, (f, o) =>
+        {
 
           var randomEmployee = f.PickRandom(Employees);
           randomEmployee.SurveyResults.Add(o);
           return randomEmployee;
-          })
+        })
         .RuleFor(a => a.AuthorId, (f, o) => o.Author.Id)
-        .RuleFor(a => a.Survey, (f,o) =>
+        .RuleFor(a => a.Survey, (f, o) =>
         {
           survey.Results.Add(o);
           return survey;
-          })
+        })
         .RuleFor(a => a.SurveyId, (f, o) => survey.Id)
         .RuleFor(a => a.Answers, (f, o) => new List<Answer>())
         ;
@@ -163,13 +170,15 @@ namespace Bathhouse.Memory
     {
       var testAnswers = new Faker<Answer>(locale)
         .RuleFor(a => a.Id, f => f.Random.Guid())
-        .RuleFor(a => a.Question, (f,o) => {
+        .RuleFor(a => a.Question, (f, o) =>
+        {
           question.Answers.Add(o);
           return question;
-          })
+        })
         .RuleFor(a => a.QuestionId, (f, o) => o.Question.Id)
         .RuleFor(a => a.Value, (f, o) => GenerateOneAnswer(o.Question.Type, f))
-        .RuleFor(a => a.Result, (f, o) => {
+        .RuleFor(a => a.Result, (f, o) =>
+        {
           result.Answers.Add(o);
           return result;
         })
@@ -224,7 +233,7 @@ namespace Bathhouse.Memory
 
       var myWorkItems = GenerateWorkItems(locale: Locale, count: Count_MyWorkItems, creator: director, executor: director);
 
-      director.WorkItems =  myWorkItems;
+      director.WorkItems = myWorkItems;
       director.CreatedWorkItems = myWorkItems.ToList();
 
 
@@ -245,7 +254,8 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.IsImportant, f => f.Random.Bool())
         .RuleFor(a => a.Creator, f => creator)
         .RuleFor(a => a.CreatorId, (f, o) => creator.Id)
-        .RuleFor(a => a.Executor, (f, o) => {
+        .RuleFor(a => a.Executor, (f, o) =>
+        {
           if (executor == null)
           {
             var randomExecutor = f.PickRandom(Employees);
@@ -255,7 +265,7 @@ namespace Bathhouse.Memory
           }
           else
             return executor;
-          })
+        })
         .RuleFor(a => a.ExecutorId, (f, o) => o.Executor.Id)
         ;
 
@@ -299,8 +309,8 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Type, f => EmployeeType.Manager)
         .RuleFor(a => a.Offices, (f, o) => GenerateOffices(
-          locale, 
-          f.Random.Number(Min_count_of_office_for_manager, Max_count_of_office_for_manager), 
+          locale,
+          f.Random.Number(Min_count_of_office_for_manager, Max_count_of_office_for_manager),
           new List<Employee>() { o }))
         .RuleFor(a => a.WorkItems, (f, o) => WorkItems.Where(wi => wi.ExecutorId == o.Id).ToList())
         .RuleFor(a => a.CreatedWorkItems, (f, o) => WorkItems.Where(wi => wi.CreatorId == o.Id).ToList())
@@ -325,12 +335,12 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Phone, f => f.Person.Phone)
         .RuleFor(a => a.Email, f => f.Person.Email)
         .RuleFor(a => a.Type, f => EmployeeType.Employee)
-        .RuleFor(a => a.Offices, (f, o) => 
-        { 
+        .RuleFor(a => a.Offices, (f, o) =>
+        {
           var randomOffice = f.PickRandom(Offices);
           randomOffice.Employees.Add(o);
           return new List<Office>() { randomOffice };
-        } )
+        })
         .RuleFor(a => a.WorkItems, (f, o) => WorkItems.Where(wi => wi.ExecutorId == o.Id).ToList())
         .RuleFor(a => a.CreatedWorkItems, (f, o) => WorkItems.Where(wi => wi.CreatorId == o.Id).ToList())
         .RuleFor(a => a.SurveyResults, f => new List<SurveyResult>())
