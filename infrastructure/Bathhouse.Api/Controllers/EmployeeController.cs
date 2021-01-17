@@ -641,6 +641,45 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={surveyId} an exception was fired");
       }
     }
+
+    /// <summary>
+    /// Delete Survey
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <param name="surveyId">Survey ID</param>
+    /// <response code="404">Employee or Survey is not found</response>
+    /// <response code="204">Deleting Survey is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete()]
+    [Route("{id:guid}/workitems/{surveyId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult DeleteSurvey(Guid id, Guid surveyId)
+    {
+      try
+      {
+        Survey? survey = _surveyRepository.Get(surveyId); ;
+
+        if (survey?.AuthorId != id)
+        {
+          _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+          return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+        }
+
+        _surveyRepository.Delete(surveyId);
+
+        if (_surveyRepository.SaveChanges())
+          _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
+
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Survey id={surveyId} an exception was fired");
+      }
+    }
     #endregion
   }
 }

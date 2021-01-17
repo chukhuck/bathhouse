@@ -192,6 +192,16 @@
             <response code="200">Getting Survey is successul.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteSurvey(System.Guid,System.Guid)">
+            <summary>
+            Delete Survey
+            </summary>
+            <param name="id">Employee ID</param>
+            <param name="surveyId">Survey ID</param>
+            <response code="404">Employee or Survey is not found</response>
+            <response code="204">Deleting Survey is successul</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office
