@@ -162,7 +162,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="400">If the request is not valid</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete]
-    [Route("{id:guid}/offices")]
+    [Route("{id:guid}/offices/{officeId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -201,7 +201,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     [HttpPost]
-    [Route("{id:guid}/offices")]
+    [Route("{id:guid}/offices/{officeId:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual ActionResult<IEnumerable<OfficeResponse>> AddOffice(Guid id, Guid officeId)
@@ -366,7 +366,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="200">Getting offices is successul.</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
-    [Route("{id:guid}/workitems/{workitemid:guid}")]
+    [Route("{id:guid}/workitems/{workItemId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -400,7 +400,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="204">Deleting workItem is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete()]
-    [Route("{id:guid}/workitems/{workitemid:guid}")]
+    [Route("{id:guid}/workitems/{workItemId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -473,7 +473,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
-    [Route("{id:guid}/workitems/{workitemid:guid}")]
+    [Route("{id:guid}/workitems/{workItemId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -516,7 +516,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
-    [Route("{id:guid}/myworkitems/{workitemid:guid}")]
+    [Route("{id:guid}/myworkitems/{workItemId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
