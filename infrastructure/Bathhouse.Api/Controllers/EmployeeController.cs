@@ -395,5 +395,36 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting WorkItem id={id} an exception was fired");
       }
     }
+
+    /// <summary>
+    /// Create workItem.
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <param name="workItem">Newly creating workItem. WokrItemRequest.CreatorId will be overwrited by Employee ID</param>
+    /// <response code="201">Creating workItem is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
+    [HttpPost]
+    [Route("{id:guid}/workitems")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public virtual ActionResult<WorkItem> CreateWorkItem(Guid id, WorkItemRequest workItem)
+    {
+      try
+      {
+        workItem.CreatorId = id;
+        WorkItem newWorkItem = _workItemRepository.Create(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
+
+        if (_repository.SaveChanges())
+          _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
+
+        return CreatedAtAction("GetById", new { id = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While creating workitem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating workitem an exception was fired");
+      }
+    }
   }
 }
