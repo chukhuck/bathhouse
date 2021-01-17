@@ -159,6 +159,19 @@
             <response code="404">Entity with current ID is not found</response>
             <returns></returns>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.ChangeStatusMyWorkItem(System.Guid,System.Guid,Bathhouse.Entities.WorkItemStatus)">
+            <summary>
+            Change status for one of the MyWorkItem
+            </summary>
+            <param name="id">ID of entity for updating</param>
+            <param name="workItemId"></param>
+            <param name="newWorkItemStatus">New status for workItem</param>
+            <response code="204">Updating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If you try to cancel workitem</response>
+            <response code="404">Entity with current ID is not found</response>
+            <returns></returns>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office

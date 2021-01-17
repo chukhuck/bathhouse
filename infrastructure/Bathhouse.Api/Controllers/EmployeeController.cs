@@ -503,5 +503,54 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
       }
     }
+
+    /// <summary>
+    /// Change status for one of the MyWorkItem
+    /// </summary>
+    /// <param name="id">ID of entity for updating</param>
+    /// <param name="workItemId"></param>
+    /// <param name="newWorkItemStatus">New status for workItem</param>
+    /// <response code="204">Updating entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If you try to cancel workitem</response>
+    /// <response code="404">Entity with current ID is not found</response>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:guid}/myworkitems/{workitemid:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual ActionResult ChangeStatusMyWorkItem(Guid id, Guid workItemId, WorkItemStatus newWorkItemStatus)
+    {
+      try
+      {
+        if (_workItemRepository.Get(workItemId) is WorkItem workItem && workItem.ExecutorId == id)
+        {
+          if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != id)
+          {
+            _logger.LogInformation($"Employee {id} tryied to cancel WorkItem id={workItemId}. The operation is denied.");
+            return BadRequest("Employee cant cancel workitem for you if he is not a creator.");
+          }
+
+          workItem.Status = newWorkItemStatus;
+          WorkItem updatedEntity = _workItemRepository.Update(workItem);
+
+          if (_workItemRepository.SaveChanges())
+            _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
+          return NotFound($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating workitem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
+      }
+    }
   }
 }
