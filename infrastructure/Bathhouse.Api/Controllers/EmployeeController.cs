@@ -30,6 +30,8 @@ namespace Bathhouse.Api.Controllers
       _workItemRepository = workItemRepository;
     }
 
+    #region Static endpoints
+
     /// <summary>
     /// Get all of the directors in the system
     /// </summary>
@@ -115,6 +117,9 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    #endregion
+
+    #region Office
     /// <summary>
     /// Get offices for employee
     /// </summary>
@@ -283,6 +288,9 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    #endregion
+
+    #region WorkItems
     /// <summary>
     /// Get workitems for current employee
     /// </summary>
@@ -552,5 +560,7 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
       }
     }
+
+    #endregion
   }
 }
