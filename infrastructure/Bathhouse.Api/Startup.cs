@@ -41,7 +41,22 @@ namespace Bathhouse.Api
 
       services.AddSwaggerGen(c =>
       {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bathhouse.Api", Version = "v1" });
+        c.SwaggerDoc("v1", 
+          new OpenApiInfo { 
+            Title = "Bathhouse.Api", 
+            Version = "v1",
+            Description = "An API to Bathhouse",
+            Contact = new OpenApiContact
+            {
+              Name = "Alex Potapchuk",
+              Email = "a.v.potapchuk@yandex.ru"
+            },
+            License = new OpenApiLicense
+            {
+              Name = "Apache 2.0",
+              Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
+            }
+          });
 
         
 

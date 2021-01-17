@@ -1,0 +1,5061 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Bathhouse.Api",
+    "version": "v1"
+  },
+  "paths": {
+    "/Client": {
+      "post": {
+        "tags": [
+          "Client"
+        ],
+        "summary": "Create and add entity.",
+        "requestBody": {
+          "description": "Newly creating entity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Office was not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Client"
+        ],
+        "summary": "Get all of entities",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting all of entities was successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Client/{id}": {
+      "put": {
+        "tags": [
+          "Client"
+        ],
+        "summary": "Update Entity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID of entity for updating",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Entity for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Client with current ID is not found or Office with defined ID was not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Client"
+        ],
+        "summary": "Get entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Client"
+        ],
+        "summary": "Delete entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting entity is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/directors": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all of the directors in the system",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting the directors is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/employees": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all of the employees in the system",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting employees is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/managers": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all of the managers in the system",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting the managers is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/techsupporters": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all of the tech supporters in the system",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting the tech supporters is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/offices": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get offices for employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting offices is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the ID is not valid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Set new list of offices to employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee  ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee  ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Office IDs",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "description": "Office IDs",
+                "nullable": true
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "description": "Office IDs",
+                "nullable": true
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "description": "Office IDs",
+                "nullable": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Setting office is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Office with current ID or one of Employee IDs is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/offices/{officeId}": {
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Delete office for employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "officeId",
+            "in": "path",
+            "description": "ID deleting office",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID deleting office",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting office is successul"
+          },
+          "400": {
+            "description": "If the request is not valid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Add office for employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "officeId",
+            "in": "path",
+            "description": "Office ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Office ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Adding office is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/myworkitems": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get workitems for current employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting offices is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the ID is not valid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/workitems": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get workitems created by current employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting offices is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the ID is not valid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Create workItem.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Newly creating workItem. WokrItemRequest.CreatorId will be overwrited by Employee ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating workItem is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItem"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItem"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/workitems/{workitemId}": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get workitem created by current employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workitemId",
+            "in": "path",
+            "description": "WorkItem ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "WorkItem ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting offices is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee or WorkItem is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/workitems/{workItemId}": {
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Delete workItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workItemId",
+            "in": "path",
+            "description": "WorkItem ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "WorkItem ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting workItem is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee or WorkItem is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Update WorkItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID of entity for updating",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workItemId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "WorkItem for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/myworkitems/{workItemId}": {
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Change status for one of the MyWorkItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID of entity for updating",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workItemId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "newWorkItemStatus",
+            "in": "query",
+            "description": "New status for workItem",
+            "schema": {
+              "$ref": "#/components/schemas/WorkItemStatus"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If you try to cancel workitem",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/surveys": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all of surveys for current employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting offices is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the ID is not valid",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Create Survey.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating Survey is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItem"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItem"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/surveys/{surveyId}": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get survey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "surveyId",
+            "in": "path",
+            "description": "Survey ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Survey ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting Survey is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee or Survey is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Delete Survey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "surveyId",
+            "in": "path",
+            "description": "Survey ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Survey ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting Survey is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee or Survey is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Update Survey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID of entity for updating",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "surveyId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Survey for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}/surveys/{surveyId}/summary": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get survey summary",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Employee ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Employee ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "surveyId",
+            "in": "path",
+            "description": "Survey ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Survey ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "summarytype",
+            "in": "query",
+            "description": "Summary type",
+            "schema": {
+              "$ref": "#/components/schemas/SurveyResultSummaryType"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting Survey summary is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee or Survey is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get all of entities",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting all of entities was successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Create and add entity.",
+        "requestBody": {
+          "description": "Newly creating entity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Employee/{id}": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Get entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Update Entity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Entity for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Employee"
+        ],
+        "summary": "Delete entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting entity is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Office/{id}/managers": {
+      "get": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Get managers of office",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Office ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Office ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting managers is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Office with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Office/{id}/employees": {
+      "get": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Get employees of office",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Office ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Office ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting employees is successul.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Office with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Delete employee of office",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Office ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Office ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "query",
+            "description": "ID deleting employee",
+            "schema": {
+              "type": "string",
+              "description": "ID deleting employee",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting employee is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Office with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Add employee to office",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Office ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Office ID",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "employeeId",
+            "in": "query",
+            "description": "Employee ID",
+            "schema": {
+              "type": "string",
+              "description": "Employee ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Adding employee is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Set new list of employees to office",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Office ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Office ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Employee IDs",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "description": "Employee IDs",
+                "nullable": true
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "description": "Employee IDs",
+                "nullable": true
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "description": "Employee IDs",
+                "nullable": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Adding employee is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Office with current ID or one of Employee IDs is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Office": {
+      "get": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Get all of entities",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting all of entities was successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OfficeResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Create and add entity.",
+        "requestBody": {
+          "description": "Newly creating entity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Office/{id}": {
+      "get": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Get entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Update Entity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Entity for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Office"
+        ],
+        "summary": "Delete entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting entity is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Survey/{id}/summary": {
+      "get": {
+        "tags": [
+          "Survey"
+        ],
+        "summary": "Get summary of survey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of summary",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Id of summary",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "summaryType",
+            "in": "query",
+            "description": "Summary type",
+            "schema": {
+              "$ref": "#/components/schemas/SurveyResultSummaryType"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting all of entities was successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseSurveySummaryResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseSurveySummaryResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BaseSurveySummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Survey": {
+      "get": {
+        "tags": [
+          "Survey"
+        ],
+        "summary": "Get all of entities",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting all of entities was successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SurveyResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Survey"
+        ],
+        "summary": "Create and add entity.",
+        "requestBody": {
+          "description": "Newly creating entity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Survey/{id}": {
+      "get": {
+        "tags": [
+          "Survey"
+        ],
+        "summary": "Get entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Survey"
+        ],
+        "summary": "Update Entity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Entity for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Survey"
+        ],
+        "summary": "Delete entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting entity is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WorkItem": {
+      "get": {
+        "tags": [
+          "WorkItem"
+        ],
+        "summary": "Get all of entities",
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting all of entities was successful",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkItemResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkItemResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkItemResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "WorkItem"
+        ],
+        "summary": "Create and add entity.",
+        "requestBody": {
+          "description": "Newly creating entity",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "201": {
+            "description": "Creating entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WorkItem/{id}": {
+      "get": {
+        "tags": [
+          "WorkItem"
+        ],
+        "summary": "Get entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "200": {
+            "description": "Getting entity is successul",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkItemResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the request is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "WorkItem"
+        ],
+        "summary": "Update Entity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of entity for updating",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Entity for updating",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkItemRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Updating entity is successul"
+          },
+          "400": {
+            "description": "If the item is null",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "WorkItem"
+        ],
+        "summary": "Delete entity by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Entity ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Entity ID",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Exception on server side was fired"
+          },
+          "204": {
+            "description": "Deleting entity is successul"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity with current ID is not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Sex": {
+        "enum": [
+          "Male",
+          "Female",
+          "Unknown"
+        ],
+        "type": "string"
+      },
+      "ClientRequest": {
+        "required": [
+          "lastName",
+          "officeId"
+        ],
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "maxLength": 25,
+            "type": "string",
+            "description": "LastName of client",
+            "format": "string",
+            "default": "Фамилия"
+          },
+          "middleName": {
+            "maxLength": 25,
+            "type": "string",
+            "description": "MiddleName of client",
+            "format": "string",
+            "default": "Имя",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 25,
+            "type": "string",
+            "description": "FirstName of client",
+            "format": "string",
+            "default": "Имя",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone of client",
+            "format": "tel",
+            "default": "+7-495-000-00-00",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "description": "Day of Birth",
+            "format": "date",
+            "default": "1950-01-01T00:00:00.0000000",
+            "nullable": true
+          },
+          "comment": {
+            "maxLength": 250,
+            "type": "string",
+            "description": "Comment for client",
+            "format": "string",
+            "default": "Комментарий",
+            "nullable": true
+          },
+          "sex": {
+            "$ref": "#/components/schemas/Sex"
+          },
+          "officeId": {
+            "type": "string",
+            "description": "OD of \"home\" office of client",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "sex": {
+            "$ref": "#/components/schemas/Sex"
+          },
+          "officeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "officeId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "EmployeeType": {
+        "enum": [
+          "Director",
+          "Manager",
+          "Employee",
+          "TechnicalSupport"
+        ],
+        "type": "string",
+        "description": "Type of employee"
+      },
+      "EmployeeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/EmployeeType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfficeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeOfOpen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "timeOfClose": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workingTimeRange": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkItemStatus": {
+        "enum": [
+          "Created",
+          "InWork",
+          "Done",
+          "Canceled"
+        ],
+        "type": "string"
+      },
+      "WorkItemRequest": {
+        "required": [
+          "creatorId",
+          "description",
+          "executorId"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "maxLength": 300,
+            "type": "string",
+            "description": "Description of task.",
+            "format": "string",
+            "default": "Опиши текст задачи."
+          },
+          "creationDate": {
+            "type": "string",
+            "description": "Day of creation work item",
+            "format": "date"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Day of start work item",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "Day of end work item",
+            "format": "date"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkItemStatus"
+          },
+          "isImportant": {
+            "type": "boolean",
+            "description": "Flag that indicate importance of workitem",
+            "default": false
+          },
+          "creatorId": {
+            "type": "string",
+            "description": "Id of workitem creator",
+            "format": "uuid"
+          },
+          "executorId": {
+            "type": "string",
+            "description": "Id of workitem executor",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Client": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lastName": {
+            "maxLength": 25,
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "maxLength": 25,
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 25,
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "comment": {
+            "maxLength": 250,
+            "type": "string",
+            "nullable": true
+          },
+          "sex": {
+            "$ref": "#/components/schemas/Sex"
+          },
+          "office": {
+            "$ref": "#/components/schemas/Office"
+          },
+          "officeId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Office": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "address": {
+            "maxLength": 150,
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeOfOpen": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "timeOfClose": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workingTimeRange": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "employees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Employee"
+            },
+            "nullable": true
+          },
+          "clients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Client"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyStatus": {
+        "enum": [
+          "Work",
+          "Archive",
+          "Deleted"
+        ],
+        "type": "string"
+      },
+      "QuestionType": {
+        "enum": [
+          "Number",
+          "Decimal",
+          "YesNo",
+          "Text",
+          "Photo",
+          "DateTime"
+        ],
+        "type": "string"
+      },
+      "Answer": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "question": {
+            "$ref": "#/components/schemas/Question"
+          },
+          "questionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "result": {
+            "$ref": "#/components/schemas/SurveyResult"
+          },
+          "resultId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "value": {
+            "maxLength": 150,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Question": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "text": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "isKey": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          },
+          "survey": {
+            "$ref": "#/components/schemas/Survey"
+          },
+          "surveyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Survey": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SurveyStatus"
+          },
+          "author": {
+            "$ref": "#/components/schemas/Employee"
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Question"
+            },
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyResult"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyResult": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "author": {
+            "$ref": "#/components/schemas/Employee"
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "survey": {
+            "$ref": "#/components/schemas/Survey"
+          },
+          "surveyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Employee": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lastName": {
+            "maxLength": 25,
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "maxLength": 25,
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 25,
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "shortName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/EmployeeType"
+          },
+          "offices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Office"
+            },
+            "nullable": true
+          },
+          "createdWorkItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkItem"
+            },
+            "nullable": true
+          },
+          "workItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkItem"
+            },
+            "nullable": true
+          },
+          "surveyResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyResult"
+            },
+            "nullable": true
+          },
+          "surveys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Survey"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkItem": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "maxLength": 300,
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkItemStatus"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isImportant": {
+            "type": "boolean"
+          },
+          "creator": {
+            "$ref": "#/components/schemas/Employee"
+          },
+          "creatorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "executor": {
+            "$ref": "#/components/schemas/Employee"
+          },
+          "executorId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionRequest": {
+        "required": [
+          "name",
+          "text"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "maxLength": 300,
+            "type": "string",
+            "format": "string",
+            "default": "Текст нового вопроса"
+          },
+          "name": {
+            "maxLength": 50,
+            "type": "string",
+            "format": "string",
+            "default": "Вопрос 1"
+          },
+          "isKey": {
+            "type": "boolean",
+            "default": false
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyRequest": {
+        "required": [
+          "authorId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "type": "string",
+            "format": "string",
+            "default": "Новый опрос"
+          },
+          "description": {
+            "maxLength": 300,
+            "type": "string",
+            "format": "string",
+            "default": "Описание нового опроса",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyResultSummaryType": {
+        "enum": [
+          "Base"
+        ],
+        "type": "string"
+      },
+      "EmployeeRequest": {
+        "required": [
+          "lastName"
+        ],
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "maxLength": 25,
+            "type": "string",
+            "description": "LastName of employee",
+            "format": "string",
+            "default": "Фамилия"
+          },
+          "firstName": {
+            "maxLength": 25,
+            "type": "string",
+            "description": "FirstName of employee",
+            "format": "string",
+            "default": "Имя",
+            "nullable": true
+          },
+          "middleName": {
+            "maxLength": 25,
+            "type": "string",
+            "description": "Middle Name of employee",
+            "format": "string",
+            "default": "Отчество",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone of employee",
+            "format": "tel",
+            "default": "+7-495-000-00-00",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of employee",
+            "format": "email",
+            "default": "noreply@mail.com",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "description": "Day of Birth",
+            "format": "date",
+            "default": "1950-01-01T00:00:00.0000000",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/EmployeeType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfficeRequest": {
+        "required": [
+          "number"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "integer",
+            "description": "Number of office",
+            "format": "int32",
+            "default": 0
+          },
+          "address": {
+            "maxLength": 150,
+            "type": "string",
+            "description": "Address of office",
+            "default": "Москва, ",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone of office",
+            "format": "tel",
+            "default": "+7-495-000-00-00",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of office",
+            "format": "email",
+            "default": "noreply@mail.com",
+            "nullable": true
+          },
+          "timeOfOpen": {
+            "type": "string",
+            "description": "Time when office will be opened",
+            "format": "time"
+          },
+          "timeOfClose": {
+            "type": "string",
+            "description": "Time when office will be closed",
+            "format": "time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveySummaryHeaderType": {
+        "enum": [
+          "Text",
+          "Number",
+          "Decimal",
+          "DateTime",
+          "Bool",
+          "Photo"
+        ],
+        "type": "string"
+      },
+      "SurveySummaryHeader": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/SurveySummaryHeaderType"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BaseSurveySummaryResponse": {
+        "type": "object",
+        "properties": {
+          "surveyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "surveyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveySummaryHeader"
+            },
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isKey": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SurveyResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SurveyStatus"
+          },
+          "authorShortName": {
+            "type": "string",
+            "nullable": true
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkItemResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkItemStatus"
+          },
+          "isImportant": {
+            "type": "boolean"
+          },
+          "creatorShortName": {
+            "type": "string",
+            "nullable": true
+          },
+          "creatorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "executorShortName": {
+            "type": "string",
+            "nullable": true
+          },
+          "executorId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
