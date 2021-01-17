@@ -1254,9 +1254,7 @@
             }
           }
         }
-      }
-    },
-    "/Employee/{id}/workitems/{workItemId}": {
+      },
       "delete": {
         "tags": [
           "Employee"
@@ -1275,7 +1273,7 @@
             }
           },
           {
-            "name": "workItemId",
+            "name": "workitemId",
             "in": "path",
             "description": "WorkItem ID",
             "required": true,
@@ -1353,7 +1351,7 @@
             }
           },
           {
-            "name": "workItemId",
+            "name": "workitemId",
             "in": "path",
             "description": "",
             "required": true,

@@ -131,7 +131,7 @@
             Delete workItem
             </summary>
             <param name="id">Employee ID</param>
-            <param name="workItemId">WorkItem ID</param>
+            <param name="workitemId">WorkItem ID</param>
             <response code="404">Employee or WorkItem is not found</response>
             <response code="204">Deleting workItem is successul</response>
             <response code="500">Exception on server side was fired</response>
@@ -152,7 +152,7 @@
             </summary>
             <param name="request">WorkItem for updating</param>
             <param name="id">ID of entity for updating</param>
-            <param name="workItemId"></param>
+            <param name="workitemId"></param>
             <response code="204">Updating entity is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>

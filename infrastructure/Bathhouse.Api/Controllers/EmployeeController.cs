@@ -407,32 +407,32 @@ namespace Bathhouse.Api.Controllers
     /// Delete workItem
     /// </summary>
     /// <param name="id">Employee ID</param>
-    /// <param name="workItemId">WorkItem ID</param>
+    /// <param name="workitemId">WorkItem ID</param>
     /// <response code="404">Employee or WorkItem is not found</response>
     /// <response code="204">Deleting workItem is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpDelete()]
-    [Route("{id:guid}/workitems/{workItemId:guid}")]
+    [Route("{id:guid}/workitems/{workitemId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteCreatedWorkItem(Guid id, Guid workItemId)
+    public ActionResult DeleteCreatedWorkItem(Guid id, Guid workitemId)
     {
       try
       {
-        WorkItem? workItem = _workItemRepository.Get(workItemId); ;
-
+        WorkItem? workItem = _workItemRepository.Get(workitemId); ;
+    
         if (workItem?.CreatorId != id)
         {
           _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
           return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
         }
-
-        _workItemRepository.Delete(workItemId);
-
+    
+        _workItemRepository.Delete(workitemId);
+    
         if (_workItemRepository.SaveChanges())
-          _logger.LogInformation($"WorkItem id={workItemId} was deleted successfully.");
-
+          _logger.LogInformation($"WorkItem id={workitemId} was deleted successfully.");
+    
         return NoContent();
       }
       catch (Exception ex)
@@ -478,29 +478,29 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">WorkItem for updating</param>
     /// <param name="id">ID of entity for updating</param>
-    /// <param name="workItemId"></param>
+    /// <param name="workitemId"></param>
     /// <response code="204">Updating entity is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     /// <response code="404">Entity with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
-    [Route("{id:guid}/workitems/{workItemId:guid}")]
+    [Route("{id:guid}/workitems/{workitemId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual ActionResult UpdateCreatedWorkItem(Guid id, Guid workItemId, WorkItemRequest request)
+    public virtual ActionResult UpdateCreatedWorkItem(Guid id, Guid workitemId, WorkItemRequest request)
     {
       try
       {
-        if (_workItemRepository.Get(workItemId) is WorkItem workItem && workItem.CreatorId == id)
+        if (_workItemRepository.Get(workitemId) is WorkItem workItem && workItem.CreatorId == id)
         {
           request.CreatorId = id;
           WorkItem updatedEntity = _workItemRepository.Update(_mapper.Map<WorkItemRequest, WorkItem>(request, workItem));
-
+    
           if (_workItemRepository.SaveChanges())
             _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
-
+    
           return NoContent();
         }
         else
