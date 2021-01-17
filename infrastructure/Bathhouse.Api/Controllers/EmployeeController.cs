@@ -375,20 +375,20 @@ namespace Bathhouse.Api.Controllers
     /// Get workitem created by current employee
     /// </summary>
     /// <param name="id">The Employee ID</param>
-    /// <param name="workItemId">WorkItem ID</param>
+    /// <param name="workitemId">WorkItem ID</param>
     /// <response code="404">Employee or WorkItem is not found</response>
     /// <response code="200">Getting offices is successul.</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
-    [Route("{id:guid}/workitems/{workItemId:guid}")]
+    [Route("{id:guid}/workitems/{workitemId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetCreatedWorkItem(Guid id, Guid workItemId)
+    public ActionResult<EmployeeResponse> GetCreatedWorkItem(Guid id, Guid workitemId)
     {
       try
       {
-        var workItem = _workItemRepository.Get(workItemId);
+        var workItem = _workItemRepository.Get(workitemId);
 
         if (workItem?.CreatorId != id)
         {
@@ -608,7 +608,39 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Get survey
+    /// </summary>
+    /// <param name="id">The Employee ID</param>
+    /// <param name="surveyId">Survey ID</param>
+    /// <response code="404">Employee or Survey is not found</response>
+    /// <response code="200">Getting Survey is successul.</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet()]
+    [Route("{id:guid}/surveys/{workItemId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<EmployeeResponse> GetSurvey(Guid id, Guid surveyId)
+    {
+      try
+      {
+        var survey =_surveyRepository.Get(surveyId);
 
+        if (survey?.AuthorId != id)
+        {
+          _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+          return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+        }
+
+        return Ok(_mapper.Map<Survey, SurveyResponse>(survey));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={surveyId} an exception was fired");
+      }
+    }
     #endregion
   }
 }

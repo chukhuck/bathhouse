@@ -121,7 +121,7 @@
             Get workitem created by current employee
             </summary>
             <param name="id">The Employee ID</param>
-            <param name="workItemId">WorkItem ID</param>
+            <param name="workitemId">WorkItem ID</param>
             <response code="404">Employee or WorkItem is not found</response>
             <response code="200">Getting offices is successul.</response>
             <response code="500">Exception on server side was fired</response>
@@ -180,6 +180,16 @@
             <response code="404">Employee with current ID is not found</response>
             <response code="200">Getting offices is successul.</response>
             <response code="400">If the ID is not valid</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurvey(System.Guid,System.Guid)">
+            <summary>
+            Get survey
+            </summary>
+            <param name="id">The Employee ID</param>
+            <param name="surveyId">Survey ID</param>
+            <response code="404">Employee or Survey is not found</response>
+            <response code="200">Getting Survey is successul.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
