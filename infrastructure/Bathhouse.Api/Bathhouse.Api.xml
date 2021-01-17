@@ -212,6 +212,19 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurvey(System.Guid,System.Guid,Bathhouse.Models.SurveyRequest)">
+            <summary>
+            Update Survey
+            </summary>
+            <param name="request">Survey for updating</param>
+            <param name="id">ID of entity for updating</param>
+            <param name="surveyId"></param>
+            <response code="204">Updating entity is successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the item is null</response>
+            <response code="404">Entity with current ID is not found</response>
+            <returns></returns>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
             <summary>
             Get managers of office

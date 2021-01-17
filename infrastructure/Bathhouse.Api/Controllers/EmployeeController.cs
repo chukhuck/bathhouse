@@ -711,6 +711,49 @@ namespace Bathhouse.Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Survey an exception was fired");
       }
     }
+
+    /// <summary>
+    /// Update Survey
+    /// </summary>
+    /// <param name="request">Survey for updating</param>
+    /// <param name="id">ID of entity for updating</param>
+    /// <param name="surveyId"></param>
+    /// <response code="204">Updating entity is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Entity with current ID is not found</response>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:guid}/surveys/{surveyId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public virtual ActionResult UpdateSurvey(Guid id, Guid surveyId, SurveyRequest request)
+    {
+      try
+      {
+        if (_surveyRepository.Get(surveyId) is Survey survey && survey.AuthorId == id)
+        {
+          request.AuthorId = id;
+          Survey updatedEntity = _surveyRepository.Update(_mapper.Map<SurveyRequest, Survey>(request, survey));
+
+          if (_surveyRepository.SaveChanges())
+            _logger.LogInformation($"Survey id={updatedEntity.Id} was updated successfully.");
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Survey with ID={id} was not found.");
+          return NotFound($"Survey with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating Survey an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Survey an exception was fired");
+      }
+    }
     #endregion
   }
 }
