@@ -19,6 +19,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.Web", "src\presen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D942614-1EF1-4AE9-9908-152E09A726BF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{430D9ACF-7DDA-4CC8-ADE3-F4240EE12B85}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Bathhouse.Api.xml = docs\Bathhouse.Api.xml
+		docs\Bathhouse.xml = docs\Bathhouse.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A8C4C227-A0DB-44C8-BCAB-4594ED721338}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
