@@ -41,7 +41,7 @@ jobs:
       run: dotnet test --configuration Release --no-build --no-restore --verbosity normal
     
     - name: Generate OpenAPI spec
-      run: dotnet run --project .\src\infrastructure\Bathhouse.Api --swagger
+      run: dotnet run --project ./src/infrastructure/Bathhouse.Api --swagger
       if: runner.os == 'Linux'
       
     #- name: OpenAPI Test
