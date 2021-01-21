@@ -1,2 +1,2 @@
 # bathhouse 
-Build Status: ![BuildStatus](https://github.com/chukhuck/bathhouse/workflows/deploy/Badge.svg)
+Build Status: ![BuildAndTest](https://github.com/chukhuck/bathhouse/workflows/BuildAndTest/badge.svg?branch=main)
