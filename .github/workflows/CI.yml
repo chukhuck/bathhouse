@@ -24,10 +24,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-      
+
     #- name: Clean bins
     #  run: dotnet clean
-      
+       
     - name: Restore dependencies
       run: dotnet restore
       
@@ -37,9 +37,9 @@ jobs:
     - name: .NET Test
       run: dotnet test --configuration Release --no-build --no-restore --verbosity normal
     
-    - name: Generate OpenAPI spec
-      run: dotnet swagger tofile --output .\docs\OpenApi.json .\src\infrastructure\Bathhouse.Api\bin\Release\net5.0\Bathhouse.Api.dll v1
-      if: runner.os == 'Linux'
+    #- name: Generate OpenAPI spec
+    #  run: dotnet swagger tofile --output .\docs\OpenApi.json .\src\infrastructure\Bathhouse.Api\bin\Release\net5.0\Bathhouse.Api.dll v1
+    #  if: runner.os == 'Linux'
       
     - name: OpenAPI Test
       uses: stoplightio/spectral-action@v0.7.0
