@@ -41,6 +41,16 @@ jobs:
       run: dotnet run --project ./src/infrastructure/Bathhouse.Api --swagger
       if: runner.os == 'Linux'
       
+    - name: dotnet-tests-report
+      uses: zyborg/dotnet-tests-report@v1.3.0
+      if: runner.os == 'Linux'
+      with:
+        project_path: tests/Bathhouse.Test
+        report_name: Bathhouse_Test
+        report_title: Bathhouse Domain Model Test
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      
     #- name: OpenAPI Test
     #  uses: stoplightio/spectral-action@v0.7.0
     #  if: runner.os == 'Linux'
