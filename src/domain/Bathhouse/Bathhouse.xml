@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bathhouse</name>
+    </assembly>
+    <members>
+        <member name="T:Bathhouse.Entities.EmployeeType">
+            <summary>
+            Type of employee
+            </summary>
+        </member>
+        <member name="F:Bathhouse.Entities.EmployeeType.Director">
+            <summary>
+            Director. It is an owner product
+            </summary>
+        </member>
+        <member name="M:Bathhouse.Entities.Survey.GetSummary(Bathhouse.Entities.SurveyResultSummaryType)">
+            <summary>
+            Get All of results of this survey
+            </summary>
+            <returns>Result</returns>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.LastName">
+            <summary>
+            LastName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.MiddleName">
+            <summary>
+            MiddleName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.FirstName">
+            <summary>
+            FirstName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.Phone">
+            <summary>
+            Phone of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.DoB">
+            <summary>
+            Day of Birth
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.Comment">
+            <summary>
+            Comment for client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.Sex">
+            <summary>
+            Gender of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.ClientRequest.OfficeId">
+            <summary>
+            OD of "home" office of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.LastName">
+            <summary>
+            LastName of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.FirstName">
+            <summary>
+            FirstName of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.MiddleName">
+            <summary>
+            Middle Name of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.Phone">
+            <summary>
+            Phone of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.Email">
+            <summary>
+            Email of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.DoB">
+            <summary>
+            Day of Birth
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.EmployeeRequest.Type">
+            <summary>
+            Type of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeRequest.Number">
+            <summary>
+            Number of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeRequest.Address">
+            <summary>
+            Address of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeRequest.Phone">
+            <summary>
+            Phone of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeRequest.Email">
+            <summary>
+            Email of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeRequest.TimeOfOpen">
+            <summary>
+            Time when office will be opened
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.OfficeRequest.TimeOfClose">
+            <summary>
+            Time when office will be closed
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.Description">
+            <summary>
+            Description of task.
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.CreationDate">
+            <summary>
+            Day of creation work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.StartDate">
+            <summary>
+            Day of start work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.EndDate">
+            <summary>
+            Day of end work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.Status">
+            <summary>
+            Status  of work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.IsImportant">
+            <summary>
+            Flag that indicate importance of workitem
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.CreatorId">
+            <summary>
+            Id of workitem creator
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Models.WorkItemRequest.ExecutorId">
+            <summary>
+            Id of workitem executor
+            </summary>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetData">
+            <summary>
+            Get all of results of this survey as List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetHeaders">
+            <summary>
+            Get headrers for this survey
+            </summary>
+            <returns>List of headers</returns>
+        </member>
+    </members>
+</doc>
