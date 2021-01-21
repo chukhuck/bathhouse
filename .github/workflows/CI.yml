@@ -34,14 +34,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
       
-    - name: .NET Test
-      run: dotnet test --configuration Release --no-build --no-restore --verbosity normal
-    
-    - name: Generate OpenAPI spec
-      run: dotnet run --project ./src/infrastructure/Bathhouse.Api --swagger
-      if: runner.os == 'Linux'
-      
-    - name: dotnet-tests-report
+    - name: .NET Test And Report
       uses: zyborg/dotnet-tests-report@v1.3.0
       if: runner.os == 'Linux'
       with:
@@ -49,6 +42,15 @@ jobs:
         report_name: Bathhouse_Test
         report_title: Bathhouse Domain Model Test
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        gist_name: bathhouse_test_tests.md
+        gist_badge_label: 'Bathhouse: %Counters_passed%/%Counters_total%'
+        gist_token: ${{ secrets.GIST_TOKEN }}
+    
+    - name: Generate OpenAPI spec
+      run: dotnet run --project ./src/infrastructure/Bathhouse.Api --swagger
+      if: runner.os == 'Linux'
+      
+
 
       
     #- name: OpenAPI Test
