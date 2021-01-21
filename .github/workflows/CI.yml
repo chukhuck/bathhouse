@@ -25,8 +25,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
       
-    - name: Clean bins
-      run: dotnet clean
+    #- name: Clean bins
+    #  run: dotnet clean
       
     - name: Restore dependencies
       run: dotnet restore
