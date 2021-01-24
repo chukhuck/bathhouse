@@ -89,6 +89,9 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.Id, f => f.Random.Guid())
         .RuleFor(a => a.Author, (f, o) =>
         {
+          if (author.Surveys == null)
+            author.Surveys = new List<Survey>();
+
           author.Surveys.Add(o);
           return author;
         })

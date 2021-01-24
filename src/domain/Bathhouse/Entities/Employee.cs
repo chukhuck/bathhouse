@@ -20,7 +20,9 @@ namespace Bathhouse.Entities
     [NotMapped]
     public string FullName => LastName + " " + FirstName + " " + MiddleName;
     [NotMapped]
-    public string ShortName => LastName + " " + FirstName.FirstOrDefault() + "." + MiddleName.FirstOrDefault() + ".";
+    public string ShortName => LastName + " " + 
+                              (string.IsNullOrEmpty(FirstName) ? string.Empty : FirstName.FirstOrDefault()) + "." + 
+                              (string.IsNullOrEmpty(MiddleName) ? string.Empty : MiddleName.FirstOrDefault()) + ".";
     public string? Phone { get; set; }
     public string? Email { get; set; }
     public DateTime? DoB { get; set; }
@@ -48,9 +50,12 @@ namespace Bathhouse.Entities
         Offices.Remove(removingOffice);
     }
 
-    public void AddOffice(Office addingEmployee)
+    public void AddOffice(Office addingOffice)
     {
-      Offices.Add(addingEmployee);
+      if (addingOffice == null)
+        throw new ArgumentNullException("The adding offcie is null.");
+
+      Offices.Add(addingOffice);
     }
 
     public IEnumerable<WorkItem> GetMyWorkItems()
