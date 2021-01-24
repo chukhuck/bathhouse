@@ -34,6 +34,9 @@ namespace Bathhouse.Entities
 
     public void AddEmployee(Employee addingEmployee)
     {
+      if (addingEmployee == null)
+        return;
+
       Employees.Add(addingEmployee);
     }
   }
