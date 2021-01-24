@@ -32,7 +32,7 @@ namespace Bathhouse.Test
 
       office.AddEmployee(employee);
 
-      Assert.Single(employee.GetOffices(), o => o.Id == employee.Id);
+      Assert.Single(office.Employees, o => o.Id == employee.Id);
     }
 
     [Fact]
