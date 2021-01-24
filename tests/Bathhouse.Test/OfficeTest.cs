@@ -18,5 +18,11 @@ namespace Bathhouse.Test
 
       Assert.Equal(managers, office.GetManagers());
     }
+
+    [Fact]
+    public void Add_Employee_Equal_Null()
+    {
+      Assert.Throws<ArgumentNullException>(() => office.AddEmployee(null));
+    }
   }
 }

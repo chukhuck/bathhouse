@@ -53,7 +53,7 @@ namespace Bathhouse.Entities
     public void AddOffice(Office addingOffice)
     {
       if (addingOffice == null)
-        throw new ArgumentNullException("The adding offcie is null.");
+        throw new ArgumentNullException("The adding office is null.");
 
       Offices.Add(addingOffice);
     }
