@@ -19,7 +19,7 @@ namespace Bathhouse.Entities
 
     public virtual List<string> ToList()
     {
-      List<string> row = new List<string>();
+      List<string> row = new ();
 
       row.Add(CreationDate.ToString());
       row.Add(Author.LastName);

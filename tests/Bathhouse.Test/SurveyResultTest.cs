@@ -15,7 +15,7 @@ namespace Bathhouse.Test
     {
       surveyResult.Answers = new List<Answer>();
 
-      List<string> row = new List<string>();
+      List<string> row = new ();
 
       row.Add(surveyResult.CreationDate.ToString());
       row.Add(surveyResult.Author.LastName);
