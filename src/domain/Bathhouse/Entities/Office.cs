@@ -35,7 +35,7 @@ namespace Bathhouse.Entities
     public void AddEmployee(Employee addingEmployee)
     {
       if (addingEmployee == null)
-        throw new ArgumentNullException("The adding employee is null.");
+        throw new ArgumentNullException(paramName: nameof(addingEmployee));
 
       Employees.Add(addingEmployee);
     }

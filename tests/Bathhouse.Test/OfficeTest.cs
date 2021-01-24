@@ -24,5 +24,37 @@ namespace Bathhouse.Test
     {
       Assert.Throws<ArgumentNullException>(() => office.AddEmployee(null));
     }
+
+    [Fact]
+    public void Add_Employee_Not_Equal_Null()
+    {
+      Employee employee = new Employee();
+
+      office.AddEmployee(employee);
+
+      Assert.Single(employee.GetOffices(), o => o.Id == employee.Id);
+    }
+
+    [Fact]
+    public void Delete_Exist_Employee()
+    {
+      Guid idDeletingEmployee = InMemoryContext.Offices.Where(e => e.Employees.Count != 0).LastOrDefault().Id;
+
+      office.DeleteEmployee(idDeletingEmployee);
+
+      Assert.DoesNotContain(idDeletingEmployee, office.Employees.Select(o => o.Id));
+    }
+
+    [Fact]
+    public void Delete_Not_Exist_Employee()
+    {
+      Office off = InMemoryContext.Offices.Where(e => e.Employees.Count != 0).LastOrDefault();
+
+      int employeeCount = off.Employees.Count();
+
+      off.DeleteEmployee(Guid.NewGuid());
+
+      Assert.Equal(employeeCount, off.Employees.Count());
+    }
   }
 }
