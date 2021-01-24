@@ -50,11 +50,11 @@ namespace Bathhouse.Test
     {
       Office off = InMemoryContext.Offices.Where(e => e.Employees.Count != 0).LastOrDefault();
 
-      int employeeCount = off.Employees.Count();
+      int employeeCount = off.Employees.Count;
 
       off.DeleteEmployee(Guid.NewGuid());
 
-      Assert.Equal(employeeCount, off.Employees.Count());
+      Assert.Equal(employeeCount, off.Employees.Count);
     }
   }
 }
