@@ -30,11 +30,7 @@ namespace Bathhouse.Entities
     /// <returns>Result</returns>
     public BaseSurveySummary GetSummary(SurveyResultSummaryType typeSummary)
     {
-      return typeSummary switch
-      {
-        SurveyResultSummaryType.Base => BaseSurveySummary.Create(this),
-        _ => throw new ArgumentException("Type of summary is not defined.")
-      };
+      return SurveySummaryFactory.Create(this, typeSummary);
     } 
   }
 
