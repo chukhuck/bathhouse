@@ -165,6 +165,12 @@
             Id of workitem executor
             </summary>
         </member>
+        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetFooters">
+            <summary>
+            Get footers for this survey
+            </summary>
+            <returns>List of footers by column</returns>
+        </member>
         <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetData">
             <summary>
             Get all of results of this survey as List

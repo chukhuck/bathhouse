@@ -36,7 +36,8 @@ namespace Bathhouse.Entities
 
   public enum SurveyResultSummaryType
   {
-    Base
+    Base, 
+    Aggregated
   }
 
   public enum SurveyStatus

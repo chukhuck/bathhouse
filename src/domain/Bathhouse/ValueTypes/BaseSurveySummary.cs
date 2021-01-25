@@ -8,7 +8,7 @@ namespace Bathhouse.ValueTypes
 {
   public class BaseSurveySummary
   {
-    private BaseSurveySummary(){}
+    protected BaseSurveySummary(){}
 
     public Survey Survey { get; private set; } = null!;
     public List<SurveySummaryHeader> Headers { get; private set; } = new List<SurveySummaryHeader>();
