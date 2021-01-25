@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Bathhouse.Entities;
+﻿using Bathhouse.Entities;
 using Bathhouse.Memory;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Bathhouse.Test

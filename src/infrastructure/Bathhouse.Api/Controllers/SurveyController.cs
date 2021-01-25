@@ -38,7 +38,8 @@ namespace Bathhouse.Api.Controllers
         if (_repository.Get(id) is Survey survey)
         {
           _logger.LogInformation($"The survey ID={id} was received successfully.");
-          return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(survey.GetSummary(summaryType)));
+          var temp = survey.GetSummary(summaryType);
+          return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(temp));
         }
         else
         {

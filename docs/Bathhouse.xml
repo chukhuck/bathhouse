@@ -4,17 +4,7 @@
         <name>Bathhouse</name>
     </assembly>
     <members>
-        <member name="T:Bathhouse.Entities.EmployeeType">
-            <summary>
-            Type of employee
-            </summary>
-        </member>
-        <member name="F:Bathhouse.Entities.EmployeeType.Director">
-            <summary>
-            Director. It is an owner product
-            </summary>
-        </member>
-        <member name="M:Bathhouse.Entities.Survey.GetSummary(Bathhouse.Entities.SurveyResultSummaryType)">
+        <member name="M:Bathhouse.Entities.Survey.GetSummary(Bathhouse.ValueTypes.SurveyResultSummaryType)">
             <summary>
             Get All of results of this survey
             </summary>
@@ -163,6 +153,41 @@
         <member name="P:Bathhouse.Models.WorkItemRequest.ExecutorId">
             <summary>
             Id of workitem executor
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.DataType">
+            <summary>
+            Type of data in column
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.Sex">
+            <summary>
+            Gender of person
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.EmployeeType">
+            <summary>
+            Type of employee
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.QuestionType">
+            <summary>
+            Type of question
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.SurveyResultSummaryType">
+            <summary>
+            Type of generating survey summary
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.SurveyStatus">
+            <summary>
+            Status of survey
+            </summary>
+        </member>
+        <member name="T:Bathhouse.ValueTypes.WorkItemStatus">
+            <summary>
+            Status of WorkItem
             </summary>
         </member>
         <member name="M:Bathhouse.ValueTypes.SimpleSurveySummary.GetFooters">

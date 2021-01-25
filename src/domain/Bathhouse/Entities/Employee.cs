@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Bathhouse.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Entities
 {
@@ -72,19 +71,5 @@ namespace Bathhouse.Entities
     {
       return Surveys;
     }
-  }
-
-  /// <summary>
-  /// Type of employee
-  /// </summary>
-  public enum EmployeeType
-  {
-    /// <summary>
-    /// Director. It is an owner product
-    /// </summary>
-    Director,
-    Manager,
-    Employee,
-    TechnicalSupport
   }
 }

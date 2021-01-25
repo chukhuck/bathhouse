@@ -15,7 +15,7 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class OfficeController : RichControllerBase<Office, OfficeResponse, OfficeRequest>
   {
-    ICRUDRepository<Employee> _employeeRepository;
+    readonly ICRUDRepository<Employee> _employeeRepository;
 
     public OfficeController(
       ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger,
@@ -164,7 +164,7 @@ namespace Bathhouse.Api.Controllers
           if (_repository.SaveChanges())
             _logger.LogInformation($"Employee id={employeeId} was added to Office ID={id} successfully.");
 
-          return CreatedAtAction(nameof(GetEmployees), new { id = id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+          return CreatedAtAction(nameof(GetEmployees), new {id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
         }
         else
         {
@@ -223,7 +223,7 @@ namespace Bathhouse.Api.Controllers
         if (_repository.SaveChanges())
           _logger.LogInformation($"Employees was added to Office ID={id} successfully.");
 
-        return CreatedAtAction(nameof(GetEmployees), new { id = id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+        return CreatedAtAction(nameof(GetEmployees), new { id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
       }
       catch (Exception ex)
       {

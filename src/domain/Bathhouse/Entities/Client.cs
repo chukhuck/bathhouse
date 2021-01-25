@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.ValueTypes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bathhouse.Entities
@@ -19,12 +20,5 @@ namespace Bathhouse.Entities
 
     public Office Office { get; set; } = null!;
     public Guid OfficeId { get; set; }
-  }
-
-  public enum Sex
-  {
-    Male,
-    Female,
-    Unknown
   }
 }

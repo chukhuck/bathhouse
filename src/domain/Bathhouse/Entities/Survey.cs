@@ -1,11 +1,7 @@
-﻿using Bathhouse.Models;
-using Bathhouse.ValueTypes;
+﻿using Bathhouse.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Entities
 {
@@ -32,18 +28,5 @@ namespace Bathhouse.Entities
     {
       return SurveySummary.Create(this, typeSummary);
     } 
-  }
-
-  public enum SurveyResultSummaryType
-  {
-    Base, 
-    Aggregated
-  }
-
-  public enum SurveyStatus
-  {
-    Work,
-    Archive,
-    Deleted
   }
 }

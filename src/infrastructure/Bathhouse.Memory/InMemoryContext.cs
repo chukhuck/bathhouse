@@ -1,10 +1,9 @@
 ﻿using Bathhouse.Entities;
+using Bathhouse.ValueTypes;
 using Bogus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Memory
 {
@@ -15,11 +14,11 @@ namespace Bathhouse.Memory
     private const string Locale = "ru";
     private const int Count_Of_WorkItem = 10;
     private const int Count_Of_Surveys = 7;
-    private const int Count_Of_ServeyResult = 5;
+    private const int Count_Of_SurveyResult = 5;
     private const int Min_Count_Of_Question_In_Survey = 3;
     private const int Max_Count_Of_Question_In_Survey = 5;
-    private const int Min_Answer_Value = 0;
-    private const int Max_Answer_Value = 7;
+    private const int Min_Number_In_Answer = 0;
+    private const int Max_Number_In_Answer = 7;
     private const int Count_MyWorkItems = 10;
     private const int Min_count_of_office_for_manager = 1;
     private const int Max_count_of_office_for_manager = 3;
@@ -46,18 +45,18 @@ namespace Bathhouse.Memory
 
     internal static List<TEntity> Init<TEntity>(List<TEntity> entities) where TEntity : Entity
     {
-      switch (entities)
+      return entities switch
       {
-        case List<Answer>: return Answers.Cast<TEntity>().ToList();
-        case List<Client>: return Clients.Cast<TEntity>().ToList();
-        case List<Employee>: return Employees.Cast<TEntity>().ToList();
-        case List<Office>: return Offices.Cast<TEntity>().ToList();
-        case List<Question>: return Questions.Cast<TEntity>().ToList();
-        case List<Survey>: return Surveys.Cast<TEntity>().ToList();
-        case List<SurveyResult>: return SurveyResults.Cast<TEntity>().ToList();
-        case List<WorkItem>: return WorkItems.Cast<TEntity>().ToList();
-        default: throw new ArgumentException("Unknown type of entity.");
-      }
+        List<Answer> => Answers.Cast<TEntity>().ToList(),
+        List<Client> => Clients.Cast<TEntity>().ToList(),
+        List<Employee> => Employees.Cast<TEntity>().ToList(),
+        List<Office> => Offices.Cast<TEntity>().ToList(),
+        List<Question> => Questions.Cast<TEntity>().ToList(),
+        List<Survey> => Surveys.Cast<TEntity>().ToList(),
+        List<SurveyResult> => SurveyResults.Cast<TEntity>().ToList(),
+        List<WorkItem> => WorkItems.Cast<TEntity>().ToList(),
+        _ => throw new ArgumentException("Unknown type of entity."),
+      };
     }
 
     static InMemoryContext()
@@ -73,7 +72,7 @@ namespace Bathhouse.Memory
 
       foreach (var survey in GenerateSurveys(locale: Locale, count: Count_Of_Surveys, author: director))
       {
-        foreach (var result in GenerateSurveyResults(locale: Locale, count: Count_Of_ServeyResult, survey: survey))
+        foreach (var result in GenerateSurveyResults(locale: Locale, count: Count_Of_SurveyResult, survey: survey))
         {
           foreach (var question in survey.Questions)
           {
@@ -133,8 +132,8 @@ namespace Bathhouse.Memory
       {
         QuestionType.Text => "Answer " + faker.IndexFaker,
         QuestionType.YesNo => faker.Random.Bool().ToString(),
-        QuestionType.Number => faker.Random.Number().ToString(),
-        QuestionType.Decimal => faker.Random.Decimal().ToString(),
+        QuestionType.Number => faker.Random.Number(Min_Number_In_Answer, Max_Number_In_Answer).ToString(),
+        QuestionType.Decimal => faker.Random.Decimal(Min_Number_In_Answer, Max_Number_In_Answer).ToString(),
         QuestionType.Photo => Convert.ToBase64String(faker.Random.Bytes(10)),
         QuestionType.DateTime => faker.Date.Between(DateTime.Parse(common_start_day), DateTime.Parse(common_end_day)).ToString(),
         _ => throw new ArgumentException("Unrecognized question type")

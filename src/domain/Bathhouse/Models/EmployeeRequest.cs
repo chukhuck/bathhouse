@@ -1,11 +1,7 @@
-﻿using Bathhouse.Entities;
+﻿using Bathhouse.ValueTypes;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
@@ -15,7 +11,7 @@ namespace Bathhouse.Models
     /// LastName of employee
     /// </summary>
     [Required]
-    [DataType(DataType.Text)]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Фамилия")]
     public string LastName { get; set; } = "Фамилия";
@@ -23,7 +19,7 @@ namespace Bathhouse.Models
     /// <summary>
     /// FirstName of employee
     /// </summary>
-    [DataType(DataType.Text)]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Имя")]
     public string FirstName { get; set; } = "Имя";
@@ -31,7 +27,7 @@ namespace Bathhouse.Models
     /// <summary>
     /// Middle Name of employee
     /// </summary>
-    [DataType(DataType.Text)]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Отчество")]
     public string MiddleName { get; set; } = "Отчество";
@@ -53,7 +49,7 @@ namespace Bathhouse.Models
     /// <summary>
     /// Day of Birth
     /// </summary>
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Date, ErrorMessage = "Incorrect date format.")]
     [DefaultValue("1950-01-01")]
     public DateTime? DoB { get; set; } = DateTime.Parse("1950-01-01");
 

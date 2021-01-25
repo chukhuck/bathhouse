@@ -1,8 +1,5 @@
-﻿using Bathhouse.Entities;
+﻿using Bathhouse.ValueTypes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Bathhouse.Models
 {
@@ -11,5 +8,5 @@ namespace Bathhouse.Models
     string Text,
     string Name,
     bool IsKey,
-    QuestionType type);
+    QuestionType Type);
 }

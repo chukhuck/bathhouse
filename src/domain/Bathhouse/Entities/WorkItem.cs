@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.ValueTypes;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bathhouse.Entities
@@ -18,13 +19,5 @@ namespace Bathhouse.Entities
     public Guid CreatorId { get; set; }
     public Employee Executor { get; set; } = null!;
     public Guid ExecutorId { get; set; }
-  }
-
-  public enum WorkItemStatus
-  {
-    Created,
-    InWork,
-    Done,
-    Canceled
   }
 }

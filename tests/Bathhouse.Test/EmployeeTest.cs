@@ -1,8 +1,8 @@
 using Bathhouse.Entities;
 using Bathhouse.Memory;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Bathhouse.Test

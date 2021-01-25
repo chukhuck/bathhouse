@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,13 +20,5 @@ namespace Bathhouse.Entities
     public ICollection<Answer> Answers { get; set; } = null!;
   }
 
-  public enum QuestionType
-  {
-    Number,
-    Decimal,
-    YesNo,
-    Text,
-    Photo,
-    DateTime
-  }
+
 }

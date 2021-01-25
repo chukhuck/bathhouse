@@ -20,7 +20,6 @@ namespace Bathhouse.ValueTypes
     public List<List<string>> Data { get; private set; } = new List<List<string>>();
     public List<string> Footers { get; private set; } = new List<string>();
 
-
     public static SurveySummary Create(Survey survey, SurveyResultSummaryType typeSummary)
     {
       SurveySummary summary = SurveySummaryFactory.Create(survey, typeSummary);
@@ -49,35 +48,5 @@ namespace Bathhouse.ValueTypes
     /// </summary>
     /// <returns>List of headers</returns>
     protected abstract List<SurveySummaryHeader> GetHeaders();
-  }
-
-  public struct SurveySummaryHeader
-  {
-    public SurveySummaryHeaderType Type { get; set; }
-    public string Text { get; set; }
-
-    public static SurveySummaryHeaderType ConvertType(QuestionType questionType)
-    {
-      return questionType switch
-      {
-        QuestionType.DateTime => SurveySummaryHeaderType.DateTime,
-        QuestionType.Decimal => SurveySummaryHeaderType.Decimal,
-        QuestionType.Number => SurveySummaryHeaderType.Number,
-        QuestionType.YesNo => SurveySummaryHeaderType.Bool,
-        QuestionType.Photo => SurveySummaryHeaderType.Text,
-        QuestionType.Text => SurveySummaryHeaderType.Text,
-        _ => SurveySummaryHeaderType.Text
-      };
-    }
-  }
-
-  public enum SurveySummaryHeaderType
-  {
-    Text,
-    Number,
-    Decimal,
-    DateTime,
-    Bool,
-    Photo
   }
 }

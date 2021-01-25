@@ -1,11 +1,7 @@
-﻿using Bathhouse.Entities;
+﻿using Bathhouse.ValueTypes;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
@@ -15,7 +11,7 @@ namespace Bathhouse.Models
     /// Description of task.
     /// </summary>
     [Required]
-    [DataType(DataType.Text)]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
     [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
     [DefaultValue("Опиши текст задачи.")]
     public string Description { get; set; } = "Опиши текст задачи.";
@@ -23,19 +19,19 @@ namespace Bathhouse.Models
     /// <summary>
     /// Day of creation work item
     /// </summary>
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime CreationDate { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Day of start work item
     /// </summary>
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime StartDate { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Day of end work item
     /// </summary>
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Date, ErrorMessage = "Incorrect date format.")]
     public DateTime EndDate { get; set; } = DateTime.Now.AddDays(1);
 
     /// <summary>

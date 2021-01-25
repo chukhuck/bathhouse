@@ -13,32 +13,8 @@ namespace Bathhouse.ValueTypes
 
     protected override sealed List<string> GetFooters()
     {
-      return Headers?.Select((header, index) => AggregateColumn(index, Data, header.Type)).ToList()
+      return Headers?.Select((header, index) => Data.AggregateColumn(index, header.Type)).ToList()
         ?? new List<string>();
-    }
-
-    private string AggregateColumn(int index, List<List<string>> source, SurveySummaryHeaderType datatype)
-    {
-      List<string> column = ExtractColumn(index: index, source: source);
-
-      return datatype switch
-      {
-        SurveySummaryHeaderType.Bool => DataAggregator.GroupedAndCount(column.Select(c => c == "true" ? "YES": "NO"), separator: "\r\n", valueLabel: "Value: ", countLabel: ", Count = "),
-        SurveySummaryHeaderType.DateTime => DataAggregator.MinMax(column.Select(c => DateTime.Parse(c)), preambola: "From ", separator: " to "),
-        SurveySummaryHeaderType.Decimal => DataAggregator.Sum(column.Select(c => decimal.Parse(c)), preambola: "Total: "),
-        SurveySummaryHeaderType.Number => DataAggregator.Sum(column.Select(c => int.Parse(c)), preambola: "Total: "),
-        SurveySummaryHeaderType.Text => DataAggregator.GroupedAndCount(column, separator: "\r\n", valueLabel: "Value: ", countLabel: ", Count = "),
-        SurveySummaryHeaderType.Photo => string.Empty,
-        _ => string.Empty
-      };
-    }
-
-    private List<string> ExtractColumn(int index, List<List<string>> source)
-    {
-      if (source == null)
-        throw new ArgumentNullException(nameof(source));
-
-      return source.Select(row => row[index]).ToList();
     }
   }
 }

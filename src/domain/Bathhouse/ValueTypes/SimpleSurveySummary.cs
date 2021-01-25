@@ -31,8 +31,8 @@ namespace Bathhouse.ValueTypes
     {
       List<SurveySummaryHeader> headers = new();
 
-      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.DateTime, Text = "Date" });
-      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.Text, Text = "Author" });
+      headers.Add(new SurveySummaryHeader() { Type = DataType.DateTime, Text = "Date" });
+      headers.Add(new SurveySummaryHeader() { Type = DataType.Text, Text = "Author" });
 
       headers.AddRange(
         Survey?.Questions?.Select(q => new SurveySummaryHeader() { Type = SurveySummaryHeader.ConvertType(q.Type), Text = q.Name })

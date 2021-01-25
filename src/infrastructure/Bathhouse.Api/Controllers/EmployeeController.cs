@@ -16,9 +16,9 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class EmployeeController : RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>
   {
-    ICRUDRepository<Office> _officesRepository;
-    ICRUDRepository<WorkItem> _workItemRepository;
-    ICRUDRepository<Survey> _surveyRepository;
+    readonly ICRUDRepository<Office> _officesRepository;
+    readonly ICRUDRepository<WorkItem> _workItemRepository;
+    readonly ICRUDRepository<Survey> _surveyRepository;
 
     public EmployeeController(
       ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
@@ -137,7 +137,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetOffices(Guid id)
+    public ActionResult<OfficeResponse> GetOffices(Guid id)
     {
       try
       {
@@ -224,7 +224,7 @@ namespace Bathhouse.Api.Controllers
           if (_repository.SaveChanges())
             _logger.LogInformation($"Office id={officeId} was added to Employee ID={id} successfully.");
 
-          return CreatedAtAction(nameof(GetOffices), new { id = id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+          return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
         }
         else
         {
@@ -283,7 +283,7 @@ namespace Bathhouse.Api.Controllers
         if (_repository.SaveChanges())
           _logger.LogInformation($"Office was added to Employee ID={id} successfully.");
 
-        return CreatedAtAction(nameof(GetOffices), new { id = id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+        return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
       }
       catch (Exception ex)
       {
@@ -308,7 +308,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetMyWorkItems(Guid id)
+    public ActionResult<WorkItemResponse> GetMyWorkItems(Guid id)
     {
       try
       {
@@ -345,7 +345,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetAllCreatedWorkItems(Guid id)
+    public ActionResult<IEnumerable<WorkItemResponse>> GetAllCreatedWorkItems(Guid id)
     {
       try
       {
@@ -382,7 +382,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetCreatedWorkItem(Guid id, Guid workitemId)
+    public ActionResult<WorkItemResponse> GetCreatedWorkItem(Guid id, Guid workitemId)
     {
       try
       {
@@ -454,7 +454,7 @@ namespace Bathhouse.Api.Controllers
     [Route("{id:guid}/workitems")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual ActionResult<WorkItem> CreateWorkItem(Guid id, WorkItemRequest workItem)
+    public virtual ActionResult<WorkItemResponse> CreateWorkItem(Guid id, WorkItemRequest workItem)
     {
       try
       {
@@ -464,7 +464,7 @@ namespace Bathhouse.Api.Controllers
         if (_repository.SaveChanges())
           _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
-        return CreatedAtAction("GetCreatedWorkItem", new { id = id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
+        return CreatedAtAction("GetCreatedWorkItem", new {id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
       }
       catch (Exception ex)
       {
@@ -582,7 +582,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetAllSurveys(Guid id)
+    public ActionResult<IEnumerable<SurveyResponse>> GetAllSurveys(Guid id)
     {
       try
       {
@@ -619,7 +619,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetSurvey(Guid id, Guid surveyId)
+    public ActionResult<SurveyResponse> GetSurvey(Guid id, Guid surveyId)
     {
       try
       {
@@ -654,7 +654,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<EmployeeResponse> GetSurveyResult(Guid id, Guid surveyId, SurveyResultSummaryType summarytype)
+    public ActionResult<SurveySummaryResponse> GetSurveyResult(Guid id, Guid surveyId, SurveyResultSummaryType summarytype)
     {
       try
       {
@@ -665,8 +665,8 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
           return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
         }
-
-        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(survey.GetSummary(summarytype)));
+        var temp = survey.GetSummary(summarytype);
+        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(temp));
       }
       catch (Exception ex)
       {
@@ -726,7 +726,7 @@ namespace Bathhouse.Api.Controllers
     [Route("{id:guid}/surveys")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual ActionResult<WorkItem> CreateSurvey(Guid id, SurveyRequest survey)
+    public virtual ActionResult<SurveyResponse> CreateSurvey(Guid id, SurveyRequest survey)
     {
       try
       {
@@ -736,7 +736,7 @@ namespace Bathhouse.Api.Controllers
         if (_surveyRepository.SaveChanges())
           _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
 
-        return CreatedAtAction("GetSurvey", new { id = id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
+        return CreatedAtAction("GetSurvey", new {id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
       }
       catch (Exception ex)
       {

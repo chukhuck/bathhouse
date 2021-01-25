@@ -159,7 +159,7 @@
             <response code="404">Entity with current ID is not found</response>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.ChangeStatusMyWorkItem(System.Guid,System.Guid,Bathhouse.Entities.WorkItemStatus)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.ChangeStatusMyWorkItem(System.Guid,System.Guid,Bathhouse.ValueTypes.WorkItemStatus)">
             <summary>
             Change status for one of the MyWorkItem
             </summary>
@@ -192,7 +192,7 @@
             <response code="200">Getting Survey is successul.</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurveyResult(System.Guid,System.Guid,Bathhouse.Entities.SurveyResultSummaryType)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurveyResult(System.Guid,System.Guid,Bathhouse.ValueTypes.SurveyResultSummaryType)">
             <summary>
             Get survey summary
             </summary>
@@ -335,7 +335,7 @@
             <response code="204">Deleting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveySummary(System.Guid,Bathhouse.Entities.SurveyResultSummaryType)">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveySummary(System.Guid,Bathhouse.ValueTypes.SurveyResultSummaryType)">
             <summary>
             Get summary of survey
             </summary>

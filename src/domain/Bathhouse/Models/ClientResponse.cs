@@ -1,16 +1,10 @@
-﻿using Bathhouse.Entities;
+﻿using Bathhouse.ValueTypes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Models
 {
   public record ClientResponse(
-    Guid id, 
+    Guid Id, 
     string LastName, 
     string MiddleName, 
     string FirstName, 
