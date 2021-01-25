@@ -33,19 +33,19 @@ namespace Bathhouse.ValueTypes
     /// Get footers for this survey
     /// </summary>
     /// <returns>List of footers by column</returns>
-    public virtual List<string> GetFooters() => new ();
+    protected virtual List<string> GetFooters() => new ();
 
     /// <summary>
     /// Get all of results of this survey as List
     /// </summary>
     /// <returns></returns>
-    public virtual List<List<string>> GetData() => Survey?.Results?.Select(r => r.ToList()).ToList() ?? new List<List<string>>();
+    protected virtual List<List<string>> GetData() => Survey?.Results?.Select(r => r.ToList()).ToList() ?? new List<List<string>>();
 
     /// <summary>
     /// Get headrers for this survey
     /// </summary>
     /// <returns>List of headers</returns>
-    public virtual List<SurveySummaryHeader> GetHeaders()
+    protected virtual List<SurveySummaryHeader> GetHeaders()
     {
       List<SurveySummaryHeader> headers = new();
 
