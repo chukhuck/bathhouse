@@ -28,9 +28,9 @@ namespace Bathhouse.Entities
     /// Get All of results of this survey
     /// </summary>
     /// <returns>Result</returns>
-    public BaseSurveySummary GetSummary(SurveyResultSummaryType typeSummary)
+    public SurveySummary GetSummary(SurveyResultSummaryType typeSummary)
     {
-      return SurveySummaryFactory.Create(this, typeSummary);
+      return SurveySummary.Create(this, typeSummary);
     } 
   }
 

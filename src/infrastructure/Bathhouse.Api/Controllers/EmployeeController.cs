@@ -666,7 +666,7 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
         }
 
-        return Ok(_mapper.Map<BaseSurveySummary, BaseSurveySummaryResponse>(survey.GetSummary(summarytype)));
+        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(survey.GetSummary(summarytype)));
       }
       catch (Exception ex)
       {

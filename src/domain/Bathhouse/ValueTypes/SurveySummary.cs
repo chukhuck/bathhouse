@@ -6,9 +6,14 @@ using System.Linq;
 
 namespace Bathhouse.ValueTypes
 {
-  public class BaseSurveySummary
+  public abstract class SurveySummary
   {
-    protected BaseSurveySummary(){}
+    private SurveySummary() { }
+    
+    protected internal SurveySummary(Survey survey)
+    {
+      Survey = survey;
+    }
 
     public Survey Survey { get; private set; } = null!;
     public List<SurveySummaryHeader> Headers { get; private set; } = new List<SurveySummaryHeader>();
@@ -16,9 +21,9 @@ namespace Bathhouse.ValueTypes
     public List<string> Footers { get; private set; } = new List<string>();
 
 
-    public static BaseSurveySummary Create(Survey survey) 
+    public static SurveySummary Create(Survey survey, SurveyResultSummaryType typeSummary) 
     {
-      BaseSurveySummary summary = new BaseSurveySummary();
+      SurveySummary summary = SurveySummaryFactory.Create(survey, typeSummary);
 
       summary.Survey = survey;
 
@@ -33,31 +38,19 @@ namespace Bathhouse.ValueTypes
     /// Get footers for this survey
     /// </summary>
     /// <returns>List of footers by column</returns>
-    protected virtual List<string> GetFooters() => new ();
+    protected abstract List<string> GetFooters();
 
     /// <summary>
     /// Get all of results of this survey as List
     /// </summary>
     /// <returns></returns>
-    protected virtual List<List<string>> GetData() => Survey?.Results?.Select(r => r.ToList()).ToList() ?? new List<List<string>>();
+    protected abstract List<List<string>> GetData();
 
     /// <summary>
     /// Get headrers for this survey
     /// </summary>
     /// <returns>List of headers</returns>
-    protected virtual List<SurveySummaryHeader> GetHeaders()
-    {
-      List<SurveySummaryHeader> headers = new();
-
-      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.DateTime, Text = "Date" });
-      headers.Add(new SurveySummaryHeader() { Type = SurveySummaryHeaderType.Text, Text = "Author" });
-
-      headers.AddRange(
-        Survey?.Questions?.Select(q => new SurveySummaryHeader() { Type = SurveySummaryHeader.ConvertType(q.Type), Text = q.Name }) 
-        ?? new List<SurveySummaryHeader>());
-
-      return headers;
-    }
+    protected abstract List<SurveySummaryHeader> GetHeaders();
   }
 
   public struct SurveySummaryHeader

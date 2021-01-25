@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Bathhouse.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Bathhouse.ValueTypes
 {
-  public class AggregatedSurveySummary : BaseSurveySummary
+  public class AggregatedSurveySummary : SimpleSurveySummary
   {
+    protected internal AggregatedSurveySummary(Survey survey) : base(survey) { }
+
+
     protected override sealed List<string> GetFooters()
     {
       List<string> footers = new List<string>();

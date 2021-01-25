@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Bathhouse.Models
 {
-  public class BaseSurveySummaryResponse
+  public class SurveySummaryResponse
   {
     public Guid SurveyId { get; set; }
     public string? SurveyName { get; set; }

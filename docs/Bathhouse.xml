@@ -165,19 +165,37 @@
             Id of workitem executor
             </summary>
         </member>
-        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetFooters">
+        <member name="M:Bathhouse.ValueTypes.SimpleSurveySummary.GetFooters">
             <summary>
             Get footers for this survey
             </summary>
             <returns>List of footers by column</returns>
         </member>
-        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetData">
+        <member name="M:Bathhouse.ValueTypes.SimpleSurveySummary.GetData">
             <summary>
             Get all of results of this survey as List
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.ValueTypes.BaseSurveySummary.GetHeaders">
+        <member name="M:Bathhouse.ValueTypes.SimpleSurveySummary.GetHeaders">
+            <summary>
+            Get headrers for this survey
+            </summary>
+            <returns>List of headers</returns>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.SurveySummary.GetFooters">
+            <summary>
+            Get footers for this survey
+            </summary>
+            <returns>List of footers by column</returns>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.SurveySummary.GetData">
+            <summary>
+            Get all of results of this survey as List
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Bathhouse.ValueTypes.SurveySummary.GetHeaders">
             <summary>
             Get headrers for this survey
             </summary>

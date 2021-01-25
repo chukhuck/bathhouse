@@ -36,7 +36,7 @@ namespace Bathhouse.Infrastructure
       CreateMap<Question, QuestionResponse>();
       CreateMap<QuestionRequest, Question > ();
 
-      CreateMap<BaseSurveySummary, BaseSurveySummaryResponse>();
+      CreateMap<SurveySummary, SurveySummaryResponse>();
     }
   }
 }
