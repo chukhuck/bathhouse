@@ -25,8 +25,6 @@ namespace Bathhouse.ValueTypes
     {
       SurveySummary summary = SurveySummaryFactory.Create(survey, typeSummary);
 
-      summary.Survey = survey;
-
       summary.Headers = summary.GetHeaders();
       summary.Data = summary.GetData();
       summary.Footers = summary.GetFooters();
