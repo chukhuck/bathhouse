@@ -9,10 +9,10 @@ namespace Bathhouse.ValueTypes
   public abstract class SurveySummary
   {
     private SurveySummary() { }
-    
+
     protected internal SurveySummary(Survey survey)
     {
-      Survey = survey;
+      Survey = survey ?? throw new ArgumentNullException(paramName: nameof(survey));
     }
 
     public Survey Survey { get; private set; } = null!;
@@ -21,7 +21,7 @@ namespace Bathhouse.ValueTypes
     public List<string> Footers { get; private set; } = new List<string>();
 
 
-    public static SurveySummary Create(Survey survey, SurveyResultSummaryType typeSummary) 
+    public static SurveySummary Create(Survey survey, SurveyResultSummaryType typeSummary)
     {
       SurveySummary summary = SurveySummaryFactory.Create(survey, typeSummary);
 
