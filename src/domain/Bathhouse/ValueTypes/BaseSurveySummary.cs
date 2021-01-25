@@ -13,6 +13,7 @@ namespace Bathhouse.ValueTypes
     public Survey Survey { get; private set; } = null!;
     public List<SurveySummaryHeader> Headers { get; private set; } = new List<SurveySummaryHeader>();
     public List<List<string>> Data { get; private set; } = new List<List<string>>();
+    public List<string> Footers { get; private set; } = new List<string>();
 
 
     public static BaseSurveySummary Create(Survey survey) 
