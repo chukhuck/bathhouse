@@ -24,9 +24,16 @@ namespace Bathhouse.ValueTypes
 
       summary.Headers = summary.GetHeaders();
       summary.Data = summary.GetData();
+      summary.Footers = summary.GetFooters();
 
       return summary;
     }
+
+    /// <summary>
+    /// Get footers for this survey
+    /// </summary>
+    /// <returns>List of footers by column</returns>
+    public virtual List<string> GetFooters() => new ();
 
     /// <summary>
     /// Get all of results of this survey as List
