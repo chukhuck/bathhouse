@@ -15,7 +15,7 @@ namespace Bathhouse.ValueTypes
     /// Get footers for this survey
     /// </summary>
     /// <returns>List of footers by column</returns>
-    protected override List<string> GetFooters() => new();
+    protected override List<string> GetFooters() => new() { $"Total: {Data.Count}"};
 
     /// <summary>
     /// Get all of results of this survey as List
