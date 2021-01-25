@@ -12,7 +12,10 @@ namespace Bathhouse.Helpers
     {
       try
       {
-        return data.Select(d=> decimal.Parse(d.ToString())).Sum();
+        if (data == null)
+          throw new ArgumentNullException(nameof(data));
+
+        return data.Select(d=> decimal.Parse(d?.ToString() ?? throw new ArgumentNullException("Element of" + nameof(data)))).Sum();
       }
       catch (Exception)
       {
@@ -29,6 +32,9 @@ namespace Bathhouse.Helpers
     {
       try
       {
+        if (data == null)
+          throw new ArgumentNullException(nameof(data));
+
         return preambula + string.Join(separator, data);
       }
       catch (Exception)
@@ -41,6 +47,9 @@ namespace Bathhouse.Helpers
     {
       try
       {
+        if (data == null)
+          throw new ArgumentNullException(nameof(data));
+
         return (min: data.Min(), max: data.Max());
       }
       catch (Exception)
@@ -66,6 +75,9 @@ namespace Bathhouse.Helpers
     {
       try
       {
+        if (data == null)
+          throw new ArgumentNullException(nameof(data));
+
         return data.GroupBy(d => d).Select(g => (g.Key, g.Count()));
       }
       catch (Exception)
@@ -85,7 +97,5 @@ namespace Bathhouse.Helpers
         throw;
       }
     }
-
-
   }
 }

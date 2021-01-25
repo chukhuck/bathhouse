@@ -13,7 +13,8 @@ namespace Bathhouse.ValueTypes
 
     protected override sealed List<string> GetFooters()
     {
-      return Headers.Select((header, index) => AggregateColumn(index, Data, header.Type)).ToList();
+      return Headers?.Select((header, index) => AggregateColumn(index, Data, header.Type)).ToList()
+        ?? new List<string>();
     }
 
     private string AggregateColumn(int index, List<List<string>> source, SurveySummaryHeaderType datatype)
@@ -34,6 +35,9 @@ namespace Bathhouse.ValueTypes
 
     private List<string> ExtractColumn(int index, List<List<string>> source)
     {
+      if (source == null)
+        throw new ArgumentNullException(nameof(source));
+
       return source.Select(row => row[index]).ToList();
     }
   }
