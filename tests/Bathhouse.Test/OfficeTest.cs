@@ -15,7 +15,7 @@ namespace Bathhouse.Test
     [Fact]
     public void GetManagers()
     {
-      List<Employee> managers = office.Employees.Where(e => e.Type == EmployeeType.Manager).ToList();
+      List<Employee> managers = office.Employees.ToList();//.Where(e => e.Type == EmployeeType.Manager).ToList();
 
       Assert.Equal(managers, office.GetManagers());
     }

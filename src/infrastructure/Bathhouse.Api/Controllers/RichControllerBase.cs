@@ -15,7 +15,7 @@ namespace Bathhouse.Api.Controllers
   [ApiController]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public class RichControllerBase<TEntity, TEntityResponse, TEntityRequest> : ControllerBase
-    where TEntity : Entity
+    where TEntity : class
     where TEntityResponse : class
     where TEntityRequest : class
   {
@@ -108,9 +108,9 @@ namespace Bathhouse.Api.Controllers
         TEntity newEntity = _repository.Create(_mapper.Map<TEntityRequest, TEntity>(request));
 
         if (_repository.SaveChanges())
-          _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
+          _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
       }
       catch (Exception ex)
       {
@@ -143,7 +143,7 @@ namespace Bathhouse.Api.Controllers
           TEntity updatedEntity = _repository.Update(_mapper.Map<TEntityRequest, TEntity>(request, entity));
 
           if (_repository.SaveChanges())
-            _logger.LogInformation($"Entity id={updatedEntity.Id} of type {typeof(TEntity)} was updated successfully.");
+            _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
 
           return NoContent();
         }

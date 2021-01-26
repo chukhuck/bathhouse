@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bathhouse.Memory.Repositories
 {
-  public class MemoryBaseCRUDRepository<TEntity> : ICRUDRepository<TEntity> where TEntity : Entity
+  public class MemoryBaseCRUDRepository<TEntity> : ICRUDRepository<TEntity> where TEntity : class
   {
     protected List<TEntity> entities = new List<TEntity>();
 
@@ -25,7 +25,7 @@ namespace Bathhouse.Memory.Repositories
 
     public virtual TEntity? Get(Guid id)
     {
-      return entities.Find(o => o.Id == id);
+      return null;// entities.Find(o => o.Id == id);
     }
 
     public virtual TEntity Create(TEntity model)
@@ -36,10 +36,10 @@ namespace Bathhouse.Memory.Repositories
 
     public virtual TEntity Update(TEntity model)
     {
-      if (!Exist(model.Id))
-        throw new ArgumentException($"The resource with ID={model.Id} is not found.");
+      //if (!Exist(model.Id))
+      //  throw new ArgumentException($"The resource with ID={model.Id} is not found.");
 
-      entities.RemoveAll(entity => entity.Id == model.Id);
+      //entities.RemoveAll(entity => entity.Id == model.Id);
       entities.Add(model);
 
       return model;
@@ -50,12 +50,12 @@ namespace Bathhouse.Memory.Repositories
       if (!Exist(id))
         throw new ArgumentException("The resource with ID={model.Id} is not found.");
 
-      entities.RemoveAll(entity => entity.Id == id);
+      //entities.RemoveAll(entity => entity.Id == id);
     }
 
     public virtual bool Exist(Guid id)
     {
-      return entities.Exists(entity => entity.Id == id);
+      return true;// entities.Exists(entity => entity.Id == id);
     }
 
     public virtual bool SaveChanges()

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Bathhouse.Entities
 {
-  public class SurveyResult : Entity
+  public class SurveyResult
   {
+    public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime CreationDate { get; set; } = DateTime.Now;
 
     public Employee Author { get; set; } = null!;

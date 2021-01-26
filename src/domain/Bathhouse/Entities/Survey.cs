@@ -1,15 +1,13 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Bathhouse.Entities
 {
-  public class Survey : Entity
+  public class Survey
   {
-    [MaxLength(50, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 50 symbols.")]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = "New survey";
-    [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
     public string? Description { get; set; }
     public DateTime CreationDate { get; set; } = DateTime.Now;
     public SurveyStatus Status { get; set; } = SurveyStatus.Work;

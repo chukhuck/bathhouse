@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Bathhouse.Repositories
 {
     #nullable enable
-  public interface ICRUDRepository<TEntity> where TEntity : Entity
+  public interface ICRUDRepository<TEntity> where TEntity : class
   {
     public IEnumerable<TEntity> GetAll();
     public TEntity? Get(Guid id);

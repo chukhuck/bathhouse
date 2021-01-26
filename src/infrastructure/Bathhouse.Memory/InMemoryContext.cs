@@ -43,7 +43,7 @@ namespace Bathhouse.Memory
     public static readonly List<SurveyResult> SurveyResults = new List<SurveyResult>();
     public static readonly List<WorkItem> WorkItems = new List<WorkItem>();
 
-    internal static List<TEntity> Init<TEntity>(List<TEntity> entities) where TEntity : Entity
+    internal static List<TEntity> Init<TEntity>(List<TEntity> entities) where TEntity : class
     {
       return entities switch
       {
@@ -201,9 +201,9 @@ namespace Bathhouse.Memory
         LastName = "Потапчук",
         FirstName = "Александр",
         MiddleName = "Владимирович",
-        Phone = "916-099-68-36",
+        PhoneNumber = "916-099-68-36",
         Email = "techsupport@mail.com",
-        Type = EmployeeType.TechnicalSupport,
+        //Type = EmployeeType.TechnicalSupport,
         Offices = new List<Office>(),
         SurveyResults = new List<SurveyResult>(),
         WorkItems = new List<WorkItem>(),
@@ -224,9 +224,9 @@ namespace Bathhouse.Memory
         LastName = "Потапчук",
         FirstName = "Алёна",
         MiddleName = "Владимировна",
-        Phone = "926-920-15-16",
+        PhoneNumber = "926-920-15-16",
         Email = "director@mail.com",
-        Type = EmployeeType.Director,
+        //Type = EmployeeType.Director,
         Offices = new List<Office>(),
         SurveyResults = new List<SurveyResult>(),
         WorkItems = new List<WorkItem>(),
@@ -307,9 +307,9 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.LastName, f => f.Person.LastName)
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
         .RuleFor(a => a.FirstName, f => "Отчество")
-        .RuleFor(a => a.Phone, f => f.Person.Phone)
+        .RuleFor(a => a.PhoneNumber, f => f.Person.Phone)
         .RuleFor(a => a.Email, f => f.Person.Email)
-        .RuleFor(a => a.Type, f => EmployeeType.Manager)
+        //.RuleFor(a => a.Type, f => EmployeeType.Manager)
         .RuleFor(a => a.Offices, (f, o) => GenerateOffices(
           locale,
           f.Random.Number(Min_count_of_office_for_manager, Max_count_of_office_for_manager),
@@ -334,9 +334,9 @@ namespace Bathhouse.Memory
         .RuleFor(a => a.LastName, f => f.Person.LastName)
         .RuleFor(a => a.FirstName, f => f.Person.FirstName)
         .RuleFor(a => a.FirstName, f => "Отчество")
-        .RuleFor(a => a.Phone, f => f.Person.Phone)
+        .RuleFor(a => a.PhoneNumber, f => f.Person.Phone)
         .RuleFor(a => a.Email, f => f.Person.Email)
-        .RuleFor(a => a.Type, f => EmployeeType.Employee)
+        //.RuleFor(a => a.Type, f => EmployeeType.Employee)
         .RuleFor(a => a.Offices, (f, o) =>
         {
           var randomOffice = f.PickRandom(Offices);

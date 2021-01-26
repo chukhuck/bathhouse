@@ -1,21 +1,17 @@
-﻿using Bathhouse.ValueTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Bathhouse.Entities
 {
-  public class Office : Entity
+  public class Office
   {
+    public Guid Id { get; set; } = Guid.NewGuid();
     public int Number { get; set; } = 0;
-    [MaxLength(150, ErrorMessage ="Max lenght of field is 150 symbols.")]
     public string? Address { get; set; }
     public string? Phone { get; set; }
     public DateTime TimeOfOpen { get; set; } = DateTime.MinValue.AddHours(8).AddMinutes(0);
     public DateTime TimeOfClose { get; set; } = DateTime.MinValue.AddHours(22).AddMinutes(0);
-    [NotMapped]
     public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
     public string? Email { get; set; }
 
@@ -24,7 +20,7 @@ namespace Bathhouse.Entities
 
     public IEnumerable<Employee> GetManagers()
     {
-      return Employees.Where(e => e.Type == EmployeeType.Manager);
+      return Employees;//.Where(e => e.Type == EmployeeType.Manager);
     }
 
     public void DeleteEmployee(Guid employeeId)

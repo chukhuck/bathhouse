@@ -47,7 +47,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Director)));
+        return Ok();// _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Director)));
       }
       catch (Exception ex)
       {
@@ -70,7 +70,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Employee)));
+        return Ok();// _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Employee)));
       }
       catch (Exception ex)
       {
@@ -92,7 +92,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Manager)));
+        return Ok();// _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Manager)));
       }
       catch (Exception ex)
       {
@@ -114,7 +114,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.TechnicalSupport)));
+        return Ok();//_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.TechnicalSupport)));
       }
       catch (Exception ex)
       {

@@ -1,15 +1,13 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Bathhouse.Entities
 {
-  public class Question : Entity
+  public class Question
   {
-    [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Text { get; set; } = "New question";
-    [MaxLength(50, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 50 symbols.")]
     public string Name { get; set; } = "Newquestion";
     public bool IsKey { get; set; } = false;
     public QuestionType Type { get; set; } = QuestionType.Number;
@@ -19,6 +17,4 @@ namespace Bathhouse.Entities
 
     public ICollection<Answer> Answers { get; set; } = null!;
   }
-
-
 }

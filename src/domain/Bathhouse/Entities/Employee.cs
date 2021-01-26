@@ -1,31 +1,21 @@
-﻿using Bathhouse.ValueTypes;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Bathhouse.Entities
 {
 #nullable enable
-  public class Employee : Entity
+  public class Employee : IdentityUser<Guid>
   {
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string LastName { get; set; } = "DefaultLastName";
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string MiddleName { get; set; } = String.Empty;
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     public string FirstName { get; set; } = String.Empty;
-    [NotMapped]
     public string FullName => LastName + " " + FirstName + " " + MiddleName;
-    [NotMapped]
     public string ShortName => LastName + " " + 
                               (string.IsNullOrEmpty(FirstName) ? string.Empty : FirstName.FirstOrDefault()) + "." + 
                               (string.IsNullOrEmpty(MiddleName) ? string.Empty : MiddleName.FirstOrDefault()) + ".";
-    public string? Phone { get; set; }
-    public string? Email { get; set; }
     public DateTime? DoB { get; set; }
-    public EmployeeType Type { get; set; }
 
 
     public ICollection<Office> Offices { get; set; } = null!;
