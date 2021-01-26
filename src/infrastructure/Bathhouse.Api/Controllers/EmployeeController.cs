@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Api.Controllers
 {
@@ -44,6 +42,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("directors")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<EmployeeResponse> GetDirectors()
     {
       try
@@ -66,6 +65,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("employees")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<EmployeeResponse> GetEmployees()
     {
       try
@@ -87,6 +87,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("managers")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<EmployeeResponse> GetManagers()
     {
       try
@@ -108,6 +109,7 @@ namespace Bathhouse.Api.Controllers
     [HttpGet()]
     [Route("techsupporters")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<EmployeeResponse> GetTechSupporters()
     {
       try
@@ -137,6 +139,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<OfficeResponse> GetOffices(Guid id)
     {
       try
@@ -175,6 +178,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual IActionResult DeleteOffice(Guid id, Guid officeId)
     {
       try
@@ -209,10 +213,13 @@ namespace Bathhouse.Api.Controllers
     /// <response code="201">Adding office is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
+    /// <response code="404">Employee or Office was not found</response>
     [HttpPost]
     [Route("{id:guid}/offices/{officeId:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult<IEnumerable<OfficeResponse>> AddOffice(Guid id, Guid officeId)
     {
       try
@@ -253,6 +260,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult<IEnumerable<OfficeResponse>> SetEmployees(Guid id, [FromBody] IEnumerable<Guid> officeIds)
     {
       try
@@ -308,6 +316,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<WorkItemResponse> GetMyWorkItems(Guid id)
     {
       try
@@ -345,6 +354,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<WorkItemResponse>> GetAllCreatedWorkItems(Guid id)
     {
       try
@@ -382,6 +392,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<WorkItemResponse> GetCreatedWorkItem(Guid id, Guid workitemId)
     {
       try
@@ -416,6 +427,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult DeleteCreatedWorkItem(Guid id, Guid workitemId)
     {
       try
@@ -454,6 +466,7 @@ namespace Bathhouse.Api.Controllers
     [Route("{id:guid}/workitems")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult<WorkItemResponse> CreateWorkItem(Guid id, WorkItemRequest workItem)
     {
       try
@@ -489,6 +502,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult UpdateCreatedWorkItem(Guid id, Guid workitemId, WorkItemRequest request)
     {
       try
@@ -532,6 +546,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult ChangeStatusMyWorkItem(Guid id, Guid workItemId, WorkItemStatus newWorkItemStatus)
     {
       try
@@ -582,6 +597,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<SurveyResponse>> GetAllSurveys(Guid id)
     {
       try
@@ -619,6 +635,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<SurveyResponse> GetSurvey(Guid id, Guid surveyId)
     {
       try
@@ -654,6 +671,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<SurveySummaryResponse> GetSurveyResult(Guid id, Guid surveyId, SurveyResultSummaryType summarytype)
     {
       try
@@ -688,6 +706,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult DeleteSurvey(Guid id, Guid surveyId)
     {
       try
@@ -726,6 +745,7 @@ namespace Bathhouse.Api.Controllers
     [Route("{id:guid}/surveys")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult<SurveyResponse> CreateSurvey(Guid id, SurveyRequest survey)
     {
       try
@@ -761,6 +781,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult UpdateSurvey(Guid id, Guid surveyId, SurveyRequest request)
     {
       try

@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Api.Controllers
 {
@@ -27,10 +24,13 @@ namespace Bathhouse.Api.Controllers
     /// <param name="id">Id of summary</param>
     /// <param name="summaryType">Summary type</param>
     /// <response code="200">Getting all of entities was successful</response>
+    /// <response code="404">Survey was not found</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     [Route("{id}/summary")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
     {
       try

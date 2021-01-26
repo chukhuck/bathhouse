@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Api.Controllers
 {
@@ -40,6 +38,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<EmployeeResponse> GetManagers(Guid id)
     {
       try
@@ -77,6 +76,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<EmployeeResponse> GetEmployees(Guid id)
     {
       try
@@ -115,6 +115,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual IActionResult DeleteEmployee(Guid id, Guid employeeId)
     {
       try
@@ -149,10 +150,13 @@ namespace Bathhouse.Api.Controllers
     /// <response code="201">Adding employee is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
+    /// <response code="404">Office of Employee was not found</response>
     [HttpPost]
     [Route("{id:guid}/employees")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult<IEnumerable<EmployeeResponse>> AddEmployee(Guid id, Guid employeeId)
     {
       try
@@ -193,6 +197,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployees(Guid id, [FromBody]IEnumerable<Guid> employeeIds)
     {
       try

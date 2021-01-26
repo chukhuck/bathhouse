@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Bathhouse.Api.Controllers
 {
   [ApiController]
-  [ProducesResponseType((int)StatusCodes.Status500InternalServerError)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public class RichControllerBase<TEntity, TEntityResponse, TEntityRequest> : ControllerBase
     where TEntity : Entity
     where TEntityResponse : class

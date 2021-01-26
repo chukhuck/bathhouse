@@ -276,6 +276,7 @@
             <response code="201">Adding employee is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
+            <response code="404">Office of Employee was not found</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.SetEmployees(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
