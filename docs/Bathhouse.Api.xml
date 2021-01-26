@@ -84,6 +84,7 @@
             <response code="201">Adding office is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
+            <response code="404">Employee or Office was not found</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.SetEmployees(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
@@ -343,6 +344,7 @@
             <param name="id">Id of summary</param>
             <param name="summaryType">Summary type</param>
             <response code="200">Getting all of entities was successful</response>
+            <response code="404">Survey was not found</response>
             <response code="500">Exception on server side was fired</response>
         </member>
     </members>
