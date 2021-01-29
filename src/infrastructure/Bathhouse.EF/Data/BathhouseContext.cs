@@ -48,6 +48,40 @@ namespace Bathhouse.EF.Data
       BuildAnswer(builder);
 
       BuildWorkItem(builder);
+
+      BuildRoles(builder);
+    }
+
+    private void BuildRoles(ModelBuilder builder)
+    {
+      builder.Entity<IdentityRole<Guid>>()
+        .ToTable("Roles")
+        .HasData(
+        new IdentityRole<Guid>()
+        {
+          Id = Guid.NewGuid(),
+          Name = Constants.AdminRoleName,
+          NormalizedName = Constants.AdminRoleName.ToUpper()
+        },
+        new IdentityRole<Guid>()
+        {
+          Id = Guid.NewGuid(),
+          Name = Constants.DirectorRoleName,
+          NormalizedName = Constants.DirectorRoleName.ToUpper()
+        },
+        new IdentityRole<Guid>()
+        {
+          Id = Guid.NewGuid(),
+          Name = Constants.ManagerRoleName,
+          NormalizedName = Constants.ManagerRoleName.ToUpper()
+        },
+        new IdentityRole<Guid>()
+        {
+          Id = Guid.NewGuid(),
+          Name = Constants.EmployeeRoleName,
+          NormalizedName = Constants.EmployeeRoleName.ToUpper()
+        }
+        ); ;
     }
 
     private static void BuildIdentityEntities(ModelBuilder builder)
@@ -66,9 +100,6 @@ namespace Bathhouse.EF.Data
 
       builder.Entity<IdentityUserToken<Guid>>()
         .ToTable("EmployeeTokens");
-
-      builder.Entity<IdentityRole<Guid>>()
-        .ToTable("Roles");
     }
 
     private static void BuildWorkItem(ModelBuilder builder)
@@ -303,7 +334,7 @@ namespace Bathhouse.EF.Data
 
       builder.Entity<Employee>()
         .Property(a => a.MiddleName)
-        .HasMaxLength(30);   
+        .HasMaxLength(30);
 
       builder.Entity<Employee>()
         .Ignore(a => a.FullName);
