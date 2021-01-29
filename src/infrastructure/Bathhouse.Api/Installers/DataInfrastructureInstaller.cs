@@ -7,6 +7,7 @@ using Bathhouse.Repositories;
 using Bathhouse.Memory.Repositories;
 using AutoMapper;
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bathhouse.Api.Installers
 {
@@ -18,7 +19,7 @@ namespace Bathhouse.Api.Installers
       options.UseSqlServer(
         Configuration.GetConnectionString("BathhouseDB")));
 
-      services.AddIdentity<Employee, Role>()
+      services.AddIdentity<Employee, IdentityRole<Guid>>()
               .AddEntityFrameworkStores<BathhouseContext>();
 
 

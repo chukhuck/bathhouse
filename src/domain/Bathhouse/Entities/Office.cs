@@ -15,6 +15,7 @@ namespace Bathhouse.Entities
     public string WorkingTimeRange => $"{TimeOfOpen.ToShortTimeString()} - {TimeOfClose.ToShortTimeString()}";
     public string? Email { get; set; }
 
+
     public ICollection<Employee> Employees { get; set; } = null!;
     public ICollection<Client> Clients { get; set; } = null!;
 

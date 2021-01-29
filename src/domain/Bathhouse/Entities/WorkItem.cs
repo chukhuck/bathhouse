@@ -12,6 +12,7 @@ namespace Bathhouse.Entities
     public DateTime StartDate { get; set; } = DateTime.Now;
     public DateTime EndDate { get; set; } = DateTime.Now.AddDays(1);
     public bool IsImportant { get; set; } = false;
+    public bool IsUrgent => EndDate.Date == DateTime.Now.Date;
 
 
     public Employee Creator { get; set; } = null!;

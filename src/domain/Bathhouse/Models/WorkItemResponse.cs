@@ -11,6 +11,7 @@ namespace Bathhouse.Models
       DateTime EndDate,
       WorkItemStatus Status,
       bool IsImportant,
+      bool IsUrgent,
       string CreatorShortName,
       Guid CreatorId,
       string ExecutorShortName,

@@ -6,9 +6,13 @@ using System;
 
 namespace Bathhouse.EF.Data
 {
-  public class BathhouseContext : IdentityDbContext<Employee, Role, Guid>
+  public class BathhouseContext : IdentityDbContext<Employee, IdentityRole<Guid>, Guid>
   {
-    public DbSet<Employee> Employees { get; set; }
+    public BathhouseContext()
+    {
+      //this.
+    }
+    //public DbSet<Employee> Employees { get; set; }
     public DbSet<Answer> Answers { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<Office> Offices { get; set; }
@@ -25,7 +29,11 @@ namespace Bathhouse.EF.Data
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+      base.OnModelCreating(builder);
+
       BuildEmployee(builder);
+
+      BuildIdentityEntities(builder);
 
       BuildOffice(builder);
 
@@ -40,8 +48,27 @@ namespace Bathhouse.EF.Data
       BuildAnswer(builder);
 
       BuildWorkItem(builder);
+    }
 
-      base.OnModelCreating(builder);
+    private static void BuildIdentityEntities(ModelBuilder builder)
+    {
+      builder.Entity<IdentityRoleClaim<Guid>>()
+        .ToTable("RoleClaims");
+
+      builder.Entity<IdentityUserRole<Guid>>()
+        .ToTable("EmployeeRoles");
+
+      builder.Entity<IdentityUserLogin<Guid>>()
+        .ToTable("EmployeeLogins");
+
+      builder.Entity<IdentityUserClaim<Guid>>()
+        .ToTable("EmployeeClaims");
+
+      builder.Entity<IdentityUserToken<Guid>>()
+        .ToTable("EmployeeTokens");
+
+      builder.Entity<IdentityRole<Guid>>()
+        .ToTable("Roles");
     }
 
     private static void BuildWorkItem(ModelBuilder builder)
@@ -56,6 +83,9 @@ namespace Bathhouse.EF.Data
       builder.Entity<WorkItem>()
         .Property(a => a.CreatorId)
         .IsRequired();
+
+      builder.Entity<WorkItem>()
+        .Ignore(wi => wi.IsUrgent);
     }
 
     private static void BuildAnswer(ModelBuilder builder)
@@ -87,6 +117,14 @@ namespace Bathhouse.EF.Data
 
       builder.Entity<Client>()
         .Property(a => a.Comment)
+        .IsRequired(false);
+
+      builder.Entity<Client>()
+        .Property(a => a.DoB)
+        .IsRequired(false);
+
+      builder.Entity<Client>()
+        .Property(a => a.Comment)
         .HasMaxLength(250);
 
       builder.Entity<Client>()
@@ -100,6 +138,10 @@ namespace Bathhouse.EF.Data
       builder.Entity<Client>()
         .Property(a => a.MiddleName)
         .HasMaxLength(30);
+
+      builder.Entity<Client>()
+        .Property(a => a.Phone)
+        .HasMaxLength(20);
     }
 
     private static void BuildQuestion(ModelBuilder builder)
@@ -167,6 +209,10 @@ namespace Bathhouse.EF.Data
         .IsRequired();
 
       builder.Entity<Survey>()
+        .Property(a => a.Description)
+        .IsRequired(false);
+
+      builder.Entity<Survey>()
         .Property(a => a.Name)
         .HasMaxLength(50);
 
@@ -186,8 +232,28 @@ namespace Bathhouse.EF.Data
         .HasForeignKey(c => c.OfficeId);
 
       builder.Entity<Office>()
+        .Property(a => a.Email)
+        .IsRequired(false);
+
+      builder.Entity<Office>()
         .Property(a => a.Address)
-        .HasMaxLength(150);
+        .IsRequired(false);
+
+      builder.Entity<Office>()
+        .Property(a => a.Phone)
+        .IsRequired(false);
+
+      builder.Entity<Office>()
+        .Property(a => a.Address)
+        .HasMaxLength(200);
+
+      builder.Entity<Office>()
+        .Property(a => a.Phone)
+        .HasMaxLength(20);
+
+      builder.Entity<Office>()
+        .Property(a => a.Email)
+        .HasMaxLength(80);
 
       builder.Entity<Office>()
         .Ignore(a => a.WorkingTimeRange);
@@ -196,7 +262,7 @@ namespace Bathhouse.EF.Data
     private static void BuildEmployee(ModelBuilder builder)
     {
       builder.Entity<Employee>()
-              .HasKey(e => e.Id);
+        .ToTable("Employees");
 
       builder.Entity<Employee>()
         .HasMany(e => e.Offices)
@@ -221,7 +287,11 @@ namespace Bathhouse.EF.Data
         .HasMany(e => e.CreatedWorkItems)
         .WithOne(wi => wi.Executor)
         .HasForeignKey(wi => wi.ExecutorId)
-        .OnDelete(DeleteBehavior.ClientSetNull);
+        .OnDelete(DeleteBehavior.Restrict);
+
+      builder.Entity<Employee>()
+        .Property(a => a.DoB)
+        .IsRequired(false);
 
       builder.Entity<Employee>()
         .Property(a => a.FirstName)
@@ -233,7 +303,7 @@ namespace Bathhouse.EF.Data
 
       builder.Entity<Employee>()
         .Property(a => a.MiddleName)
-        .HasMaxLength(30);
+        .HasMaxLength(30);   
 
       builder.Entity<Employee>()
         .Ignore(a => a.FullName);
