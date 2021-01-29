@@ -8,7 +8,7 @@ namespace Bathhouse.Models
     string LastName, 
     string MiddleName, 
     string FirstName, 
-    string? Phone, 
+    string Phone, 
     DateTime? DoB, 
     string? Comment,
     Sex Sex,
