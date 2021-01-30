@@ -1,5 +1,6 @@
 using Bathhouse.Api.Extensions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -18,13 +19,16 @@ namespace Bathhouse.Api
       var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
       var logger = loggerFactory.CreateLogger(typeof(Program));
 
+      var config = serviceProvider.GetRequiredService<IConfiguration>();
+      bool generateSwaggerSpec = config.GetValue<bool>("GenerateSwaggerSpec");
+      bool seedDatabase = config.GetValue<bool>("SeedDataBase");
 
-      if (args.Length > 0 && args.Contains("--swagger"))
+      if (generateSwaggerSpec)
       {
         host.GenerateSwaggerSpecification(logger);
       }
 
-      if (args.Length > 0 && args.Contains("--seed"))
+      if (seedDatabase)
       {
         host.SeedDatabaseFromCSVFiles(logger);
       }

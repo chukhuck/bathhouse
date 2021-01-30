@@ -19,7 +19,6 @@
     },
     "Bathhouse.Api": {
       "commandName": "Project",
-      "commandLineArgs": "--swagger --seed",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
