@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.IO;
+using System;
 using System.Linq;
 
 namespace Bathhouse.Api
@@ -18,20 +18,20 @@ namespace Bathhouse.Api
       var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
       var logger = loggerFactory.CreateLogger(typeof(Program));
 
+
       if (args.Length > 0 && args.Contains("--swagger"))
       {
-        var json = host.GenerateSwagger("v1", null);
-        File.WriteAllText("swagger.json", json);
-        logger.LogInformation($"File swagger.json generated successfully.");
+        host.GenerateSwaggerSpecification(logger);
       }
 
       if (args.Length > 0 && args.Contains("--seed"))
       {
-        logger.LogInformation("Seeding");
+        host.SeedDatabaseFromCSVFiles(logger);
       }
 
       host.Run();
     }
+
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
