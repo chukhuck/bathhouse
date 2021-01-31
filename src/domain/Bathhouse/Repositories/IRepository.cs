@@ -12,6 +12,7 @@ namespace Bathhouse.Repositories
   {
     IEnumerable<TEntity> GetAll();
     TEntity? Get(Guid id);
+    bool Exist(Guid id);
     TEntity Add(TEntity entity);
     IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities);
     void Delete(Guid id);

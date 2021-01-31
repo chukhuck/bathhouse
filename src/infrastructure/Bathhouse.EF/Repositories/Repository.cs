@@ -48,6 +48,11 @@ namespace Bathhouse.EF.Repositories
       context.Set<TEntity>().RemoveRange(entities);
     }
 
+    public bool Exist(Guid id)
+    {
+      return context.Set<TEntity>().Find(id) != null;
+    }
+
     public TEntity Get(Guid id)
     {
       return context.Set<TEntity>().Find(id);

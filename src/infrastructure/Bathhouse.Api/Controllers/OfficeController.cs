@@ -18,11 +18,10 @@ namespace Bathhouse.Api.Controllers
     public OfficeController(
       ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger,
       IMapper mapper,
-      IRepository<Office> repository,
-      IRepository<Employee> employeeRepository)
-      : base(logger, mapper, repository)
+      IUnitOfWork unitOfWork)
+      : base(logger, mapper, unitOfWork)
     {
-      _employeeRepository = employeeRepository;
+      _employeeRepository = unitOfWork.Repository<Employee>();
     }
 
     /// <summary>
@@ -124,7 +123,7 @@ namespace Bathhouse.Api.Controllers
         {
           office.DeleteEmployee(employeeId);
 
-          _repository.SaveChanges();
+          _unitOfWork.Complete();
           _logger.LogInformation($"Employee of office id={id} was deleted successfully.");
 
           return NoContent();
@@ -165,8 +164,8 @@ namespace Bathhouse.Api.Controllers
         {
           office.AddEmployee(addingEmployee);
 
-          if (_repository.SaveChanges())
-            _logger.LogInformation($"Employee id={employeeId} was added to Office ID={id} successfully.");
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Employee id={employeeId} was added to Office ID={id} successfully.");
 
           return CreatedAtAction(nameof(GetEmployees), new {id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
         }
@@ -225,8 +224,8 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Employee id={employeeId} was found.");
         }
 
-        if (_repository.SaveChanges())
-          _logger.LogInformation($"Employees was added to Office ID={id} successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Employees was added to Office ID={id} successfully.");
 
         return CreatedAtAction(nameof(GetEmployees), new { id }, _mapper.Map<ICollection<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
       }

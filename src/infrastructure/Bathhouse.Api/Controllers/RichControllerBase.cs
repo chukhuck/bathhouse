@@ -15,7 +15,7 @@ namespace Bathhouse.Api.Controllers
   [ApiController]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public class RichControllerBase<TEntity, TEntityResponse, TEntityRequest> : ControllerBase
-    where TEntity : class
+    where TEntity : class, new()
     where TEntityResponse : class
     where TEntityRequest : class
   {
@@ -28,17 +28,14 @@ namespace Bathhouse.Api.Controllers
     protected readonly IUnitOfWork _unitOfWork;
 
     public RichControllerBase(
-      ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger, 
-      IMapper mapper, 
-      IRepository<TEntity> repository,
+      ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger,
+      IMapper mapper,
       IUnitOfWork unitOfWork)
     {
       _logger = logger;
-      _repository = repository;
+      _repository = unitOfWork.Repository<TEntity>();
       _mapper = mapper;
       _unitOfWork = unitOfWork;
-
-      
     }
 
     /// <summary>
@@ -115,8 +112,8 @@ namespace Bathhouse.Api.Controllers
       {
         TEntity newEntity = _repository.Add(_mapper.Map<TEntityRequest, TEntity>(request));
 
-        if (_repository.SaveChanges())
-          _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");
 
         return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
       }
@@ -148,10 +145,10 @@ namespace Bathhouse.Api.Controllers
       {
         if (_repository.Get(id) is TEntity entity)
         {
-          TEntity updatedEntity = _repository.Update(_mapper.Map<TEntityRequest, TEntity>(request, entity));
+          TEntity updatedEntity = _mapper.Map<TEntityRequest, TEntity>(request, entity);
 
-          if (_repository.SaveChanges())
-            _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
 
           return NoContent();
         }
@@ -184,15 +181,16 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_repository.Exist(id))
+        TEntity? entity = _repository.Get(id);
+        if (entity is null)
         {
           _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
           return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         }
 
-        _repository.Delete(id);
+        _repository.Delete(entity);
 
-        if (_repository.SaveChanges())
+        _unitOfWork.Complete();
           _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
 
         return NoContent();

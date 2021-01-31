@@ -16,11 +16,10 @@ namespace Bathhouse.Api.Controllers
 
     public ClientController(ILogger<RichControllerBase<Client, ClientResponse, ClientRequest>> logger, 
                             IMapper mapper, 
-                            IRepository<Client> repository,
-                            IRepository<Office> officeRepository)
-      : base(logger, mapper, repository)
+                            IUnitOfWork unitOfWork)
+      : base(logger, mapper, unitOfWork)
     {
-      _officeRepository = officeRepository;
+      _officeRepository = unitOfWork.Repository<Office>();
     }
 
     /// <summary>

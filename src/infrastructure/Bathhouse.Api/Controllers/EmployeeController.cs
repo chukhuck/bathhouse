@@ -21,15 +21,12 @@ namespace Bathhouse.Api.Controllers
     public EmployeeController(
       ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
       IMapper mapper,
-      IRepository<Employee> repository,
-      IRepository<Office> officesRepository,
-      IRepository<WorkItem> workItemRepository,
-      IRepository<Survey> surveyRepository)
-      : base(logger, mapper, repository)
+      IUnitOfWork unitOfWork)
+      : base(logger, mapper, unitOfWork)
     {
-      _officesRepository = officesRepository;
-      _workItemRepository = workItemRepository;
-      _surveyRepository = surveyRepository;
+      _officesRepository = unitOfWork.Repository<Office>();
+      _workItemRepository = unitOfWork.Repository<WorkItem>();
+      _surveyRepository = unitOfWork.Repository<Survey>();
     }
 
     #region Static endpoints
@@ -187,7 +184,7 @@ namespace Bathhouse.Api.Controllers
         {
           employee.DeleteOffice(officeId);
 
-          _repository.SaveChanges();
+          _unitOfWork.Complete();
           _logger.LogInformation($"Office of employee id={id} was deleted successfully.");
 
           return NoContent();
@@ -228,8 +225,8 @@ namespace Bathhouse.Api.Controllers
         {
           employee.AddOffice(addingOffice);
 
-          if (_repository.SaveChanges())
-            _logger.LogInformation($"Office id={officeId} was added to Employee ID={id} successfully.");
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Office id={officeId} was added to Employee ID={id} successfully.");
 
           return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
         }
@@ -288,8 +285,8 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Office id={officeId} was found.");
         }
 
-        if (_repository.SaveChanges())
-          _logger.LogInformation($"Office was added to Employee ID={id} successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Office was added to Employee ID={id} successfully.");
 
         return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
       }
@@ -441,9 +438,9 @@ namespace Bathhouse.Api.Controllers
         }
     
         _workItemRepository.Delete(workitemId);
-    
-        if (_workItemRepository.SaveChanges())
-          _logger.LogInformation($"WorkItem id={workitemId} was deleted successfully.");
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"WorkItem id={workitemId} was deleted successfully.");
     
         return NoContent();
       }
@@ -474,8 +471,8 @@ namespace Bathhouse.Api.Controllers
         workItem.CreatorId = id;
         WorkItem newWorkItem = _workItemRepository.Add(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
 
-        if (_repository.SaveChanges())
-          _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
         return CreatedAtAction("GetCreatedWorkItem", new {id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
       }
@@ -510,10 +507,10 @@ namespace Bathhouse.Api.Controllers
         if (_workItemRepository.Get(workitemId) is WorkItem workItem && workItem.CreatorId == id)
         {
           request.CreatorId = id;
-          WorkItem updatedEntity = _workItemRepository.Update(_mapper.Map<WorkItemRequest, WorkItem>(request, workItem));
-    
-          if (_workItemRepository.SaveChanges())
-            _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
+          WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, workItem);
+
+          _unitOfWork.Complete();
+          _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
     
           return NoContent();
         }
@@ -560,10 +557,9 @@ namespace Bathhouse.Api.Controllers
           }
 
           workItem.Status = newWorkItemStatus;
-          WorkItem updatedEntity = _workItemRepository.Update(workItem);
 
-          if (_workItemRepository.SaveChanges())
-            _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
+          _unitOfWork.Complete();
+          _logger.LogInformation($"WorkItem id={id} was updated successfully.");
 
           return NoContent();
         }
@@ -721,8 +717,8 @@ namespace Bathhouse.Api.Controllers
 
         _surveyRepository.Delete(surveyId);
 
-        if (_surveyRepository.SaveChanges())
-          _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
 
         return NoContent();
       }
@@ -753,8 +749,8 @@ namespace Bathhouse.Api.Controllers
         survey.AuthorId = id;
         Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
 
-        if (_surveyRepository.SaveChanges())
-          _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
 
         return CreatedAtAction("GetSurvey", new {id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
       }
@@ -789,10 +785,10 @@ namespace Bathhouse.Api.Controllers
         if (_surveyRepository.Get(surveyId) is Survey survey && survey.AuthorId == id)
         {
           request.AuthorId = id;
-          Survey updatedEntity = _surveyRepository.Update(_mapper.Map<SurveyRequest, Survey>(request, survey));
+          Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, survey);
 
-          if (_surveyRepository.SaveChanges())
-            _logger.LogInformation($"Survey id={updatedEntity.Id} was updated successfully.");
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Survey id={updatedEntity.Id} was updated successfully.");
 
           return NoContent();
         }
