@@ -22,6 +22,7 @@ namespace Bathhouse.Api
       var config = serviceProvider.GetRequiredService<IConfiguration>();
       bool generateSwaggerSpec = config.GetValue<bool>("GenerateSwaggerSpec");
       bool seedDatabase = config.GetValue<bool>("SeedDataBase");
+      bool useTestDataInMemory = config.GetValue<bool>("UseTestDataInMemory");
 
       if (generateSwaggerSpec)
       {
@@ -31,6 +32,11 @@ namespace Bathhouse.Api
       if (seedDatabase)
       {
         host.SeedDatabaseFromCSVFiles(logger);
+      }
+
+      if (useTestDataInMemory)
+      {
+        host.SeedTestDataFromBogus(logger);
       }
 
       host.Run();

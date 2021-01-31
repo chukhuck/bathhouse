@@ -15,7 +15,7 @@ namespace Bathhouse.Memory.Repositories
 
     public MemoryBaseCRUDRepository()
     {
-      entities = InMemoryContext.Init(entities);
+      //entities = InMemoryContext.Init(entities);
     }
 
     public virtual IEnumerable<TEntity> GetAll()

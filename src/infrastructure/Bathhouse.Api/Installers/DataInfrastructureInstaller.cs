@@ -15,12 +15,22 @@ namespace Bathhouse.Api.Installers
   {
     public void InstallService(IServiceCollection services, IConfiguration Configuration)
     {
+      bool useTestDataInMemory = Configuration.GetValue<bool>("UseTestDataInMemory");
+
       services.AddDbContext<BathhouseContext>(options =>
-      options.UseSqlServer(
-        Configuration.GetConnectionString("BathhouseDB")));
+      {
+        if (useTestDataInMemory)
+        {
+          options.UseInMemoryDatabase("BathhouseInMemoryDB");
+        }
+        else
+        {
+          options.UseSqlServer(Configuration.GetConnectionString("BathhouseDB"));
+        }
+      });
 
       services.AddIdentity<Employee, IdentityRole<Guid>>()
-              .AddEntityFrameworkStores<BathhouseContext>();
+                .AddEntityFrameworkStores<BathhouseContext>();
 
 
       services.AddSingleton<ICRUDRepository<Office>, MemoryBaseCRUDRepository<Office>>();

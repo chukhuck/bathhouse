@@ -30,9 +30,9 @@ namespace Bathhouse.Test
     public void Add_Employee_Not_Equal_Null()
     {
       Employee employee = new Employee();
-
+      
       office.AddEmployee(employee);
-
+      
       Assert.Single(office.Employees, o => o.Id == employee.Id);
     }
 

@@ -128,9 +128,9 @@ namespace Bathhouse.Test
     public void Delete_Exist_Office()
     {
       Guid idDeletingOffice = InMemoryContext.Employees.Where(e => e.Offices.Count != 0).LastOrDefault().Id;
-
+      
       employee.DeleteOffice(idDeletingOffice);
-
+      
       Assert.DoesNotContain(idDeletingOffice, employee.GetOffices().Select(o=>o.Id));
     }
 
@@ -139,7 +139,7 @@ namespace Bathhouse.Test
     {
       Employee emp = InMemoryContext.Employees.Where(e => e.Offices.Count != 0).LastOrDefault();
       int officeCount = emp.GetOffices().Count();
-
+      
       employee.DeleteOffice(Guid.NewGuid());
 
       Assert.Equal(officeCount, emp.GetOffices().Count());
