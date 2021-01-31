@@ -13,13 +13,13 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class OfficeController : RichControllerBase<Office, OfficeResponse, OfficeRequest>
   {
-    readonly ICRUDRepository<Employee> _employeeRepository;
+    readonly IRepository<Employee> _employeeRepository;
 
     public OfficeController(
       ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger,
       IMapper mapper,
-      ICRUDRepository<Office> repository,
-      ICRUDRepository<Employee> employeeRepository)
+      IRepository<Office> repository,
+      IRepository<Employee> employeeRepository)
       : base(logger, mapper, repository)
     {
       _employeeRepository = employeeRepository;

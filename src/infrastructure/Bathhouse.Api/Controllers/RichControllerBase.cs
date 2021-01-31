@@ -19,13 +19,13 @@ namespace Bathhouse.Api.Controllers
     where TEntityResponse : class
     where TEntityRequest : class
   {
-    protected readonly ICRUDRepository<TEntity> _repository;
+    protected readonly IRepository<TEntity> _repository;
 
     protected readonly ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> _logger;
 
     protected readonly IMapper _mapper;
 
-    public RichControllerBase(ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger, IMapper mapper, ICRUDRepository<TEntity> repository)
+    public RichControllerBase(ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger, IMapper mapper, IRepository<TEntity> repository)
     {
       _logger = logger;
       _repository = repository;
@@ -105,7 +105,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        TEntity newEntity = _repository.Create(_mapper.Map<TEntityRequest, TEntity>(request));
+        TEntity newEntity = _repository.Add(_mapper.Map<TEntityRequest, TEntity>(request));
 
         if (_repository.SaveChanges())
           _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");

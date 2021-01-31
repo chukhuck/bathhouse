@@ -10,7 +10,7 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class WorkItemController : RichControllerBase<WorkItem, WorkItemResponse, WorkItemRequest>
   {
-    public WorkItemController(ILogger<RichControllerBase<WorkItem, WorkItemResponse, WorkItemRequest>> logger, IMapper mapper, ICRUDRepository<WorkItem> repository)
+    public WorkItemController(ILogger<RichControllerBase<WorkItem, WorkItemResponse, WorkItemRequest>> logger, IMapper mapper, IRepository<WorkItem> repository)
       : base(logger, mapper, repository)
     {
     }

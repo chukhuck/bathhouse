@@ -14,17 +14,17 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class EmployeeController : RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>
   {
-    readonly ICRUDRepository<Office> _officesRepository;
-    readonly ICRUDRepository<WorkItem> _workItemRepository;
-    readonly ICRUDRepository<Survey> _surveyRepository;
+    readonly IRepository<Office> _officesRepository;
+    readonly IRepository<WorkItem> _workItemRepository;
+    readonly IRepository<Survey> _surveyRepository;
 
     public EmployeeController(
       ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
       IMapper mapper,
-      ICRUDRepository<Employee> repository,
-      ICRUDRepository<Office> officesRepository,
-      ICRUDRepository<WorkItem> workItemRepository,
-      ICRUDRepository<Survey> surveyRepository)
+      IRepository<Employee> repository,
+      IRepository<Office> officesRepository,
+      IRepository<WorkItem> workItemRepository,
+      IRepository<Survey> surveyRepository)
       : base(logger, mapper, repository)
     {
       _officesRepository = officesRepository;
@@ -472,7 +472,7 @@ namespace Bathhouse.Api.Controllers
       try
       {
         workItem.CreatorId = id;
-        WorkItem newWorkItem = _workItemRepository.Create(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
+        WorkItem newWorkItem = _workItemRepository.Add(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
 
         if (_repository.SaveChanges())
           _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
@@ -751,7 +751,7 @@ namespace Bathhouse.Api.Controllers
       try
       {
         survey.AuthorId = id;
-        Survey newSurvey = _surveyRepository.Create(_mapper.Map<SurveyRequest, Survey>(survey));
+        Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
 
         if (_surveyRepository.SaveChanges())
           _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");

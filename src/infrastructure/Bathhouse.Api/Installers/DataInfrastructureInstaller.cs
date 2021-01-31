@@ -33,11 +33,11 @@ namespace Bathhouse.Api.Installers
                 .AddEntityFrameworkStores<BathhouseContext>();
 
 
-      services.AddSingleton<ICRUDRepository<Office>, MemoryBaseCRUDRepository<Office>>();
-      services.AddSingleton<ICRUDRepository<Employee>, MemoryBaseCRUDRepository<Employee>>();
-      services.AddSingleton<ICRUDRepository<Client>, MemoryBaseCRUDRepository<Client>>();
-      services.AddSingleton<ICRUDRepository<WorkItem>, MemoryBaseCRUDRepository<WorkItem>>();
-      services.AddSingleton<ICRUDRepository<Survey>, MemoryBaseCRUDRepository<Survey>>();
+      services.AddSingleton<IRepository<Office>, MemoryBaseCRUDRepository<Office>>();
+      services.AddSingleton<IRepository<Employee>, MemoryBaseCRUDRepository<Employee>>();
+      services.AddSingleton<IRepository<Client>, MemoryBaseCRUDRepository<Client>>();
+      services.AddSingleton<IRepository<WorkItem>, MemoryBaseCRUDRepository<WorkItem>>();
+      services.AddSingleton<IRepository<Survey>, MemoryBaseCRUDRepository<Survey>>();
 
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }

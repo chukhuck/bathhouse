@@ -13,7 +13,7 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class SurveyController : RichControllerBase<Survey, SurveyResponse, SurveyRequest>
   {
-    public SurveyController(ILogger<RichControllerBase<Survey, SurveyResponse, SurveyRequest>> logger, IMapper mapper, ICRUDRepository<Survey> repository)
+    public SurveyController(ILogger<RichControllerBase<Survey, SurveyResponse, SurveyRequest>> logger, IMapper mapper, IRepository<Survey> repository)
       : base(logger, mapper, repository)
     {
     }

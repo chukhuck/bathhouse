@@ -12,12 +12,12 @@ namespace Bathhouse.Api.Controllers
   [Route("[controller]")]
   public class ClientController : RichControllerBase<Client, ClientResponse, ClientRequest>
   {
-    protected readonly ICRUDRepository<Office> _officeRepository;
+    protected readonly IRepository<Office> _officeRepository;
 
     public ClientController(ILogger<RichControllerBase<Client, ClientResponse, ClientRequest>> logger, 
                             IMapper mapper, 
-                            ICRUDRepository<Client> repository,
-                            ICRUDRepository<Office> officeRepository)
+                            IRepository<Client> repository,
+                            IRepository<Office> officeRepository)
       : base(logger, mapper, repository)
     {
       _officeRepository = officeRepository;
