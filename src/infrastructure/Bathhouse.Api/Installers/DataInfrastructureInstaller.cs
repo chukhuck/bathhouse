@@ -4,10 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
-using Bathhouse.Memory.Repositories;
 using AutoMapper;
 using System;
 using Microsoft.AspNetCore.Identity;
+using Bathhouse.EF.Repositories;
 
 namespace Bathhouse.Api.Installers
 {
@@ -33,11 +33,12 @@ namespace Bathhouse.Api.Installers
                 .AddEntityFrameworkStores<BathhouseContext>();
 
 
-      services.AddSingleton<IRepository<Office>, MemoryBaseCRUDRepository<Office>>();
-      services.AddSingleton<IRepository<Employee>, MemoryBaseCRUDRepository<Employee>>();
-      services.AddSingleton<IRepository<Client>, MemoryBaseCRUDRepository<Client>>();
-      services.AddSingleton<IRepository<WorkItem>, MemoryBaseCRUDRepository<WorkItem>>();
-      services.AddSingleton<IRepository<Survey>, MemoryBaseCRUDRepository<Survey>>();
+      services.AddScoped<IUnitOfWork, UnitOfWork>();
+      //services.AddScoped<IRepository<Office>, Repository<Office>>();
+      //services.AddScoped<IRepository<Employee>, Repository<Employee>>();
+      //services.AddScoped<IRepository<Client>, Repository<Client>>();
+      //services.AddScoped<IRepository<WorkItem>, Repository<WorkItem>>();
+      //services.AddScoped<IRepository<Survey>, Repository<Survey>>();
 
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }
