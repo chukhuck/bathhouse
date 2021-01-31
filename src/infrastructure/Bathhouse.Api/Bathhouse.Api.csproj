@@ -43,7 +43,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\domain\Bathhouse\Bathhouse.csproj" />
     <ProjectReference Include="..\Bathhouse.EF\Bathhouse.EF.csproj" />
-    <ProjectReference Include="..\Bathhouse.Memory\Bathhouse.Memory.csproj" />
   </ItemGroup>
 
 </Project>
