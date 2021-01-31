@@ -25,12 +25,20 @@ namespace Bathhouse.Api.Controllers
 
     protected readonly IMapper _mapper;
 
-    public RichControllerBase(ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger, IMapper mapper, IRepository<TEntity> repository)
+    protected readonly IUnitOfWork _unitOfWork;
+
+    public RichControllerBase(
+      ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger, 
+      IMapper mapper, 
+      IRepository<TEntity> repository,
+      IUnitOfWork unitOfWork)
     {
       _logger = logger;
       _repository = repository;
       _mapper = mapper;
+      _unitOfWork = unitOfWork;
 
+      
     }
 
     /// <summary>

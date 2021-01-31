@@ -15,5 +15,7 @@ namespace Bathhouse.Repositories
     IWorkItemRepository WorkItems { get; }
 
     int Complete();
+
+    IRepository<TEntity> Repository<TEntity>() where TEntity : class, new();
   }
 }

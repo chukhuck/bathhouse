@@ -1,5 +1,7 @@
 ﻿using Bathhouse.EF.Data;
+using Bathhouse.Entities;
 using Bathhouse.Repositories;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace Bathhouse.EF.Repositories
@@ -48,6 +50,25 @@ namespace Bathhouse.EF.Repositories
     public void Dispose()
     {
       Context.Dispose();
+    }
+
+    public IRepository<TEntity> Repository<TEntity>() where TEntity : class, new()
+    {
+      TEntity entity = new TEntity();
+
+      return entity switch
+      {
+        Answer _ => (IRepository<TEntity>)Answers,
+        Client _ => (IRepository<TEntity>)Clients,
+        Employee _ => (IRepository<TEntity>)Employees,
+        Office _ => (IRepository<TEntity>)Offices,
+        Question _ => (IRepository<TEntity>)Questions,
+        IdentityRole _ => (IRepository<TEntity>)Roles,
+        Survey _ => (IRepository<TEntity>)Surveys,
+        SurveyResult _ => (IRepository<TEntity>)SurveyResults,
+        WorkItem _ => (IRepository<TEntity>)WorkItems,
+        _ => throw new ArgumentNullException(nameof(TEntity), $"Unrecognised type {typeof(TEntity)}.")
+      };
     }
   }
 }
