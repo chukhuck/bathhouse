@@ -47,7 +47,7 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Office id={id} was getting successfully.");
           _logger.LogInformation($"Managers for office id={id} was getting successfully.");
 
-          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.GetManagers()));
+          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
         }
         else
         {

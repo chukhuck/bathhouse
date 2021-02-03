@@ -15,9 +15,9 @@ namespace Bathhouse.Entities
     public bool IsUrgent => EndDate.Date == DateTime.Now.Date;
 
 
-    public Employee Creator { get; set; } = null!;
+    public virtual Employee Creator { get; set; } = null!;
     public Guid CreatorId { get; set; }
-    public Employee? Executor { get; set; }
+    public virtual Employee? Executor { get; set; }
     public Guid? ExecutorId { get; set; }
   }
 }

@@ -36,7 +36,7 @@ namespace Bathhouse.Api
 
       if (useTestDataInMemory)
       {
-        host.SeedTestDataFromBogus(logger);
+        host.SeedTestData();
       }
 
       host.Run();

@@ -146,7 +146,7 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"Office for employee id={id} was getting successfully.");
 
-          return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+          return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.Offices));
         }
         else
         {
@@ -228,7 +228,7 @@ namespace Bathhouse.Api.Controllers
           _unitOfWork.Complete();
           _logger.LogInformation($"Office id={officeId} was added to Employee ID={id} successfully.");
 
-          return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+          return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.Offices));
         }
         else
         {
@@ -288,7 +288,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Office was added to Employee ID={id} successfully.");
 
-        return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.GetOffices()));
+        return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.Offices));
       }
       catch (Exception ex)
       {
@@ -323,7 +323,7 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
 
-          return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(employee.GetMyWorkItems()));
+          return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(employee.WorkItems));
         }
         else
         {
@@ -361,7 +361,7 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"WorkItems created by employee id={id} was getting successfully.");
 
-          return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(employee.GetCreatedWorkItems()));
+          return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(employee.CreatedWorkItems));
         }
         else
         {
@@ -603,7 +603,7 @@ namespace Bathhouse.Api.Controllers
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"Surveys for employee id={id} was getting successfully.");
 
-          return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(employee.GetSurveys()));
+          return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(employee.Surveys));
         }
         else
         {

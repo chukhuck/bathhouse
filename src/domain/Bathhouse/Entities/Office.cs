@@ -16,13 +16,8 @@ namespace Bathhouse.Entities
     public string? Email { get; set; }
 
 
-    public ICollection<Employee> Employees { get; set; } = null!;
-    public ICollection<Client> Clients { get; set; } = null!;
-
-    public IEnumerable<Employee> GetManagers()
-    {
-      return Employees;//.Where(e => e.Type == EmployeeType.Manager);
-    }
+    public virtual ICollection<Employee> Employees { get; set; } = null!;
+    public virtual ICollection<Client> Clients { get; set; } = null!;
 
     public void DeleteEmployee(Guid employeeId)
     {

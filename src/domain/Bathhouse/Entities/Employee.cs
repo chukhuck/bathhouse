@@ -18,20 +18,15 @@ namespace Bathhouse.Entities
     public DateTime? DoB { get; set; }
 
 
-    public ICollection<Office> Offices { get; set; } = null!;
+    public virtual ICollection<Office> Offices { get; set; } = null!;
 
-    public ICollection<WorkItem> CreatedWorkItems { get; set; } = null!;
+    public virtual ICollection<WorkItem> CreatedWorkItems { get; set; } = null!;
 
-    public ICollection<WorkItem> WorkItems { get; set; } = null!;
+    public virtual ICollection<WorkItem> WorkItems { get; set; } = null!;
 
-    public ICollection<SurveyResult> SurveyResults { get; set; } = null!;
+    public virtual ICollection<SurveyResult> SurveyResults { get; set; } = null!;
 
-    public ICollection<Survey> Surveys { get; set; } = null!;
-
-    public IEnumerable<Office> GetOffices()
-    {
-      return Offices;
-    }
+    public virtual ICollection<Survey> Surveys { get; set; } = null!;
 
     public void DeleteOffice(Guid officeId)
     {
@@ -45,21 +40,6 @@ namespace Bathhouse.Entities
         throw new ArgumentNullException(paramName: nameof(addingOffice));
 
       Offices.Add(addingOffice);
-    }
-
-    public IEnumerable<WorkItem> GetMyWorkItems()
-    {
-      return WorkItems;
-    }
-
-    public IEnumerable<WorkItem> GetCreatedWorkItems()
-    {
-      return CreatedWorkItems;
-    }
-
-    public IEnumerable<Survey> GetSurveys()
-    {
-      return Surveys;
     }
   }
 }

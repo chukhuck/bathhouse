@@ -32,13 +32,7 @@ namespace Bathhouse.Api.Installers
       services.AddIdentity<Employee, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<BathhouseContext>();
 
-
       services.AddScoped<IUnitOfWork, UnitOfWork>();
-      //services.AddScoped<IRepository<Office>, Repository<Office>>();
-      //services.AddScoped<IRepository<Employee>, Repository<Employee>>();
-      //services.AddScoped<IRepository<Client>, Repository<Client>>();
-      //services.AddScoped<IRepository<WorkItem>, Repository<WorkItem>>();
-      //services.AddScoped<IRepository<Survey>, Repository<Survey>>();
 
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     }

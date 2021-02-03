@@ -10,13 +10,17 @@ namespace Bathhouse.Test
     [Fact]
     public void New_Simple_SurveySummary_With_Null_Survey_Param()
     {
+#pragma warning disable CS8625
       Assert.Throws<ArgumentNullException>(() => new SimpleSurveySummary(null));
+#pragma warning restore CS8625
     }
 
     [Fact]
     public void New_Aggregated_SurveySummary_With_Null_Survey_Param()
     {
+#pragma warning disable CS8625
       Assert.Throws<ArgumentNullException>(() => new AggregatedSurveySummary(null));
+#pragma warning restore CS8625
     }
 
     [Fact]

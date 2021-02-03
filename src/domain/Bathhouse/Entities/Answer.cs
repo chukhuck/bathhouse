@@ -5,11 +5,11 @@ namespace Bathhouse.Entities
   public class Answer
   {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public Question Question { get; set; } = null!;
+    public virtual Question Question { get; set; } = null!;
 
     public Guid QuestionId { get; set; }
 
-    public SurveyResult Result { get; set; } = null!;
+    public virtual SurveyResult Result { get; set; } = null!;
 
     public Guid ResultId { get; set; }
 

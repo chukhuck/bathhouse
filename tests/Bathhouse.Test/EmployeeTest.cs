@@ -1,16 +1,17 @@
+using Bathhouse.EF.InMemory;
 using Bathhouse.Entities;
-using Bathhouse.Memory;
+using chukhuck.Linq.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class EmployeeTest
+  public class EmployeeTest : IClassFixture<SharedBathhouseDbFixture>
   {
-    public static readonly Employee employee = InMemoryContext.Employees.FirstOrDefault();
+    public EmployeeTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
 
+    public SharedBathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void Get_Full_Name_With_All_Of_Parts_Of_Name_Is_Filling()
@@ -45,104 +46,53 @@ namespace Bathhouse.Test
     }
 
     [Fact]
-    public void Get_Offices_Return_Offices_Of_Employee()
-    {
-      IEnumerable<Office> offices = employee.GetOffices();
-
-      Assert.Equal(employee.Offices, offices);
-    }
-
-    [Fact]
-    public void Get_Offices_Return_Not_Null()
-    {
-      IEnumerable<Office> offices = employee.GetOffices();
-
-      Assert.NotNull(offices);
-    }
-
-    [Fact]
-    public void Get_Offices_Return_MyWorkItems_Of_Employee()
-    {
-      IEnumerable<WorkItem> workItems = employee.GetMyWorkItems();
-
-      Assert.Equal(employee.WorkItems, workItems);
-    }
-
-    [Fact]
-    public void Get_MyWorkItems_Return_Not_Null()
-    {
-      IEnumerable<WorkItem> workItems = employee.GetMyWorkItems();
-
-      Assert.NotNull(workItems);
-    }
-
-    [Fact]
-    public void Get_Offices_Return_CreatedWorkItems_Of_Employee()
-    {
-      IEnumerable<WorkItem> workItems = employee.GetCreatedWorkItems();
-
-      Assert.Equal(employee.CreatedWorkItems, workItems);
-    }
-
-    [Fact]
-    public void Get_CreatedWorkItems_Return_Not_Null()
-    {
-      IEnumerable<WorkItem> workItems = employee.GetCreatedWorkItems();
-
-      Assert.NotNull(workItems);
-    }
-
-    [Fact]
-    public void Get_Offices_Return_Surveys_Of_Employee()
-    {
-      IEnumerable<Survey> surveys = employee.GetSurveys();
-
-      Assert.Equal(employee.Surveys, surveys);
-    }
-
-    [Fact]
-    public void Get_Surveys_Return_Not_Null()
-    {
-      IEnumerable<Survey> surveys = employee.GetSurveys();
-
-      Assert.NotNull(surveys);
-    }
-
-    [Fact]
     public void Add_Office_Equal_Null()
     {
+      using var context = Fixture.CreateContext();
+      var employee = context.Users.ToList().RandomOrDefault() ?? new Employee();
+
+#pragma warning disable CS8625
       Assert.Throws<ArgumentNullException>(() => employee.AddOffice(null));
+#pragma warning restore CS8625
     }
 
     [Fact]
     public void Add_Office_Not_Equal_Null()
     {
+      using var context = Fixture.CreateContext();
+      var employee = context.Users.ToList().RandomOrDefault() ?? new Employee();
+
       Office office = new Office();
 
       employee.AddOffice(office);
 
-      Assert.Single(employee.GetOffices(), o => o.Id == office.Id);
+      Assert.Single(employee.Offices, o => o.Id == office.Id);
     }
 
     [Fact]
     public void Delete_Exist_Office()
     {
-      Guid idDeletingOffice = InMemoryContext.Employees.Where(e => e.Offices.Count != 0).LastOrDefault().Id;
-      
+      using var context = Fixture.CreateContext();
+      var employee = context.Users.ToList().RandomOrDefault() ?? new Employee();
+
+      Guid idDeletingOffice = employee.Offices.LastOrDefault()?.Id ?? Guid.Empty;
+
       employee.DeleteOffice(idDeletingOffice);
-      
-      Assert.DoesNotContain(idDeletingOffice, employee.GetOffices().Select(o=>o.Id));
+
+      Assert.DoesNotContain(idDeletingOffice, employee.Offices.Select(o => o.Id));
     }
 
     [Fact]
     public void Delete_Not_Exist_Office()
     {
-      Employee emp = InMemoryContext.Employees.Where(e => e.Offices.Count != 0).LastOrDefault();
-      int officeCount = emp.GetOffices().Count();
-      
+      using var context = Fixture.CreateContext();
+      var employee = context.Users.ToList().RandomOrDefault() ?? new Employee();
+
+      int officeCount = employee.Offices.Count;
+
       employee.DeleteOffice(Guid.NewGuid());
 
-      Assert.Equal(officeCount, emp.GetOffices().Count());
+      Assert.Equal(officeCount, employee.Offices.Count);
     }
   }
 }

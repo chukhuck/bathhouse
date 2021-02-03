@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Bathhouse.Api.Configuration
+﻿namespace Bathhouse.EF.InMemory
 {
-  public class TestDataSeederOption
+  public class DataFakerOption
   {
     public const string Position = "TestDataSeederOption";
 
@@ -33,5 +28,17 @@ namespace Bathhouse.Api.Configuration
     public int Max_Hour_Of_Openning_Office { get; set; }
     public int Min_Hour_Of_Closing_Office { get; set; }
     public int Max_Hour_Of_Closing_Office { get; set; }
+    public string Director_LastName { get; set; } = string.Empty;
+    public string Director_FirstName { get; set; } = string.Empty;
+    public string Director_MiddleName { get; set; } = string.Empty;
+    public string Director_DoB { get; set; } = string.Empty;
+    public string Director_PhoneNumber { get; set; } = string.Empty;
+    public string Director_Email { get; set; } = string.Empty;
+    public string TechSupport_LastName { get; set; } = string.Empty;
+    public string TechSupport_FirstName { get; set; } = string.Empty;
+    public string TechSupport_MiddleName { get; set; } = string.Empty;
+    public string TechSupport_DoB { get; set; } = string.Empty;
+    public string TechSupport_PhoneNumber { get; set; } = string.Empty;
+    public string TechSupport_Email { get; set; } = string.Empty;
   }
 }

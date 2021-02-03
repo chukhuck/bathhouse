@@ -1,45 +1,49 @@
-﻿using Bathhouse.Entities;
-using Bathhouse.Memory;
-using Bathhouse.ValueTypes;
+﻿using Bathhouse.EF.InMemory;
+using Bathhouse.Entities;
+using chukhuck.Linq.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class OfficeTest
+  public class OfficeTest : IClassFixture<SharedBathhouseDbFixture>
   {
-    public static readonly Office office = InMemoryContext.Offices.FirstOrDefault();
+    public OfficeTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
 
-    [Fact]
-    public void GetManagers()
-    {
-      List<Employee> managers = office.Employees.ToList();//.Where(e => e.Type == EmployeeType.Manager).ToList();
-
-      Assert.Equal(managers, office.GetManagers());
-    }
+    public SharedBathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void Add_Employee_Equal_Null()
     {
+      using var context = Fixture.CreateContext();
+      var office = context.Offices.ToList().RandomOrDefault() ?? new Office();
+
+#pragma warning disable CS8625
       Assert.Throws<ArgumentNullException>(() => office.AddEmployee(null));
+#pragma warning restore CS8625
     }
 
     [Fact]
     public void Add_Employee_Not_Equal_Null()
     {
+      using var context = Fixture.CreateContext();
+      var office = context.Offices.ToList().RandomOrDefault() ?? new Office();
+
       Employee employee = new Employee();
-      
+
       office.AddEmployee(employee);
-      
+
       Assert.Single(office.Employees, o => o.Id == employee.Id);
     }
 
     [Fact]
     public void Delete_Exist_Employee()
     {
-      Guid idDeletingEmployee = InMemoryContext.Offices.Where(e => e.Employees.Count != 0).LastOrDefault().Id;
+      using var context = Fixture.CreateContext();
+      var office = context.Offices.ToList().RandomOrDefault() ?? new Office();
+
+      Guid idDeletingEmployee = office.Employees.Last().Id;
 
       office.DeleteEmployee(idDeletingEmployee);
 
@@ -49,13 +53,14 @@ namespace Bathhouse.Test
     [Fact]
     public void Delete_Not_Exist_Employee()
     {
-      Office off = InMemoryContext.Offices.Where(e => e.Employees.Count != 0).LastOrDefault();
+      using var context = Fixture.CreateContext();
+      var office = context.Offices.ToList().RandomOrDefault() ?? new Office();
 
-      int employeeCount = off.Employees.Count;
+      int employeeCount = office.Employees.Count;
 
-      off.DeleteEmployee(Guid.NewGuid());
+      office.DeleteEmployee(Guid.NewGuid());
 
-      Assert.Equal(employeeCount, off.Employees.Count);
+      Assert.Equal(employeeCount, office.Employees.Count);
     }
   }
 }

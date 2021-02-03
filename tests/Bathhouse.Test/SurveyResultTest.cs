@@ -1,21 +1,35 @@
-﻿using Bathhouse.Entities;
-using Bathhouse.Memory;
+﻿using Bathhouse.EF.InMemory;
+using Bathhouse.Entities;
+using chukhuck.Linq.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class SurveyResultTest
+  public class SurveyResultTest : IClassFixture<SharedBathhouseDbFixture>
   {
-    public static readonly SurveyResult surveyResult = InMemoryContext.SurveyResults.FirstOrDefault();
+    public SurveyResultTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
+
+    public SharedBathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void To_List_With_No_Answers()
     {
-      surveyResult.Answers = new List<Answer>();
+      using var context = Fixture.CreateContext();
+      var author = context.Users.ToList().RandomOrDefault() ?? new Employee();
+      var survey = context.Surveys.ToList().RandomOrDefault() ?? new Survey();
 
-      List<string> row = new ();
+      var surveyResult = new SurveyResult()
+      {
+        Answers = new List<Answer>(),
+        Author = author,
+        AuthorId = author.Id,
+        Survey = survey,
+        SurveyId = survey.Id
+      };
+
+      List<string> row = new();
 
       row.Add(surveyResult.CreationDate.ToString());
       row.Add(surveyResult.Author.LastName);

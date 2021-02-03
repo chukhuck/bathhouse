@@ -12,9 +12,9 @@ namespace Bathhouse.Entities
     public bool IsKey { get; set; } = false;
     public QuestionType Type { get; set; } = QuestionType.Number;
 
-    public Survey Survey { get; set; } = null!;
+    public virtual Survey Survey { get; set; } = null!;
     public Guid SurveyId { get; set; }
 
-    public ICollection<Answer> Answers { get; set; } = null!;
+    public virtual ICollection<Answer> Answers { get; set; } = null!;
   }
 }

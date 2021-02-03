@@ -14,7 +14,7 @@ namespace Bathhouse.Entities
     public string? Comment { get; set; }
     public Sex Sex { get; set; } = Sex.Unknown;
 
-    public Office Office { get; set; } = null!;
+    public virtual Office Office { get; set; } = null!;
     public Guid OfficeId { get; set; }
   }
 }

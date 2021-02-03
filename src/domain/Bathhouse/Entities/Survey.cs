@@ -13,10 +13,10 @@ namespace Bathhouse.Entities
     public SurveyStatus Status { get; set; } = SurveyStatus.Work;
 
 
-    public Employee Author { get; set; } = null!;
+    public virtual Employee Author { get; set; } = null!;
     public Guid AuthorId { get; set; }
-    public ICollection<Question> Questions { get; set; } = null!;
-    public ICollection<SurveyResult> Results { get; set; } = null!;
+    public virtual ICollection<Question> Questions { get; set; } = null!;
+    public virtual ICollection<SurveyResult> Results { get; set; } = null!;
 
     /// <summary>
     /// Get All of results of this survey
