@@ -34,9 +34,6 @@ namespace Bathhouse.EF.InMemory
       }
 
       context.SaveChanges();
-
-      Console.WriteLine("ans" + context.Answers.Local.Where(a=>a.Result == null && a.Id != Guid.Empty).Count());
-      Console.WriteLine("sr" + context.SurveyResults.Local.Where(a => a.Answers == null).Count());
     }
     
 

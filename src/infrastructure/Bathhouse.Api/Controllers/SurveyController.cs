@@ -79,7 +79,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Survey entity)
+        if (_repository.Get(key: id, navigationPropertyNames: new[] {"Questions"}) is Survey entity)
         {
           _logger.LogInformation($"Survey id={id} was getting successfully.");
           return Ok(_mapper.Map<Survey, SurveyResponse>(entity));

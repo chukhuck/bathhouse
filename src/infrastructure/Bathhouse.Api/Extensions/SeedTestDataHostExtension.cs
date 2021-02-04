@@ -3,6 +3,7 @@ using Bathhouse.EF.InMemory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace Bathhouse.Api.Extensions
 {
@@ -15,9 +16,15 @@ namespace Bathhouse.Api.Extensions
       using (BathhouseContext context = scope.ServiceProvider.GetRequiredService<BathhouseContext>())
       {
         IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+        string baseDirectory = Path.GetDirectoryName(typeof(Program)?.Assembly?.Location) ?? string.Empty;
+
+        var builder = new ConfigurationBuilder()
+          .SetBasePath(baseDirectory)
+          .AddJsonFile("Faker.json");
+        var configuration = builder.Build();
 
         var opt = new DataFakerOption();
-        config.GetSection(DataFakerOption.Position).Bind(opt);
+        configuration.GetSection(DataFakerOption.Position).Bind(opt);
 
         DataFaker.Generate(context, opt);
       }

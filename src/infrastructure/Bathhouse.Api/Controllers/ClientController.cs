@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bathhouse.Api.Controllers
 {
@@ -48,7 +49,10 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var allEntities = _repository.GetAll();
+        var allEntities = _repository.GetAll(
+          navigationPropertyNames: new[] { "Office" }, 
+          orderBy: all=> all.OrderByDescending(c=>c.LastName));
+
         _logger.LogInformation($"All of Clients was got.");
 
         return Ok(_mapper.Map<IEnumerable<Client>, IEnumerable<ClientResponse>>(allEntities));
@@ -79,7 +83,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Client entity)
+        if (_repository.Get(key: id, navigationPropertyNames: new[] { "Office"}) is Client entity)
         {
           _logger.LogInformation($"Client id={id} was getting successfully.");
           return Ok(_mapper.Map<Client, ClientResponse>(entity));
