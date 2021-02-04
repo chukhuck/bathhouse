@@ -56,13 +56,13 @@ namespace Bathhouse.EF.Repositories
 
     public TEntity? Get<TEntityKey>(
       TEntityKey key,
-      IEnumerable<string>? navigationPropertyNames = null)
+      IEnumerable<string>? includePropertyNames = null)
     {
       var entity = context.Set<TEntity>().Find(key);
 
-      if (navigationPropertyNames != null)
+      if (includePropertyNames != null && entity != null)
       {
-        foreach (var includePropertyName in navigationPropertyNames)
+        foreach (var includePropertyName in includePropertyNames)
         {
           context.Entry(entity).Navigation(includePropertyName).Load();
         }
@@ -74,7 +74,7 @@ namespace Bathhouse.EF.Repositories
 
     public IEnumerable<TEntity> GetAll(
       Expression<Func<TEntity, bool>>? filter = null, 
-      IEnumerable<string>? navigationPropertyNames = null, 
+      IEnumerable<string>? includePropertyNames = null, 
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null)
     {
       IQueryable<TEntity> query = context.Set<TEntity>();
@@ -84,9 +84,9 @@ namespace Bathhouse.EF.Repositories
         query = query.Where(filter);
       }
 
-      if (navigationPropertyNames != null)
+      if (includePropertyNames != null)
       {
-        foreach (var includeExpression in navigationPropertyNames)
+        foreach (var includeExpression in includePropertyNames)
         {
           query = query.Include(includeExpression);
         }

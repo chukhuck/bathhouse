@@ -20,7 +20,7 @@ namespace Bathhouse.EF.InMemory
       GenerateManagers(context, opt);
       GenerateOtherEmployees(context, opt);
 
-      director.CreatedWorkItems = GenerateWorkItems(context, opt, creator: director);
+      GenerateWorkItems(context, opt, creator: director);
 
       foreach (var survey in GenerateSurveys(context, opt: opt, author: director))
       {
@@ -41,15 +41,7 @@ namespace Bathhouse.EF.InMemory
 private static List<Survey> GenerateSurveys(BathhouseContext context, Employee author, DataFakerOption opt)
 {
   var testSurveys = new Faker<Survey>(opt.Locale)
-    .RuleFor(a => a.Id, f => f.Random.Guid())
-    .RuleFor(a => a.Author, (f, o) =>
-    {
-      if (author.Surveys == null)
-        author.Surveys = new List<Survey>();
-
-      author.Surveys.Add(o);
-      return author;
-    })
+    .RuleFor(a => a.Author, (f, o) => author)
     .RuleFor(a => a.AuthorId, f => author.Id)
     .RuleFor(a => a.CreationDate, f => f.Date.Between(DateTime.Parse(opt.Common_start_day), DateTime.Parse(opt.Common_end_day)))
     .RuleFor(a => a.Description, f => "Description " + f.IndexFaker.ToString())
@@ -71,7 +63,6 @@ private static List<Survey> GenerateSurveys(BathhouseContext context, Employee a
 private static List<Question> GenerateQuestions(BathhouseContext context, int count, Survey survey, DataFakerOption opt)
 {
   var testQuestions = new Faker<Question>(opt.Locale)
-    .RuleFor(a => a.Id, f => f.Random.Guid())
     .RuleFor(a => a.Name, f => "Column " + f.IndexFaker.ToString())
     .RuleFor(a => a.Type, f => f.PickRandom<QuestionType>())
     .RuleFor(a => a.Text, (f, o) => "Question " + f.IndexFaker)
@@ -103,22 +94,12 @@ private static string GenerateOneAnswer(QuestionType type, Faker faker, DataFake
 private static List<SurveyResult> GenerateSurveyResults(BathhouseContext context, DataFakerOption opt, Survey survey)
 {
   var testSurveyResults = new Faker<SurveyResult>(opt.Locale)
-    .RuleFor(a => a.Id, f => f.Random.Guid())
     .RuleFor(a => a.CreationDate, f => f.Date.Between(
       DateTime.Parse(opt.Common_start_day),
       DateTime.Parse(opt.Common_end_day)))
-    .RuleFor(a => a.Author, (f, o) =>
-    {
-      var randomEmployee = f.PickRandom(context.Users.Local.ToList());
-      randomEmployee.SurveyResults.Add(o);
-      return randomEmployee;
-    })
+    .RuleFor(a => a.Author, (f, o) => f.PickRandom(context.Users.Local.ToList()))
     .RuleFor(a => a.AuthorId, (f, o) => o.Author.Id)
-    .RuleFor(a => a.Survey, (f, o) =>
-    {
-      survey.Results.Add(o);
-      return survey;
-    })
+    .RuleFor(a => a.Survey, (f, o) => survey)
     .RuleFor(a => a.SurveyId, (f, o) => survey.Id)
     .RuleFor(a => a.Answers, (f, o) => new List<Answer>())
     ;
@@ -132,19 +113,10 @@ private static List<SurveyResult> GenerateSurveyResults(BathhouseContext context
 private static List<Answer> GenerateAnswers(BathhouseContext context, DataFakerOption opt, int count, SurveyResult result, Question question)
 {
   var testAnswers = new Faker<Answer>(opt.Locale)
-    //.RuleFor(a => a.Id, f => f.Random.Guid())
-    .RuleFor(a => a.Question, (f, o) =>
-    {
-      question.Answers.Add(o);
-      return question;
-    })
+    .RuleFor(a => a.Question, (f, o) => question)
     .RuleFor(a => a.QuestionId, (f, o) => o.Question.Id)
     .RuleFor(a => a.Value, (f, o) => GenerateOneAnswer(o.Question.Type, f, opt))
-    .RuleFor(a => a.Result, (f, o) =>
-    {
-      result.Answers.Add(o);
-      return result;
-    })
+    .RuleFor(a => a.Result, (f, o) => result)
     .RuleFor(a => a.ResultId, (f, o) => result.Id)
     ;
 
@@ -190,10 +162,7 @@ private static Employee GenerateDirector(BathhouseContext context, DataFakerOpti
     CreatedWorkItems = new List<WorkItem>()
   };
 
-  var myWorkItems = GenerateWorkItems(context, opt, creator: director, executor: director);
-
-  director.WorkItems = myWorkItems;
-  director.CreatedWorkItems = myWorkItems.ToList();
+  GenerateWorkItems(context, opt, creator: director, executor: director);
 
   context.Users.Add(director);
 
@@ -203,7 +172,6 @@ private static Employee GenerateDirector(BathhouseContext context, DataFakerOpti
 private static List<WorkItem> GenerateWorkItems(BathhouseContext context, DataFakerOption opt, Employee creator, Employee? executor = null)
 {
   var testWorkItems = new Faker<WorkItem>(opt.Locale)
-    //.RuleFor(a => a.Id, f => f.Random.Guid())
     .RuleFor(a => a.CreationDate, f => f.Date.Between(
       DateTime.Parse(opt.Common_start_day),
       DateTime.Parse(opt.Common_end_day)))
@@ -218,18 +186,7 @@ private static List<WorkItem> GenerateWorkItems(BathhouseContext context, DataFa
     .RuleFor(a => a.IsImportant, f => f.Random.Bool())
     .RuleFor(a => a.Creator, f => creator)
     .RuleFor(a => a.CreatorId, (f, o) => creator.Id)
-    .RuleFor(a => a.Executor, (f, o) =>
-    {
-      if (executor == null)
-      {
-        var randomExecutor = f.PickRandom(context.Users.Local.ToList());
-        randomExecutor.WorkItems.Add(o);
-
-        return randomExecutor;
-      }
-      else
-        return executor;
-    })
+    .RuleFor(a => a.Executor, (f, o) => executor ?? f.PickRandom(context.Users.Local.ToList()))
     .RuleFor(a => a.ExecutorId, (f, o) => o.Executor?.Id)
     ;
 
@@ -242,7 +199,6 @@ private static List<WorkItem> GenerateWorkItems(BathhouseContext context, DataFa
 private static List<Client> GenerateClients(BathhouseContext context, DataFakerOption opt, Office office)
 {
   var testClients = new Faker<Client>(opt.Locale)
-    //.RuleFor(a => a.Id, f => f.Random.Guid())
     .RuleFor(a => a.Comment, f => f.Lorem.Sentence())
     .RuleFor(a => a.DoB, f => f.Date.Between(
       DateTime.Parse(opt.Start_birthday),
@@ -271,7 +227,7 @@ private static List<Employee> GenerateManagers(BathhouseContext context, DataFak
       DateTime.Parse(opt.End_birthday)))
     .RuleFor(a => a.LastName, f => f.Person.LastName)
     .RuleFor(a => a.FirstName, f => f.Person.FirstName)
-    .RuleFor(a => a.FirstName, f => "Отчество")
+    .RuleFor(a => a.MiddleName, f => "Отчество")
     .RuleFor(a => a.PhoneNumber, f => f.Person.Phone)
     .RuleFor(a => a.Email, f => f.Person.Email)
     .RuleFor(a => a.Offices, (f, o) => GenerateOffices(
@@ -299,13 +255,12 @@ private static List<Employee> GenerateOtherEmployees(BathhouseContext context, D
       DateTime.Parse(opt.End_birthday)))
     .RuleFor(a => a.LastName, f => f.Person.LastName)
     .RuleFor(a => a.FirstName, f => f.Person.FirstName)
-    .RuleFor(a => a.FirstName, f => "Отчество")
+    .RuleFor(a => a.MiddleName, f => "Отчество")
     .RuleFor(a => a.PhoneNumber, f => f.Person.Phone)
     .RuleFor(a => a.Email, f => f.Person.Email)
     .RuleFor(a => a.Offices, (f, o) =>
     {
       var randomOffice = f.PickRandom(context.Offices.Local.ToList());
-      randomOffice.Employees.Add(o);
       return new List<Office>() { randomOffice };
     })
     .RuleFor(a => a.WorkItems, (f, o) => context.WorkItems.Local.Where(wi => wi.ExecutorId == o.Id).ToList())

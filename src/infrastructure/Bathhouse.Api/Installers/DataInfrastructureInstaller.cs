@@ -8,6 +8,8 @@ using AutoMapper;
 using System;
 using Microsoft.AspNetCore.Identity;
 using Bathhouse.EF.Repositories;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace Bathhouse.Api.Installers
 {
@@ -21,7 +23,10 @@ namespace Bathhouse.Api.Installers
       {
         if (useTestDataInMemory)
         {
-          options.UseInMemoryDatabase("BathhouseInMemoryDB");
+          options
+          .UseInMemoryDatabase("BathhouseInMemoryDB")
+          .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug)))
+          .EnableSensitiveDataLogging();
         }
         else
         {

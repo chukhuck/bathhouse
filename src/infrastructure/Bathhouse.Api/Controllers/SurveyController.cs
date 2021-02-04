@@ -18,9 +18,7 @@ namespace Bathhouse.Api.Controllers
 
     protected readonly IUnitOfWork _unitOfWork;
     protected readonly IRepository<Survey> _repository;
-
     protected readonly ILogger<SurveyController> _logger;
-
     protected readonly IMapper _mapper;
 
     public SurveyController(
@@ -35,6 +33,7 @@ namespace Bathhouse.Api.Controllers
     }
 
     #region CRUD endpoints
+
     /// <summary>
     /// Get all of Surveys
     /// </summary>
@@ -48,7 +47,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var allEntities = _repository.GetAll();
+        var allEntities = _repository.GetAll(includePropertyNames: new[] { "Author"});
         _logger.LogInformation($"All of Surveys was got.");
 
         return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(allEntities));
@@ -79,7 +78,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: id, navigationPropertyNames: new[] {"Questions"}) is Survey entity)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Author", "Questions" }) is Survey entity)
         {
           _logger.LogInformation($"Survey id={id} was getting successfully.");
           return Ok(_mapper.Map<Survey, SurveyResponse>(entity));
@@ -118,7 +117,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Survey id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Survey, SurveyResponse>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Survey, SurveyResponse>(newEntity));
       }
       catch (Exception ex)
       {
@@ -148,7 +147,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Survey entity)
+        if (_repository.Get(id, includePropertyNames: new[] { "Questions"}) is Survey entity)
         {
           Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
 
@@ -230,8 +229,8 @@ namespace Bathhouse.Api.Controllers
         if (_repository.Get(id) is Survey survey)
         {
           _logger.LogInformation($"The survey ID={id} was received successfully.");
-          var temp = survey.GetSummary(summaryType);
-          return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(temp));
+          var summary = survey.GetSummary(summaryType);
+          return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
         }
         else
         {

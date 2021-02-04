@@ -1,5 +1,7 @@
-﻿using Bathhouse.ValueTypes;
+﻿using Bathhouse.Entities;
+using Bathhouse.ValueTypes;
 using System;
+using System.Collections.Generic;
 
 namespace Bathhouse.Models
 {
@@ -11,9 +13,8 @@ namespace Bathhouse.Models
     string MiddleName,
     string ShortName,
     string FullName,
-    string? Phone,
+    string? PhoneNumber,
     string? Email,
-    DateTime? DoB,
-    EmployeeType Type
+    DateTime? DoB
     );
 }

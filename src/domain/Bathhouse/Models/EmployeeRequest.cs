@@ -37,7 +37,7 @@ namespace Bathhouse.Models
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
-    public string? Phone { get; set; } = "+7-495-000-00-00";
+    public string? PhoneNumber { get; set; } = "+7-495-000-00-00";
 
     /// <summary>
     /// Email of employee
@@ -52,11 +52,5 @@ namespace Bathhouse.Models
     [DataType(System.ComponentModel.DataAnnotations.DataType.Date, ErrorMessage = "Incorrect date format.")]
     [DefaultValue("1950-01-01")]
     public DateTime? DoB { get; set; } = DateTime.Parse("1950-01-01");
-
-    /// <summary>
-    /// Type of employee
-    /// </summary>
-    [DefaultValue(EmployeeType.Manager)]
-    public EmployeeType Type { get; set; } = EmployeeType.Manager;
   }
 }

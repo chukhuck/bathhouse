@@ -13,10 +13,10 @@ namespace Bathhouse.Repositories
   {
     IEnumerable<TEntity> GetAll(
       Expression<Func<TEntity, bool>> filter = null,
-      IEnumerable<string> navigationPropertyNames = null,
+      IEnumerable<string> includePropertyNames = null,
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
 
-    TEntity? Get<TEntityKey>(TEntityKey key, IEnumerable<string> navigationPropertyNames = null);
+    TEntity? Get<TEntityKey>(TEntityKey key, IEnumerable<string> includePropertyNames = null);
     bool Exist(Guid id);
     TEntity Add(TEntity entity);
     IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities);

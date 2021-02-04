@@ -50,8 +50,8 @@ namespace Bathhouse.Api.Controllers
       try
       {
         var allEntities = _repository.GetAll(
-          navigationPropertyNames: new[] { "Office" }, 
-          orderBy: all=> all.OrderByDescending(c=>c.LastName));
+          includePropertyNames: new[] { "Office" }, 
+          orderBy: all=> all.OrderBy(c=>c.Office.Number));
 
         _logger.LogInformation($"All of Clients was got.");
 
@@ -83,7 +83,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: id, navigationPropertyNames: new[] { "Office"}) is Client entity)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Office"}) is Client entity)
         {
           _logger.LogInformation($"Client id={id} was getting successfully.");
           return Ok(_mapper.Map<Client, ClientResponse>(entity));
@@ -128,7 +128,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Client id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Client, ClientResponse>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Client, ClientResponse>(newEntity));
       }
       catch (Exception ex)
       {

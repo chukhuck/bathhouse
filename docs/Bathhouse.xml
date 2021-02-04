@@ -25,7 +25,7 @@
             FirstName of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.ClientRequest.Phone">
+        <member name="P:Bathhouse.Models.ClientRequest.PhoneNumber">
             <summary>
             Phone of client
             </summary>
@@ -65,7 +65,7 @@
             Middle Name of employee
             </summary>
         </member>
-        <member name="P:Bathhouse.Models.EmployeeRequest.Phone">
+        <member name="P:Bathhouse.Models.EmployeeRequest.PhoneNumber">
             <summary>
             Phone of employee
             </summary>
@@ -78,11 +78,6 @@
         <member name="P:Bathhouse.Models.EmployeeRequest.DoB">
             <summary>
             Day of Birth
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Models.EmployeeRequest.Type">
-            <summary>
-            Type of employee
             </summary>
         </member>
         <member name="P:Bathhouse.Models.OfficeRequest.Number">

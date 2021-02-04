@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bathhouse.Api.Controllers
 {
@@ -48,7 +49,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var allEntities = _repository.GetAll();
+        var allEntities = _repository.GetAll(orderBy: all => all.OrderBy(c => c.Number));
         _logger.LogInformation($"All of Offices was got.");
 
         return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(allEntities));
@@ -118,7 +119,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Office id= was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Office, OfficeResponse>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Office, OfficeResponse>(newEntity));
       }
       catch (Exception ex)
       {
@@ -210,7 +211,7 @@ namespace Bathhouse.Api.Controllers
     }
     #endregion
 
-
+    // TODO 
     /// <summary>
     /// Get managers of office
     /// </summary>
@@ -267,7 +268,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Office office)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Employees"}) is Office office)
         {
           _logger.LogInformation($"Office id={id} was getting successfully.");
           _logger.LogInformation($"Employees for office id={id} was getting successfully.");
@@ -306,7 +307,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Office office)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Employees" }) is Office office)
         {
           office.DeleteEmployee(employeeId);
 
@@ -347,7 +348,8 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Office office && _employeeRepository.Get(employeeId) is Employee addingEmployee)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Employees" }) is Office office 
+          && _employeeRepository.Get(employeeId) is Employee addingEmployee)
         {
           office.AddEmployee(addingEmployee);
 
@@ -388,7 +390,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        Office? office = _repository.Get(id);
+        Office? office = _repository.Get(key: id, includePropertyNames: new[] { "Employees" });
         if (office == null)
         {
           _logger.LogInformation($"Office with ID={id} was not found.");

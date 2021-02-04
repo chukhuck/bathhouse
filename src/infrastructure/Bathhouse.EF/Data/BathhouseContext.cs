@@ -13,13 +13,13 @@ namespace Bathhouse.EF.Data
       //this.
     }
     //public DbSet<Employee> Employees { get; set; }
-    public DbSet<Answer> Answers { get; set; }
-    public DbSet<Client> Clients { get; set; }
-    public DbSet<Office> Offices { get; set; }
-    public DbSet<Question> Questions { get; set; }
-    public DbSet<Survey> Surveys { get; set; }
-    public DbSet<SurveyResult> SurveyResults { get; set; }
-    public DbSet<WorkItem> WorkItems { get; set; }
+    public DbSet<Answer> Answers { get; set; } = null!;
+    public DbSet<Client> Clients { get; set; } = null!;
+    public DbSet<Office> Offices { get; set; } = null!;
+    public DbSet<Question> Questions { get; set; } = null!;
+    public DbSet<Survey> Surveys { get; set; } = null!;
+    public DbSet<SurveyResult> SurveyResults { get; set; } = null!;
+    public DbSet<WorkItem> WorkItems { get; set; } = null!;
 
 
     public BathhouseContext(DbContextOptions<BathhouseContext> options) : base(options)
@@ -52,7 +52,7 @@ namespace Bathhouse.EF.Data
       BuildRoles(builder);
     }
 
-    private void BuildRoles(ModelBuilder builder)
+    private static void BuildRoles(ModelBuilder builder)
     {
       builder.Entity<IdentityRole<Guid>>()
         .ToTable("Roles")
@@ -310,12 +310,12 @@ namespace Bathhouse.EF.Data
         .HasForeignKey(s => s.AuthorId);
 
       builder.Entity<Employee>()
-        .HasMany(e => e.WorkItems)
+        .HasMany(e => e.CreatedWorkItems)
         .WithOne(wi => wi.Creator)
         .HasForeignKey(wi => wi.CreatorId);
 
       builder.Entity<Employee>()
-        .HasMany(e => e.CreatedWorkItems)
+        .HasMany(e => e.WorkItems)
         .WithOne(wi => wi.Executor)
         .HasForeignKey(wi => wi.ExecutorId)
         .OnDelete(DeleteBehavior.Restrict);

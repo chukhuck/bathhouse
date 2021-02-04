@@ -5008,7 +5008,7 @@
             "type": "string",
             "nullable": true
           },
-          "phone": {
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           },
@@ -5092,7 +5092,7 @@
             "default": "Имя",
             "nullable": true
           },
-          "phone": {
+          "phoneNumber": {
             "type": "string",
             "description": "Phone of client",
             "format": "tel",
@@ -5125,16 +5125,6 @@
         },
         "additionalProperties": false
       },
-      "EmployeeType": {
-        "enum": [
-          "Director",
-          "Manager",
-          "Employee",
-          "TechnicalSupport"
-        ],
-        "type": "string",
-        "description": "Type of employee"
-      },
       "EmployeeResponse": {
         "type": "object",
         "properties": {
@@ -5162,7 +5152,7 @@
             "type": "string",
             "nullable": true
           },
-          "phone": {
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           },
@@ -5174,9 +5164,6 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/EmployeeType"
           }
         },
         "additionalProperties": false
@@ -5210,7 +5197,7 @@
             "default": "Отчество",
             "nullable": true
           },
-          "phone": {
+          "phoneNumber": {
             "type": "string",
             "description": "Phone of employee",
             "format": "tel",
@@ -5230,9 +5217,6 @@
             "format": "date",
             "default": "1950-01-01T00:00:00.0000000",
             "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/EmployeeType"
           }
         },
         "additionalProperties": false
@@ -5516,10 +5500,6 @@
             "format": "string",
             "default": "Описание нового опроса",
             "nullable": true
-          },
-          "creationDate": {
-            "type": "string",
-            "format": "date"
           },
           "authorId": {
             "type": "string",

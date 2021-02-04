@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bathhouse.Api.Controllers
 {
@@ -15,14 +16,12 @@ namespace Bathhouse.Api.Controllers
   [ApiController]
   public class EmployeeController : ControllerBase
   {
-    readonly IRepository<Office> _officesRepository;
-    readonly IRepository<WorkItem> _workItemRepository;
-    readonly IRepository<Survey> _surveyRepository;
+    protected readonly IRepository<Office> _officesRepository;
+    protected readonly IRepository<WorkItem> _workItemRepository;
+    protected readonly IRepository<Survey> _surveyRepository;
     protected readonly IUnitOfWork _unitOfWork;
     protected readonly IRepository<Employee> _repository;
-
     protected readonly ILogger<EmployeeController> _logger;
-
     protected readonly IMapper _mapper;
 
     public EmployeeController(
@@ -66,6 +65,7 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    // TODO Add offices to response 
     /// <summary>
     /// Get Employee by ID
     /// </summary>
@@ -124,7 +124,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Employee id= was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Employee, EmployeeResponse>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Employee, EmployeeResponse>(newEntity));
       }
       catch (Exception ex)
       {
@@ -220,6 +220,7 @@ namespace Bathhouse.Api.Controllers
 
     #region Static endpoints
 
+    //TODO Add rolemanager
     /// <summary>
     /// Get all of the directors in the system
     /// </summary>
@@ -242,7 +243,7 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
-
+    //TODO Add rolemanager
     /// <summary>
     /// Get all of the employees in the system
     /// </summary>
@@ -265,6 +266,7 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    //TODO Add rolemanager
     /// <summary>
     /// Get all of the managers in the system
     /// </summary>
@@ -287,6 +289,7 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    //TODO Add rolemanager
     /// <summary>
     /// Get all of the tech supporters in the system
     /// </summary>
@@ -330,7 +333,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Employee employee)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices"}) is Employee employee)
         {
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"Office for employee id={id} was getting successfully.");
@@ -369,7 +372,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Employee employee)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices" }) is Employee employee)
         {
           employee.DeleteOffice(officeId);
 
@@ -410,7 +413,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Employee employee && _officesRepository.Get(officeId) is Office addingOffice)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices" }) is Employee employee && _officesRepository.Get(officeId) is Office addingOffice)
         {
           employee.AddOffice(addingOffice);
 
@@ -451,7 +454,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        Employee? employee = _repository.Get(id);
+        Employee? employee = _repository.Get(key: id, includePropertyNames: new[] { "Offices" });
         if (employee == null)
         {
           _logger.LogInformation($"Employee with ID={id} was not found.");
@@ -507,18 +510,19 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Employee employee)
-        {
-          _logger.LogInformation($"Employee id={id} was getting successfully.");
-          _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
-
-          return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(employee.WorkItems));
-        }
-        else
+        if (_repository.Get(key: id) is not Employee employee)
         {
           _logger.LogInformation($"Employee with ID={id} was not found.");
           return NotFound($"Employee with ID={id} was not found.");
         }
+
+        _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
+
+        var workItems = _workItemRepository.GetAll(
+          filter: wi => wi.ExecutorId == id, 
+          includePropertyNames: new[] { "Executor", "Creator"},
+          orderBy: all => all.OrderBy(wi => wi.CreationDate));
+        return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
       }
       catch (Exception ex)
       {
@@ -545,18 +549,19 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Employee employee)
-        {
-          _logger.LogInformation($"Employee id={id} was getting successfully.");
-          _logger.LogInformation($"WorkItems created by employee id={id} was getting successfully.");
-
-          return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(employee.CreatedWorkItems));
-        }
-        else
+        if (_repository.Get(key: id) is not Employee employee)
         {
           _logger.LogInformation($"Employee with ID={id} was not found.");
           return NotFound($"Employee with ID={id} was not found.");
         }
+
+        _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
+
+        var workItems = _workItemRepository.GetAll(
+          filter: wi => wi.CreatorId == id,
+          includePropertyNames: new[] { "Executor", "Creator" },
+          orderBy: all => all.OrderBy(wi => wi.CreationDate));
+        return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
       }
       catch (Exception ex)
       {
@@ -787,7 +792,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is Employee employee)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Surveys" }) is Employee employee)
         {
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"Surveys for employee id={id} was getting successfully.");

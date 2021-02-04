@@ -37,7 +37,7 @@ namespace Bathhouse.Models
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
-    public string Phone { get; set; } = "+7-495-000-00-00";
+    public string PhoneNumber { get; set; } = "+7-495-000-00-00";
 
     /// <summary>
     /// Day of Birth

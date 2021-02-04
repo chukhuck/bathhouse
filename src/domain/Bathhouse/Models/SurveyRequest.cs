@@ -18,8 +18,8 @@ namespace Bathhouse.Models
     [DefaultValue("Описание нового опроса")]
     public string? Description { get; set; } = "Описание нового опроса";
 
-    [DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    public DateTime CreationDate { get; set; } = DateTime.Now;
+    //[DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
+    //public DateTime CreationDate { get; set; } = DateTime.Now;
 
     [Required]
     public Guid AuthorId { get; set; }

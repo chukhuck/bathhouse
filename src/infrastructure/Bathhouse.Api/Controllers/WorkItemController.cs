@@ -42,7 +42,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var allEntities = _repository.GetAll();
+        var allEntities = _repository.GetAll(includePropertyNames: new[] { "Creator", "Executor" });
         _logger.LogInformation($"All of WorkItems was got.");
 
         return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(allEntities));
@@ -73,7 +73,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(id) is WorkItem entity)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Creator", "Executor"}) is WorkItem entity)
         {
           _logger.LogInformation($"WorkItem id={id} was getting successfully.");
           return Ok(_mapper.Map<WorkItem, WorkItemResponse>(entity));
@@ -112,7 +112,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"WorkItem id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
+        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
       }
       catch (Exception ex)
       {
