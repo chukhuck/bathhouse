@@ -6,69 +6,220 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace Bathhouse.Api.Controllers
 {
   [Route("[controller]")]
-  public class ClientController : RichControllerBase<Client, ClientResponse, ClientRequest>
+  [ApiController]
+  public class ClientController : ControllerBase
   {
     protected readonly IRepository<Office> _officeRepository;
 
-    public ClientController(ILogger<RichControllerBase<Client, ClientResponse, ClientRequest>> logger, 
+    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IRepository<Client> _repository;
+
+    protected readonly ILogger<ClientController> _logger;
+
+    protected readonly IMapper _mapper;
+
+    public ClientController(ILogger<ClientController> logger, 
                             IMapper mapper, 
                             IUnitOfWork unitOfWork)
-      : base(logger, mapper, unitOfWork)
     {
       _officeRepository = unitOfWork.Repository<Office>();
+      _logger = logger;
+      _mapper = mapper;
+      _unitOfWork = unitOfWork;
+      _repository = _unitOfWork.Repository<Client>();
+    }
+
+    #region CRUD endpoints
+    /// <summary>
+    /// Get all of Clients
+    /// </summary>
+    /// <response code="200">Getting all of Clients was successful</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<IEnumerable<ClientResponse>> Get()
+    {
+      try
+      {
+        var allEntities = _repository.GetAll();
+        _logger.LogInformation($"All of Clients was got.");
+
+        return Ok(_mapper.Map<IEnumerable<Client>, IEnumerable<ClientResponse>>(allEntities));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting all of Clients an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of Clients an exception was fired.");
+      }
     }
 
     /// <summary>
-    /// Create and add entity.
+    /// Get Client by ID
     /// </summary>
-    /// <param name="request">Newly creating entity</param>
-    /// <response code="201">Creating entity is successul</response>
+    /// <param name="id">The Client ID</param>
+    /// <response code="404">Client with current ID is not found</response>
+    /// <response code="200">Getting Client is successul</response>
+    /// <response code="400">If the request is null</response>
     /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Office was not found</response>
+    [HttpGet()]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<ClientResponse> GetById(Guid id)
+    {
+      try
+      {
+        if (_repository.Get(id) is Client entity)
+        {
+          _logger.LogInformation($"Client id={id} was getting successfully.");
+          return Ok(_mapper.Map<Client, ClientResponse>(entity));
+        }
+        else
+        {
+          _logger.LogInformation($"Request on getting unexisting Client id={id} was received.");
+          return NotFound($"Client with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting Client id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Client id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Add Client.
+    /// </summary>
+    /// <param name="request">Newly creating Client</param>
+    /// <response code="201">Creating Client is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public override ActionResult<ClientResponse> Create(ClientRequest request)
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<ClientResponse> Create(ClientRequest request)
     {
-      if (!_officeRepository.Exist(request.OfficeId))
+      try
       {
-        _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
-        return NotFound($"Office with ID={request.OfficeId} was not found.");
-      }
+        if (!_officeRepository.Exist(request.OfficeId))
+        {
+          _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
+          return NotFound($"Office with ID={request.OfficeId} was not found.");
+        }
 
-      return base.Create(request);
+        Client newEntity = _repository.Add(_mapper.Map<ClientRequest, Client>(request));
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Client id={newEntity.Id} was creating successfully.");
+
+        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Client, ClientResponse>(newEntity));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While creating Client an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Client an exception was fired");
+      }
     }
 
     /// <summary>
-    /// Update Entity
+    /// Update Client
     /// </summary>
-    /// <param name="request">Entity for updating</param>
-    /// <param name="id">ID of entity for updating</param>
-    /// <response code="201">Updating entity is successul</response>
+    /// <param name="request">Client for updating</param>
+    /// <param name="id">ID of Client for updating</param>
+    /// <response code="204">Updating Client is successul</response>
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
-    /// <response code="404">Client with current ID is not found or Office with defined ID was not found</response>
+    /// <response code="404">Client with current ID is not found</response>
     /// <returns></returns>
     [HttpPut]
     [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public override ActionResult Update(Guid id, ClientRequest request)
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult Update(Guid id, ClientRequest request)
     {
-      if (!_officeRepository.Exist(request.OfficeId))
+      try
       {
-        _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
-        return NotFound($"Office with ID={request.OfficeId} was not found.");
-      }
+        if (!_officeRepository.Exist(request.OfficeId))
+        {
+          _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
+          return NotFound($"Office with ID={request.OfficeId} was not found.");
+        }
 
-      return base.Update(id, request);
+        if (_repository.Get(id) is Client entity)
+        {
+          Client updatedEntity = _mapper.Map<ClientRequest, Client>(request, entity);
+
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Client id={id} was updated successfully.");
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Client with ID={id} was not found.");
+          return NotFound($"Client with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating Client an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Client an exception was fired");
+      }
     }
+
+    /// <summary>
+    /// Delete Client by ID
+    /// </summary>
+    /// <param name="id">Client ID</param>
+    /// <response code="404">Client with current ID is not found</response>
+    /// <response code="204">Deleting Client is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual IActionResult Delete(Guid id)
+    {
+      try
+      {
+        Client? entity = _repository.Get(id);
+        if (entity is null)
+        {
+          _logger.LogInformation($"Client with ID={id} was not found.");
+          return NotFound($"Client with ID={id} was not found.");
+        }
+
+        _repository.Delete(entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Client id={id} was deleted successfully.");
+
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting Client id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Client id={id} an exception was fired");
+      }
+    }
+    #endregion
   }
 }

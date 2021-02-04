@@ -11,18 +11,205 @@ using System.Collections.Generic;
 namespace Bathhouse.Api.Controllers
 {
   [Route("[controller]")]
-  public class OfficeController : RichControllerBase<Office, OfficeResponse, OfficeRequest>
+  [ApiController]
+  public class OfficeController : ControllerBase
   {
     readonly IRepository<Employee> _employeeRepository;
+    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IRepository<Office> _repository;
+
+    protected readonly ILogger<OfficeController> _logger;
+
+    protected readonly IMapper _mapper;
 
     public OfficeController(
-      ILogger<RichControllerBase<Office, OfficeResponse, OfficeRequest>> logger,
+      ILogger<OfficeController> logger,
       IMapper mapper,
       IUnitOfWork unitOfWork)
-      : base(logger, mapper, unitOfWork)
     {
       _employeeRepository = unitOfWork.Repository<Employee>();
+      _logger = logger;
+      _mapper = mapper;
+      _unitOfWork = unitOfWork;
+      _repository = _unitOfWork.Repository<Office>();
     }
+
+    #region CRUD endpoints
+    /// <summary>
+    /// Get all of Offices
+    /// </summary>
+    /// <response code="200">Getting all of Offices was successful</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<IEnumerable<OfficeResponse>> Get()
+    {
+      try
+      {
+        var allEntities = _repository.GetAll();
+        _logger.LogInformation($"All of Offices was got.");
+
+        return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(allEntities));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting all of Offices an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of Offices an exception was fired.");
+      }
+    }
+
+    /// <summary>
+    /// Get Office by ID
+    /// </summary>
+    /// <param name="id">The Office ID</param>
+    /// <response code="404">Office with current ID is not found</response>
+    /// <response code="200">Getting Office is successul</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet()]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<EmployeeResponse> GetById(Guid id)
+    {
+      try
+      {
+        if (_repository.Get(id) is Office entity)
+        {
+          _logger.LogInformation($"Office id={id} was getting successfully.");
+          return Ok(_mapper.Map<Office, OfficeResponse>(entity));
+        }
+        else
+        {
+          _logger.LogInformation($"Request on getting unexisting Office id={id} was received.");
+          return NotFound($"Office with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting Office id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Office id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Add Office.
+    /// </summary>
+    /// <param name="request">Newly creating Office</param>
+    /// <response code="201">Creating Office is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<EmployeeResponse> Create(OfficeRequest request)
+    {
+      try
+      {
+        Office newEntity = _repository.Add(_mapper.Map<OfficeRequest, Office>(request));
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Office id= was creating successfully.");
+
+        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Office, OfficeResponse>(newEntity));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While creating Office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Office an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Update Office
+    /// </summary>
+    /// <param name="request">Office for updating</param>
+    /// <param name="id">ID of Office for updating</param>
+    /// <response code="204">Updating Office is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Entity with current ID is not found</response>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult Update(Guid id, OfficeRequest request)
+    {
+      try
+      {
+        if (_repository.Get(id) is Office entity)
+        {
+          Office updatedEntity = _mapper.Map<OfficeRequest, Office>(request, entity);
+
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Office id={id} was updated successfully.");
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Office with ID={id} was not found.");
+          return NotFound($"Office with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating Office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Office an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Delete Office by ID
+    /// </summary>
+    /// <param name="id">Office ID</param>
+    /// <response code="404">Office with current ID is not found</response>
+    /// <response code="204">Deleting Office is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual IActionResult Delete(Guid id)
+    {
+      try
+      {
+        Office? entity = _repository.Get(id);
+        if (entity is null)
+        {
+          _logger.LogInformation($"Office with ID={id} was not found.");
+          return NotFound($"Office with ID={id} was not found.");
+        }
+
+        _repository.Delete(entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Office id={id} was deleted successfully.");
+
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting Office id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Office id={id} an exception was fired");
+      }
+    }
+    #endregion
+
 
     /// <summary>
     /// Get managers of office

@@ -12,22 +12,211 @@ using System.Collections.Generic;
 namespace Bathhouse.Api.Controllers
 {
   [Route("[controller]")]
-  public class EmployeeController : RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>
+  [ApiController]
+  public class EmployeeController : ControllerBase
   {
     readonly IRepository<Office> _officesRepository;
     readonly IRepository<WorkItem> _workItemRepository;
     readonly IRepository<Survey> _surveyRepository;
+    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IRepository<Employee> _repository;
+
+    protected readonly ILogger<EmployeeController> _logger;
+
+    protected readonly IMapper _mapper;
 
     public EmployeeController(
-      ILogger<RichControllerBase<Employee, EmployeeResponse, EmployeeRequest>> logger,
+      ILogger<EmployeeController> logger,
       IMapper mapper,
       IUnitOfWork unitOfWork)
-      : base(logger, mapper, unitOfWork)
     {
       _officesRepository = unitOfWork.Repository<Office>();
       _workItemRepository = unitOfWork.Repository<WorkItem>();
       _surveyRepository = unitOfWork.Repository<Survey>();
+
+      _logger = logger;
+      _mapper = mapper;
+      _unitOfWork = unitOfWork;
+      _repository = _unitOfWork.Repository<Employee>();
     }
+
+    #region CRUD endpoints
+    /// <summary>
+    /// Get all of Employees
+    /// </summary>
+    /// <response code="200">Getting all of Employees was successful</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<IEnumerable<EmployeeResponse>> Get()
+    {
+      try
+      {
+        var allEntities = _repository.GetAll();
+        _logger.LogInformation($"All of Employees was got.");
+
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(allEntities));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting all of Employees an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of Employees an exception was fired.");
+      }
+    }
+
+    /// <summary>
+    /// Get Employee by ID
+    /// </summary>
+    /// <param name="id">The Employee ID</param>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// <response code="200">Getting Employee is successul</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpGet()]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<EmployeeResponse> GetById(Guid id)
+    {
+      try
+      {
+        if (_repository.Get(id) is Employee entity)
+        {
+          _logger.LogInformation($"Employee id={id} was getting successfully.");
+          return Ok(_mapper.Map<Employee, EmployeeResponse>(entity));
+        }
+        else
+        {
+          _logger.LogInformation($"Request on getting unexisting Employee id={id} was received.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While getting Employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Employee id={id} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Add Employee.
+    /// </summary>
+    /// <param name="request">Newly creating Employee</param>
+    /// <response code="201">Creating Employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult<EmployeeResponse> Create(EmployeeRequest request)
+    {
+      try
+      {
+        Employee newEntity = _repository.Add(_mapper.Map<EmployeeRequest, Employee>(request));
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Employee id= was creating successfully.");
+
+        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<Employee, EmployeeResponse>(newEntity));
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While creating Employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Employee an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Update Employee
+    /// </summary>
+    /// <param name="request">Employee for updating</param>
+    /// <param name="id">ID of Employee for updating</param>
+    /// <response code="204">Updating Employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the item is null</response>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual ActionResult Update(Guid id, EmployeeRequest request)
+    {
+      try
+      {
+        if (_repository.Get(id) is Employee entity)
+        {
+          Employee updatedEntity = _mapper.Map<EmployeeRequest, Employee>(request, entity);
+
+          _unitOfWork.Complete();
+          _logger.LogInformation($"Employee id={id} was updated successfully.");
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Employee with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While updating Employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Employee an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Delete Employee by ID
+    /// </summary>
+    /// <param name="id">Employee ID</param>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// <response code="204">Deleting Employee is successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    [HttpDelete]
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesDefaultResponseType]
+    public virtual IActionResult Delete(Guid id)
+    {
+      try
+      {
+        Employee? entity = _repository.Get(id);
+        if (entity is null)
+        {
+          _logger.LogInformation($"Employee with ID={id} was not found.");
+          return NotFound($"Employee with ID={id} was not found.");
+        }
+
+        _repository.Delete(entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Employee id={id} was deleted successfully.");
+
+        return NoContent();
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting Employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={id} an exception was fired");
+      }
+    }
+    #endregion
+
+
 
     #region Static endpoints
 

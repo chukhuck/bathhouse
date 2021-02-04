@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\WorkItemController.cs~RF30f427ef.TMP" />
     <None Remove="Resources\Seed\Employee.csv" />
     <None Remove="Resources\Seed\Office.csv" />
   </ItemGroup>
