@@ -14,6 +14,16 @@ namespace Bathhouse.Test
     public SharedBathhouseDbFixture Fixture { get; }
 
     [Fact]
+    public void Create_Employee_With_Default_Values()
+    {
+      Employee employee = new();
+
+      Assert.Equal("DefaultLastName", employee.LastName);
+      Assert.Equal(string.Empty, employee.FirstName);
+      Assert.Equal(string.Empty, employee.MiddleName);
+    }
+
+    [Fact]
     public void Get_Full_Name_With_All_Of_Parts_Of_Name_Is_Filling()
     {
       Employee emp = new() { LastName = "LastName", FirstName = "FirstName", MiddleName = "MiddleName" };
