@@ -34,7 +34,7 @@
             FirstName of client
             </summary>
         </member>
-        <member name="P:Bathhouse.Contracts.Models.ClientRequest.PhoneNumber">
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.Phone">
             <summary>
             Phone of client
             </summary>

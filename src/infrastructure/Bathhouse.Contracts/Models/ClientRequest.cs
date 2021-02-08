@@ -13,7 +13,7 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// LastName of client
     /// </summary>
-    [Required]
+    [Required(ErrorMessage = "Filed LastName is required.")]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Фамилия")]
@@ -40,7 +40,7 @@ namespace Bathhouse.Contracts.Models
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
-    public string PhoneNumber { get; set; } = "+7-495-000-00-00";
+    public string Phone { get; set; } = "+7-495-000-00-00";
 
     /// <summary>
     /// Day of Birth
