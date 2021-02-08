@@ -61,6 +61,7 @@ namespace Bathhouse.Contracts.Models
     /// Gender of client
     /// </summary>
     [DefaultValue(Sex.Unknown)]
+    [EnumDataType(typeof(Sex))]
     public Sex Sex { get; set; } = Sex.Unknown;
 
     /// <summary>
