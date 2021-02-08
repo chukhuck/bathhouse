@@ -13,6 +13,17 @@ namespace Bathhouse.Test
 
     public SharedBathhouseDbFixture Fixture { get; }
 
+
+    [Fact]
+    public void Create_Survey_With_Default_Values()
+    {
+      Survey survey = new();
+
+      Assert.Equal("New survey", survey.Name);
+      Assert.Equal(SurveyStatus.Work, survey.Status);
+      Assert.Equal(DateTime.Now.Date, survey.CreationDate.Date);
+    }
+
     [Fact]
     public void GetSummury_With_Incorrect_Param()
     {
