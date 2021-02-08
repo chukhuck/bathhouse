@@ -333,7 +333,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices"}) is Employee employee)
+        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices" }) is Employee employee)
         {
           _logger.LogInformation($"Employee id={id} was getting successfully.");
           _logger.LogInformation($"Office for employee id={id} was getting successfully.");
@@ -519,8 +519,8 @@ namespace Bathhouse.Api.Controllers
         _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
 
         var workItems = _workItemRepository.GetAll(
-          filter: wi => wi.ExecutorId == id, 
-          includePropertyNames: new[] { "Executor", "Creator"},
+          filter: wi => wi.ExecutorId == id,
+          includePropertyNames: new[] { "Executor", "Creator" },
           orderBy: all => all.OrderBy(wi => wi.CreationDate));
         return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
       }
@@ -624,18 +624,18 @@ namespace Bathhouse.Api.Controllers
       try
       {
         WorkItem? workItem = _workItemRepository.Get(workitemId); ;
-    
+
         if (workItem?.CreatorId != id)
         {
           _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
           return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
         }
-    
+
         _workItemRepository.Delete(workitemId);
 
         _unitOfWork.Complete();
         _logger.LogInformation($"WorkItem id={workitemId} was deleted successfully.");
-    
+
         return NoContent();
       }
       catch (Exception ex)
@@ -668,7 +668,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
-        return CreatedAtAction("GetCreatedWorkItem", new {id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
+        return CreatedAtAction("GetCreatedWorkItem", new { id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
       }
       catch (Exception ex)
       {
@@ -705,7 +705,7 @@ namespace Bathhouse.Api.Controllers
 
           _unitOfWork.Complete();
           _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
-    
+
           return NoContent();
         }
         else
@@ -830,7 +830,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var survey =_surveyRepository.Get(surveyId);
+        var survey = _surveyRepository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
 
         if (survey?.AuthorId != id)
         {
@@ -866,15 +866,28 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var survey = _surveyRepository.Get(surveyId);
+        var survey = _surveyRepository.Get(
+          key: surveyId,
+          includePropertyNames: new[] { "Questions", "Author" });
+
+        Guid realSurveyId = survey?.Id ?? Guid.Empty;
+
+        if (survey is not null)
+        {
+          survey.Results = _unitOfWork.SurveyResults
+            .GetAll(
+                filter: result => result.SurveyId == realSurveyId,
+                includePropertyNames: new[] { "Author", "Answers" })
+            .ToList();
+        }
 
         if (survey?.AuthorId != id)
         {
           _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
           return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
         }
-        var temp = survey.GetSummary(summarytype);
-        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(temp));
+        var summary = survey.GetSummary(summarytype);
+        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
       }
       catch (Exception ex)
       {
@@ -946,7 +959,7 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
 
-        return CreatedAtAction("GetSurvey", new {id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
+        return CreatedAtAction("GetSurvey", new { id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
       }
       catch (Exception ex)
       {
