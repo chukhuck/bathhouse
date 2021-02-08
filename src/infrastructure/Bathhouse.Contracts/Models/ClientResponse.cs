@@ -1,14 +1,17 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 
-namespace Bathhouse.Models
+namespace Bathhouse.Contracts.Models
 {
+  /// <summary>
+  /// 
+  /// </summary>
   public record ClientResponse(
     Guid Id, 
     string LastName, 
     string MiddleName, 
     string FirstName, 
-    string PhoneNumber, 
+    string Phone, 
     DateTime? DoB, 
     string? Comment,
     Sex Sex,

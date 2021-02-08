@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bathhouse.Contracts</name>
+    </assembly>
+    <members>
+        <member name="T:Bathhouse.Contracts.Infrastructure.EntityMappingProfile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Bathhouse.Contracts.Infrastructure.EntityMappingProfile.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Bathhouse.Contracts.Models.ClientRequest">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.LastName">
+            <summary>
+            LastName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.MiddleName">
+            <summary>
+            MiddleName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.FirstName">
+            <summary>
+            FirstName of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.PhoneNumber">
+            <summary>
+            Phone of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.DoB">
+            <summary>
+            Day of Birth
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.Comment">
+            <summary>
+            Comment for client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.Sex">
+            <summary>
+            Gender of client
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.ClientRequest.OfficeId">
+            <summary>
+            OD of "home" office of client
+            </summary>
+        </member>
+        <member name="T:Bathhouse.Contracts.Models.ClientResponse">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Bathhouse.Contracts.Models.ClientResponse.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.Nullable{System.DateTime},System.String,Bathhouse.ValueTypes.Sex,System.String,System.Guid)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.EmployeeRequest.LastName">
+            <summary>
+            LastName of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.EmployeeRequest.FirstName">
+            <summary>
+            FirstName of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.EmployeeRequest.MiddleName">
+            <summary>
+            Middle Name of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.EmployeeRequest.PhoneNumber">
+            <summary>
+            Phone of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.EmployeeRequest.Email">
+            <summary>
+            Email of employee
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.EmployeeRequest.DoB">
+            <summary>
+            Day of Birth
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.OfficeRequest.Number">
+            <summary>
+            Number of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.OfficeRequest.Address">
+            <summary>
+            Address of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.OfficeRequest.Phone">
+            <summary>
+            Phone of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.OfficeRequest.Email">
+            <summary>
+            Email of office
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.OfficeRequest.TimeOfOpen">
+            <summary>
+            Time when office will be opened
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.OfficeRequest.TimeOfClose">
+            <summary>
+            Time when office will be closed
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.Description">
+            <summary>
+            Description of task.
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.CreationDate">
+            <summary>
+            Day of creation work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.StartDate">
+            <summary>
+            Day of start work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.EndDate">
+            <summary>
+            Day of end work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.Status">
+            <summary>
+            Status  of work item
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.IsImportant">
+            <summary>
+            Flag that indicate importance of workitem
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.CreatorId">
+            <summary>
+            Id of workitem creator
+            </summary>
+        </member>
+        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.ExecutorId">
+            <summary>
+            Id of workitem executor
+            </summary>
+        </member>
+    </members>
+</doc>

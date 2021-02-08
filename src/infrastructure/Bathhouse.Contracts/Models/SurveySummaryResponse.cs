@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bathhouse.Models
+namespace Bathhouse.Contracts.Models
 {
   public class SurveySummaryResponse
   {

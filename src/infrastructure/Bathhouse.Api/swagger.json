@@ -5008,7 +5008,7 @@
             "type": "string",
             "nullable": true
           },
-          "phoneNumber": {
+          "phone": {
             "type": "string",
             "nullable": true
           },
@@ -5072,14 +5072,12 @@
           "lastName": {
             "maxLength": 25,
             "type": "string",
-            "description": "LastName of client",
             "format": "string",
             "default": "Фамилия"
           },
           "middleName": {
             "maxLength": 25,
             "type": "string",
-            "description": "MiddleName of client",
             "format": "string",
             "default": "Имя",
             "nullable": true
@@ -5087,21 +5085,18 @@
           "firstName": {
             "maxLength": 25,
             "type": "string",
-            "description": "FirstName of client",
             "format": "string",
             "default": "Имя",
             "nullable": true
           },
           "phoneNumber": {
             "type": "string",
-            "description": "Phone of client",
             "format": "tel",
             "default": "+7-495-000-00-00",
             "nullable": true
           },
           "doB": {
             "type": "string",
-            "description": "Day of Birth",
             "format": "date",
             "default": "1950-01-01T00:00:00.0000000",
             "nullable": true
@@ -5109,7 +5104,6 @@
           "comment": {
             "maxLength": 250,
             "type": "string",
-            "description": "Comment for client",
             "format": "string",
             "default": "Комментарий",
             "nullable": true
@@ -5119,7 +5113,6 @@
           },
           "officeId": {
             "type": "string",
-            "description": "OD of \"home\" office of client",
             "format": "uuid"
           }
         },
@@ -5177,14 +5170,12 @@
           "lastName": {
             "maxLength": 25,
             "type": "string",
-            "description": "LastName of employee",
             "format": "string",
             "default": "Фамилия"
           },
           "firstName": {
             "maxLength": 25,
             "type": "string",
-            "description": "FirstName of employee",
             "format": "string",
             "default": "Имя",
             "nullable": true
@@ -5192,28 +5183,24 @@
           "middleName": {
             "maxLength": 25,
             "type": "string",
-            "description": "Middle Name of employee",
             "format": "string",
             "default": "Отчество",
             "nullable": true
           },
           "phoneNumber": {
             "type": "string",
-            "description": "Phone of employee",
             "format": "tel",
             "default": "+7-495-000-00-00",
             "nullable": true
           },
           "email": {
             "type": "string",
-            "description": "Email of employee",
             "format": "email",
             "default": "noreply@mail.com",
             "nullable": true
           },
           "doB": {
             "type": "string",
-            "description": "Day of Birth",
             "format": "date",
             "default": "1950-01-01T00:00:00.0000000",
             "nullable": true
@@ -5331,23 +5318,19 @@
           "description": {
             "maxLength": 300,
             "type": "string",
-            "description": "Description of task.",
             "format": "string",
             "default": "Опиши текст задачи."
           },
           "creationDate": {
             "type": "string",
-            "description": "Day of creation work item",
             "format": "date"
           },
           "startDate": {
             "type": "string",
-            "description": "Day of start work item",
             "format": "date"
           },
           "endDate": {
             "type": "string",
-            "description": "Day of end work item",
             "format": "date"
           },
           "status": {
@@ -5355,17 +5338,14 @@
           },
           "isImportant": {
             "type": "boolean",
-            "description": "Flag that indicate importance of workitem",
             "default": false
           },
           "creatorId": {
             "type": "string",
-            "description": "Id of workitem creator",
             "format": "uuid"
           },
           "executorId": {
             "type": "string",
-            "description": "Id of workitem executor",
             "format": "uuid"
           }
         },
@@ -5594,39 +5574,33 @@
         "properties": {
           "number": {
             "type": "integer",
-            "description": "Number of office",
             "format": "int32",
             "default": 0
           },
           "address": {
             "maxLength": 150,
             "type": "string",
-            "description": "Address of office",
             "default": "Москва, ",
             "nullable": true
           },
           "phone": {
             "type": "string",
-            "description": "Phone of office",
             "format": "tel",
             "default": "+7-495-000-00-00",
             "nullable": true
           },
           "email": {
             "type": "string",
-            "description": "Email of office",
             "format": "email",
             "default": "noreply@mail.com",
             "nullable": true
           },
           "timeOfOpen": {
             "type": "string",
-            "description": "Time when office will be opened",
             "format": "time"
           },
           "timeOfClose": {
             "type": "string",
-            "description": "Time when office will be closed",
             "format": "time"
           }
         },

@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bathhouse.Models
+namespace Bathhouse.Contracts.Models
 {
   public class WorkItemRequest
   {

@@ -1,8 +1,6 @@
 ﻿using Bathhouse.Entities;
-using Bathhouse.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Bathhouse.ValueTypes
 {

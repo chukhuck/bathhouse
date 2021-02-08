@@ -1,15 +1,14 @@
-﻿using Bathhouse.EF.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+﻿using Bathhouse.Contracts.Infrastructure;
+using Bathhouse.EF.Data;
+using Bathhouse.EF.Repositories;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
-using AutoMapper;
-using System;
 using Microsoft.AspNetCore.Identity;
-using Bathhouse.EF.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
+using System;
 
 namespace Bathhouse.Api.Installers
 {
@@ -39,7 +38,7 @@ namespace Bathhouse.Api.Installers
 
       services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+      services.AddAutoMapper(typeof(EntityMappingProfile));
     }
   }
 }

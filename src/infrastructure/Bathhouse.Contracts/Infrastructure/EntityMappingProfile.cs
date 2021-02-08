@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
+using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
-using Bathhouse.Models;
 using Bathhouse.ValueTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Bathhouse.Infrastructure
+namespace Bathhouse.Contracts.Infrastructure
 {
-  class EntityMappingProfile : Profile
+  /// <summary>
+  /// 
+  /// </summary>
+  public class EntityMappingProfile : Profile
   {
+    /// <summary>
+    /// 
+    /// </summary>
     public EntityMappingProfile()
     {
       CreateMap<Office, OfficeResponse>();

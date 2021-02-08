@@ -3,12 +3,12 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bathhouse.Models
+namespace Bathhouse.Contracts.Models
 {
-  public class ClientRequest
+  public class EmployeeRequest
   {
     /// <summary>
-    /// LastName of client
+    /// LastName of employee
     /// </summary>
     [Required]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
@@ -17,15 +17,7 @@ namespace Bathhouse.Models
     public string LastName { get; set; } = "Фамилия";
 
     /// <summary>
-    /// MiddleName of client
-    /// </summary>
-    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    [DefaultValue("Имя")]
-    public string MiddleName { get; set; } = "Отчество";
-
-    /// <summary>
-    /// FirstName of client
+    /// FirstName of employee
     /// </summary>
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
     [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
@@ -33,11 +25,26 @@ namespace Bathhouse.Models
     public string FirstName { get; set; } = "Имя";
 
     /// <summary>
-    /// Phone of client
+    /// Middle Name of employee
+    /// </summary>
+    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
+    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [DefaultValue("Отчество")]
+    public string MiddleName { get; set; } = "Отчество";
+
+    /// <summary>
+    /// Phone of employee
     /// </summary>
     [Phone(ErrorMessage = "Incorrect phone format.")]
     [DefaultValue("+7-495-000-00-00")]
-    public string PhoneNumber { get; set; } = "+7-495-000-00-00";
+    public string? PhoneNumber { get; set; } = "+7-495-000-00-00";
+
+    /// <summary>
+    /// Email of employee
+    /// </summary>
+    [DefaultValue("noreply@mail.com")]
+    [EmailAddress(ErrorMessage = "Incorrect email address format.")]
+    public string? Email { get; set; } = "noreply@mail.com";
 
     /// <summary>
     /// Day of Birth
@@ -45,25 +52,5 @@ namespace Bathhouse.Models
     [DataType(System.ComponentModel.DataAnnotations.DataType.Date, ErrorMessage = "Incorrect date format.")]
     [DefaultValue("1950-01-01")]
     public DateTime? DoB { get; set; } = DateTime.Parse("1950-01-01");
-
-    /// <summary>
-    /// Comment for client
-    /// </summary>
-    [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
-    [DefaultValue("Комментарий")]
-    public string? Comment { get; set; } = "Комментарий";
-
-    /// <summary>
-    /// Gender of client
-    /// </summary>
-    [DefaultValue(Sex.Unknown)]
-    public Sex Sex { get; set; } = Sex.Unknown;
-
-    /// <summary>
-    /// OD of "home" office of client
-    /// </summary>
-    [Required]
-    public Guid OfficeId { get; set; }
   }
 }

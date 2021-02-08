@@ -314,11 +314,13 @@ namespace Bathhouse.EF.Data
         .WithOne(wi => wi.Creator)
         .HasForeignKey(wi => wi.CreatorId);
 
+#pragma warning disable CS8603
       builder.Entity<Employee>()
         .HasMany(e => e.WorkItems)
         .WithOne(wi => wi.Executor)
         .HasForeignKey(wi => wi.ExecutorId)
         .OnDelete(DeleteBehavior.Restrict);
+#pragma warning restore CS8603
 
       builder.Entity<Employee>()
         .Property(a => a.DoB)

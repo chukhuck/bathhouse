@@ -1,11 +1,7 @@
-﻿using Bathhouse.Entities;
-using Bathhouse.ValueTypes;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace Bathhouse.Models
+namespace Bathhouse.Contracts.Models
 {
-#nullable enable
   public record EmployeeResponse(
     Guid Id,
     string LastName,

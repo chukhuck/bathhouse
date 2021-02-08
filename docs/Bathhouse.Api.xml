@@ -21,7 +21,7 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.ClientController.Create(Bathhouse.Models.ClientRequest)">
+        <member name="M:Bathhouse.Api.Controllers.ClientController.Create(Bathhouse.Contracts.Models.ClientRequest)">
             <summary>
             Add Client.
             </summary>
@@ -30,7 +30,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.ClientController.Update(System.Guid,Bathhouse.Models.ClientRequest)">
+        <member name="M:Bathhouse.Api.Controllers.ClientController.Update(System.Guid,Bathhouse.Contracts.Models.ClientRequest)">
             <summary>
             Update Client
             </summary>
@@ -68,7 +68,7 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.Create(Bathhouse.Models.EmployeeRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.Create(Bathhouse.Contracts.Models.EmployeeRequest)">
             <summary>
             Add Employee.
             </summary>
@@ -77,7 +77,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.Update(System.Guid,Bathhouse.Models.EmployeeRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.Update(System.Guid,Bathhouse.Contracts.Models.EmployeeRequest)">
             <summary>
             Update Employee
             </summary>
@@ -209,7 +209,7 @@
             <response code="204">Deleting workItem is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateWorkItem(System.Guid,Bathhouse.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateWorkItem(System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Create workItem.
             </summary>
@@ -219,7 +219,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateCreatedWorkItem(System.Guid,System.Guid,Bathhouse.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateCreatedWorkItem(System.Guid,System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Update WorkItem
             </summary>
@@ -286,7 +286,7 @@
             <response code="204">Deleting Survey is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateSurvey(System.Guid,Bathhouse.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateSurvey(System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Create Survey.
             </summary>
@@ -296,7 +296,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurvey(System.Guid,System.Guid,Bathhouse.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurvey(System.Guid,System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Update Survey
             </summary>
@@ -326,7 +326,7 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.Create(Bathhouse.Models.OfficeRequest)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.Create(Bathhouse.Contracts.Models.OfficeRequest)">
             <summary>
             Add Office.
             </summary>
@@ -335,7 +335,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.Update(System.Guid,Bathhouse.Models.OfficeRequest)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.Update(System.Guid,Bathhouse.Contracts.Models.OfficeRequest)">
             <summary>
             Update Office
             </summary>
@@ -473,7 +473,7 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.Create(Bathhouse.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.Create(Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Add Survey.
             </summary>
@@ -482,7 +482,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.Update(System.Guid,Bathhouse.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.Update(System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Update Survey
             </summary>
@@ -530,7 +530,7 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.WorkItemController.Create(Bathhouse.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.Controllers.WorkItemController.Create(Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Add WorkItem.
             </summary>
@@ -539,7 +539,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.WorkItemController.Update(System.Guid,Bathhouse.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.Controllers.WorkItemController.Update(System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Update WorkItem
             </summary>

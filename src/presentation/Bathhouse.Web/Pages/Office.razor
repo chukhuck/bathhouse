@@ -1,4 +1,4 @@
-﻿@using Bathhouse.Models
+﻿@using Bathhouse.Contracts.Models
 @page "/Office"
 @inject HttpClient Http
 
@@ -26,16 +26,16 @@ else
     <tbody>
       <tr id="editRow" style="display:@editRowStyle">
         <td>
-          <input @bind="editItem.Number" type="number"/>
+          <input @bind="editItem.Number" type="number" />
         </td>
         <td>
-          <input @bind="editItem.Phone" type="tel"/>
+          <input @bind="editItem.Phone" type="tel" />
         </td>
         <td>
           <input @bind="editItem.Address" />
         </td>
         <td>
-          <input @bind="editItem.TimeOfOpen" type="time"/>
+          <input @bind="editItem.TimeOfOpen" type="time" />
         </td>
         <td>
           <input @bind-value="editItem.TimeOfClose" type="time" />
@@ -47,37 +47,37 @@ else
       </tr>
       @foreach (var item in offices)
       {
-    <tr>
-      <td>@item.Number</td>
-      <td>@item.Phone</td>
-      <td>@item.Address</td>
-      <td>@item.WorkingTimeRange</td>
-      <td class="text-center">
-        <button class="btn btn-warning" @onclick="@(() => EditItem(item.Id))">Редактировать</button>
-        <button class="btn btn-danger" @onclick="@(async () => await DeleteItem(item.Id))">Удалить</button>
-      </td>
-    </tr>
+        <tr>
+          <td>@item.Number</td>
+          <td>@item.Phone</td>
+          <td>@item.Address</td>
+          <td>@item.WorkingTimeRange</td>
+          <td class="text-center">
+            <button class="btn btn-warning" @onclick="@(() => EditItem(item.Id))">Редактировать</button>
+            <button class="btn btn-danger" @onclick="@(async () => await DeleteItem(item.Id))">Удалить</button>
+          </td>
+        </tr>
       }
-    <tr id="addRow">
-      <td>
-        <input @bind="editItem.Number"  type="number" placeholder="Номер новой аптеки" />
-      </td>
-      <td>
-        <input @bind="editItem.Phone" type="tel" placeholder="Телефон новой аптеки" />
-      </td>
-      <td>
-        <input @bind="editItem.Address" placeholder="Адрес новой аптеки" />
-      </td>
-      <td>
-        <input @bind="editItem.TimeOfOpen" type="time"  placeholder="Время открытия" />
-      </td>
-      <td>
-        <input @bind="editItem.TimeOfClose" type="time" placeholder="Время закрытия" />
-      </td>
-      <td class="text-center">
-        <button class="btn btn-success" @onclick="@AddItem">Добавить</button>
-      </td>
-    </tr>
+      <tr id="addRow">
+        <td>
+          <input @bind="editItem.Number" type="number" placeholder="Номер новой аптеки" />
+        </td>
+        <td>
+          <input @bind="editItem.Phone" type="tel" placeholder="Телефон новой аптеки" />
+        </td>
+        <td>
+          <input @bind="editItem.Address" placeholder="Адрес новой аптеки" />
+        </td>
+        <td>
+          <input @bind="editItem.TimeOfOpen" type="time" placeholder="Время открытия" />
+        </td>
+        <td>
+          <input @bind="editItem.TimeOfClose" type="time" placeholder="Время закрытия" />
+        </td>
+        <td class="text-center">
+          <button class="btn btn-success" @onclick="@AddItem">Добавить</button>
+        </td>
+      </tr>
     </tbody>
   </table>
 }
@@ -106,7 +106,7 @@ else
   {
     await Http.PostAsJsonAsync(ServiceEndpoint, editItem);
     editItem = new OfficeRequest();
-    editItem.TimeOfOpen =  DateTime.MinValue.AddHours(8);
+    editItem.TimeOfOpen = DateTime.MinValue.AddHours(8);
     editItem.TimeOfClose = DateTime.MinValue.AddHours(22);
     await GetOffices();
     editRowStyle = "none";

@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.EF", "src\infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.EF.InMemory", "src\infrastructure\Bathhouse.EF.InMemory\Bathhouse.EF.InMemory.csproj", "{9C4BBCDE-93AF-489D-B36B-C6967BDF994E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Contracts", "src\infrastructure\Bathhouse.Contracts\Bathhouse.Contracts.csproj", "{22A535EA-A2C0-4469-B1B0-8B971C23AFED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.Contracts", "src\infrastructure\Bathhouse.Contracts\Bathhouse.Contracts.csproj", "{22A535EA-A2C0-4469-B1B0-8B971C23AFED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

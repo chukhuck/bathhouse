@@ -1,7 +1,7 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 
-namespace Bathhouse.Models
+namespace Bathhouse.Contracts.Models
 {
   public record QuestionResponse(
     Guid Id,
