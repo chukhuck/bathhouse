@@ -13,6 +13,19 @@ namespace Bathhouse.Test
 
     public SharedBathhouseDbFixture Fixture { get; }
 
+
+    [Fact]
+    public void Create_Office_With_Default_Values()
+    {
+      Office office = new();
+
+      Assert.Equal(0, office.Number);
+      Assert.Equal(DateTime.Parse("0001-01-01T08:00:00"), office.TimeOfOpen);
+      Assert.Equal(DateTime.Parse("0001-01-01T22:00:00"), office.TimeOfClose);
+      Assert.Equal("8:00 - 22:00", office.WorkingTimeRange);
+    }
+
+
     [Fact]
     public void Add_Employee_Equal_Null()
     {
