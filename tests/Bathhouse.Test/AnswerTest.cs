@@ -11,7 +11,7 @@ namespace Bathhouse.Test
   public class AnswerTest
   {
     [Fact]
-    public void Create_Answer_With_Value_Equal_String_Empty()
+    public void Create_Answer_With_Default_Values()
     {
       Answer answer = new();
 
