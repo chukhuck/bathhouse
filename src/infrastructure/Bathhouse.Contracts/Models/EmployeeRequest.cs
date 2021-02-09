@@ -10,9 +10,9 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// LastName of employee
     /// </summary>
-    [Required]
+    [Required(ErrorMessage = "Field LastName is required.")]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [StringLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Фамилия")]
     public string LastName { get; set; } = "Фамилия";
 
@@ -20,7 +20,7 @@ namespace Bathhouse.Contracts.Models
     /// FirstName of employee
     /// </summary>
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [StringLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Имя")]
     public string FirstName { get; set; } = "Имя";
 
@@ -28,7 +28,7 @@ namespace Bathhouse.Contracts.Models
     /// Middle Name of employee
     /// </summary>
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [StringLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Отчество")]
     public string MiddleName { get; set; } = "Отчество";
 
