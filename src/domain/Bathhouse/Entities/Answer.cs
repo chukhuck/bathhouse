@@ -2,7 +2,7 @@
 
 namespace Bathhouse.Entities
 {
-  public class Answer
+  public class Answer : IEntity<Guid>
   {
     public Guid Id { get; set; } = Guid.NewGuid();
     public virtual Question Question { get; set; } = null!;

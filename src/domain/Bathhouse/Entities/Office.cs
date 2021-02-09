@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Bathhouse.Entities
 {
-  public class Office
+  public class Office : IEntity<Guid>
   {
     public Guid Id { get; set; } = Guid.NewGuid();
     public int Number { get; set; } = 0;

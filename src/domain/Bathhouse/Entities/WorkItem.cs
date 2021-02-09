@@ -3,7 +3,7 @@ using System;
 
 namespace Bathhouse.Entities
 {
-  public class WorkItem
+  public class WorkItem : IEntity<Guid>
   {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Description { get; set; } = String.Empty;

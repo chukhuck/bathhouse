@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Bathhouse.Entities
 {
-  public class Survey
+  public class Survey : IEntity<Guid>
   {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; } = "New survey";

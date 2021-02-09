@@ -3,7 +3,7 @@ using System;
 
 namespace Bathhouse.Entities
 {
-  public class Client
+  public class Client : IEntity<Guid>
   {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string LastName { get; set; } = "DefaultLastName";

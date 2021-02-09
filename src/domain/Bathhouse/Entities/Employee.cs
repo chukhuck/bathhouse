@@ -6,7 +6,7 @@ using System.Linq;
 namespace Bathhouse.Entities
 {
 #nullable enable
-  public class Employee : IdentityUser<Guid>
+  public class Employee : IdentityUser<Guid>, IEntity<Guid>
   {
     public string LastName { get; set; } = "DefaultLastName";
     public string MiddleName { get; set; } = String.Empty;

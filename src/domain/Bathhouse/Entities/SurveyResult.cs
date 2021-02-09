@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Bathhouse.Entities
 {
-  public class SurveyResult
+  public class SurveyResult : IEntity<Guid>
   {
     public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime CreationDate { get; set; } = DateTime.Now;
