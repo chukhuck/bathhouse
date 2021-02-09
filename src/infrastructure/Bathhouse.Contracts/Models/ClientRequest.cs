@@ -13,9 +13,9 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// LastName of client
     /// </summary>
-    [Required(ErrorMessage = "Filed LastName is required.")]
+    [Required(ErrorMessage = "Field LastName is required.")]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [StringLength(25, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
     [DefaultValue("Фамилия")]
     public string LastName { get; set; } = "Фамилия";
 
@@ -53,7 +53,7 @@ namespace Bathhouse.Contracts.Models
     /// Comment for client
     /// </summary>
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 25 symbols.")]
+    [MaxLength(250, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 250 symbols.")]
     [DefaultValue("Комментарий")]
     public string? Comment { get; set; } = "Комментарий";
 
@@ -61,7 +61,7 @@ namespace Bathhouse.Contracts.Models
     /// Gender of client
     /// </summary>
     [DefaultValue(Sex.Unknown)]
-    [EnumDataType(typeof(Sex))]
+    [EnumDataType(typeof(Sex), ErrorMessage = "Incorrect a data type.")]
     public Sex Sex { get; set; } = Sex.Unknown;
 
     /// <summary>
