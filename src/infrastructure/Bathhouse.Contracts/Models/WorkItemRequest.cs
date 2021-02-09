@@ -10,9 +10,9 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// Description of task.
     /// </summary>
-    [Required]
+    [Required(ErrorMessage = "Field Description is required.")]
     [DataType(System.ComponentModel.DataAnnotations.DataType.Text)]
-    [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
+    [StringLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
     [DefaultValue("Опиши текст задачи.")]
     public string Description { get; set; } = "Опиши текст задачи.";
 
@@ -38,6 +38,7 @@ namespace Bathhouse.Contracts.Models
     /// Status  of work item
     /// </summary>
     [DefaultValue(WorkItemStatus.Created)]
+    [EnumDataType(typeof(WorkItemStatus), ErrorMessage = "Incorrect a data type.")]
     public WorkItemStatus Status { get; set; } = WorkItemStatus.Created;
 
     /// <summary>
@@ -55,7 +56,6 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// Id of workitem executor
     /// </summary>
-    [Required]
-    public Guid ExecutorId { get; set; }
+    public Guid? ExecutorId { get; set; }
   }
 }
