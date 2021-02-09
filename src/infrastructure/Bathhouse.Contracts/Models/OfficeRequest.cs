@@ -6,22 +6,22 @@ namespace Bathhouse.Contracts.Models
 {
   public class OfficeRequest
   {
-    private const int Hour_Of_Openning = 8;
+    public const int Hour_Of_Openning = 8;
 
-    private const int Hour_Of_Closing = 22;
+    public const int Hour_Of_Closing = 22;
 
     /// <summary>
     /// Number of office
     /// </summary>
     [DefaultValue(0)]
-    [Required(AllowEmptyStrings = false, ErrorMessage = "This field is required for filling.")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Field Number is required.")]
     public int Number { get; set; }
 
     /// <summary>
     /// Address of office
     /// </summary>
     [DefaultValue("Москва, ")]
-    [MaxLength(150, ErrorMessage = "Max lenght of field is 150 symbols.")]
+    [StringLength(150, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 150 symbols.")]
     public string? Address { get; set; } = "Москва, ";
 
     /// <summary>
