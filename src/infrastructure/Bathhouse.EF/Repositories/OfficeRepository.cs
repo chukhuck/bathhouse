@@ -1,11 +1,12 @@
 ﻿using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
+using chukhuck.Helpers.Patterns;
 using System;
 
 namespace Bathhouse.EF.Repositories
 {
-  public class OfficeRepository : Repository<Office, Guid>, IOfficeRepository
+  public class OfficeRepository : EFRepository<Office, Guid>, IOfficeRepository
   {
     public OfficeRepository(BathhouseContext _context) : base(_context)
     {

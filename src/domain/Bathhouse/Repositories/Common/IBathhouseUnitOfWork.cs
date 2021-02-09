@@ -1,9 +1,8 @@
-﻿using Bathhouse.Entities;
-using System;
+﻿using chukhuck.Helpers.Patterns;
 
-namespace Bathhouse.Repositories
+namespace Bathhouse.Repositories.Common
 {
-  public interface IUnitOfWork : IDisposable
+  public interface IBathhouseUnitOfWork : IUnitOfWork
   {
     IAnswerRepository Answers { get; }
     IClientRepository Clients { get; }
@@ -14,11 +13,5 @@ namespace Bathhouse.Repositories
     ISurveyResultRepository SurveyResults { get; }
     //IRoleRepository Roles { get; }
     IWorkItemRepository WorkItems { get; }
-
-    int Complete();
-
-    IRepository<TEntity, TEntityKey> Repository<TEntity, TEntityKey>() 
-      where TEntity : class, IEntity<TEntityKey>, new()
-      where TEntityKey : struct;
   }
 }

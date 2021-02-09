@@ -1,8 +1,10 @@
 ﻿using Bathhouse.Contracts.Infrastructure;
 using Bathhouse.EF.Data;
 using Bathhouse.EF.Repositories;
+using Bathhouse.EF.Repositories.Common;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
+using Bathhouse.Repositories.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +38,7 @@ namespace Bathhouse.Api.Installers
       services.AddIdentity<Employee, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<BathhouseContext>();
 
-      services.AddScoped<IUnitOfWork, UnitOfWork>();
+      services.AddScoped<IBathhouseUnitOfWork, BathhouseUnitOfWork>();
 
       services.AddAutoMapper(typeof(EntityMappingProfile));
     }

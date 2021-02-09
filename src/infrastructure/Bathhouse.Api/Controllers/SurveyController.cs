@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
-using Bathhouse.Repositories;
+using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
+using chukhuck.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ namespace Bathhouse.Api.Controllers
   public class SurveyController : ControllerBase
   {
 
-    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IBathhouseUnitOfWork _unitOfWork;
     protected readonly IRepository<Survey, Guid> _repository;
     protected readonly ILogger<SurveyController> _logger;
     protected readonly IMapper _mapper;
@@ -24,7 +25,7 @@ namespace Bathhouse.Api.Controllers
     public SurveyController(
       ILogger<SurveyController> logger, 
       IMapper mapper, 
-      IUnitOfWork unitOfWork)
+      IBathhouseUnitOfWork unitOfWork)
     {
       _logger = logger;
       _mapper = mapper;

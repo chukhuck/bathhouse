@@ -1,28 +1,28 @@
 ﻿using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
+using Bathhouse.Repositories.Common;
+using chukhuck.Helpers.Patterns;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Bathhouse.EF.Repositories
+namespace Bathhouse.EF.Repositories.Common
 {
-  public class UnitOfWork : IUnitOfWork
+  public class BathhouseUnitOfWork : EFUnitOfWork<BathhouseContext>, IBathhouseUnitOfWork
   {
-    public UnitOfWork(BathhouseContext context)
+    public BathhouseUnitOfWork(BathhouseContext context) : base(context)
     {
-      Context = context;
-      Answers = new AnswerRepository(Context);
-      Clients = new ClientRepository(Context);
-      Employees = new EmployeeRepository(Context);
-      Offices = new OfficeRepository(Context);
-      Questions = new QuestionRepository(Context);
-      Surveys = new SurveyRepository(Context);
-      SurveyResults = new SurveyResultRepository(Context);
-      //Roles = new RoleRepository(Context);
-      WorkItems = new WorkItemRepository(Context);
+      Answers = new AnswerRepository(context);
+      Clients = new ClientRepository(context);
+      Employees = new EmployeeRepository(context);
+      Offices = new OfficeRepository(context);
+      Questions = new QuestionRepository(context);
+      Surveys = new SurveyRepository(context);
+      SurveyResults = new SurveyResultRepository(context);
+      //Roles = new RoleRepository(context);
+      WorkItems = new WorkItemRepository(context);
     }
-
-    public BathhouseContext Context { get; }
 
     public IAnswerRepository Answers { get; }
 
@@ -42,19 +42,7 @@ namespace Bathhouse.EF.Repositories
 
     public IWorkItemRepository WorkItems { get; }
 
-    public int Complete()
-    {
-      return Context.SaveChanges();
-    }
-
-    public void Dispose()
-    {
-      Context.Dispose();
-    }
-
-    public IRepository<TEntity, TKeyEntity> Repository<TEntity, TKeyEntity>() 
-      where TEntity : class, IEntity<TKeyEntity>, new()
-      where TKeyEntity : struct
+    public override IRepository<TEntity, TKeyEntity> Repository<TEntity, TKeyEntity>() 
     {
       TEntity entity = new TEntity();
 

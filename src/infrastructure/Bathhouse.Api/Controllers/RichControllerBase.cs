@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Bathhouse.Entities;
-using Bathhouse.Repositories;
+using Bathhouse.Repositories.Common;
+using chukhuck.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,12 +24,12 @@ namespace Bathhouse.Api.Controllers
 
     protected readonly IMapper _mapper;
 
-    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IBathhouseUnitOfWork _unitOfWork;
 
     public RichControllerBase(
       ILogger<RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> logger,
       IMapper mapper,
-      IUnitOfWork unitOfWork)
+      IBathhouseUnitOfWork unitOfWork)
     {
       _logger = logger;
       _repository = unitOfWork.Repository<TEntity, TEntityKey>();

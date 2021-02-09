@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
-using Bathhouse.Repositories;
+using Bathhouse.Repositories.Common;
+using chukhuck.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,7 @@ namespace Bathhouse.Api.Controllers
   public class OfficeController : ControllerBase
   {
     readonly IRepository<Employee, Guid> _employeeRepository;
-    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IBathhouseUnitOfWork _unitOfWork;
     protected readonly IRepository<Office, Guid> _repository;
 
     protected readonly ILogger<OfficeController> _logger;
@@ -26,7 +27,7 @@ namespace Bathhouse.Api.Controllers
     public OfficeController(
       ILogger<OfficeController> logger,
       IMapper mapper,
-      IUnitOfWork unitOfWork)
+      IBathhouseUnitOfWork unitOfWork)
     {
       _employeeRepository = unitOfWork.Repository<Employee, Guid>();
       _logger = logger;

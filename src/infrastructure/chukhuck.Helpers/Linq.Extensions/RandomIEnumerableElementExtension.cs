@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace chukhuck.Linq.Extensions
+namespace chukhuck.Helpers.Linq.Extensions
 {
   public static class RandomIEnumerableElementExtension
   {

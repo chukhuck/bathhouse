@@ -1,6 +1,6 @@
 ﻿using Bathhouse.EF.InMemory;
 using Bathhouse.Entities;
-using chukhuck.Linq.Extensions;
+using chukhuck.Helpers.Linq.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;

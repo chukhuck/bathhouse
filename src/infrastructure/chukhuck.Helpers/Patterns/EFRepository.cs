@@ -1,21 +1,18 @@
-﻿using Bathhouse.EF.Data;
-using Bathhouse.Entities;
-using Bathhouse.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Bathhouse.EF.Repositories
+namespace chukhuck.Helpers.Patterns
 {
-  public class Repository<TEntity, TEntityKey> : IRepository<TEntity, TEntityKey> 
+  public class EFRepository<TEntity, TEntityKey> : IRepository<TEntity, TEntityKey> 
     where TEntity : class, IEntity<TEntityKey>
     where TEntityKey : struct
   {
-    protected BathhouseContext context;
+    protected DbContext context;
 
-    public Repository(BathhouseContext _context)
+    public EFRepository(DbContext _context)
     {
       context = _context;
     }

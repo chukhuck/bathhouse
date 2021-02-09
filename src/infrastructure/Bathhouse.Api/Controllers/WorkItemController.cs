@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
-using Bathhouse.Repositories;
+using Bathhouse.Repositories.Common;
+using chukhuck.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,12 +16,12 @@ namespace Bathhouse.Api.Controllers
   public class WorkItemController : ControllerBase
   {
 
-    protected readonly IUnitOfWork _unitOfWork;
+    protected readonly IBathhouseUnitOfWork _unitOfWork;
     protected readonly IRepository<WorkItem, Guid> _repository;
     protected readonly ILogger<WorkItemController> _logger;
     protected readonly IMapper _mapper;
 
-    public WorkItemController(ILogger<WorkItemController> logger, IMapper mapper, IUnitOfWork unitOfWork)
+    public WorkItemController(ILogger<WorkItemController> logger, IMapper mapper, IBathhouseUnitOfWork unitOfWork)
     {
       _logger = logger;
       _mapper = mapper;

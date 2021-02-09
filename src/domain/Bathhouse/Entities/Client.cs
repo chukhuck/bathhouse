@@ -1,4 +1,5 @@
 ﻿using Bathhouse.ValueTypes;
+using chukhuck.Helpers.Patterns;
 using System;
 
 namespace Bathhouse.Entities

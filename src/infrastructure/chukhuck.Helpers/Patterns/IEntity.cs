@@ -1,4 +1,4 @@
-﻿namespace Bathhouse.Entities
+﻿namespace chukhuck.Helpers.Patterns
 {
   public interface IEntity<TKey> where TKey : struct
   {

@@ -1,7 +1,7 @@
 ﻿using Bathhouse.EF.InMemory;
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;
-using chukhuck.Linq.Extensions;
+using chukhuck.Helpers.Linq.Extensions;
 using System.Linq;
 using Xunit;
 

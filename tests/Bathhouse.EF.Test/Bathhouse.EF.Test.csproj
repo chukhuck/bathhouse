@@ -2,13 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Nullable>enable</Nullable>
+
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="EmployeeTest.cs~RF2cd5cda0.TMP" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -18,10 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\domain\Bathhouse\Bathhouse.csproj" />
     <ProjectReference Include="..\..\src\infrastructure\Bathhouse.EF.InMemory\Bathhouse.EF.InMemory.csproj" />
-    <ProjectReference Include="..\..\src\infrastructure\Bathhouse.EF\Bathhouse.EF.csproj" />
-    <ProjectReference Include="..\..\src\infrastructure\chukhuck.Helpers\chukhuck.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

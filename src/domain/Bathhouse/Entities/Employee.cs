@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using chukhuck.Helpers.Patterns;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Bathhouse.Entities
 {
-#nullable enable
   public class Employee : IdentityUser<Guid>, IEntity<Guid>
   {
     public string LastName { get; set; } = "DefaultLastName";

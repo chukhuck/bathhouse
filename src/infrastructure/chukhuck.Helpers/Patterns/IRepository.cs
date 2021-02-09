@@ -1,12 +1,10 @@
-﻿using Bathhouse.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Bathhouse.Repositories
+namespace chukhuck.Helpers.Patterns
 {
-#nullable enable
   public interface IRepository<TEntity, TEntityKey> 
     where TEntity : class, IEntity<TEntityKey>
     where TEntityKey : struct
