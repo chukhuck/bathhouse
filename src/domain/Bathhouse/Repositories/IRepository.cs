@@ -3,26 +3,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Repositories
 {
-    #nullable enable
-  public interface IRepository<TEntity> where TEntity : class
+#nullable enable
+  public interface IRepository<TEntity, TEntityKey> 
+    where TEntity : class, IEntity<TEntityKey>
+    where TEntityKey : struct
   {
     IEnumerable<TEntity> GetAll(
       Expression<Func<TEntity, bool>> filter = null,
       IEnumerable<string> includePropertyNames = null,
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
 
-    TEntity? Get<TEntityKey>(TEntityKey key, IEnumerable<string> includePropertyNames = null);
-    bool Exist(Guid id);
+    TEntity? Get(TEntityKey key, IEnumerable<string> includePropertyNames = null);
+    bool Exist(TEntityKey id);
     TEntity Add(TEntity entity);
     IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities);
-    void Delete(Guid id);
+    void Delete(TEntityKey id);
     void Delete(TEntity entity);
-    void DeleteRange(IEnumerable<Guid> id);
+    void DeleteRange(IEnumerable<TEntityKey> ids);
     void DeleteRange(IEnumerable<TEntity> entities);
     IEnumerable<TEntity> Where(Func<TEntity, bool> predicate);
   }

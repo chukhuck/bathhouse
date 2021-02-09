@@ -409,14 +409,14 @@
             <response code="400">If the item is null</response>
             <response code="404">Office with current ID or one of Employee IDs is not found</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Get">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Get">
             <summary>
             Get all of entities
             </summary>
             <response code="200">Getting all of entities was successful</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.GetById(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.GetById(`1)">
             <summary>
             Get entity by ID
             </summary>
@@ -426,7 +426,7 @@
             <response code="400">If the request is null</response>
             <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Create(`2)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Create(`3)">
             <summary>
             Create and add entity.
             </summary>
@@ -435,7 +435,7 @@
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Update(System.Guid,`2)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Update(`1,`3)">
             <summary>
             Update Entity
             </summary>
@@ -447,7 +447,7 @@
             <response code="404">Entity with current ID is not found</response>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`3.Delete(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Delete(`1)">
             <summary>
             Delete entity by ID
             </summary>

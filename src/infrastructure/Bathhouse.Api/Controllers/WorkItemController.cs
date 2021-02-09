@@ -16,7 +16,7 @@ namespace Bathhouse.Api.Controllers
   {
 
     protected readonly IUnitOfWork _unitOfWork;
-    protected readonly IRepository<WorkItem> _repository;
+    protected readonly IRepository<WorkItem, Guid> _repository;
     protected readonly ILogger<WorkItemController> _logger;
     protected readonly IMapper _mapper;
 
@@ -25,7 +25,7 @@ namespace Bathhouse.Api.Controllers
       _logger = logger;
       _mapper = mapper;
       _unitOfWork = unitOfWork;
-      _repository = _unitOfWork.Repository<WorkItem>();
+      _repository = _unitOfWork.Repository<WorkItem, Guid>();
     }
 
     #region CRUD endpoints

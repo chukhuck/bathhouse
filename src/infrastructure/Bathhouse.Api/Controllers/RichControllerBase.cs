@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bathhouse.Entities;
 using Bathhouse.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,26 +12,27 @@ namespace Bathhouse.Api.Controllers
 {
   [ApiController]
   [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public class RichControllerBase<TEntity, TEntityResponse, TEntityRequest> : ControllerBase
-    where TEntity : class, new()
+  public class RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest> : ControllerBase
+    where TEntity : class, IEntity<TEntityKey>, new()
+    where TEntityKey : struct
     where TEntityResponse : class
     where TEntityRequest : class
   {
-    protected readonly IRepository<TEntity> _repository;
+    protected readonly IRepository<TEntity, TEntityKey> _repository;
 
-    protected readonly ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> _logger;
+    protected readonly ILogger<RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> _logger;
 
     protected readonly IMapper _mapper;
 
     protected readonly IUnitOfWork _unitOfWork;
 
     public RichControllerBase(
-      ILogger<RichControllerBase<TEntity, TEntityResponse, TEntityRequest>> logger,
+      ILogger<RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> logger,
       IMapper mapper,
       IUnitOfWork unitOfWork)
     {
       _logger = logger;
-      _repository = unitOfWork.Repository<TEntity>();
+      _repository = unitOfWork.Repository<TEntity, TEntityKey>();
       _mapper = mapper;
       _unitOfWork = unitOfWork;
     }
@@ -71,7 +73,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual ActionResult<TEntityResponse> GetById(Guid id)
+    public virtual ActionResult<TEntityResponse> GetById(TEntityKey id)
     {
       try
       {
@@ -136,7 +138,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual ActionResult Update(Guid id, TEntityRequest request)
+    public virtual ActionResult Update(TEntityKey id, TEntityRequest request)
     {
       try
       {
@@ -174,7 +176,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public virtual IActionResult Delete(Guid id)
+    public virtual IActionResult Delete(TEntityKey id)
     {
       try
       {

@@ -1,4 +1,5 @@
 ﻿using Bathhouse.EF.Data;
+using Bathhouse.Entities;
 using Bathhouse.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,9 @@ using System.Linq.Expressions;
 
 namespace Bathhouse.EF.Repositories
 {
-  public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+  public class Repository<TEntity, TEntityKey> : IRepository<TEntity, TEntityKey> 
+    where TEntity : class, IEntity<TEntityKey>
+    where TEntityKey : struct
   {
     protected BathhouseContext context;
 
@@ -28,7 +31,7 @@ namespace Bathhouse.EF.Repositories
       return entities;
     }
 
-    public void Delete(Guid id)
+    public void Delete(TEntityKey id)
     {
       TEntity entity = context.Set<TEntity>().Find(id);
       context.Set<TEntity>().Remove(entity);
@@ -39,7 +42,7 @@ namespace Bathhouse.EF.Repositories
       context.Set<TEntity>().Remove(entity);
     }
 
-    public void DeleteRange(IEnumerable<Guid> ids)
+    public void DeleteRange(IEnumerable<TEntityKey> ids)
     {
       context.Set<TEntity>().RemoveRange(ids.Select(id => context.Set<TEntity>().Find(id)));
     }
@@ -49,22 +52,24 @@ namespace Bathhouse.EF.Repositories
       context.Set<TEntity>().RemoveRange(entities);
     }
 
-    public bool Exist(Guid id)
+    public bool Exist(TEntityKey id)
     {
       return context.Set<TEntity>().Find(id) != null;
     }
 
-    public TEntity? Get<TEntityKey>(
+    public TEntity? Get(
       TEntityKey key,
       IEnumerable<string>? includePropertyNames = null)
     {
-      var entity = context.Set<TEntity>().Find(key);
+      var entity = context.Set<TEntity>().AsNoTracking().First(entity => entity.Id.Equals(key));
+
+      var dBContextEntity = context.Attach(entity);
 
       if (includePropertyNames != null && entity != null)
       {
         foreach (var includePropertyName in includePropertyNames)
         {
-          context.Entry(entity).Navigation(includePropertyName).Load();
+          dBContextEntity.Navigation(includePropertyName).Load();
         }
       }
 
@@ -77,7 +82,7 @@ namespace Bathhouse.EF.Repositories
       IEnumerable<string>? includePropertyNames = null, 
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null)
     {
-      IQueryable<TEntity> query = context.Set<TEntity>();
+      IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking();
 
       if (filter != null)
       {
@@ -94,15 +99,15 @@ namespace Bathhouse.EF.Repositories
 
       if (orderBy != null)
       {
-        return orderBy(query).AsNoTracking().ToList();
+        return orderBy(query).ToList();
       }
 
-      return query.AsNoTracking().ToList();
+      return query.ToList();
     }
 
     public IEnumerable<TEntity> Where(Func<TEntity, bool> predicate)
     {
-      return context.Set<TEntity>().Where(predicate);
+      return context.Set<TEntity>().AsNoTracking().Where(predicate);
     }
   }
 }

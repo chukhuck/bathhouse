@@ -15,9 +15,9 @@ namespace Bathhouse.Api.Controllers
   [ApiController]
   public class OfficeController : ControllerBase
   {
-    readonly IRepository<Employee> _employeeRepository;
+    readonly IRepository<Employee, Guid> _employeeRepository;
     protected readonly IUnitOfWork _unitOfWork;
-    protected readonly IRepository<Office> _repository;
+    protected readonly IRepository<Office, Guid> _repository;
 
     protected readonly ILogger<OfficeController> _logger;
 
@@ -28,11 +28,11 @@ namespace Bathhouse.Api.Controllers
       IMapper mapper,
       IUnitOfWork unitOfWork)
     {
-      _employeeRepository = unitOfWork.Repository<Employee>();
+      _employeeRepository = unitOfWork.Repository<Employee, Guid>();
       _logger = logger;
       _mapper = mapper;
       _unitOfWork = unitOfWork;
-      _repository = _unitOfWork.Repository<Office>();
+      _repository = _unitOfWork.Repository<Office, Guid>();
     }
 
     #region CRUD endpoints

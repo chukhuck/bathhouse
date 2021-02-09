@@ -18,7 +18,7 @@ namespace Bathhouse.EF.Repositories
       Questions = new QuestionRepository(Context);
       Surveys = new SurveyRepository(Context);
       SurveyResults = new SurveyResultRepository(Context);
-      Roles = new RoleRepository(Context);
+      //Roles = new RoleRepository(Context);
       WorkItems = new WorkItemRepository(Context);
     }
 
@@ -38,7 +38,7 @@ namespace Bathhouse.EF.Repositories
 
     public ISurveyResultRepository SurveyResults { get; }
 
-    public IRoleRepository Roles { get; }
+    //public IRoleRepository Roles { get; }
 
     public IWorkItemRepository WorkItems { get; }
 
@@ -52,21 +52,23 @@ namespace Bathhouse.EF.Repositories
       Context.Dispose();
     }
 
-    public IRepository<TEntity> Repository<TEntity>() where TEntity : class, new()
+    public IRepository<TEntity, TKeyEntity> Repository<TEntity, TKeyEntity>() 
+      where TEntity : class, IEntity<TKeyEntity>, new()
+      where TKeyEntity : struct
     {
       TEntity entity = new TEntity();
 
       return entity switch
       {
-        Answer _ => (IRepository<TEntity>)Answers,
-        Client _ => (IRepository<TEntity>)Clients,
-        Employee _ => (IRepository<TEntity>)Employees,
-        Office _ => (IRepository<TEntity>)Offices,
-        Question _ => (IRepository<TEntity>)Questions,
-        IdentityRole _ => (IRepository<TEntity>)Roles,
-        Survey _ => (IRepository<TEntity>)Surveys,
-        SurveyResult _ => (IRepository<TEntity>)SurveyResults,
-        WorkItem _ => (IRepository<TEntity>)WorkItems,
+        Answer _ => (IRepository<TEntity, TKeyEntity>)Answers,
+        Client _ => (IRepository<TEntity, TKeyEntity>)Clients,
+        Employee _ => (IRepository<TEntity, TKeyEntity>)Employees,
+        Office _ => (IRepository<TEntity, TKeyEntity>)Offices,
+        Question _ => (IRepository<TEntity, TKeyEntity>)Questions,
+        //IdentityRole _ => (IRepository<TEntity, TKeyEntity>)Roles,
+        Survey _ => (IRepository<TEntity, TKeyEntity>)Surveys,
+        SurveyResult _ => (IRepository<TEntity, TKeyEntity>)SurveyResults,
+        WorkItem _ => (IRepository<TEntity, TKeyEntity>)WorkItems,
         _ => throw new ArgumentNullException(nameof(TEntity), $"Unrecognised type {typeof(TEntity)}.")
       };
     }

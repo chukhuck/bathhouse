@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bathhouse.Entities;
+using System;
 
 namespace Bathhouse.Repositories
 {
@@ -11,11 +12,13 @@ namespace Bathhouse.Repositories
     IQuestionRepository Questions { get; }
     ISurveyRepository Surveys { get; }
     ISurveyResultRepository SurveyResults { get; }
-    IRoleRepository Roles { get; }
+    //IRoleRepository Roles { get; }
     IWorkItemRepository WorkItems { get; }
 
     int Complete();
 
-    IRepository<TEntity> Repository<TEntity>() where TEntity : class, new();
+    IRepository<TEntity, TEntityKey> Repository<TEntity, TEntityKey>() 
+      where TEntity : class, IEntity<TEntityKey>, new()
+      where TEntityKey : struct;
   }
 }

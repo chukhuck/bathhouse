@@ -16,11 +16,11 @@ namespace Bathhouse.Api.Controllers
   [ApiController]
   public class EmployeeController : ControllerBase
   {
-    protected readonly IRepository<Office> _officesRepository;
-    protected readonly IRepository<WorkItem> _workItemRepository;
-    protected readonly IRepository<Survey> _surveyRepository;
+    protected readonly IRepository<Office, Guid> _officesRepository;
+    protected readonly IRepository<WorkItem, Guid> _workItemRepository;
+    protected readonly IRepository<Survey, Guid> _surveyRepository;
     protected readonly IUnitOfWork _unitOfWork;
-    protected readonly IRepository<Employee> _repository;
+    protected readonly IRepository<Employee, Guid> _repository;
     protected readonly ILogger<EmployeeController> _logger;
     protected readonly IMapper _mapper;
 
@@ -29,14 +29,14 @@ namespace Bathhouse.Api.Controllers
       IMapper mapper,
       IUnitOfWork unitOfWork)
     {
-      _officesRepository = unitOfWork.Repository<Office>();
-      _workItemRepository = unitOfWork.Repository<WorkItem>();
-      _surveyRepository = unitOfWork.Repository<Survey>();
+      _officesRepository = unitOfWork.Repository<Office, Guid>();
+      _workItemRepository = unitOfWork.Repository<WorkItem, Guid>();
+      _surveyRepository = unitOfWork.Repository<Survey, Guid>();
 
       _logger = logger;
       _mapper = mapper;
       _unitOfWork = unitOfWork;
-      _repository = _unitOfWork.Repository<Employee>();
+      _repository = _unitOfWork.Repository<Employee, Guid>();
     }
 
     #region CRUD endpoints
