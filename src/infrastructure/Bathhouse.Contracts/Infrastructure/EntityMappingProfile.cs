@@ -5,14 +5,8 @@ using Bathhouse.ValueTypes;
 
 namespace Bathhouse.Contracts.Infrastructure
 {
-  /// <summary>
-  /// 
-  /// </summary>
   public class EntityMappingProfile : Profile
   {
-    /// <summary>
-    /// 
-    /// </summary>
     public EntityMappingProfile()
     {
       CreateMap<Office, OfficeResponse>();

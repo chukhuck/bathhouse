@@ -19,7 +19,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void Create_WorkItemRequest_With_Default_Values()
+    public void Create_With_Default_Values()
     {
       WorkItemRequest emptyWorkItem = new();
 
@@ -33,7 +33,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Lenght_Description_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_Description_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -48,7 +48,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Lenght_Description_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_Description_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -59,7 +59,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Empty_Description_RequiredAttribute_Is_False()
+    public void Create_With_Empty_Description_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -74,7 +74,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_WhiteSpaces_Description_RequiredAttribute_Is_False()
+    public void Create_With_WhiteSpaces_Description_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -89,7 +89,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Null_Description_RequiredAttribute_Is_False()
+    public void Create_With_Null_Description_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -104,7 +104,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Normal_Description_RequiredAttribute_Is_True()
+    public void Create_With_Normal_Description_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -115,7 +115,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Incorrect_Status_EnumDataTypeAttribute_Is_False()
+    public void Create_With_Incorrect_Status_EnumDataTypeAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -130,7 +130,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void WorkItemRequest_With_Correct_Status_EnumDataTypeAttribute_Is_True()
+    public void Create_With_Correct_Status_EnumDataTypeAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 

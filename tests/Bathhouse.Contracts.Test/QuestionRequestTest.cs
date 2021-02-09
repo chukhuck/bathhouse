@@ -18,7 +18,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void Create_QuestionRequest_With_Default_Values()
+    public void Create_With_Default_Values()
     {
       QuestionRequest emptyQuestion = new();
 
@@ -29,7 +29,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Incorrect_Type_EnumDataTypeAttribute_Is_False()
+    public void Create_With_Incorrect_Type_EnumDataTypeAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -44,7 +44,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Correct_Sex_EnumDataTypeAttribute_Is_True()
+    public void Create_With_Correct_Sex_EnumDataTypeAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -55,7 +55,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_Text_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_Text_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -70,7 +70,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_Text_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_Text_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -81,7 +81,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_Name_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_Name_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -96,7 +96,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_Name_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_Name_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -107,7 +107,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Empty_Name_RequiredAttribute_Is_False()
+    public void Create_With_Empty_Name_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -122,7 +122,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Normal_Name_RequiredAttribute_Is_True()
+    public void Create_With_Normal_Name_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -133,7 +133,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Empty_Text_RequiredAttribute_Is_False()
+    public void Create_With_Empty_Text_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -148,7 +148,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Normal_Text_RequiredAttribute_Is_True()
+    public void Create_With_Normal_Text_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -159,7 +159,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_WhiteSpaces_Text_RequiredAttribute_Is_False()
+    public void Create_With_WhiteSpaces_Text_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -174,7 +174,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Null_Text_RequiredAttribute_Is_False()
+    public void Create_With_Null_Text_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -189,7 +189,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_WhiteSpaces_Name_RequiredAttribute_Is_False()
+    public void Create_With_WhiteSpaces_Name_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -204,7 +204,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Null_Name_RequiredAttribute_Is_False()
+    public void Create_With_Null_Name_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 

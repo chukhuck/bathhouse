@@ -18,7 +18,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void Create_OfficeRequest_With_Default_Values()
+    public void Create_With_Default_Values()
     {
       OfficeRequest emptyOffice = new();
 
@@ -31,7 +31,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void OfficeRequest_With_Incorrect_Phone_PhoneAttribute_Is_False()
+    public void Create_With_Incorrect_Phone_PhoneAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -46,7 +46,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void OfficeRequest_With_Correct_Phone_PhoneAttribute_Is_True()
+    public void Create_With_Correct_Phone_PhoneAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -57,7 +57,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void OfficeRequest_With_Incorrect_Email_EmailAttribute_Is_False()
+    public void Create_With_Incorrect_Email_EmailAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -72,7 +72,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void OfficeRequest_With_Correct_Email_EmailAttribute_Is_True()
+    public void Create_With_Correct_Email_EmailAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -83,7 +83,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void OfficeRequest_With_Lenght_Address_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_Address_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -98,7 +98,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void OfficeRequest_With_Lenght_Address_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_Address_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 

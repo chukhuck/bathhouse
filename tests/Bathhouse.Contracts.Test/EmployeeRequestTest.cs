@@ -18,7 +18,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void Create_EmployeeRequest_With_Default_Values()
+    public void Create_With_Default_Values()
     {
       EmployeeRequest emptyEmployee = new();
 
@@ -31,7 +31,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Empty_LastName_RequiredAttribute_Is_False()
+    public void Create_With_Empty_LastName_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -46,7 +46,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_WhiteSpaces_LastName_RequiredAttribute_Is_False()
+    public void Create_With_WhiteSpaces_LastName_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -61,7 +61,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Null_LastName_RequiredAttribute_Is_False()
+    public void Create_With_Null_LastName_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -76,7 +76,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Normal_LastName_RequiredAttribute_Is_True()
+    public void Create_With_Normal_LastName_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -87,7 +87,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Incorrect_Phone_PhoneAttribute_Is_False()
+    public void Create_With_Incorrect_Phone_PhoneAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -102,7 +102,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Correct_Phone_PhoneAttribute_Is_True()
+    public void Create_With_Correct_Phone_PhoneAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -113,7 +113,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Incorrect_Email_EmailAttribute_Is_False()
+    public void Create_With_Incorrect_Email_EmailAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -128,7 +128,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Correct_Email_EmailAttribute_Is_True()
+    public void Create_With_Correct_Email_EmailAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -139,7 +139,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Lenght_LastName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_LastName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -154,7 +154,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Lenght_LastName_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_LastName_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -165,7 +165,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Lenght_FirstName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_FirstName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -180,7 +180,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Lenght_FirstName_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_FirstName_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -191,7 +191,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Lenght_MiddleName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_MiddleName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -206,7 +206,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void EmployeeRequest_With_Lenght_MiddleName_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_MiddleName_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 

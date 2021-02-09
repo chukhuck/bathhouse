@@ -1,5 +1,4 @@
 ﻿using Bathhouse.Contracts.Models;
-using Bathhouse.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +18,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void Create_SurveyRequest_With_Default_Values()
+    public void Create_With_Default_Values()
     {
       SurveyRequest emptySurvey = new();
 
@@ -30,7 +29,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Lenght_Description_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_Description_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -45,7 +44,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Lenght_Description_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_Description_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -56,7 +55,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Lenght_Name_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void Create_With_Lenght_Name_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -71,7 +70,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Lenght_Name_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void Create_With_Lenght_Name_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -82,7 +81,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Empty_Name_RequiredAttribute_Is_False()
+    public void Create_With_Empty_Name_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -97,7 +96,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_WhiteSpaces_Name_RequiredAttribute_Is_False()
+    public void Create_With_WhiteSpaces_Name_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -112,7 +111,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Null_Name_RequiredAttribute_Is_False()
+    public void Create_With_Null_Name_RequiredAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -127,7 +126,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void SurveyRequest_With_Normal_Name_RequiredAttribute_Is_True()
+    public void Create_With_Normal_Name_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
