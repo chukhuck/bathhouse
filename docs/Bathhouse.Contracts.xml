@@ -4,16 +4,6 @@
         <name>Bathhouse.Contracts</name>
     </assembly>
     <members>
-        <member name="T:Bathhouse.Contracts.Infrastructure.EntityMappingProfile">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:Bathhouse.Contracts.Infrastructure.EntityMappingProfile.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="T:Bathhouse.Contracts.Models.ClientRequest">
             <summary>
             
