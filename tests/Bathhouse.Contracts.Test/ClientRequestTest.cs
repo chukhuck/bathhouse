@@ -10,12 +10,12 @@ namespace Bathhouse.Contracts.Test
   public class ClientRequestTest
   {
     private readonly ValidationContext context;
-    private readonly ClientRequest emptyClient;
+    private readonly ClientRequest emptyRequest;
 
     public ClientRequestTest()
     {
-      emptyClient = new();
-      context = new ValidationContext(emptyClient);
+      emptyRequest = new();
+      context = new ValidationContext(emptyRequest);
     }
 
 
@@ -38,9 +38,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.LastName = string.Empty;
+      emptyRequest.LastName = string.Empty;
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Field LastName is required.", new[] { "LastName" }), 
@@ -49,13 +49,43 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
+    public void ClientRequest_With_WhiteSpaces_LastName_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.LastName = new string(' ', 3);
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field LastName is required.", new[] { "LastName" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void ClientRequest_With_Null_LastName_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.LastName = null;
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field LastName is required.", new[] { "LastName" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
     public void ClientRequest_With_Normal_LastName_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.LastName = "LastName";
+      emptyRequest.LastName = "LastName";
 
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 
@@ -64,9 +94,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.Phone = "LastName";
+      emptyRequest.Phone = "LastName";
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Incorrect phone format.", new[] { "Phone" }),
@@ -79,9 +109,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.Phone = "+7-916-000-0-000";
+      emptyRequest.Phone = "+7-916-000-0-000";
 
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 
@@ -90,9 +120,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.Sex = (Sex)int.MaxValue;
+      emptyRequest.Sex = (Sex)int.MaxValue;
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Incorrect a data type.", new[] { "Sex" }),
@@ -105,9 +135,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.Sex = Sex.Female;
+      emptyRequest.Sex = Sex.Female;
 
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 
@@ -116,9 +146,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.LastName = new string('a', 26);
+      emptyRequest.LastName = new string('a', 26);
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Maximum field length exceeded. Max lenght of field is 25 symbols.", new[] { "LastName" }),
@@ -131,9 +161,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.LastName = new string('a', 25);
+      emptyRequest.LastName = new string('a', 25);
 
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 
@@ -142,9 +172,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.FirstName = new string('a', 26);
+      emptyRequest.FirstName = new string('a', 26);
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Maximum field length exceeded. Max lenght of field is 25 symbols.", new[] { "FirstName" }),
@@ -157,9 +187,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.FirstName = new string('a', 25);
+      emptyRequest.FirstName = new string('a', 25);
 
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 
@@ -168,9 +198,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.MiddleName = new string('a', 26);
+      emptyRequest.MiddleName = new string('a', 26);
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Maximum field length exceeded. Max lenght of field is 25 symbols.", new[] { "MiddleName" }),
@@ -183,9 +213,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.MiddleName = new string('a', 25);
+      emptyRequest.MiddleName = new string('a', 25);
 
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 
@@ -194,9 +224,9 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.Comment = new string('a', 251);
+      emptyRequest.Comment = new string('a', 251);
 
-      Assert.False(Validator.TryValidateObject(emptyClient, context, results, true));
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Single(results);
       Assert.Contains(
         new ValidationResult("Maximum field length exceeded. Max lenght of field is 250 symbols.", new[] { "Comment" }),
@@ -209,8 +239,8 @@ namespace Bathhouse.Contracts.Test
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
-      emptyClient.Comment = new string('a', 250);
-      Assert.True(Validator.TryValidateObject(emptyClient, context, results, true));
+      emptyRequest.Comment = new string('a', 250);
+      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
     }
 

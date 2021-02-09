@@ -74,6 +74,36 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
+    public void WorkItemRequest_With_WhiteSpaces_Description_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Description = new string(' ', 3);
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Description is required.", new[] { "Description" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void WorkItemRequest_With_Null_Description_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Description = null;
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Description is required.", new[] { "Description" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
     public void WorkItemRequest_With_Normal_Description_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();

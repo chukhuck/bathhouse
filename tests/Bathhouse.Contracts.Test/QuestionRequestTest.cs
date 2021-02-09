@@ -29,7 +29,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void ClientRequest_With_Incorrect_Type_EnumDataTypeAttribute_Is_False()
+    public void QuestionRequest_With_Incorrect_Type_EnumDataTypeAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -44,7 +44,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void ClientRequest_With_Correct_Sex_EnumDataTypeAttribute_Is_True()
+    public void QuestionRequest_With_Correct_Sex_EnumDataTypeAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -156,6 +156,66 @@ namespace Bathhouse.Contracts.Test
 
       Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);
+    }
+
+    [Fact]
+    public void QuestionRequest_With_WhiteSpaces_Text_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Text = new string(' ', 3);
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Text is required.", new[] { "Text" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void QuestionRequest_With_Null_Text_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Text = null;
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Text is required.", new[] { "Text" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void QuestionRequest_With_WhiteSpaces_Name_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Name = new string(' ', 3);
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Name is required.", new[] { "Name" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void QuestionRequest_With_Null_Name_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Name = null;
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Name is required.", new[] { "Name" }),
+        results,
+        new ValidationResultEquilityComparer());
     }
   }
 }

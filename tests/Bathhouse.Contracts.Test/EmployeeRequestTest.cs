@@ -46,6 +46,36 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
+    public void EmployeeRequest_With_WhiteSpaces_LastName_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.LastName = new string(' ', 3);
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field LastName is required.", new[] { "LastName" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void EmployeeRequest_With_Null_LastName_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.LastName = null;
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field LastName is required.", new[] { "LastName" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
     public void EmployeeRequest_With_Normal_LastName_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();

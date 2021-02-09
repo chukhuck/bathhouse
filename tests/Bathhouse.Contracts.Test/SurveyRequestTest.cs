@@ -97,6 +97,36 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
+    public void SurveyRequest_With_WhiteSpaces_Name_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Name = new string(' ', 3);
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Name is required.", new[] { "Name" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
+    public void SurveyRequest_With_Null_Name_RequiredAttribute_Is_False()
+    {
+      List<ValidationResult> results = new List<ValidationResult>();
+
+      emptyRequest.Name = null;
+
+      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
+      Assert.Single(results);
+      Assert.Contains(
+        new ValidationResult("Field Name is required.", new[] { "Name" }),
+        results,
+        new ValidationResultEquilityComparer());
+    }
+
+    [Fact]
     public void SurveyRequest_With_Normal_Name_RequiredAttribute_Is_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
