@@ -15,9 +15,9 @@ namespace Bathhouse.Helpers
       return datatype switch
       {
         DataType.Bool => column.Select(c => c == "true" ? "YES" : "NO").GroupedAndCount(separator: "\r\n", valueLabel: "Value: ", countLabel: ", Count = "),
-        DataType.DateTime => column.Select(c => DateTime.Parse(c)).MinMax(preambola: "From ", separator: " to "),
-        DataType.Decimal => column.Select(c => decimal.Parse(c)).Sum(preambola: "Total: "),
-        DataType.Number => column.Select(c => int.Parse(c)).Sum(preambola: "Total: "),
+        DataType.DateTime => column.Select(c => DateTime.Parse(c)).MinMax(prefix: "From ", separator: " to "),
+        DataType.Decimal => column.Select(c => decimal.Parse(c)).SumAsDecimal(prefix: "Total: "),
+        DataType.Number => column.Select(c => int.Parse(c)).SumAsDecimal(prefix: "Total: "),
         DataType.Text => column.GroupedAndCount(separator: "\r\n", valueLabel: "Value: ", countLabel: ", Count = "),
         DataType.Photo => string.Empty,
         _ => string.Empty
