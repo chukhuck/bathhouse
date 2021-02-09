@@ -7,19 +7,16 @@ namespace Bathhouse.Contracts.Models
 {
   public class SurveyRequest
   {
-    [Required]
+    [Required(ErrorMessage = "Field Name is required.")]
     [DataType(DataType.Text)]
-    [MaxLength(50, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 50 symbols.")]
+    [StringLength(50, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 50 symbols.")]
     [DefaultValue("Новый опрос")]
     public string Name { get; set; } = "Новый опрос";
 
     [DataType(DataType.Text)]
-    [MaxLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
+    [StringLength(300, ErrorMessage = "Maximum field length exceeded. Max lenght of field is 300 symbols.")]
     [DefaultValue("Описание нового опроса")]
     public string? Description { get; set; } = "Описание нового опроса";
-
-    //[DataType(DataType.Date, ErrorMessage = "Incorrect date format.")]
-    //public DateTime CreationDate { get; set; } = DateTime.Now;
 
     [Required]
     public Guid AuthorId { get; set; }

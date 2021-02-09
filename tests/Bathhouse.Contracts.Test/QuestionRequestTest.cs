@@ -1,6 +1,5 @@
 ﻿using Bathhouse.Contracts.Models;
 using Bathhouse.ValueTypes;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
@@ -21,12 +20,12 @@ namespace Bathhouse.Contracts.Test
     [Fact]
     public void Create_QuestionRequest_With_Default_Values()
     {
-      QuestionRequest emptyEmployee = new();
+      QuestionRequest emptyQuestion = new();
 
-      Assert.Equal("Текст нового вопроса", emptyEmployee.Text);
-      Assert.Equal("Вопрос 1", emptyEmployee.Name);
-      Assert.False(emptyEmployee.IsKey);
-      Assert.Equal(QuestionType.Number, emptyEmployee.Type);
+      Assert.Equal("Текст нового вопроса", emptyQuestion.Text);
+      Assert.Equal("Вопрос 1", emptyQuestion.Name);
+      Assert.False(emptyQuestion.IsKey);
+      Assert.Equal(QuestionType.Number, emptyQuestion.Type);
     }
 
     [Fact]
@@ -71,7 +70,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_LastName_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void QuestionRequest_With_Lenght_Text_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -82,7 +81,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_FirstName_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
+    public void QuestionRequest_With_Lenght_Name_More_Than_Max_Symbols_StringLengthAttribute_Is_False()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
@@ -97,7 +96,7 @@ namespace Bathhouse.Contracts.Test
     }
 
     [Fact]
-    public void QuestionRequest_With_Lenght_FirstName_Less_Than_Max_Symbols_StringLengthAttribute_True()
+    public void QuestionRequest_With_Lenght_Name_Less_Than_Max_Symbols_StringLengthAttribute_True()
     {
       List<ValidationResult> results = new List<ValidationResult>();
 
