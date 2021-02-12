@@ -1,9 +1,8 @@
-﻿using Chuk.Helpers;
+﻿using Chuk.Helpers.Generators;
 using Chuk.Helpers.Linq.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace chukhuck.Helpers.Test

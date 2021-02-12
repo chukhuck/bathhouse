@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Chuk.Helpers
+namespace Chuk.Helpers.Generators
 {
   public static partial class Sequence
   {

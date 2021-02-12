@@ -17,4 +17,9 @@
     <ProjectReference Include="..\..\src\infrastructure\Chuk.Helpers\Chuk.Helpers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Patterns\" />
+    <Folder Include="Generators\" />
+  </ItemGroup>
+
 </Project>
