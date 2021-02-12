@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace chukhuck.Helpers.Patterns
+namespace Chuk.Helpers.Patterns
 {
   public class EFUnitOfWork<TDBContext> : IUnitOfWork
     where TDBContext : DbContext

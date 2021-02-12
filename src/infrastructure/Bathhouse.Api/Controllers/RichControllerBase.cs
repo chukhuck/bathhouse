@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Bathhouse.Repositories.Common;
-using chukhuck.Helpers.Patterns;
+using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

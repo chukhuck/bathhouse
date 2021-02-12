@@ -1,4 +1,4 @@
-﻿using chukhuck.Helpers.Patterns;
+﻿using Chuk.Helpers.Patterns;
 using System;
 using System.Collections.Generic;
 using System.Linq;

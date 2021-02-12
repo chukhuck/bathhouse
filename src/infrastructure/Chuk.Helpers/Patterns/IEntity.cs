@@ -1,4 +1,4 @@
-﻿namespace chukhuck.Helpers.Patterns
+﻿namespace Chuk.Helpers.Patterns
 {
   public interface IEntity<TKey> where TKey : struct
   {

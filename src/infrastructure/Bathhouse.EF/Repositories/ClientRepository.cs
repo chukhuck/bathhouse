@@ -1,7 +1,7 @@
 ﻿using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
-using chukhuck.Helpers.Patterns;
+using Chuk.Helpers.Patterns;
 using System;
 
 namespace Bathhouse.EF.Repositories

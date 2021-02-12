@@ -1,4 +1,4 @@
-﻿using chukhuck.Helpers.Patterns;
+﻿using Chuk.Helpers.Patterns;
 using System;
 
 namespace Bathhouse.Entities

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chukhuck.Helpers.Linq.Extensions
+namespace Chuk.Helpers.Linq.Extensions
 {
   public static partial class EnumerableExtension
   {

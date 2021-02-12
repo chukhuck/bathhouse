@@ -2,7 +2,7 @@
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
 using Bathhouse.Repositories.Common;
-using chukhuck.Helpers.Patterns;
+using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

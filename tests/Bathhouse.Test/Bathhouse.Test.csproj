@@ -21,7 +21,7 @@
     <ProjectReference Include="..\..\src\domain\Bathhouse\Bathhouse.csproj" />
     <ProjectReference Include="..\..\src\infrastructure\Bathhouse.EF.InMemory\Bathhouse.EF.InMemory.csproj" />
     <ProjectReference Include="..\..\src\infrastructure\Bathhouse.EF\Bathhouse.EF.csproj" />
-    <ProjectReference Include="..\..\src\infrastructure\chukhuck.Helpers\chukhuck.Helpers.csproj" />
+    <ProjectReference Include="..\..\src\infrastructure\Chuk.Helpers\Chuk.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

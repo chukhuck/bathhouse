@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace chukhuck.Helpers.Patterns
+namespace Chuk.Helpers.Patterns
 {
   public interface IRepository<TEntity, TEntityKey> 
     where TEntity : class, IEntity<TEntityKey>

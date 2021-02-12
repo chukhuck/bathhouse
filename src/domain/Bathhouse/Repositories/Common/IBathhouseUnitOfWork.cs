@@ -1,4 +1,4 @@
-﻿using chukhuck.Helpers.Patterns;
+﻿using Chuk.Helpers.Patterns;
 
 namespace Bathhouse.Repositories.Common
 {

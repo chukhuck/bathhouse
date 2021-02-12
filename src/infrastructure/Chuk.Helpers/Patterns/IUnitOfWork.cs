@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace chukhuck.Helpers.Patterns
+namespace Chuk.Helpers.Patterns
 {
   public interface IUnitOfWork : IDisposable
   {
