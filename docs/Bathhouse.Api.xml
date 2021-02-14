@@ -98,6 +98,16 @@
             <response code="204">Deleting Employee is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetRoles(System.Guid)">
+            <summary>
+            Get roles for employee
+            </summary>
+            <param name="id">The Employee ID</param>
+            <response code="404">Employee with current ID is not found</response>
+            <response code="200">Getting roles is successul.</response>
+            <response code="400">If the ID is not valid</response>
+            <response code="500">Exception on server side was fired</response>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetDirectors">
             <summary>
             Get all of the directors in the system

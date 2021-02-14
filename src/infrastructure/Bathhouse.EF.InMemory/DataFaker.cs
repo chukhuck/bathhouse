@@ -177,8 +177,7 @@ private static Employee GenerateDirector(BathhouseContext context, DataFakerOpti
     Offices = new List<Office>(),
     SurveyResults = new List<SurveyResult>(),
     WorkItems = new List<WorkItem>(),
-    CreatedWorkItems = new List<WorkItem>(),
-    Roles = new List<IdentityRole<Guid>>()
+    CreatedWorkItems = new List<WorkItem>()
   };
 
   GenerateWorkItems(context, opt, creator: director, executor: director);
