@@ -299,10 +299,13 @@ namespace Bathhouse.EF.Data
         .HasMany(e => e.Offices)
         .WithMany(o => o.Employees);
 
+#pragma warning disable CS8603
       builder.Entity<Employee>()
         .HasMany(e => e.SurveyResults)
         .WithOne(sr => sr.Author)
-        .HasForeignKey(sr => sr.AuthorId);
+        .HasForeignKey(sr => sr.AuthorId)
+        .OnDelete(DeleteBehavior.SetNull);
+#pragma warning restore CS8603
 
       builder.Entity<Employee>()
         .HasMany(e => e.Surveys)
@@ -319,7 +322,7 @@ namespace Bathhouse.EF.Data
         .HasMany(e => e.WorkItems)
         .WithOne(wi => wi.Executor)
         .HasForeignKey(wi => wi.ExecutorId)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.SetNull);
 #pragma warning restore CS8603
 
       builder.Entity<Employee>()

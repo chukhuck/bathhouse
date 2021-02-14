@@ -10,8 +10,8 @@ namespace Bathhouse.Entities
     public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime CreationDate { get; set; } = DateTime.Now;
 
-    public virtual Employee Author { get; set; } = null!;
-    public Guid AuthorId { get; set; }
+    public virtual Employee? Author { get; set; }
+    public Guid? AuthorId { get; set; }
     public virtual Survey Survey { get; set; } = null!;
     public Guid SurveyId { get; set; }
 
@@ -23,7 +23,7 @@ namespace Bathhouse.Entities
       List<string> row = new ();
 
       row.Add(CreationDate.ToString());
-      row.Add(Author.LastName);
+      row.Add(Author?.LastName ?? "Anonim");
 
       row.AddRange(Answers.Select(a => a.Value));
 
