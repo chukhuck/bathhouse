@@ -2,6 +2,8 @@
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;
 using Bogus;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,27 @@ namespace Bathhouse.EF.InMemory
     {
       Randomizer.Seed = new Random(8675309);
 
-      var director = GenerateDirector(context, opt);
+      var userStore = new UserStore<Employee, IdentityRole<Guid>, BathhouseContext, Guid>(context);
+      
 
-      GenerateTechSupporter(context, opt);
-      GenerateManagers(context, opt);
-      GenerateOtherEmployees(context, opt);
+      var director = GenerateDirector(context, opt);
+      userStore.AddToRoleAsync(director, Constants.DirectorRoleName.ToUpper()).Wait();
+
+
+      var admin = GenerateTechSupporter(context, opt);
+      userStore.AddToRoleAsync(admin, Constants.AdminRoleName.ToUpper()).Wait();
+
+      var managers = GenerateManagers(context, opt);
+      foreach (var manager in managers)
+      {
+        userStore.AddToRoleAsync(manager, Constants.ManagerRoleName.ToUpper()).Wait();
+      }
+
+      var employees = GenerateOtherEmployees(context, opt);
+      foreach (var employee in employees)
+      {
+        userStore.AddToRoleAsync(employee, Constants.EmployeeRoleName.ToUpper()).Wait();
+      }
 
       GenerateWorkItems(context, opt, creator: director);
 
@@ -159,7 +177,8 @@ private static Employee GenerateDirector(BathhouseContext context, DataFakerOpti
     Offices = new List<Office>(),
     SurveyResults = new List<SurveyResult>(),
     WorkItems = new List<WorkItem>(),
-    CreatedWorkItems = new List<WorkItem>()
+    CreatedWorkItems = new List<WorkItem>(),
+    Roles = new List<IdentityRole<Guid>>()
   };
 
   GenerateWorkItems(context, opt, creator: director, executor: director);

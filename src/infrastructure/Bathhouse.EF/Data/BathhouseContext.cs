@@ -6,7 +6,7 @@ using System;
 
 namespace Bathhouse.EF.Data
 {
-  public class BathhouseContext : IdentityDbContext<Employee, Role, Guid>
+  public class BathhouseContext : IdentityDbContext<Employee, IdentityRole<Guid>, Guid>
   {
     public BathhouseContext()
     {
@@ -23,6 +23,7 @@ namespace Bathhouse.EF.Data
 
     public BathhouseContext(DbContextOptions<BathhouseContext> options) : base(options)
     {
+      
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -52,28 +53,28 @@ namespace Bathhouse.EF.Data
 
     private static void BuildRoles(ModelBuilder builder)
     {
-      builder.Entity<Role>()
+      builder.Entity<IdentityRole<Guid>>()
         .ToTable("Roles")
         .HasData(
-        new Role()
+        new IdentityRole<Guid>()
         {
           Id = Guid.NewGuid(),
           Name = Constants.AdminRoleName,
           NormalizedName = Constants.AdminRoleName.ToUpper()
         },
-        new Role()
+        new IdentityRole<Guid>()
         {
           Id = Guid.NewGuid(),
           Name = Constants.DirectorRoleName,
           NormalizedName = Constants.DirectorRoleName.ToUpper()
         },
-        new Role()
+        new IdentityRole<Guid>()
         {
           Id = Guid.NewGuid(),
           Name = Constants.ManagerRoleName,
           NormalizedName = Constants.ManagerRoleName.ToUpper()
         },
-        new Role()
+        new IdentityRole<Guid>()
         {
           Id = Guid.NewGuid(),
           Name = Constants.EmployeeRoleName,

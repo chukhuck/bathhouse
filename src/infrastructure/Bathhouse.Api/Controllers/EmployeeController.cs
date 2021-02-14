@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts.Models;
+using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -24,11 +26,13 @@ namespace Bathhouse.Api.Controllers
     protected readonly IRepository<Employee, Guid> _repository;
     protected readonly ILogger<EmployeeController> _logger;
     protected readonly IMapper _mapper;
+    protected readonly UserManager<Employee> _userManager;
 
     public EmployeeController(
       ILogger<EmployeeController> logger,
       IMapper mapper,
-      IBathhouseUnitOfWork unitOfWork)
+      IBathhouseUnitOfWork unitOfWork,
+      UserManager<Employee> userManager)
     {
       _officesRepository = unitOfWork.Repository<Office, Guid>();
       _workItemRepository = unitOfWork.Repository<WorkItem, Guid>();
@@ -38,6 +42,8 @@ namespace Bathhouse.Api.Controllers
       _mapper = mapper;
       _unitOfWork = unitOfWork;
       _repository = _unitOfWork.Repository<Employee, Guid>();
+
+      _userManager = userManager;
     }
 
     #region CRUD endpoints
@@ -221,7 +227,6 @@ namespace Bathhouse.Api.Controllers
 
     #region Static endpoints
 
-    //TODO Add rolemanager
     /// <summary>
     /// Get all of the directors in the system
     /// </summary>
@@ -234,8 +239,9 @@ namespace Bathhouse.Api.Controllers
     public ActionResult<EmployeeResponse> GetDirectors()
     {
       try
-      {
-        return Ok();// _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Director)));
+      {    
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+          _userManager.GetUsersInRoleAsync(Constants.DirectorRoleName).Result));
       }
       catch (Exception ex)
       {
@@ -244,7 +250,6 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
-    //TODO Add rolemanager
     /// <summary>
     /// Get all of the employees in the system
     /// </summary>
@@ -258,7 +263,8 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok();// _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Employee)));
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+          _userManager.GetUsersInRoleAsync(Constants.EmployeeRoleName).Result));
       }
       catch (Exception ex)
       {
@@ -267,7 +273,6 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
-    //TODO Add rolemanager
     /// <summary>
     /// Get all of the managers in the system
     /// </summary>
@@ -281,7 +286,8 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok();// _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.Manager)));
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+          _userManager.GetUsersInRoleAsync(Constants.ManagerRoleName).Result));
       }
       catch (Exception ex)
       {
@@ -290,7 +296,6 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
-    //TODO Add rolemanager
     /// <summary>
     /// Get all of the tech supporters in the system
     /// </summary>
@@ -304,7 +309,8 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        return Ok();//_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(_repository.Where(e => e.Type == EmployeeType.TechnicalSupport)));
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+          _userManager.GetUsersInRoleAsync(Constants.AdminRoleName).Result));
       }
       catch (Exception ex)
       {

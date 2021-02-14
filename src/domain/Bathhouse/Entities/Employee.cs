@@ -28,6 +28,7 @@ namespace Bathhouse.Entities
 
     public virtual ICollection<Survey> Surveys { get; set; } = null!;
 
+
     public void DeleteOffice(Guid officeId)
     {
       if (Offices.FirstOrDefault(e => e.Id == officeId) is Office removingOffice)
