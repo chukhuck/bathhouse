@@ -347,11 +347,13 @@
             <response code="404">Entity with current ID is not found</response>
             <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.Delete(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.Delete(System.Guid,System.Nullable{System.Guid})">
             <summary>
             Delete Office by ID
             </summary>
             <param name="id">Office ID</param>
+            <param name="newOfficeIdForClients">The ID of Office that will be set for clients of the deleting Office. 
+            If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
             <response code="404">Office with current ID is not found</response>
             <response code="204">Deleting Office is successul</response>
             <response code="500">Exception on server side was fired</response>

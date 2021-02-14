@@ -67,7 +67,6 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// OD of "home" office of client
     /// </summary>
-    [Required]
-    public Guid OfficeId { get; set; }
+    public Guid? OfficeId { get; set; }
   }
 }

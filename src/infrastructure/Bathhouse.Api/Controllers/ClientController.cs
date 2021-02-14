@@ -52,7 +52,7 @@ namespace Bathhouse.Api.Controllers
       {
         var allEntities = _repository.GetAll(
           includePropertyNames: new[] { "Office" }, 
-          orderBy: all=> all.OrderBy(c=>c.Office.Number));
+          orderBy: all=> all.OrderBy(c=>c.LastName));
 
         _logger.LogInformation($"All of Clients was got.");
 
@@ -118,7 +118,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_officeRepository.Exist(request.OfficeId))
+        if (request.OfficeId is not null && !_officeRepository.Exist(request.OfficeId.Value))
         {
           _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
           return NotFound($"Office with ID={request.OfficeId} was not found.");
@@ -159,7 +159,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (!_officeRepository.Exist(request.OfficeId))
+        if (request.OfficeId is not null && !_officeRepository.Exist(request.OfficeId.Value))
         {
           _logger.LogInformation($"Office with ID={request.OfficeId} was not found.");
           return NotFound($"Office with ID={request.OfficeId} was not found.");

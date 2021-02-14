@@ -143,8 +143,7 @@ namespace Bathhouse.EF.Data
         .HasKey(q => q.Id);
 
       builder.Entity<Client>()
-        .Property(a => a.OfficeId)
-        .IsRequired();
+        .Property(a => a.OfficeId);
 
       builder.Entity<Client>()
         .Property(a => a.Comment)
@@ -260,7 +259,8 @@ namespace Bathhouse.EF.Data
       builder.Entity<Office>()
         .HasMany(o => o.Clients)
         .WithOne(c => c.Office)
-        .HasForeignKey(c => c.OfficeId);
+        .HasForeignKey(c => c.OfficeId)
+        .OnDelete(DeleteBehavior.SetNull);
 
       builder.Entity<Office>()
         .Property(a => a.Email)

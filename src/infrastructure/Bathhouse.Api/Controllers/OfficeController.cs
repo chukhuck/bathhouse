@@ -176,6 +176,8 @@ namespace Bathhouse.Api.Controllers
     /// Delete Office by ID
     /// </summary>
     /// <param name="id">Office ID</param>
+    /// <param name="newOfficeIdForClients">The ID of Office that will be set for clients of the deleting Office. 
+    /// If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
     /// <response code="404">Office with current ID is not found</response>
     /// <response code="204">Deleting Office is successul</response>
     /// <response code="500">Exception on server side was fired</response>
@@ -186,7 +188,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     [ProducesDefaultResponseType]
-    public virtual IActionResult Delete(Guid id)
+    public virtual IActionResult Delete(Guid id, [FromQuery] Guid? newOfficeIdForClients)
     {
       try
       {
@@ -195,6 +197,24 @@ namespace Bathhouse.Api.Controllers
         {
           _logger.LogInformation($"Office with ID={id} was not found.");
           return NotFound($"Office with ID={id} was not found.");
+        }
+
+        if (newOfficeIdForClients is not null)
+        {
+          Office? newOffice = _repository.Get(newOfficeIdForClients.Value);
+
+          if (newOffice is null)
+          {
+            _logger.LogInformation($"New Office with ID={newOfficeIdForClients.Value} was not found.");
+            return NotFound($"New Office with ID={newOfficeIdForClients.Value} was not found.");
+          }
+
+          var clients = _unitOfWork.Clients.Where(c => c.OfficeId == id);
+
+          foreach (var client in clients)
+          {
+            client.SetOffice(newOffice);
+          }
         }
 
         _repository.Delete(entity);

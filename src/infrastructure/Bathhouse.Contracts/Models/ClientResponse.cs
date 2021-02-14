@@ -16,5 +16,5 @@ namespace Bathhouse.Contracts.Models
     string? Comment,
     Sex Sex,
     string OfficeNumber,
-    Guid OfficeId);
+    Guid? OfficeId);
 }

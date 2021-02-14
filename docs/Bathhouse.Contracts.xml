@@ -54,7 +54,7 @@
             
             </summary>
         </member>
-        <member name="M:Bathhouse.Contracts.Models.ClientResponse.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.Nullable{System.DateTime},System.String,Bathhouse.ValueTypes.Sex,System.String,System.Guid)">
+        <member name="M:Bathhouse.Contracts.Models.ClientResponse.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.Nullable{System.DateTime},System.String,Bathhouse.ValueTypes.Sex,System.String,System.Nullable{System.Guid})">
             <summary>
             
             </summary>
