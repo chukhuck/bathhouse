@@ -10,7 +10,6 @@ namespace Bathhouse.EF.Data
   {
     public BathhouseContext()
     {
-      //this.
     }
     //public DbSet<Employee> Employees { get; set; }
     public DbSet<Answer> Answers { get; set; } = null!;
@@ -24,7 +23,6 @@ namespace Bathhouse.EF.Data
 
     public BathhouseContext(DbContextOptions<BathhouseContext> options) : base(options)
     {
-      Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -37,11 +35,11 @@ namespace Bathhouse.EF.Data
 
       BuildOffice(builder);
 
+      BuildQuestion(builder);
+
       BuildSurvey(builder);
 
       BuildSurveyResult(builder);
-
-      BuildQuestion(builder);
 
       BuildClient(builder);
 
@@ -182,7 +180,8 @@ namespace Bathhouse.EF.Data
       builder.Entity<Question>()
         .HasMany(q => q.Answers)
         .WithOne(a => a.Question)
-        .HasForeignKey(q => q.QuestionId);
+        .HasForeignKey(q => q.QuestionId)
+        .OnDelete(DeleteBehavior.NoAction);
 
       builder.Entity<Question>()
         .Property(a => a.SurveyId)
@@ -205,8 +204,7 @@ namespace Bathhouse.EF.Data
       builder.Entity<SurveyResult>()
         .HasMany(s => s.Answers)
         .WithOne(a => a.Result)
-        .HasForeignKey(q => q.ResultId)
-        .OnDelete(DeleteBehavior.NoAction);
+        .HasForeignKey(q => q.ResultId);
 
       builder.Entity<SurveyResult>()
         .Property(sr => sr.AuthorId)
@@ -256,11 +254,13 @@ namespace Bathhouse.EF.Data
       builder.Entity<Office>()
         .HasKey(o => o.Id);
 
+#pragma warning disable CS8603
       builder.Entity<Office>()
         .HasMany(o => o.Clients)
         .WithOne(c => c.Office)
         .HasForeignKey(c => c.OfficeId)
         .OnDelete(DeleteBehavior.SetNull);
+#pragma warning restore CS8603
 
       builder.Entity<Office>()
         .Property(a => a.Email)

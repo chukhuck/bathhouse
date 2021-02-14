@@ -195,6 +195,10 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Survey with ID={id} was not found.");
         }
 
+        //clear results
+        var results = _unitOfWork.SurveyResults.Where(sr=>sr.SurveyId == id);
+        _unitOfWork.SurveyResults.DeleteRange(results);
+
         _repository.Delete(entity);
 
         _unitOfWork.Complete();

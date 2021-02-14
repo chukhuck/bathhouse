@@ -1,11 +1,10 @@
 using Bathhouse.Api.Extensions;
+using Bathhouse.EF.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Linq;
 
 namespace Bathhouse.Api
 {
@@ -22,7 +21,16 @@ namespace Bathhouse.Api
       var config = serviceProvider.GetRequiredService<IConfiguration>();
       bool generateSwaggerSpec = config.GetValue<bool>("GenerateSwaggerSpec");
       bool seedDatabase = config.GetValue<bool>("SeedDataBase");
-      bool useTestDataInMemory = config.GetValue<bool>("UseTestDataInMemory");
+      bool useTestData = config.GetValue<bool>("UseTestData");
+
+      // ONLY WHEN DEVELOP
+      using var scope = host.Services.CreateScope();
+      using (BathhouseContext context = scope.ServiceProvider.GetRequiredService<BathhouseContext>())
+      {
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+      }
+
 
       if (generateSwaggerSpec)
       {
@@ -34,7 +42,7 @@ namespace Bathhouse.Api
         host.SeedDatabaseFromCSVFiles(logger);
       }
 
-      if (useTestDataInMemory)
+      if (useTestData)
       {
         host.SeedTestData();
       }

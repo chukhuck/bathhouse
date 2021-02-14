@@ -58,11 +58,14 @@ namespace Chuk.Helpers.Patterns
       TEntityKey key,
       IEnumerable<string>? includePropertyNames = null)
     {
-      var entity = context.Set<TEntity>().AsNoTracking().First(entity => entity.Id.Equals(key));
+      var entity = context.Set<TEntity>().AsNoTracking().FirstOrDefault(entity => entity.Id.Equals(key));
+
+      if (entity is null)
+        return null;
 
       var dBContextEntity = context.Attach(entity);
 
-      if (includePropertyNames != null && entity != null)
+      if (includePropertyNames != null)
       {
         foreach (var includePropertyName in includePropertyNames)
         {

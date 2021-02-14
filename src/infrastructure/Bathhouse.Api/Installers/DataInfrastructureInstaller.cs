@@ -18,11 +18,11 @@ namespace Bathhouse.Api.Installers
   {
     public void InstallService(IServiceCollection services, IConfiguration Configuration)
     {
-      bool useTestDataInMemory = Configuration.GetValue<bool>("UseTestDataInMemory");
+      bool useInMemoryStorage = Configuration.GetValue<bool>("UseInMemoryStorage");
 
       services.AddDbContext<BathhouseContext>(options =>
       {
-        if (useTestDataInMemory)
+        if (useInMemoryStorage)
         {
           options
           .UseInMemoryDatabase("BathhouseInMemoryDB")

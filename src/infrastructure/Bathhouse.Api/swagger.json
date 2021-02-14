@@ -3255,6 +3255,17 @@
               "description": "Office ID",
               "format": "uuid"
             }
+          },
+          {
+            "name": "newOfficeIdForClients",
+            "in": "query",
+            "description": "The ID of Office that will be set for clients of the deleting Office. \r\n            If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL",
+            "schema": {
+              "type": "string",
+              "description": "The ID of Office that will be set for clients of the deleting Office. \r\n            If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL",
+              "format": "uuid",
+              "nullable": true
+            }
           }
         ],
         "responses": {
@@ -5030,7 +5041,8 @@
           },
           "officeId": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -5064,8 +5076,7 @@
       },
       "ClientRequest": {
         "required": [
-          "lastName",
-          "officeId"
+          "lastName"
         ],
         "type": "object",
         "properties": {
@@ -5114,7 +5125,8 @@
           },
           "officeId": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false
