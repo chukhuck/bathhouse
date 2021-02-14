@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Bathhouse.Entities;
+using Chuk.Helpers.Patterns;
 using System;
 
 namespace Bathhouse.Repositories
 {
-  //public interface IRoleRepository : IRepository<IdentityRole, Guid>
-  //{
-  //}
+  public interface IRoleRepository : IRepository<Role, Guid>
+  {
+  }
 }

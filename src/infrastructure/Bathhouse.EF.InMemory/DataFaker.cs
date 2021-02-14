@@ -98,7 +98,7 @@ private static List<SurveyResult> GenerateSurveyResults(BathhouseContext context
       DateTime.Parse(opt.Common_start_day),
       DateTime.Parse(opt.Common_end_day)))
     .RuleFor(a => a.Author, (f, o) => f.PickRandom(context.Users.Local.ToList()))
-    .RuleFor(a => a.AuthorId, (f, o) => o.Author.Id)
+    .RuleFor(a => a.AuthorId, (f, o) => o.Author?.Id ?? null)
     .RuleFor(a => a.Survey, (f, o) => survey)
     .RuleFor(a => a.SurveyId, (f, o) => survey.Id)
     .RuleFor(a => a.Answers, (f, o) => new List<Answer>())

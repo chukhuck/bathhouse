@@ -3,8 +3,6 @@ using Bathhouse.Entities;
 using Bathhouse.Repositories;
 using Bathhouse.Repositories.Common;
 using Chuk.Helpers.Patterns;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Bathhouse.EF.Repositories.Common
@@ -20,7 +18,7 @@ namespace Bathhouse.EF.Repositories.Common
       Questions = new QuestionRepository(context);
       Surveys = new SurveyRepository(context);
       SurveyResults = new SurveyResultRepository(context);
-      //Roles = new RoleRepository(context);
+      Roles = new RoleRepository(context);
       WorkItems = new WorkItemRepository(context);
     }
 
@@ -38,7 +36,7 @@ namespace Bathhouse.EF.Repositories.Common
 
     public ISurveyResultRepository SurveyResults { get; }
 
-    //public IRoleRepository Roles { get; }
+    public IRoleRepository Roles { get; }
 
     public IWorkItemRepository WorkItems { get; }
 
@@ -53,7 +51,7 @@ namespace Bathhouse.EF.Repositories.Common
         Employee _ => (IRepository<TEntity, TKeyEntity>)Employees,
         Office _ => (IRepository<TEntity, TKeyEntity>)Offices,
         Question _ => (IRepository<TEntity, TKeyEntity>)Questions,
-        //IdentityRole _ => (IRepository<TEntity, TKeyEntity>)Roles,
+        Role _ => (IRepository<TEntity, TKeyEntity>)Roles,
         Survey _ => (IRepository<TEntity, TKeyEntity>)Surveys,
         SurveyResult _ => (IRepository<TEntity, TKeyEntity>)SurveyResults,
         WorkItem _ => (IRepository<TEntity, TKeyEntity>)WorkItems,

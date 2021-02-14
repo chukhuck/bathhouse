@@ -11,7 +11,7 @@ namespace Bathhouse.Repositories.Common
     IQuestionRepository Questions { get; }
     ISurveyRepository Surveys { get; }
     ISurveyResultRepository SurveyResults { get; }
-    //IRoleRepository Roles { get; }
+    IRoleRepository Roles { get; }
     IWorkItemRepository WorkItems { get; }
   }
 }

@@ -1,14 +1,15 @@
 ﻿using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Repositories;
-using Microsoft.AspNetCore.Identity;
+using Chuk.Helpers.Patterns;
+using System;
 
 namespace Bathhouse.EF.Repositories
 {
-  //public class RoleRepository : Repository<IdentityRole>, IRoleRepository
-  //{
-  //  public RoleRepository(BathhouseContext _context) : base(_context)
-  //  {
-  //  }
-  //}
+  public class RoleRepository : EFRepository<Role, Guid>, IRoleRepository
+  {
+    public RoleRepository(BathhouseContext _context) : base(_context)
+  {
+  }
+}
 }

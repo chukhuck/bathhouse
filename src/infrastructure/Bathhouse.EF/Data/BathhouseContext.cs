@@ -6,12 +6,12 @@ using System;
 
 namespace Bathhouse.EF.Data
 {
-  public class BathhouseContext : IdentityDbContext<Employee, IdentityRole<Guid>, Guid>
+  public class BathhouseContext : IdentityDbContext<Employee, Role, Guid>
   {
     public BathhouseContext()
     {
     }
-    //public DbSet<Employee> Employees { get; set; }
+
     public DbSet<Answer> Answers { get; set; } = null!;
     public DbSet<Client> Clients { get; set; } = null!;
     public DbSet<Office> Offices { get; set; } = null!;
@@ -52,28 +52,28 @@ namespace Bathhouse.EF.Data
 
     private static void BuildRoles(ModelBuilder builder)
     {
-      builder.Entity<IdentityRole<Guid>>()
+      builder.Entity<Role>()
         .ToTable("Roles")
         .HasData(
-        new IdentityRole<Guid>()
+        new Role()
         {
           Id = Guid.NewGuid(),
           Name = Constants.AdminRoleName,
           NormalizedName = Constants.AdminRoleName.ToUpper()
         },
-        new IdentityRole<Guid>()
+        new Role()
         {
           Id = Guid.NewGuid(),
           Name = Constants.DirectorRoleName,
           NormalizedName = Constants.DirectorRoleName.ToUpper()
         },
-        new IdentityRole<Guid>()
+        new Role()
         {
           Id = Guid.NewGuid(),
           Name = Constants.ManagerRoleName,
           NormalizedName = Constants.ManagerRoleName.ToUpper()
         },
-        new IdentityRole<Guid>()
+        new Role()
         {
           Id = Guid.NewGuid(),
           Name = Constants.EmployeeRoleName,
@@ -111,7 +111,12 @@ namespace Bathhouse.EF.Data
 
       builder.Entity<WorkItem>()
         .Property(a => a.CreatorId)
-        .IsRequired();
+        .IsRequired()
+        ;
+
+      builder.Entity<WorkItem>()
+        .Property(a => a.ExecutorId)
+        .IsRequired(false);
 
       builder.Entity<WorkItem>()
         .Ignore(wi => wi.IsUrgent);
@@ -207,8 +212,7 @@ namespace Bathhouse.EF.Data
         .HasForeignKey(q => q.ResultId);
 
       builder.Entity<SurveyResult>()
-        .Property(sr => sr.AuthorId)
-        .IsRequired();
+        .Property(sr => sr.AuthorId);
 
       builder.Entity<SurveyResult>()
         .Property(sr => sr.SurveyId)
@@ -317,12 +321,13 @@ namespace Bathhouse.EF.Data
         .WithOne(wi => wi.Creator)
         .HasForeignKey(wi => wi.CreatorId);
 
+      // TODO .OnDelete(DeleteBehavior.SetNull)
 #pragma warning disable CS8603
       builder.Entity<Employee>()
         .HasMany(e => e.WorkItems)
         .WithOne(wi => wi.Executor)
         .HasForeignKey(wi => wi.ExecutorId)
-        .OnDelete(DeleteBehavior.SetNull);
+        .OnDelete(DeleteBehavior.Restrict);
 #pragma warning restore CS8603
 
       builder.Entity<Employee>()
