@@ -73,6 +73,12 @@ namespace Bathhouse.Api.Extensions
         while (csvReader.Read())
         {
           Employee newEmployee = csvReader.GetRecord<Employee>();
+          newEmployee.SecurityStamp = Guid.NewGuid().ToString();
+          newEmployee.NormalizedEmail = newEmployee.Email.ToUpper();
+          newEmployee.UserName = newEmployee.Email;
+          newEmployee.NormalizedUserName = newEmployee.Email.ToUpper();
+
+
           var officeNumbers = csvReader.GetField<string>("OfficeNumbers").Split(',', System.StringSplitOptions.RemoveEmptyEntries).Select(n => int.Parse(n));
           var roleNames = csvReader.GetField<string>("Roles").Split(',').Select(r => r.ToUpper().Trim()).ToList();
           logger.LogInformation($"Employees was read.");

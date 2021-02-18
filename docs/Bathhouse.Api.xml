@@ -102,11 +102,33 @@
             <summary>
             Get roles for employee
             </summary>
-            <param name="id">The Employee ID</param>
+            <param name="employeeId">The Employee ID</param>
             <response code="404">Employee with current ID is not found</response>
             <response code="200">Getting roles is successul.</response>
             <response code="400">If the ID is not valid</response>
             <response code="500">Exception on server side was fired</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddEmployeeToRole(System.Guid,System.String)">
+            <summary>
+            Add Role to Employee.
+            </summary>
+            <param name="employeeId">Employee ID</param>
+            <param name="newRole">Name of an adding role</param>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the request is null</response>
+            <response code="404">Employee with current ID is not found</response>
+            /// <response code="204">Employee was added to role successfully.</response>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteEmployeeFromRole(System.Guid,System.String)">
+            <summary>
+            Remove Employee from Role.
+            </summary>
+            <param name="employeeId">Employee ID</param>
+            <param name="newRole">Name of an deleting role</param>
+            <response code="500">Exception on server side was fired</response>
+            <response code="400">If the request is null</response>
+            <response code="404">Employee with current ID is not found</response>
+            <response code="204">Employee was deleted from role successfully.</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetDirectors">
             <summary>

@@ -228,39 +228,136 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get roles for employee
     /// </summary>
-    /// <param name="id">The Employee ID</param>
+    /// <param name="employeeId">The Employee ID</param>
     /// <response code="404">Employee with current ID is not found</response>
     /// <response code="200">Getting roles is successul.</response>
     /// <response code="400">If the ID is not valid</response>
     /// <response code="500">Exception on server side was fired</response>
     [HttpGet()]
-    [Route("{id:guid}/roles")]
+    [Route("{employeeId:guid}/roles")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<string> GetRoles(Guid id)
+    public ActionResult<string> GetRoles(Guid employeeId)
     {
       try
       {
-        if (_repository.Get(key: id) is Employee employee)
+        if (_repository.Get(key: employeeId) is Employee employee)
         {
-          _logger.LogInformation($"Employee id={id} was getting successfully.");
+          _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
 
           return Ok(_userManager.GetRolesAsync(employee).Result);
         }
         else
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting offices of employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting offices of employee id={id} an exception was fired");
+        _logger.LogError($"While getting roles of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting roles of employee id={employeeId} an exception was fired");
       }
     }
+
+
+    /// <summary>
+    /// Add Role to Employee.
+    /// </summary>
+    /// <param name="employeeId">Employee ID</param>
+    /// <param name="newRole">Name of an adding role</param>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// /// <response code="204">Employee was added to role successfully.</response>
+    [HttpPost]
+    [Route("{employeeId:guid}/roles")]
+    [ProducesDefaultResponseType]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public virtual ActionResult<IdentityResult> AddEmployeeToRole(Guid employeeId, string newRole)
+    {
+      try
+      {
+        if (_repository.Get(key: employeeId) is Employee employee)
+        {
+          _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+
+          var identityResult = _userManager.AddToRoleAsync(employee, newRole).Result;
+
+          if (!identityResult.Succeeded)
+          {
+            _logger.LogInformation($"Error is fired while adding Employee id={employeeId} to role {newRole}.");
+            return BadRequest(identityResult.Errors);
+          }
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While adding Employee id={employeeId} to role {newRole} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding Employee id={employeeId} to role {newRole} an exception was fired");
+      }
+    }
+
+    /// <summary>
+    /// Remove Employee from Role.
+    /// </summary>
+    /// <param name="employeeId">Employee ID</param>
+    /// <param name="newRole">Name of an deleting role</param>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="404">Employee with current ID is not found</response>
+    /// <response code="204">Employee was deleted from role successfully.</response>
+    [HttpDelete]
+    [Route("{employeeId:guid}/roles")]
+    [ProducesDefaultResponseType]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public virtual IActionResult DeleteEmployeeFromRole(Guid employeeId, string newRole)
+    {
+      try
+      {
+        if (_repository.Get(key: employeeId) is Employee employee)
+        {
+          _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+
+          var identityResult = _userManager.RemoveFromRoleAsync(employee, newRole).Result;
+
+          if (!identityResult.Succeeded)
+          {
+            _logger.LogInformation($"Error is fired while deleting Employee id={employeeId} from role {newRole}.");
+            return BadRequest(identityResult.Errors);
+          }
+
+          return NoContent();
+        }
+        else
+        {
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"While deleting Employee id={employeeId} from role {newRole} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={employeeId} from role {newRole} an exception was fired");
+      }
+    }
+
+
     #endregion
 
     #region Static endpoints
