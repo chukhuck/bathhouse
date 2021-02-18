@@ -50,7 +50,9 @@ namespace Bathhouse.Api
         .AllowAnyOrigin()
         .AllowAnyHeader());
 
+      app.UseAuthentication();
       app.UseAuthorization();
+
 
       app.UseEndpoints(endpoints =>
       {

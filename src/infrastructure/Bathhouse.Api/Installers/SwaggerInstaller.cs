@@ -45,6 +45,31 @@ namespace Bathhouse.Api.Installers
         var xmlFileDTO = $"Bathhouse.xml";
         var xmlPathDTO = Path.Combine(AppContext.BaseDirectory, xmlFileDTO);
         c.IncludeXmlComments(xmlPathDTO);
+
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+          Name = "Authorization",
+          Description = "JWT Authorization header using the bearer scheme",
+          In = ParameterLocation.Header,
+          Type = SecuritySchemeType.ApiKey
+
+        });
+
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+          {
+           {
+             new OpenApiSecurityScheme
+               {
+                   Reference = new OpenApiReference
+                   {
+                       Type = ReferenceType.SecurityScheme,
+                       Id = "Bearer"
+                   }
+               },
+                   Array.Empty<string>()
+           }
+          });
+
       });
     }
   }
