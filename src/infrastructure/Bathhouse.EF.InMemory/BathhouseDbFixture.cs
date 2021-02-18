@@ -1,22 +1,17 @@
 ﻿using Bathhouse.EF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bathhouse.EF.InMemory
 {
-  public class SharedBathhouseDbFixture
+  public class BathhouseDbFixture
   {
 #pragma warning disable CA1822
     private static readonly object _lock = new object();
     private static bool _databaseInitialized;
 
-    public SharedBathhouseDbFixture()
+    public BathhouseDbFixture()
     {
       Seed();
     }

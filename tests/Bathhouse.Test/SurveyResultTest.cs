@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class SurveyResultTest : IClassFixture<SharedBathhouseDbFixture>
+  public class SurveyResultTest : IClassFixture<BathhouseDbFixture>
   {
-    public SurveyResultTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
+    public SurveyResultTest(BathhouseDbFixture fixture) => Fixture = fixture;
 
-    public SharedBathhouseDbFixture Fixture { get; }
+    public BathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void To_List_With_No_Answers()

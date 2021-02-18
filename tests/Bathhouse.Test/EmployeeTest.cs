@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class EmployeeTest : IClassFixture<SharedBathhouseDbFixture>
+  public class EmployeeTest : IClassFixture<BathhouseDbFixture>
   {
-    public EmployeeTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
+    public EmployeeTest(BathhouseDbFixture fixture) => Fixture = fixture;
 
-    public SharedBathhouseDbFixture Fixture { get; }
+    public BathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void Create_Employee_With_Default_Values()

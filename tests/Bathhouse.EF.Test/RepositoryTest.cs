@@ -8,11 +8,11 @@ using Xunit;
 
 namespace Bathhouse.EF.Test
 {
-  public class RepositoryTest : IClassFixture<SharedBathhouseDbFixture>
+  public class RepositoryTest : IClassFixture<BathhouseDbFixture>
   {
-    public RepositoryTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
+    public RepositoryTest(BathhouseDbFixture fixture) => Fixture = fixture;
 
-    public SharedBathhouseDbFixture Fixture { get; }
+    public BathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void Add_New_Entity()

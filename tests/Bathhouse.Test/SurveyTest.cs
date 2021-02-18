@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class SurveyTest : IClassFixture<SharedBathhouseDbFixture>
+  public class SurveyTest : IClassFixture<BathhouseDbFixture>
   {
-    public SurveyTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
+    public SurveyTest(BathhouseDbFixture fixture) => Fixture = fixture;
 
-    public SharedBathhouseDbFixture Fixture { get; }
+    public BathhouseDbFixture Fixture { get; }
 
 
     [Fact]

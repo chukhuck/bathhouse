@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Bathhouse.Test
 {
-  public class AggregatedSurveySummaryTest : IClassFixture<SharedBathhouseDbFixture>
+  public class AggregatedSurveySummaryTest : IClassFixture<BathhouseDbFixture>
   {
-    public AggregatedSurveySummaryTest(SharedBathhouseDbFixture fixture) => Fixture = fixture;
+    public AggregatedSurveySummaryTest(BathhouseDbFixture fixture) => Fixture = fixture;
 
-    public SharedBathhouseDbFixture Fixture { get; }
+    public BathhouseDbFixture Fixture { get; }
 
     [Fact]
     public void Get_Footers_Column_Count_Equal_Question_Count_Plus_2()
