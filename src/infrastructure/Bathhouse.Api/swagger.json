@@ -4157,9 +4157,10 @@
         "tags": [
           "Role"
         ],
+        "summary": "Get all of the roles in the system",
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Getting roles was successul",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4188,7 +4189,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4233,19 +4234,22 @@
         "tags": [
           "Role"
         ],
+        "summary": "Create new role",
         "parameters": [
           {
             "name": "name",
             "in": "query",
+            "description": "Name of the new role.",
             "schema": {
               "type": "string",
+              "description": "Name of the new role.",
               "nullable": true
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Success",
+            "description": "Getting Role was successul",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4265,7 +4269,7 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "If the request is null or other cases",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4294,7 +4298,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4332,6 +4336,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Role with current ID was not found"
           }
         }
       }
@@ -4341,20 +4348,23 @@
         "tags": [
           "Role"
         ],
+        "summary": "Get the role by its ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "Role Id",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Role Id",
               "format": "uuid"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Getting Role was successul",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4374,7 +4384,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Role with current ID was not found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4394,7 +4404,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4432,6 +4442,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "If the request is null"
           }
         }
       },
@@ -4439,31 +4452,36 @@
         "tags": [
           "Role"
         ],
+        "summary": "Update name of a role",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "Role Id",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Role Id",
               "format": "uuid"
             }
           },
           {
             "name": "newName",
             "in": "query",
+            "description": "New name of the role with Id",
             "schema": {
               "type": "string",
+              "description": "New name of the role with Id",
               "nullable": true
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "Getting Role was successul"
           },
           "400": {
-            "description": "Bad Request",
+            "description": "If the request is null or other cases",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4492,7 +4510,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Role with current ID was not found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4512,7 +4530,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4557,23 +4575,26 @@
         "tags": [
           "Role"
         ],
+        "summary": "Delete Role",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "Role Id",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Role Id",
               "format": "uuid"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "Success"
+            "description": "Getting Role was successul"
           },
           "400": {
-            "description": "Bad Request",
+            "description": "If the request is null or other cases",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4602,7 +4623,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Role with current ID was not found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4622,7 +4643,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4664,45 +4685,57 @@
         }
       }
     },
-    "/api/Role/{roleId}/employee": {
+    "/api/Role/{roleId}/employees": {
       "get": {
         "tags": [
           "Role"
         ],
+        "summary": "Get all of employees in the role",
         "parameters": [
           {
             "name": "roleId",
             "in": "path",
+            "description": "Role Id",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Role Id",
               "format": "uuid"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Getting Role for Employee was successul",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoleResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoleResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RoleResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmployeeResponse"
+                  }
                 }
               }
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Role or Employee was not found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4722,7 +4755,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4760,31 +4793,39 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "If the request is null"
           }
         }
       }
     },
-    "/api/Role/{roleId}/employee/{employeeId}": {
+    "/api/Role/{roleId}/employees/{employeeId}": {
       "post": {
         "tags": [
           "Role"
         ],
+        "summary": "Add employee to the role.",
         "parameters": [
           {
             "name": "roleId",
             "in": "path",
+            "description": "Role ID",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Role ID",
               "format": "uuid"
             }
           },
           {
             "name": "employeeId",
             "in": "path",
+            "description": "Employee Id",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Employee Id",
               "format": "uuid"
             }
           }
@@ -4794,7 +4835,7 @@
             "description": "Success"
           },
           "400": {
-            "description": "Bad Request",
+            "description": "If the request is null",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4823,7 +4864,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Employee or Role was not found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4843,7 +4884,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4881,6 +4922,9 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Adding Employee to Role was successul"
           }
         }
       },
@@ -4888,22 +4932,27 @@
         "tags": [
           "Role"
         ],
+        "summary": "Delete employee from the role",
         "parameters": [
           {
             "name": "roleId",
             "in": "path",
+            "description": "Role ID",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Role ID",
               "format": "uuid"
             }
           },
           {
             "name": "employeeId",
             "in": "path",
+            "description": "Employee Id",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Employee Id",
               "format": "uuid"
             }
           }
@@ -4913,7 +4962,7 @@
             "description": "Success"
           },
           "400": {
-            "description": "Bad Request",
+            "description": "If the request is null",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4942,7 +4991,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Employee or Role was not found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4962,7 +5011,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Exception on server side was fired",
             "content": {
               "text/plain": {
                 "schema": {
@@ -5000,6 +5049,9 @@
                 }
               }
             }
+          },
+          "200": {
+            "description": "Deleting Employee from Role was successul"
           }
         }
       }

@@ -490,6 +490,94 @@
             <response code="204">Deleting entity is successul</response>
             <response code="500">Exception on server side was fired</response>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.Get">
+            <summary>
+            Get all of the roles in the system
+            </summary>
+            <response code="200">Getting roles was successul</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>List of the roles</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.GetById(System.Guid)">
+            <summary>
+            Get the role by its ID
+            </summary>
+            <param name="id">Role Id</param>
+            <response code="404">Role with current ID was not found</response>
+            <response code="200">Getting Role was successul</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>Role</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.Create(System.String)">
+            <summary>
+            Create new role
+            </summary>
+            <param name="name">Name of the new role.</param>
+            <response code="404">Role with current ID was not found</response>
+            <response code="201">Getting Role was successul</response>
+            <response code="400">If the request is null or other cases</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>Created role.</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.Update(System.Guid,System.String)">
+            <summary>
+            Update name of a role
+            </summary>
+            <param name="id">Role Id</param>
+            <param name="newName">New name of the role with Id</param>
+            <response code="404">Role with current ID was not found</response>
+            <response code="204">Getting Role was successul</response>
+            <response code="400">If the request is null or other cases</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.Delete(System.Guid)">
+            <summary>
+            Delete Role
+            </summary>
+            <param name="id">Role Id</param>
+            <response code="404">Role with current ID was not found</response>
+            <response code="204">Getting Role was successul</response>
+            <response code="400">If the request is null or other cases</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.GetEmployeesInRole(System.Guid)">
+            <summary>
+            Get all of employees in the role
+            </summary>
+            <param name="roleId">Role Id</param>
+            <response code="404">Role or Employee was not found</response>
+            <response code="200">Getting Role for Employee was successul</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>Employee in the role</returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.AddEmployeeToRole(System.Guid,System.Guid)">
+            <summary>
+            Add employee to the role.
+            </summary>
+            <param name="roleId">Role ID</param>
+            <param name="employeeId">Employee Id</param>
+            <response code="404">Employee or Role was not found</response>
+            <response code="200">Adding Employee to Role was successul</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns></returns>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.RoleController.DeleteEmployeeFromRole(System.Guid,System.Guid)">
+            <summary>
+            Delete employee from the role
+            </summary>
+            <param name="roleId">Role ID</param>
+            <param name="employeeId">Employee Id</param>
+            <response code="404">Employee or Role was not found</response>
+            <response code="200">Deleting Employee from Role was successul</response>
+            <response code="400">If the request is null</response>
+            <response code="500">Exception on server side was fired</response>
+            <returns>Nothing</returns>
+        </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.Get">
             <summary>
             Get all of Surveys

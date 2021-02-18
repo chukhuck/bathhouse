@@ -32,6 +32,12 @@ namespace Bathhouse.Api.Controllers
       _mapper = mapper;
     }
 
+    /// <summary>
+    /// Get all of the roles in the system
+    /// </summary>
+    /// <response code="200">Getting roles was successul</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>List of the roles</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
@@ -49,6 +55,15 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Get the role by its ID
+    /// </summary>
+    /// <param name="id">Role Id</param>
+    /// <response code="404">Role with current ID was not found</response>
+    /// <response code="200">Getting Role was successul</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>Role</returns>
     [HttpGet()]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -77,7 +92,15 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
-
+    /// <summary>
+    /// Create new role
+    /// </summary>
+    /// <param name="name">Name of the new role.</param>
+    /// <response code="404">Role with current ID was not found</response>
+    /// <response code="201">Getting Role was successul</response>
+    /// <response code="400">If the request is null or other cases</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>Created role.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(IEnumerable<IdentityError>), StatusCodes.Status400BadRequest)]
@@ -109,6 +132,16 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Update name of a role
+    /// </summary>
+    /// <param name="id">Role Id</param>
+    /// <param name="newName">New name of the role with Id</param>
+    /// <response code="404">Role with current ID was not found</response>
+    /// <response code="204">Getting Role was successul</response>
+    /// <response code="400">If the request is null or other cases</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>Nothing</returns>
     [HttpPut]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -147,6 +180,15 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Delete Role
+    /// </summary>
+    /// <param name="id">Role Id</param>
+    /// <response code="404">Role with current ID was not found</response>
+    /// <response code="204">Getting Role was successul</response>
+    /// <response code="400">If the request is null or other cases</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>Nothing</returns>
     [HttpDelete]
     [Route("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -184,13 +226,22 @@ namespace Bathhouse.Api.Controllers
 
     #region Employee
 
+    /// <summary>
+    /// Get all of employees in the role
+    /// </summary>
+    /// <param name="roleId">Role Id</param>
+    /// <response code="404">Role or Employee was not found</response>
+    /// <response code="200">Getting Role for Employee was successul</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>Employee in the role</returns>
     [HttpGet()]
     [Route("{roleId:guid}/employees")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     [ProducesDefaultResponseType]
-    public virtual ActionResult<RoleResponse> GetEmployeesInRole(Guid roleId)
+    public virtual ActionResult<IEnumerable<EmployeeResponse>> GetEmployeesInRole(Guid roleId)
     {
       try
       {
@@ -214,6 +265,16 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Add employee to the role.
+    /// </summary>
+    /// <param name="roleId">Role ID</param>
+    /// <param name="employeeId">Employee Id</param>
+    /// <response code="404">Employee or Role was not found</response>
+    /// <response code="200">Adding Employee to Role was successul</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns></returns>
     [HttpPost()]
     [Route("{roleId:guid}/employees/{employeeId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -221,7 +282,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     [ProducesDefaultResponseType]
-    public virtual ActionResult<RoleResponse> AddEmployeeToRole(Guid roleId, Guid employeeId)
+    public virtual ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
     {
       try
       {
@@ -260,6 +321,16 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Delete employee from the role
+    /// </summary>
+    /// <param name="roleId">Role ID</param>
+    /// <param name="employeeId">Employee Id</param>
+    /// <response code="404">Employee or Role was not found</response>
+    /// <response code="200">Deleting Employee from Role was successul</response>
+    /// <response code="400">If the request is null</response>
+    /// <response code="500">Exception on server side was fired</response>
+    /// <returns>Nothing</returns>
     [HttpDelete()]
     [Route("{roleId:guid}/employees/{employeeId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -267,7 +338,7 @@ namespace Bathhouse.Api.Controllers
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     [ProducesDefaultResponseType]
-    public virtual ActionResult<RoleResponse> DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
+    public virtual ActionResult DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
     {
       try
       {
