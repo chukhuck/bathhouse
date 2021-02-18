@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models;
-using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;

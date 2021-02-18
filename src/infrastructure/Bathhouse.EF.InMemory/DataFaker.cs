@@ -1,4 +1,5 @@
-﻿using Bathhouse.EF.Data;
+﻿using Bathhouse.Contracts;
+using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;
 using Bogus;
