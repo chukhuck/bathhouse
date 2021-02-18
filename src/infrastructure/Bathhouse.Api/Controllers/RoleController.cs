@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts.Models;
+using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -201,10 +202,17 @@ namespace Bathhouse.Api.Controllers
       try
       {
         var entity = _roleManager.FindByIdAsync(id.ToString()).Result;
+
         if (entity is null)
         {
           _logger.LogInformation($"Role with ID={id} was not found.");
           return NotFound($"Role with ID={id} was not found.");
+        }
+
+        if (Constants.GetBuildInRoleNormalizedNames().Contains(entity.NormalizedName))
+        {
+          _logger.LogInformation($"Trying to delete one of the build-in roles name={entity.NormalizedName}.");
+          return Conflict("Trying to delete one of the build-in roles.");
         }
 
         var result = _roleManager.DeleteAsync(entity).Result;
