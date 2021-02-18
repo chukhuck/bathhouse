@@ -2,6 +2,8 @@
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Bathhouse.Contracts.Infrastructure
 {
@@ -68,6 +70,8 @@ namespace Bathhouse.Contracts.Infrastructure
         .ForMember(dest => dest.Answers, opt => opt.Ignore());
 
       CreateMap<SurveySummary, SurveySummaryResponse>();
+
+      CreateMap<IdentityRole<Guid>, RoleResponse>();
     }
   }
 }
