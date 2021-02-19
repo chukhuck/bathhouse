@@ -16,24 +16,27 @@ namespace Bathhouse.EF.InMemory
     public static void Generate(BathhouseContext context, DataFakerOption opt)
     {
       Randomizer.Seed = new Random(8675309);
+      PasswordHasher<Employee> passwordHasher = new PasswordHasher<Employee>();
 
       var userStore = new UserStore<Employee, IdentityRole<Guid>, BathhouseContext, Guid>(context);
 
-
-      var director = GenerateDirector(context, opt);
+      var director = GenerateDirector(context, opt, passwordHasher);
+      context.Users.Add(director);
       userStore.AddToRoleAsync(director, Constants.DirectorRoleName.ToUpper()).Wait();
 
-
-      var admin = GenerateTechSupporter(context, opt);
+      var admin = GenerateTechSupporter(opt, passwordHasher);
+      context.Users.Add(admin);
       userStore.AddToRoleAsync(admin, Constants.AdminRoleName.ToUpper()).Wait();
 
-      var managers = GenerateManagers(context, opt);
+      var managers = GenerateManagers(context, opt, passwordHasher);
+      context.Users.AddRange(managers);
       foreach (var manager in managers)
       {
         userStore.AddToRoleAsync(manager, Constants.ManagerRoleName.ToUpper()).Wait();
       }
 
-      var employees = GenerateOtherEmployees(context, opt);
+      var employees = GenerateOtherEmployees(context, opt, passwordHasher);
+      context.Users.AddRange(employees);
       foreach (var employee in employees)
       {
         userStore.AddToRoleAsync(employee, Constants.EmployeeRoleName.ToUpper()).Wait();
@@ -54,7 +57,6 @@ namespace Bathhouse.EF.InMemory
 
       context.SaveChanges();
     }
-
 
 
     private static List<Survey> GenerateSurveys(BathhouseContext context, Employee author, DataFakerOption opt)
@@ -144,7 +146,7 @@ namespace Bathhouse.EF.InMemory
       return newAnswers;
     }
 
-    private static Employee GenerateTechSupporter(BathhouseContext context, DataFakerOption opt)
+    private static Employee GenerateTechSupporter(DataFakerOption opt, PasswordHasher<Employee> passwordHasher)
     {
       Employee techsupporter = new()
       {
@@ -164,12 +166,15 @@ namespace Bathhouse.EF.InMemory
         NormalizedUserName = opt.TechSupport_Email.ToUpper()
       };
 
-      context.Users.Add(techsupporter);
+      techsupporter.PasswordHash = passwordHasher.HashPassword(techsupporter, opt.DefaultPassword);
 
       return techsupporter;
     }
 
-    private static Employee GenerateDirector(BathhouseContext context, DataFakerOption opt)
+    private static Employee GenerateDirector(
+      BathhouseContext context, 
+      DataFakerOption opt, 
+      PasswordHasher<Employee> passwordHasher)
     {
       Employee director = new()
       {
@@ -189,9 +194,9 @@ namespace Bathhouse.EF.InMemory
         NormalizedUserName = opt.Director_Email.ToUpper()
       };
 
-      GenerateWorkItems(context, opt, creator: director, executor: director);
+      director.PasswordHash = passwordHasher.HashPassword(director, opt.DefaultPassword);
 
-      context.Users.Add(director);
+      GenerateWorkItems(context, opt, creator: director, executor: director);
 
       return director;
     }
@@ -246,7 +251,10 @@ namespace Bathhouse.EF.InMemory
       return newClients;
     }
 
-    private static List<Employee> GenerateManagers(BathhouseContext context, DataFakerOption opt)
+    private static List<Employee> GenerateManagers(
+      BathhouseContext context, 
+      DataFakerOption opt, 
+      PasswordHasher<Employee> passwordHasher)
     {
       var testEmployees = new Faker<Employee>(opt.Locale)
         .RuleFor(a => a.DoB, f => f.Date.Between(
@@ -269,16 +277,18 @@ namespace Bathhouse.EF.InMemory
         .RuleFor(m=>m.NormalizedEmail, (f, o)=> o.Email.ToUpper())
         .RuleFor(m => m.UserName, (f, o) => o.Email)
         .RuleFor(m => m.NormalizedUserName, (f, o) => o.Email.ToUpper())
+        .RuleFor(m=>m.PasswordHash, (f, o) =>passwordHasher.HashPassword(o, opt.DefaultPassword))
         ;
 
       var newEmployeees = testEmployees.Generate(opt.Count_of_managers).ToList();
 
-      context.Users.AddRange(newEmployeees);
-
       return newEmployeees;
     }
 
-    private static List<Employee> GenerateOtherEmployees(BathhouseContext context, DataFakerOption opt)
+    private static List<Employee> GenerateOtherEmployees(
+      BathhouseContext context, 
+      DataFakerOption opt,
+      PasswordHasher<Employee> passwordHasher)
     {
       var testEmployees = new Faker<Employee>(opt.Locale)
         .RuleFor(a => a.DoB, f => f.Date.Between(
@@ -301,11 +311,10 @@ namespace Bathhouse.EF.InMemory
         .RuleFor(m => m.NormalizedEmail, (f, o) => o.Email.ToUpper())
         .RuleFor(m => m.UserName, (f, o) => o.Email)
         .RuleFor(m => m.NormalizedUserName, (f, o) => o.Email.ToUpper())
+        .RuleFor(m => m.PasswordHash, (f, o) => passwordHasher.HashPassword(o, opt.DefaultPassword))
         ;
 
       var newEmployeees = testEmployees.Generate(opt.Count_Of_Eemployees).ToList();
-
-      context.Users.AddRange(newEmployeees);
 
       return newEmployeees;
     }

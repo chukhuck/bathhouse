@@ -1,5 +1,6 @@
 {
   "TestDataSeederOption": {
+    "DefaultPassword": "Passw0rd_1",
     "locale": "ru",
     "Count_of_managers": 5,
     "Count_Of_Eemployees": 10,

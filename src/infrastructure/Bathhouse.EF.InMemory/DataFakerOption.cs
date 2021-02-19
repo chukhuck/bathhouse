@@ -4,6 +4,7 @@
   {
     public const string Position = "TestDataSeederOption";
 
+    public string DefaultPassword { get; set; } = "Passw0rd_1";
     public int Count_of_managers { get; set; }
     public int Count_Of_Eemployees { get; set; }
     public string Locale { get; set; } = "ru";

@@ -3,6 +3,7 @@ using Bathhouse.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,10 @@ namespace Bathhouse.Api.Extensions
 
           if (File.Exists(Path.Combine(baseDirectory, "Employee.csv")))
           {
-            SeedEmployees(logger, baseDirectory, context);
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Employee>>();
+            IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+
+            SeedEmployees(logger, baseDirectory, context, userManager, config["DefaultPassword"]);
           }
           context.SaveChanges();
         }
@@ -55,7 +59,12 @@ namespace Bathhouse.Api.Extensions
       }
     }
 
-    private static void SeedEmployees(ILogger logger, string baseDirectory, BathhouseContext context)
+    private static void SeedEmployees(
+      ILogger logger, 
+      string baseDirectory, 
+      BathhouseContext context, 
+      UserManager<Employee> userManager,
+      string defaultPassword)
     {
       try
       {
@@ -85,7 +94,7 @@ namespace Bathhouse.Api.Extensions
 
           AddOfficesForEmployee(context, newEmployee, officeNumbers);
 
-          context.Users.Add(newEmployee);
+          userManager.CreateAsync(newEmployee, defaultPassword);
 
           AddRolesForEmployee(context, newEmployee, roleNames);
         }

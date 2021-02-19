@@ -1,5 +1,7 @@
 ﻿using Bathhouse.EF.Data;
 using Bathhouse.EF.InMemory;
+using Bathhouse.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +18,7 @@ namespace Bathhouse.Api.Extensions
       using (BathhouseContext context = scope.ServiceProvider.GetRequiredService<BathhouseContext>())
       {
         IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
+
         string baseDirectory = Path.GetDirectoryName(typeof(Program)?.Assembly?.Location) ?? string.Empty;
 
         var builder = new ConfigurationBuilder()
