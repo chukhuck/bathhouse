@@ -1,12 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Bathhouse.Api.Options;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Bathhouse.Api.Installers
 {
@@ -14,6 +17,9 @@ namespace Bathhouse.Api.Installers
   {
     public void InstallService(IServiceCollection services, IConfiguration Configuration)
     {
+      var identityServiceOpt = new IdentityServiceOpt();
+      Configuration.Bind("IdentityService", identityServiceOpt);
+
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1",
@@ -34,8 +40,6 @@ namespace Bathhouse.Api.Installers
             }
           });
 
-
-
         // Set the comments path for the Swagger JSON and UI.
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -44,33 +48,58 @@ namespace Bathhouse.Api.Installers
         // Set the comments path for the Swagger JSON and UI.
         var xmlFileDTO = $"Bathhouse.xml";
         var xmlPathDTO = Path.Combine(AppContext.BaseDirectory, xmlFileDTO);
-        c.IncludeXmlComments(xmlPathDTO);
+        c.IncludeXmlComments(xmlPathDTO);    
 
-        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
         {
-          Name = "Authorization",
-          Description = "JWT Authorization header using the bearer scheme",
-          In = ParameterLocation.Header,
-          Type = SecuritySchemeType.ApiKey
-
+          Type = SecuritySchemeType.OAuth2,
+          Flows = new OpenApiOAuthFlows
+          {
+            Password= new OpenApiOAuthFlow 
+            {
+              AuthorizationUrl = new Uri(identityServiceOpt.AuthUrl),
+              TokenUrl = new Uri(identityServiceOpt.TokenUrl),
+              Scopes = new Dictionary<string, string>
+              {
+                  {"bathhouse", "Demo API - full access"}
+              }
+            },
+          }
         });
 
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement
-          {
-           {
-             new OpenApiSecurityScheme
-               {
-                   Reference = new OpenApiReference
-                   {
-                       Type = ReferenceType.SecurityScheme,
-                       Id = "Bearer"
-                   }
-               },
-                   Array.Empty<string>()
-           }
-          });
-
+        c.OperationFilter<AuthorizeCheckOperationFilter>();
       });
+    }
+  }
+
+  public class AuthorizeCheckOperationFilter : IOperationFilter
+  {
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+      var hasAuthorize =
+        context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any()
+        || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
+
+      if (hasAuthorize)
+      {
+        operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+        operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+
+        operation.Security = new List<OpenApiSecurityRequirement>
+            {
+                new OpenApiSecurityRequirement
+                {
+                    [
+                        new OpenApiSecurityScheme {Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "oauth2"}
+                        }
+                    ] = new[] {"bathhouse"}
+                }
+            };
+
+      }
     }
   }
 }

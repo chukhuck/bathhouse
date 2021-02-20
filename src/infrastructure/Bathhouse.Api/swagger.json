@@ -89,8 +89,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -215,7 +228,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Client ID",
               "format": "uuid"
             }
           }
@@ -336,7 +348,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of Client for updating",
               "format": "uuid"
             }
           }
@@ -460,7 +471,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Client ID",
               "format": "uuid"
             }
           }
@@ -753,7 +763,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           }
@@ -874,7 +883,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of Employee for updating",
               "format": "uuid"
             }
           }
@@ -998,7 +1006,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           }
@@ -1104,7 +1111,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           }
@@ -1188,7 +1194,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           },
@@ -1197,9 +1202,7 @@
             "in": "query",
             "description": "Name of an adding role",
             "schema": {
-              "type": "string",
-              "description": "Name of an adding role",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -1302,7 +1305,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           },
@@ -1311,9 +1313,7 @@
             "in": "query",
             "description": "Name of an deleting role",
             "schema": {
-              "type": "string",
-              "description": "Name of an deleting role",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -1550,7 +1550,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           }
@@ -1634,7 +1633,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee  ID",
               "format": "uuid"
             }
           }
@@ -1648,9 +1646,7 @@
                 "items": {
                   "type": "string",
                   "format": "uuid"
-                },
-                "description": "Office IDs",
-                "nullable": true
+                }
               }
             },
             "text/json": {
@@ -1659,9 +1655,7 @@
                 "items": {
                   "type": "string",
                   "format": "uuid"
-                },
-                "description": "Office IDs",
-                "nullable": true
+                }
               }
             },
             "application/*+json": {
@@ -1670,9 +1664,7 @@
                 "items": {
                   "type": "string",
                   "format": "uuid"
-                },
-                "description": "Office IDs",
-                "nullable": true
+                }
               }
             }
           }
@@ -1767,7 +1759,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           },
@@ -1778,7 +1769,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID deleting office",
               "format": "uuid"
             }
           }
@@ -1845,7 +1835,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           },
@@ -1856,7 +1845,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Office ID",
               "format": "uuid"
             }
           }
@@ -1951,7 +1939,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           }
@@ -2037,7 +2024,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           }
@@ -2130,7 +2116,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           }
@@ -2216,7 +2201,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           },
@@ -2227,7 +2211,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "WorkItem ID",
               "format": "uuid"
             }
           }
@@ -2311,7 +2294,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           },
@@ -2322,7 +2304,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "WorkItem ID",
               "format": "uuid"
             }
           }
@@ -2389,7 +2370,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of entity for updating",
               "format": "uuid"
             }
           },
@@ -2400,7 +2380,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "",
               "format": "uuid"
             }
           }
@@ -2489,7 +2468,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of entity for updating",
               "format": "uuid"
             }
           },
@@ -2500,7 +2478,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "",
               "format": "uuid"
             }
           },
@@ -2577,7 +2554,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           }
@@ -2670,7 +2646,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           }
@@ -2756,7 +2731,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           },
@@ -2767,7 +2741,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Survey ID",
               "format": "uuid"
             }
           }
@@ -2851,7 +2824,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           },
@@ -2862,7 +2834,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Survey ID",
               "format": "uuid"
             }
           }
@@ -2929,7 +2900,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of entity for updating",
               "format": "uuid"
             }
           },
@@ -2940,7 +2910,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "",
               "format": "uuid"
             }
           }
@@ -3029,7 +2998,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Employee ID",
               "format": "uuid"
             }
           },
@@ -3040,7 +3008,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Survey ID",
               "format": "uuid"
             }
           },
@@ -3321,7 +3288,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Office ID",
               "format": "uuid"
             }
           }
@@ -3442,7 +3408,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of Office for updating",
               "format": "uuid"
             }
           }
@@ -3566,7 +3531,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Office ID",
               "format": "uuid"
             }
           },
@@ -3576,9 +3540,7 @@
             "description": "The ID of Office that will be set for clients of the deleting Office. \r\n            If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL",
             "schema": {
               "type": "string",
-              "description": "The ID of Office that will be set for clients of the deleting Office. \r\n            If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL",
-              "format": "uuid",
-              "nullable": true
+              "format": "uuid"
             }
           }
         ],
@@ -3683,7 +3645,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Office ID",
               "format": "uuid"
             }
           }
@@ -3769,7 +3730,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Office ID",
               "format": "uuid"
             }
           }
@@ -3853,7 +3813,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Office ID",
               "format": "uuid"
             }
           },
@@ -3863,7 +3822,6 @@
             "description": "ID deleting employee",
             "schema": {
               "type": "string",
-              "description": "ID deleting employee",
               "format": "uuid"
             }
           }
@@ -3930,7 +3888,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Office ID",
               "format": "uuid"
             }
           },
@@ -3940,7 +3897,6 @@
             "description": "Employee ID",
             "schema": {
               "type": "string",
-              "description": "Employee ID",
               "format": "uuid"
             }
           }
@@ -4033,7 +3989,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Office ID",
               "format": "uuid"
             }
           }
@@ -4047,9 +4002,7 @@
                 "items": {
                   "type": "string",
                   "format": "uuid"
-                },
-                "description": "Employee IDs",
-                "nullable": true
+                }
               }
             },
             "text/json": {
@@ -4058,9 +4011,7 @@
                 "items": {
                   "type": "string",
                   "format": "uuid"
-                },
-                "description": "Employee IDs",
-                "nullable": true
+                }
               }
             },
             "application/*+json": {
@@ -4069,9 +4020,7 @@
                 "items": {
                   "type": "string",
                   "format": "uuid"
-                },
-                "description": "Employee IDs",
-                "nullable": true
+                }
               }
             }
           }
@@ -4241,9 +4190,7 @@
             "in": "query",
             "description": "Name of the new role.",
             "schema": {
-              "type": "string",
-              "description": "Name of the new role.",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -4357,7 +4304,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Role Id",
               "format": "uuid"
             }
           }
@@ -4461,7 +4407,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Role Id",
               "format": "uuid"
             }
           },
@@ -4470,9 +4415,7 @@
             "in": "query",
             "description": "New name of the role with Id",
             "schema": {
-              "type": "string",
-              "description": "New name of the role with Id",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -4584,7 +4527,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Role Id",
               "format": "uuid"
             }
           }
@@ -4699,7 +4641,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Role Id",
               "format": "uuid"
             }
           }
@@ -4814,7 +4755,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Role ID",
               "format": "uuid"
             }
           },
@@ -4825,7 +4765,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee Id",
               "format": "uuid"
             }
           }
@@ -4941,7 +4880,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Role ID",
               "format": "uuid"
             }
           },
@@ -4952,7 +4890,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Employee Id",
               "format": "uuid"
             }
           }
@@ -5257,7 +5194,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The Survey ID",
               "format": "uuid"
             }
           }
@@ -5378,7 +5314,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of Survey for updating",
               "format": "uuid"
             }
           }
@@ -5502,7 +5437,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Survey ID",
               "format": "uuid"
             }
           }
@@ -5608,7 +5542,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Id of summary",
               "format": "uuid"
             }
           },
@@ -5869,7 +5802,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "The WorkItem ID",
               "format": "uuid"
             }
           }
@@ -5990,7 +5922,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of WorkItem for updating",
               "format": "uuid"
             }
           }
@@ -6114,7 +6045,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "WorkItem ID",
               "format": "uuid"
             }
           }
@@ -6209,14 +6139,62 @@
   },
   "components": {
     "schemas": {
-      "Sex": {
-        "enum": [
-          "Male",
-          "Female",
-          "Unknown"
+      "ClientRequest": {
+        "required": [
+          "lastName"
         ],
-        "type": "string",
-        "description": "Gender of person"
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "maxLength": 25,
+            "minLength": 0,
+            "type": "string",
+            "format": "string",
+            "default": "Фамилия"
+          },
+          "middleName": {
+            "maxLength": 25,
+            "type": "string",
+            "format": "string",
+            "default": "Имя",
+            "nullable": true
+          },
+          "firstName": {
+            "maxLength": 25,
+            "type": "string",
+            "format": "string",
+            "default": "Имя",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "format": "tel",
+            "default": "+7-495-000-00-00",
+            "nullable": true
+          },
+          "doB": {
+            "type": "string",
+            "format": "date",
+            "default": "1950-01-01",
+            "nullable": true
+          },
+          "comment": {
+            "maxLength": 250,
+            "type": "string",
+            "format": "string",
+            "default": "Комментарий",
+            "nullable": true
+          },
+          "sex": {
+            "$ref": "#/components/schemas/Sex"
+          },
+          "officeId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "ClientResponse": {
         "type": "object",
@@ -6265,34 +6243,19 @@
         },
         "additionalProperties": false
       },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": { }
+      "DataType": {
+        "enum": [
+          "Text",
+          "Number",
+          "Decimal",
+          "DateTime",
+          "Bool",
+          "Photo"
+        ],
+        "type": "string",
+        "description": "Type of data in column"
       },
-      "ClientRequest": {
+      "EmployeeRequest": {
         "required": [
           "lastName"
         ],
@@ -6305,45 +6268,38 @@
             "format": "string",
             "default": "Фамилия"
           },
-          "middleName": {
-            "maxLength": 25,
-            "type": "string",
-            "format": "string",
-            "default": "Имя",
-            "nullable": true
-          },
           "firstName": {
             "maxLength": 25,
+            "minLength": 0,
             "type": "string",
             "format": "string",
             "default": "Имя",
             "nullable": true
           },
-          "phone": {
+          "middleName": {
+            "maxLength": 25,
+            "minLength": 0,
+            "type": "string",
+            "format": "string",
+            "default": "Отчество",
+            "nullable": true
+          },
+          "phoneNumber": {
             "type": "string",
             "format": "tel",
             "default": "+7-495-000-00-00",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "default": "noreply@mail.com",
+            "nullable": true
+          },
           "doB": {
             "type": "string",
             "format": "date",
-            "default": "1950-01-01T00:00:00.0000000",
-            "nullable": true
-          },
-          "comment": {
-            "maxLength": 250,
-            "type": "string",
-            "format": "string",
-            "default": "Комментарий",
-            "nullable": true
-          },
-          "sex": {
-            "$ref": "#/components/schemas/Sex"
-          },
-          "officeId": {
-            "type": "string",
-            "format": "uuid",
+            "default": "1950-01-01",
             "nullable": true
           }
         },
@@ -6392,36 +6348,39 @@
         },
         "additionalProperties": false
       },
-      "EmployeeRequest": {
+      "IdentityError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfficeRequest": {
         "required": [
-          "lastName"
+          "number"
         ],
         "type": "object",
         "properties": {
-          "lastName": {
-            "maxLength": 25,
-            "minLength": 0,
-            "type": "string",
-            "format": "string",
-            "default": "Фамилия"
+          "number": {
+            "type": "integer",
+            "format": "int32",
+            "default": 0
           },
-          "firstName": {
-            "maxLength": 25,
+          "address": {
+            "maxLength": 150,
             "minLength": 0,
             "type": "string",
-            "format": "string",
-            "default": "Имя",
+            "default": "Москва, ",
             "nullable": true
           },
-          "middleName": {
-            "maxLength": 25,
-            "minLength": 0,
-            "type": "string",
-            "format": "string",
-            "default": "Отчество",
-            "nullable": true
-          },
-          "phoneNumber": {
+          "phone": {
             "type": "string",
             "format": "tel",
             "default": "+7-495-000-00-00",
@@ -6433,11 +6392,13 @@
             "default": "noreply@mail.com",
             "nullable": true
           },
-          "doB": {
+          "timeOfOpen": {
             "type": "string",
-            "format": "date",
-            "default": "1950-01-01T00:00:00.0000000",
-            "nullable": true
+            "format": "time"
+          },
+          "timeOfClose": {
+            "type": "string",
+            "format": "time"
           }
         },
         "additionalProperties": false
@@ -6480,132 +6441,63 @@
         },
         "additionalProperties": false
       },
-      "WorkItemStatus": {
-        "enum": [
-          "Created",
-          "InWork",
-          "Done",
-          "Canceled"
-        ],
-        "type": "string",
-        "description": "Status of WorkItem"
-      },
-      "WorkItemResponse": {
+      "ProblemDetails": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "description": {
+          "type": {
             "type": "string",
             "nullable": true
           },
-          "creationDate": {
+          "title": {
             "type": "string",
-            "format": "date-time"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
+            "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/WorkItemStatus"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
-          "isImportant": {
-            "type": "boolean"
-          },
-          "isUrgent": {
-            "type": "boolean"
-          },
-          "creatorShortName": {
+          "detail": {
             "type": "string",
             "nullable": true
           },
-          "creatorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "executorShortName": {
+          "instance": {
             "type": "string",
             "nullable": true
-          },
-          "executorId": {
-            "type": "string",
-            "format": "uuid"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": { }
       },
-      "WorkItemRequest": {
+      "QuestionRequest": {
         "required": [
-          "creatorId",
-          "description"
+          "name",
+          "text"
         ],
         "type": "object",
         "properties": {
-          "description": {
+          "text": {
             "maxLength": 300,
             "minLength": 0,
             "type": "string",
             "format": "string",
-            "default": "Опиши текст задачи."
+            "default": "Текст нового вопроса"
           },
-          "creationDate": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 0,
             "type": "string",
-            "format": "date"
+            "format": "string",
+            "default": "Вопрос 1"
           },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "status": {
-            "$ref": "#/components/schemas/WorkItemStatus"
-          },
-          "isImportant": {
+          "isKey": {
             "type": "boolean",
             "default": false
           },
-          "creatorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "executorId": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
           }
         },
         "additionalProperties": false
-      },
-      "SurveyStatus": {
-        "enum": [
-          "Work",
-          "Archive",
-          "Deleted"
-        ],
-        "type": "string",
-        "description": "Status of survey"
-      },
-      "QuestionType": {
-        "enum": [
-          "Number",
-          "Decimal",
-          "YesNo",
-          "Text",
-          "Photo",
-          "DateTime"
-        ],
-        "type": "string",
-        "description": "Type of question"
       },
       "QuestionResponse": {
         "type": "object",
@@ -6627,6 +6519,81 @@
           },
           "type": {
             "$ref": "#/components/schemas/QuestionType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QuestionType": {
+        "enum": [
+          "Number",
+          "Decimal",
+          "YesNo",
+          "Text",
+          "Photo",
+          "DateTime"
+        ],
+        "type": "string",
+        "description": "Type of question"
+      },
+      "RoleResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "normalizedName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sex": {
+        "enum": [
+          "Male",
+          "Female",
+          "Unknown"
+        ],
+        "type": "string",
+        "description": "Gender of person"
+      },
+      "SurveyRequest": {
+        "required": [
+          "authorId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "format": "string",
+            "default": "Новый опрос"
+          },
+          "description": {
+            "maxLength": 300,
+            "minLength": 0,
+            "type": "string",
+            "format": "string",
+            "default": "Описание нового опроса",
+            "nullable": true
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionRequest"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6667,73 +6634,6 @@
         },
         "additionalProperties": false
       },
-      "QuestionRequest": {
-        "required": [
-          "name",
-          "text"
-        ],
-        "type": "object",
-        "properties": {
-          "text": {
-            "maxLength": 300,
-            "minLength": 0,
-            "type": "string",
-            "format": "string",
-            "default": "Текст нового вопроса"
-          },
-          "name": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string",
-            "format": "string",
-            "default": "Вопрос 1"
-          },
-          "isKey": {
-            "type": "boolean",
-            "default": false
-          },
-          "type": {
-            "$ref": "#/components/schemas/QuestionType"
-          }
-        },
-        "additionalProperties": false
-      },
-      "SurveyRequest": {
-        "required": [
-          "authorId",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string",
-            "format": "string",
-            "default": "Новый опрос"
-          },
-          "description": {
-            "maxLength": 300,
-            "minLength": 0,
-            "type": "string",
-            "format": "string",
-            "default": "Описание нового опроса",
-            "nullable": true
-          },
-          "authorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "questions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/QuestionRequest"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "SurveyResultSummaryType": {
         "enum": [
           "Simple",
@@ -6742,17 +6642,14 @@
         "type": "string",
         "description": "Type of generating survey summary"
       },
-      "DataType": {
+      "SurveyStatus": {
         "enum": [
-          "Text",
-          "Number",
-          "Decimal",
-          "DateTime",
-          "Bool",
-          "Photo"
+          "Work",
+          "Archive",
+          "Deleted"
         ],
         "type": "string",
-        "description": "Type of data in column"
+        "description": "Status of survey"
       },
       "SurveySummaryHeader": {
         "type": "object",
@@ -6805,92 +6702,126 @@
         },
         "additionalProperties": false
       },
-      "OfficeRequest": {
+      "WorkItemRequest": {
         "required": [
-          "number"
+          "creatorId",
+          "description"
         ],
         "type": "object",
         "properties": {
-          "number": {
-            "type": "integer",
-            "format": "int32",
-            "default": 0
-          },
-          "address": {
-            "maxLength": 150,
+          "description": {
+            "maxLength": 300,
             "minLength": 0,
             "type": "string",
-            "default": "Москва, ",
+            "format": "string",
+            "default": "Опиши текст задачи."
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkItemStatus"
+          },
+          "isImportant": {
+            "type": "boolean",
+            "default": false
+          },
+          "creatorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "executorId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
-          },
-          "phone": {
-            "type": "string",
-            "format": "tel",
-            "default": "+7-495-000-00-00",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "default": "noreply@mail.com",
-            "nullable": true
-          },
-          "timeOfOpen": {
-            "type": "string",
-            "format": "time"
-          },
-          "timeOfClose": {
-            "type": "string",
-            "format": "time"
           }
         },
         "additionalProperties": false
       },
-      "RoleResponse": {
+      "WorkItemResponse": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "name": {
+          "description": {
             "type": "string",
             "nullable": true
           },
-          "normalizedName": {
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/WorkItemStatus"
+          },
+          "isImportant": {
+            "type": "boolean"
+          },
+          "isUrgent": {
+            "type": "boolean"
+          },
+          "creatorShortName": {
             "type": "string",
             "nullable": true
+          },
+          "creatorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "executorShortName": {
+            "type": "string",
+            "nullable": true
+          },
+          "executorId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
       },
-      "IdentityError": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+      "WorkItemStatus": {
+        "enum": [
+          "Created",
+          "InWork",
+          "Done",
+          "Canceled"
+        ],
+        "type": "string",
+        "description": "Status of WorkItem"
       }
     },
     "securitySchemes": {
-      "Bearer": {
-        "type": "apiKey",
-        "description": "JWT Authorization header using the bearer scheme",
-        "name": "Authorization",
-        "in": "header"
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "authorizationUrl": "https://localhost:61001/connect/authorize",
+            "tokenUrl": "https://localhost:61001/connect/token",
+            "scopes": {
+              "bathhouse": "Demo API - full access"
+            }
+          }
+        }
       }
     }
-  },
-  "security": [
-    {
-      "Bearer": [ ]
-    }
-  ]
+  }
 }

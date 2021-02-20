@@ -1,24 +1,39 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 
 namespace Bathhouse.Identity.Api.Configuration
 {
   public class Config
   {
-    IConfiguration _config;
+    private readonly IConfiguration _config;
 
     public Config(IConfiguration config)
     {
       _config = config;
     }
 
+
+    public IEnumerable<ApiScope> GetApiScopes()
+    {
+      return new[]
+      {
+                new ApiScope(name: "bathhouse",   displayName: "Access API Backend")
+            };
+    }
+
+
     // ApiResources define the apis in your system
     public IEnumerable<ApiResource> GetApis()
     {
       return new List<ApiResource>
             {
-                new ApiResource("bathhouse", "Bathhouse Service")
+                new ApiResource("bathhouse", "Bathhouse Service") 
+                {
+                  Scopes = new []{ "bathhouse" } 
+                }
             };
     }
 
@@ -44,20 +59,25 @@ namespace Bathhouse.Identity.Api.Configuration
                 {
                     ClientId = _config["Clients:BathhouseApi:ClientId"] ,
                     ClientName = "Bathhouse Swagger UI",
-                    ClientSecrets = new List<Secret>
-                    {
-                        new Secret("secret".Sha256())
-                    },
+                    RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowAccessTokensViaBrowser = true,
                     AllowedCorsOrigins = {_config["Clients:BathhouseApi:Url"] },
-                    RedirectUris = { $"{_config["Clients:BathhouseApi:Url"] }/index.html" },
-                    PostLogoutRedirectUris = { $"{_config["Clients:BathhouseApi:Url"] }/index.html" },
                     AllowedScopes =
                     {
-                        "bathhouse"
-                    }
-                }
+                        "bathhouse",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Address,
+                        IdentityServerConstants.StandardScopes.OfflineAccess
+                    },
+                    RedirectUris = { _config["Clients:BathhouseApi:Url"] + "/swagger/oauth2-redirect.html" },
+                    AllowOfflineAccess = false,
+                    AccessTokenLifetime = 3600,
+                    IdentityTokenLifetime = 300,
+                    AlwaysIncludeUserClaimsInIdToken = true
+                },
             };
     }
   }

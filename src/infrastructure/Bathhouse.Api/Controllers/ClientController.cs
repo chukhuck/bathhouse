@@ -3,6 +3,7 @@ using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Chuk.Helpers.Patterns;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -42,6 +43,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <response code="200">Getting all of Clients was successful</response>
     /// <response code="500">Exception on server side was fired</response>
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
