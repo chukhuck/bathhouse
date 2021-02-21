@@ -1,5 +1,6 @@
 using Bathhouse.EF.Data;
 using Bathhouse.Entities;
+using Bathhouse.Identity.Api.Certificates;
 using Bathhouse.Identity.Api.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,12 +15,14 @@ namespace Bathhouse.Identity.Api
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration)
+    public Startup(IConfiguration configuration, IWebHostEnvironment env)
     {
       Configuration = configuration;
+      Environment = env;
     }
 
     public IConfiguration Configuration { get; }
+    public IWebHostEnvironment Environment { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -38,17 +41,26 @@ namespace Bathhouse.Identity.Api
 
       var _identityInMemoryConfig = new Config(Configuration);
 
-      services.AddIdentityServer(x =>
+      var identityServerBuilder = services.AddIdentityServer(x =>
       {
         x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
         
       })
-      .AddDeveloperSigningCredential()
       .AddAspNetIdentity<Employee>()
       .AddInMemoryApiResources(_identityInMemoryConfig.GetApis())
       .AddInMemoryClients(_identityInMemoryConfig.GetClients())
       .AddInMemoryIdentityResources(_identityInMemoryConfig.GetResources())
       .AddInMemoryApiScopes(_identityInMemoryConfig.GetApiScopes());
+
+      if (Environment.IsDevelopment())
+      {
+        identityServerBuilder.AddDeveloperSigningCredential();
+      }
+      else
+      {
+        identityServerBuilder.AddCertificateFromFile(Configuration);
+      }
+
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
