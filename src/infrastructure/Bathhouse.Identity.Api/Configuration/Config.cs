@@ -1,7 +1,6 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 
 namespace Bathhouse.Identity.Api.Configuration
@@ -20,7 +19,7 @@ namespace Bathhouse.Identity.Api.Configuration
     {
       return new[]
       {
-                new ApiScope(name: "bathhouse",   displayName: "Access API Backend")
+                new ApiScope(name: "bathhouse",   displayName: "Access API Bathhouse")
             };
     }
 
@@ -58,7 +57,7 @@ namespace Bathhouse.Identity.Api.Configuration
                 new Client
                 {
                     ClientId = _config["Clients:BathhouseApi:ClientId"] ,
-                    ClientName = "Bathhouse Swagger UI",
+                    ClientName = _config["Clients:BathhouseApi:Name"],
                     RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowAccessTokensViaBrowser = true,
@@ -68,8 +67,6 @@ namespace Bathhouse.Identity.Api.Configuration
                         "bathhouse",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.Email,
-                        IdentityServerConstants.StandardScopes.Address,
                         IdentityServerConstants.StandardScopes.OfflineAccess
                     },
                     RedirectUris = { _config["Clients:BathhouseApi:Url"] + "/swagger/oauth2-redirect.html" },
