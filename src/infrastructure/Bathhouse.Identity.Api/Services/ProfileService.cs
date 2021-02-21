@@ -75,8 +75,8 @@ namespace Bathhouse.Identity.Api.Services
 
             };
 
-      claims.AddRange(_userManager.GetRolesAsync(user).Result
-          .Select(r=> new Claim(JwtClaimTypes.Role, r)));
+      //claims.AddRange(_userManager.GetRolesAsync(user).Result
+      //    .Select(r=> new Claim(JwtClaimTypes.Role, r)));
 
       if (!string.IsNullOrWhiteSpace(user.FirstName))
         claims.Add(new Claim("firstname", user.FirstName));
