@@ -2,6 +2,7 @@ using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.Identity.Api.Certificates;
 using Bathhouse.Identity.Api.Configuration;
+using Bathhouse.Identity.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -50,7 +51,8 @@ namespace Bathhouse.Identity.Api
       .AddInMemoryApiResources(_identityInMemoryConfig.GetApis())
       .AddInMemoryClients(_identityInMemoryConfig.GetClients())
       .AddInMemoryIdentityResources(_identityInMemoryConfig.GetResources())
-      .AddInMemoryApiScopes(_identityInMemoryConfig.GetApiScopes());
+      .AddInMemoryApiScopes(_identityInMemoryConfig.GetApiScopes())
+      .AddProfileService<ProfileService>();
 
       if (Environment.IsDevelopment())
       {
