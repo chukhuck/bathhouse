@@ -4176,8 +4176,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -4286,8 +4299,21 @@
           },
           "404": {
             "description": "Role with current ID was not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       }
     },
     "/api/Role/{id}": {
@@ -4391,8 +4417,21 @@
           },
           "400": {
             "description": "If the request is null"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -4511,8 +4550,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -4623,8 +4675,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       }
     },
     "/api/Role/{roleId}/employees": {
@@ -4737,8 +4802,21 @@
           },
           "400": {
             "description": "If the request is null"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       }
     },
     "/api/Role/{roleId}/employees/{employeeId}": {
@@ -4864,8 +4942,21 @@
           },
           "200": {
             "description": "Adding Employee to Role was successul"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -4989,8 +5080,21 @@
           },
           "200": {
             "description": "Deleting Employee from Role was successul"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
-        }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "bathhouse"
+            ]
+          }
+        ]
       }
     },
     "/Survey": {

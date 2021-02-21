@@ -2,6 +2,7 @@
 using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace Bathhouse.Api.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [Authorize(Policy = "Admin")]
   public class RoleController : ControllerBase
   {
     protected readonly RoleManager<IdentityRole<Guid>> _roleManager;
