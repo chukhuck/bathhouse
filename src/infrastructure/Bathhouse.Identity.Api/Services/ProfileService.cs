@@ -23,7 +23,7 @@ namespace Bathhouse.Identity.Api.Services
 
     async public Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
-      var subject = context.Subject ?? throw new ArgumentNullException(nameof(context.Subject));
+      var subject = context.Subject ?? throw new ArgumentNullException(nameof(context));
 
       var subjectId = subject.Claims.Where(x => x.Type == "sub").FirstOrDefault().Value;
 
@@ -37,7 +37,7 @@ namespace Bathhouse.Identity.Api.Services
 
     async public Task IsActiveAsync(IsActiveContext context)
     {
-      var subject = context.Subject ?? throw new ArgumentNullException(nameof(context.Subject));
+      var subject = context.Subject ?? throw new ArgumentNullException(nameof(context));
 
       var subjectId = subject.Claims.Where(x => x.Type == "sub").FirstOrDefault().Value;
       var user = await _userManager.FindByIdAsync(subjectId);
@@ -75,8 +75,8 @@ namespace Bathhouse.Identity.Api.Services
 
             };
 
-      //claims.AddRange(_userManager.GetRolesAsync(user).Result
-      //    .Select(r=> new Claim(JwtClaimTypes.Role, r)));
+      claims.AddRange(_userManager.GetRolesAsync(user).Result
+          .Select(r=> new Claim(JwtClaimTypes.Role, r)));
 
       if (!string.IsNullOrWhiteSpace(user.FirstName))
         claims.Add(new Claim("firstname", user.FirstName));
