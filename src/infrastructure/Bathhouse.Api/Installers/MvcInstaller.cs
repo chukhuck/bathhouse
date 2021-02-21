@@ -32,6 +32,14 @@ namespace Bathhouse.Api.Installers
           options.ApiName = "bathhouse";
         });
 
+      services.AddAuthorization(option =>
+      {
+        option.AddPolicy("Admin", policyDirector =>
+        policyDirector.RequireClaim("role", "Admin"));
+
+      });
+
+
       services.AddCors();
     }
   }
