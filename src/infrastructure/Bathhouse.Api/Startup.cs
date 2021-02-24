@@ -33,6 +33,7 @@ namespace Bathhouse.Api
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
+        c.DisplayOperationId();
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bathhouse.Api v1");
         c.OAuthClientId("bathhouseswaggerui");
       });

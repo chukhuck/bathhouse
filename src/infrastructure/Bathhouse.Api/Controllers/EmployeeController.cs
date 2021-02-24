@@ -4,7 +4,9 @@ using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
+using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +14,15 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
 {
+  [Authorize]
   [Route("[controller]")]
   [ApiController]
+  [Produces(MediaTypeNames.Application.Json)]
+  [Consumes(MediaTypeNames.Application.Json)]
   public class EmployeeController : ControllerBase
   {
     protected readonly IRepository<Office, Guid> _officesRepository;
@@ -50,13 +56,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of Employees
     /// </summary>
-    /// <response code="200">Getting all of Employees was successful</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<IEnumerable<EmployeeResponse>> Get()
+    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<IEnumerable<EmployeeResponse>> GetAll()
     {
       try
       {
@@ -76,37 +78,27 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get Employee by ID
     /// </summary>
-    /// <param name="id">The Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting Employee is successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<EmployeeResponse> GetById(Guid id)
+    /// <param name="employeeId">The Employee ID</param>
+    [HttpGet("/[controller]/{employeeId:guid}", Name = ("Get[controller]ById"))]
+    public ActionResult<EmployeeResponse> GetById(Guid employeeId)
     {
       try
       {
-        if (_repository.Get(id) is Employee entity)
+        if (_repository.Get(employeeId) is Employee entity)
         {
-          _logger.LogInformation($"Employee id={id} was getting successfully.");
+          _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
           return Ok(_mapper.Map<Employee, EmployeeResponse>(entity));
         }
         else
         {
-          _logger.LogInformation($"Request on getting unexisting Employee id={id} was received.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Request on getting unexisting Employee id={employeeId} was received.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting Employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Employee id={id} an exception was fired");
+        _logger.LogError($"While getting Employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Employee id={employeeId} an exception was fired");
       }
     }
 
@@ -114,15 +106,8 @@ namespace Bathhouse.Api.Controllers
     /// Add Employee.
     /// </summary>
     /// <param name="request">Newly creating Employee</param>
-    /// <response code="201">Creating Employee is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<EmployeeResponse> Create(EmployeeRequest request)
+    [HttpPost(Name = ("Create[controller]"))]
+    public ActionResult<EmployeeResponse> Create(EmployeeRequest request)
     {
       try
       {
@@ -144,36 +129,25 @@ namespace Bathhouse.Api.Controllers
     /// Update Employee
     /// </summary>
     /// <param name="request">Employee for updating</param>
-    /// <param name="id">ID of Employee for updating</param>
-    /// <response code="204">Updating Employee is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult Update(Guid id, EmployeeRequest request)
+    /// <param name="employeeId">ID of Employee for updating</param>
+    [HttpPut("/[controller]/{employeeId:guid}", Name = ("Update[controller]"))]
+    public ActionResult Update(Guid employeeId, EmployeeRequest request)
     {
       try
       {
-        if (_repository.Get(id) is Employee entity)
+        if (_repository.Get(employeeId) is Employee entity)
         {
           Employee updatedEntity = _mapper.Map<EmployeeRequest, Employee>(request, entity);
 
           _unitOfWork.Complete();
-          _logger.LogInformation($"Employee id={id} was updated successfully.");
+          _logger.LogInformation($"Employee id={employeeId} was updated successfully.");
 
           return NoContent();
         }
         else
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)
@@ -186,39 +160,31 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Delete Employee by ID
     /// </summary>
-    /// <param name="id">Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="204">Deleting Employee is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual IActionResult Delete(Guid id)
+    /// <param name="employeeId">Employee ID</param>
+    [HttpDelete("/[controller]/{employeeId:guid}", Name = ("Delete[controller]"))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public IActionResult Delete(Guid employeeId)
     {
       try
       {
-        Employee? entity = _repository.Get(id);
+        Employee? entity = _repository.Get(employeeId);
         if (entity is null)
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
 
         _repository.Delete(entity);
 
         _unitOfWork.Complete();
-        _logger.LogInformation($"Employee id={id} was deleted successfully.");
+        _logger.LogInformation($"Employee id={employeeId} was deleted successfully.");
 
         return NoContent();
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While deleting Employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={id} an exception was fired");
+        _logger.LogError($"While deleting Employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={employeeId} an exception was fired");
       }
     }
     #endregion
@@ -229,17 +195,8 @@ namespace Bathhouse.Api.Controllers
     /// Get roles for employee
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting roles is successul.</response>
-    /// <response code="400">If the ID is not valid</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{employeeId:guid}/roles")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<string> GetRoles(Guid employeeId)
+    [HttpGet("/[controller]/{employeeId:guid}/roles", Name = nameof(GetRolesForEmployee))]
+    public ActionResult<string> GetRolesForEmployee(Guid employeeId)
     {
       try
       {
@@ -262,24 +219,14 @@ namespace Bathhouse.Api.Controllers
       }
     }
 
-
     /// <summary>
     /// Add Role to Employee.
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="newRole">Name of an adding role</param>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// /// <response code="204">Employee was added to role successfully.</response>
-    [HttpPost]
-    [Route("{employeeId:guid}/roles")]
-    [ProducesDefaultResponseType]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public virtual ActionResult<IdentityResult> AddEmployeeToRole(Guid employeeId, string newRole)
+    [HttpPost("/[controller]/{employeeId:guid}/roles", Name = nameof(AddRoleForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
+    public ActionResult<IdentityResult> AddRoleForEmployee(Guid employeeId, string newRole)
     {
       try
       {
@@ -315,18 +262,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="newRole">Name of an deleting role</param>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="204">Employee was deleted from role successfully.</response>
-    [HttpDelete]
-    [Route("{employeeId:guid}/roles")]
-    [ProducesDefaultResponseType]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public virtual IActionResult DeleteEmployeeFromRole(Guid employeeId, string newRole)
+    [HttpDelete("/[controller]/{employeeId:guid}/roles", Name = nameof(DeleteRoleFromEmployee))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public ActionResult DeleteRoleFromEmployee(Guid employeeId, string newRole)
     {
       try
       {
@@ -365,13 +303,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the directors in the system
     /// </summary>
-    /// <response code="200">Getting the directors is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("directors")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<EmployeeResponse> GetDirectors()
+    [HttpGet("/[controller]/directors", Name = nameof(GetAllTheDirectors))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<EmployeeResponse> GetAllTheDirectors()
     {
       try
       {    
@@ -388,13 +322,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the employees in the system
     /// </summary>
-    /// <response code="200">Getting employees is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("employees")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<EmployeeResponse> GetEmployees()
+    [HttpGet("/[controller]/employees", Name = nameof(GetAllSimpleEmployees))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<EmployeeResponse> GetAllSimpleEmployees()
     {
       try
       {
@@ -411,13 +341,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the managers in the system
     /// </summary>
-    /// <response code="200">Getting the managers is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("managers")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<EmployeeResponse> GetManagers()
+    [HttpGet("/[controller]/managers", Name = nameof(GetAllManagers))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<EmployeeResponse> GetAllManagers()
     {
       try
       {
@@ -434,13 +360,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the tech supporters in the system
     /// </summary>
-    /// <response code="200">Getting the tech supporters is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("techsupporters")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<EmployeeResponse> GetTechSupporters()
+    [HttpGet("/[controller]/techsupporters", Name = nameof(GetAllTechSupporters))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<EmployeeResponse> GetAllTechSupporters()
     {
       try
       {
@@ -460,114 +382,89 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get offices for employee
     /// </summary>
-    /// <param name="id">The Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting offices is successul.</response>
-    /// <response code="400">If the ID is not valid</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/offices")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<OfficeResponse> GetOffices(Guid id)
+    /// <param name="employeeId">The Employee ID</param>
+    [HttpGet("/[controller]/{employeeId:guid}/offices", Name = nameof(GetOfficesForEmployee))]
+    public ActionResult<OfficeResponse> GetOfficesForEmployee(Guid employeeId)
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices" }) is Employee employee)
+        if (_repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" }) is Employee employee)
         {
-          _logger.LogInformation($"Employee id={id} was getting successfully.");
-          _logger.LogInformation($"Office for employee id={id} was getting successfully.");
+          _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+          _logger.LogInformation($"Office for employee id={employeeId} was getting successfully.");
 
           return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.Offices));
         }
         else
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting offices of employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting offices of employee id={id} an exception was fired");
+        _logger.LogError($"While getting offices of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting offices of employee id={employeeId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Delete office for employee
     /// </summary>
-    /// <param name="id">Employee ID</param>
+    /// <param name="employeeId">Employee ID</param>
     /// <param name="officeId">ID deleting office</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="204">Deleting office is successul</response>
-    /// <response code="400">If the request is not valid</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete]
-    [Route("{id:guid}/offices/{officeId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual IActionResult DeleteOffice(Guid id, Guid officeId)
+    [HttpDelete("/[controller]/{employeeId:guid}/offices/{officeId:guid}", Name = nameof(DeleteOfficeFromEmployee))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public IActionResult DeleteOfficeFromEmployee(Guid employeeId, Guid officeId)
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices" }) is Employee employee)
+        if (_repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" }) is Employee employee)
         {
           employee.DeleteOffice(officeId);
 
           _unitOfWork.Complete();
-          _logger.LogInformation($"Office of employee id={id} was deleted successfully.");
+          _logger.LogInformation($"Office of employee id={employeeId} was deleted successfully.");
 
           return NoContent();
         }
         else
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While deleting office for manager  id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting office for manager  id={id}  an exception was fired");
+        _logger.LogError($"While deleting office for manager  id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting office for manager  id={employeeId}  an exception was fired");
       }
     }
 
     /// <summary>
     /// Add office for employee
     /// </summary>
-    /// <param name="id">Employee ID</param>
+    /// <param name="employeeId">Employee ID</param>
     /// <param name="officeId">Office ID</param>
-    /// <response code="201">Adding office is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Employee or Office was not found</response>
-    [HttpPost]
-    [Route("{id:guid}/offices/{officeId:guid}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult<IEnumerable<OfficeResponse>> AddOffice(Guid id, Guid officeId)
+    [HttpPost("/[controller]/{employeeId:guid}/offices", Name = nameof(AddOfficeToEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
+    public virtual ActionResult<IEnumerable<OfficeResponse>> AddOfficeToEmployee(Guid employeeId, Guid officeId)
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Offices" }) is Employee employee && _officesRepository.Get(officeId) is Office addingOffice)
+        if (_repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" }) is Employee employee && _officesRepository.Get(officeId) is Office addingOffice)
         {
           employee.AddOffice(addingOffice);
 
           _unitOfWork.Complete();
-          _logger.LogInformation($"Office id={officeId} was added to Employee ID={id} successfully.");
+          _logger.LogInformation($"Office id={officeId} was added to Employee ID={employeeId} successfully.");
 
-          return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.Offices));
+          return NoContent();
         }
         else
         {
-          _logger.LogInformation($"Employee with ID={id} or Office with ID={officeId} was not found.");
-          return NotFound($"Employee with ID={id} or Office with ID={officeId} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} or Office with ID={officeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} or Office with ID={officeId} was not found.");
         }
       }
       catch (Exception ex)
@@ -580,27 +477,19 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Set new list of offices to employee
     /// </summary>
-    /// <param name="id">Employee  ID</param>
+    /// <param name="employeeId">Employee  ID</param>
     /// <param name="officeIds">Office IDs</param>
-    /// <response code="201">Setting office is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
-    [HttpPut]
-    [Route("{id:guid}/offices")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult<IEnumerable<OfficeResponse>> SetEmployees(Guid id, [FromBody] IEnumerable<Guid> officeIds)
+    [HttpPut("/[controller]/{employeeId:guid}/offices", Name = nameof(SetOfficesForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
+    public virtual ActionResult<IEnumerable<OfficeResponse>> SetOfficesForEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> officeIds)
     {
       try
       {
-        Employee? employee = _repository.Get(key: id, includePropertyNames: new[] { "Offices" });
+        Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
         if (employee == null)
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
 
         employee.Offices.Clear();
@@ -620,9 +509,9 @@ namespace Bathhouse.Api.Controllers
         }
 
         _unitOfWork.Complete();
-        _logger.LogInformation($"Office was added to Employee ID={id} successfully.");
+        _logger.LogInformation($"Office was added to Employee ID={employeeId} successfully.");
 
-        return CreatedAtAction(nameof(GetOffices), new { id }, _mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(employee.Offices));
+        return NoContent();
       }
       catch (Exception ex)
       {
@@ -637,140 +526,108 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get workitems for current employee
     /// </summary>
-    /// <param name="id">The Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting offices is successul.</response>
-    /// <response code="400">If the ID is not valid</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/myworkitems")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<WorkItemResponse> GetMyWorkItems(Guid id)
+    /// <param name="employeeId">The Employee ID</param>
+    [HttpGet("/[controller]/{employeeId:guid}/myworkitems", Name = nameof(GetWorkItemsForEmployee))]
+    public ActionResult<WorkItemResponse> GetWorkItemsForEmployee(Guid employeeId)
     {
       try
       {
-        if (_repository.Get(key: id) is not Employee employee)
+        if (_repository.Get(key: employeeId) is not Employee employee)
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
 
-        _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
+        _logger.LogInformation($"WorkItems for employee id={employeeId} was getting successfully.");
 
         var workItems = _workItemRepository.GetAll(
-          filter: wi => wi.ExecutorId == id,
+          filter: wi => wi.ExecutorId == employeeId,
           includePropertyNames: new[] { "Executor", "Creator" },
           orderBy: all => all.OrderBy(wi => wi.CreationDate));
         return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting workitems of employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems of employee id={id} an exception was fired");
+        _logger.LogError($"While getting workitems of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems of employee id={employeeId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Get workitems created by current employee
     /// </summary>
-    /// <param name="id">The Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting offices is successul.</response>
-    /// <response code="400">If the ID is not valid</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/workitems")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<IEnumerable<WorkItemResponse>> GetAllCreatedWorkItems(Guid id)
+    /// <param name="employeeId">The Employee ID</param>
+    [HttpGet("/[controller]/{employeeId:guid}/workitems", Name = nameof(GetAllWorkItemsCreatedByEmployee))]
+    public ActionResult<IEnumerable<WorkItemResponse>> GetAllWorkItemsCreatedByEmployee(Guid employeeId)
     {
       try
       {
-        if (_repository.Get(key: id) is not Employee employee)
+        if (_repository.Get(key: employeeId) is not Employee employee)
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
 
-        _logger.LogInformation($"WorkItems for employee id={id} was getting successfully.");
+        _logger.LogInformation($"WorkItems for employee id={employeeId} was getting successfully.");
 
         var workItems = _workItemRepository.GetAll(
-          filter: wi => wi.CreatorId == id,
+          filter: wi => wi.CreatorId == employeeId,
           includePropertyNames: new[] { "Executor", "Creator" },
           orderBy: all => all.OrderBy(wi => wi.CreationDate));
         return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting workitems created by employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems created by employee id={id} an exception was fired");
+        _logger.LogError($"While getting workitems created by employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems created by employee id={employeeId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Get workitem created by current employee
     /// </summary>
-    /// <param name="id">The Employee ID</param>
+    /// <param name="employeeId">The Employee ID</param>
     /// <param name="workitemId">WorkItem ID</param>
-    /// <response code="404">Employee or WorkItem is not found</response>
-    /// <response code="200">Getting offices is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/workitems/{workitemId:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<WorkItemResponse> GetCreatedWorkItem(Guid id, Guid workitemId)
+    [HttpGet("/[controller]/{employeeId:guid}/workitems/{workitemId:guid}", Name = nameof(GetWorkItemCreatedByEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    public ActionResult<WorkItemResponse> GetWorkItemCreatedByEmployee(Guid employeeId, Guid workitemId)
     {
       try
       {
         var workItem = _workItemRepository.Get(workitemId);
 
-        if (workItem?.CreatorId != id)
+        if (workItem?.CreatorId != employeeId)
         {
-          _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} or WorkItem with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} or WorkItem with ID={employeeId} was not found.");
         }
 
         return Ok(_mapper.Map<WorkItem, WorkItemResponse>(workItem));
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting workitem id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitem id={id} an exception was fired");
+        _logger.LogError($"While getting workitem id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitem id={employeeId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Delete workItem
     /// </summary>
-    /// <param name="id">Employee ID</param>
+    /// <param name="employeeId">Employee ID</param>
     /// <param name="workitemId">WorkItem ID</param>
-    /// <response code="404">Employee or WorkItem is not found</response>
-    /// <response code="204">Deleting workItem is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete()]
-    [Route("{id:guid}/workitems/{workitemId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult DeleteCreatedWorkItem(Guid id, Guid workitemId)
+    [HttpDelete("/[controller]/{employeeId:guid}/workitems/{workitemId:guid}", Name = nameof(DeleteWorkItemCreatedByEmployee))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public ActionResult DeleteWorkItemCreatedByEmployee(Guid employeeId, Guid workitemId)
     {
       try
       {
         WorkItem? workItem = _workItemRepository.Get(workitemId); ;
 
-        if (workItem?.CreatorId != id)
+        if (workItem?.CreatorId != employeeId)
         {
-          _logger.LogInformation($"Employee with ID={id} or WorkItem with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} or WorkItem with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} or WorkItem with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} or WorkItem with ID={employeeId} was not found.");
         }
 
         _workItemRepository.Delete(workitemId);
@@ -782,35 +639,29 @@ namespace Bathhouse.Api.Controllers
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While deleting WorkItem id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting WorkItem id={id} an exception was fired");
+        _logger.LogError($"While deleting WorkItem id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting WorkItem id={employeeId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Create workItem.
     /// </summary>
-    /// <param name="id">Employee ID</param>
+    /// <param name="employeeId">Employee ID</param>
     /// <param name="workItem">Newly creating workItem. WokrItemRequest.CreatorId will be overwrited by Employee ID</param>
-    /// <response code="201">Creating workItem is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    [HttpPost]
-    [Route("{id:guid}/workitems")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult<WorkItemResponse> CreateWorkItem(Guid id, WorkItemRequest workItem)
+    [HttpPost("/[controller]/{employeeId:guid}/workitems", Name = nameof(CreateWorkItemByEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
+    public ActionResult<WorkItemResponse> CreateWorkItemByEmployee(Guid employeeId, WorkItemRequest workItem)
     {
       try
       {
-        workItem.CreatorId = id;
+        workItem.CreatorId = employeeId;
         WorkItem newWorkItem = _workItemRepository.Add(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
 
         _unitOfWork.Complete();
         _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
-        return CreatedAtAction("GetCreatedWorkItem", new { id, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
+        return CreatedAtAction("GetCreatedWorkItem", new { employeeId, workitemid = newWorkItem.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
       }
       catch (Exception ex)
       {
@@ -823,26 +674,17 @@ namespace Bathhouse.Api.Controllers
     /// Update WorkItem
     /// </summary>
     /// <param name="request">WorkItem for updating</param>
-    /// <param name="id">ID of entity for updating</param>
+    /// <param name="employeeId">ID of entity for updating</param>
     /// <param name="workitemId"></param>
-    /// <response code="204">Updating entity is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Entity with current ID is not found</response>
-    /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}/workitems/{workitemId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult UpdateCreatedWorkItem(Guid id, Guid workitemId, WorkItemRequest request)
+    [HttpPut("/[controller]/{employeeId:guid}/workitems/{workitemId:guid}", Name = nameof(UpdateCreatedWorkItem))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
+    public ActionResult UpdateCreatedWorkItem(Guid employeeId, Guid workitemId, WorkItemRequest request)
     {
       try
       {
-        if (_workItemRepository.Get(workitemId) is WorkItem workItem && workItem.CreatorId == id)
+        if (_workItemRepository.Get(workitemId) is WorkItem workItem && workItem.CreatorId == employeeId)
         {
-          request.CreatorId = id;
+          request.CreatorId = employeeId;
           WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, workItem);
 
           _unitOfWork.Complete();
@@ -852,8 +694,8 @@ namespace Bathhouse.Api.Controllers
         }
         else
         {
-          _logger.LogInformation($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
-          return NotFound($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
+          _logger.LogInformation($"WorkItem with ID={employeeId} of type {typeof(WorkItem)} was not found.");
+          return NotFound($"WorkItem with ID={employeeId} of type {typeof(WorkItem)} was not found.");
         }
       }
       catch (Exception ex)
@@ -866,43 +708,34 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Change status for one of the MyWorkItem
     /// </summary>
-    /// <param name="id">ID of entity for updating</param>
+    /// <param name="employeeId">ID of entity for updating</param>
     /// <param name="workItemId"></param>
     /// <param name="newWorkItemStatus">New status for workItem</param>
-    /// <response code="204">Updating entity is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If you try to cancel workitem</response>
-    /// <response code="404">Entity with current ID is not found</response>
-    /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}/myworkitems/{workItemId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult ChangeStatusMyWorkItem(Guid id, Guid workItemId, WorkItemStatus newWorkItemStatus)
+    [HttpPut("/[controller]/{employeeId:guid}/workitems/{workitemId:guid}/status", Name = nameof(ChangeStatusMyWorkItem))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
+    public ActionResult ChangeStatusMyWorkItem(Guid employeeId, Guid workItemId, WorkItemStatus newWorkItemStatus)
     {
       try
       {
-        if (_workItemRepository.Get(workItemId) is WorkItem workItem && workItem.ExecutorId == id)
+        if (_workItemRepository.Get(workItemId) is WorkItem workItem && workItem.ExecutorId == employeeId)
         {
-          if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != id)
+          if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != employeeId)
           {
-            _logger.LogInformation($"Employee {id} tryied to cancel WorkItem id={workItemId}. The operation is denied.");
+            _logger.LogInformation($"Employee {employeeId} tryied to cancel WorkItem id={workItemId}. The operation is denied.");
             return BadRequest("Employee cant cancel workitem for you if he is not a creator.");
           }
 
           workItem.Status = newWorkItemStatus;
 
           _unitOfWork.Complete();
-          _logger.LogInformation($"WorkItem id={id} was updated successfully.");
+          _logger.LogInformation($"WorkItem id={employeeId} was updated successfully.");
 
           return NoContent();
         }
         else
         {
-          _logger.LogInformation($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
-          return NotFound($"WorkItem with ID={id} of type {typeof(WorkItem)} was not found.");
+          _logger.LogInformation($"WorkItem with ID={employeeId} of type {typeof(WorkItem)} was not found.");
+          return NotFound($"WorkItem with ID={employeeId} of type {typeof(WorkItem)} was not found.");
         }
       }
       catch (Exception ex)
@@ -919,65 +752,49 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of surveys for current employee
     /// </summary>
-    /// <param name="id">The Employee ID</param>
-    /// <response code="404">Employee with current ID is not found</response>
-    /// <response code="200">Getting offices is successul.</response>
-    /// <response code="400">If the ID is not valid</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/surveys")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<IEnumerable<SurveyResponse>> GetAllSurveys(Guid id)
+    /// <param name="employeeId">The Employee ID</param>
+    [HttpGet("/[controller]/{employeeId:guid}/surveys", Name = nameof(GetAllSurveysForEmployee))]
+    public ActionResult<IEnumerable<SurveyResponse>> GetAllSurveysForEmployee(Guid employeeId)
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Surveys" }) is Employee employee)
+        if (_repository.Get(key: employeeId, includePropertyNames: new[] { "Surveys" }) is Employee employee)
         {
-          _logger.LogInformation($"Employee id={id} was getting successfully.");
-          _logger.LogInformation($"Surveys for employee id={id} was getting successfully.");
+          _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+          _logger.LogInformation($"Surveys for employee id={employeeId} was getting successfully.");
 
           return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(employee.Surveys));
         }
         else
         {
-          _logger.LogInformation($"Employee with ID={id} was not found.");
-          return NotFound($"Employee with ID={id} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting surveys of employee id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting surveys of employee id={id} an exception was fired");
+        _logger.LogError($"While getting surveys of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting surveys of employee id={employeeId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Get survey
     /// </summary>
-    /// <param name="id">The Employee ID</param>
+    /// <param name="employeeId">The Employee ID</param>
     /// <param name="surveyId">Survey ID</param>
-    /// <response code="404">Employee or Survey is not found</response>
-    /// <response code="200">Getting Survey is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/surveys/{surveyId:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<SurveyResponse> GetSurvey(Guid id, Guid surveyId)
+    [HttpGet("/[controller]/{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(GetSurveyForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    public ActionResult<SurveyResponse> GetSurveyForEmployee(Guid employeeId, Guid surveyId)
     {
       try
       {
         var survey = _surveyRepository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
 
-        if (survey?.AuthorId != id)
+        if (survey?.AuthorId != employeeId)
         {
-          _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
-          return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} or Survey with ID={surveyId} was not found.");
+          return NotFound($"Employee with ID={employeeId} or Survey with ID={surveyId} was not found.");
         }
 
         return Ok(_mapper.Map<Survey, SurveyResponse>(survey));
@@ -992,19 +809,12 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get survey summary
     /// </summary>
-    /// <param name="id">The Employee ID</param>
+    /// <param name="employeeId">The Employee ID</param>
     /// <param name="surveyId">Survey ID</param>
     /// <param name="summarytype">Summary type</param>
-    /// <response code="404">Employee or Survey is not found</response>
-    /// <response code="200">Getting Survey summary is successul.</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}/surveys/{surveyId:guid}/summary")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<SurveySummaryResponse> GetSurveyResult(Guid id, Guid surveyId, SurveyResultSummaryType summarytype)
+    [HttpGet("/[controller]/{employeeId:guid}/surveys/{surveyId:guid}/summary", Name = nameof(GetSurveySummaryForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    public ActionResult<SurveySummaryResponse> GetSurveySummaryForEmployee(Guid employeeId, Guid surveyId, SurveyResultSummaryType summarytype)
     {
       try
       {
@@ -1023,10 +833,10 @@ namespace Bathhouse.Api.Controllers
             .ToList();
         }
 
-        if (survey?.AuthorId != id)
+        if (survey?.AuthorId != employeeId)
         {
-          _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
-          return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} or Survey with ID={surveyId} was not found.");
+          return NotFound($"Employee with ID={employeeId} or Survey with ID={surveyId} was not found.");
         }
         var summary = survey.GetSummary(summarytype);
         return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
@@ -1041,27 +851,20 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Delete Survey
     /// </summary>
-    /// <param name="id">Employee ID</param>
+    /// <param name="employeeId">Employee ID</param>
     /// <param name="surveyId">Survey ID</param>
-    /// <response code="404">Employee or Survey is not found</response>
-    /// <response code="204">Deleting Survey is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete()]
-    [Route("{id:guid}/surveys/{surveyId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult DeleteSurvey(Guid id, Guid surveyId)
+    [HttpDelete("/[controller]/{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(DeleteSurveyForEmployee))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public ActionResult DeleteSurveyForEmployee(Guid employeeId, Guid surveyId)
     {
       try
       {
         Survey? survey = _surveyRepository.Get(surveyId); ;
 
-        if (survey?.AuthorId != id)
+        if (survey?.AuthorId != employeeId)
         {
-          _logger.LogInformation($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
-          return NotFound($"Employee with ID={id} or Survey with ID={surveyId} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} or Survey with ID={surveyId} was not found.");
+          return NotFound($"Employee with ID={employeeId} or Survey with ID={surveyId} was not found.");
         }
 
         _surveyRepository.Delete(surveyId);
@@ -1081,27 +884,21 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Create Survey.
     /// </summary>
-    /// <param name="id">Employee ID</param>
+    /// <param name="employeeId">Employee ID</param>
     /// <param name="survey">Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID</param>
-    /// <response code="201">Creating Survey is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    [HttpPost]
-    [Route("{id:guid}/surveys")]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult<SurveyResponse> CreateSurvey(Guid id, SurveyRequest survey)
+    [HttpPost("/[controller]/{employeeId:guid}/surveys", Name = nameof(CreateSurveyForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
+    public ActionResult<SurveyResponse> CreateSurveyForEmployee(Guid employeeId, SurveyRequest survey)
     {
       try
       {
-        survey.AuthorId = id;
+        survey.AuthorId = employeeId;
         Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
 
         _unitOfWork.Complete();
         _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
 
-        return CreatedAtAction("GetSurvey", new { id, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
+        return CreatedAtAction("GetSurvey", new { employeeId, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
       }
       catch (Exception ex)
       {
@@ -1114,26 +911,17 @@ namespace Bathhouse.Api.Controllers
     /// Update Survey
     /// </summary>
     /// <param name="request">Survey for updating</param>
-    /// <param name="id">ID of entity for updating</param>
+    /// <param name="employeeId">ID of entity for updating</param>
     /// <param name="surveyId"></param>
-    /// <response code="204">Updating entity is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Entity with current ID is not found</response>
-    /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}/surveys/{surveyId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public virtual ActionResult UpdateSurvey(Guid id, Guid surveyId, SurveyRequest request)
+    [HttpPut("/[controller]/{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(UpdateSurveyForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
+    public ActionResult UpdateSurveyForEmployee(Guid employeeId, Guid surveyId, SurveyRequest request)
     {
       try
       {
-        if (_surveyRepository.Get(surveyId) is Survey survey && survey.AuthorId == id)
+        if (_surveyRepository.Get(surveyId) is Survey survey && survey.AuthorId == employeeId)
         {
-          request.AuthorId = id;
+          request.AuthorId = employeeId;
           Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, survey);
 
           _unitOfWork.Complete();
@@ -1143,8 +931,8 @@ namespace Bathhouse.Api.Controllers
         }
         else
         {
-          _logger.LogInformation($"Survey with ID={id} was not found.");
-          return NotFound($"Survey with ID={id} was not found.");
+          _logger.LogInformation($"Survey with ID={employeeId} was not found.");
+          return NotFound($"Survey with ID={employeeId} was not found.");
         }
       }
       catch (Exception ex)

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Bathhouse.Repositories.Common;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +7,10 @@ using System;
 using System.Collections.Generic;
 
 
-namespace Bathhouse.Api.Controllers
+namespace Chuk.Helpers.AspNetCore
 {
   [ApiController]
-  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-  public class RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest> : ControllerBase
+  public class CRUDControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest> : ControllerBase
     where TEntity : class, IEntity<TEntityKey>, new()
     where TEntityKey : struct
     where TEntityResponse : class
@@ -20,16 +18,16 @@ namespace Bathhouse.Api.Controllers
   {
     protected readonly IRepository<TEntity, TEntityKey> _repository;
 
-    protected readonly ILogger<RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> _logger;
+    protected readonly ILogger<CRUDControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> _logger;
 
     protected readonly IMapper _mapper;
 
-    protected readonly IBathhouseUnitOfWork _unitOfWork;
+    protected readonly IUnitOfWork _unitOfWork;
 
-    public RichControllerBase(
-      ILogger<RichControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> logger,
+    public CRUDControllerBase(
+      ILogger<CRUDControllerBase<TEntity, TEntityKey, TEntityResponse, TEntityRequest>> logger,
       IMapper mapper,
-      IBathhouseUnitOfWork unitOfWork)
+      IUnitOfWork unitOfWork)
     {
       _logger = logger;
       _repository = unitOfWork.Repository<TEntity, TEntityKey>();
@@ -40,11 +38,8 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of entities
     /// </summary>
-    /// <response code="200">Getting all of entities was successful</response>
-    /// <response code="500">Exception on server side was fired</response>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public virtual ActionResult<IEnumerable<TEntityResponse>> Get()
+    public virtual ActionResult<IEnumerable<TEntityResponse>> GetAll()
     {
       try
       {
@@ -64,15 +59,7 @@ namespace Bathhouse.Api.Controllers
     /// Get entity by ID
     /// </summary>
     /// <param name="id">The entity ID</param>
-    /// <response code="404">Entity with current ID is not found</response>
-    /// <response code="200">Getting entity is successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet("{id:guid}", Name = ("Get[controller]ById"))]
     public virtual ActionResult<TEntityResponse> GetById(TEntityKey id)
     {
       try
@@ -99,12 +86,7 @@ namespace Bathhouse.Api.Controllers
     /// Create and add entity.
     /// </summary>
     /// <param name="request">Newly creating entity</param>
-    /// <response code="201">Creating entity is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpPost(Name = ("Create[controller]"))]
     public virtual ActionResult<TEntityResponse> Create(TEntityRequest request)
     {
       try
@@ -128,16 +110,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">Entity for updating</param>
     /// <param name="id">ID of entity for updating</param>
-    /// <response code="204">Updating entity is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Entity with current ID is not found</response>
-    /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpPut("{id:guid}", Name = ("Update[controller]"))]
     public virtual ActionResult Update(TEntityKey id, TEntityRequest request)
     {
       try
@@ -168,14 +141,7 @@ namespace Bathhouse.Api.Controllers
     /// Delete entity by ID
     /// </summary>
     /// <param name="id">Entity ID</param>
-    /// <response code="404">Entity with current ID is not found</response>
-    /// <response code="204">Deleting entity is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpDelete("{id:guid}", Name = ("Delete[controller]"))]
     public virtual IActionResult Delete(TEntityKey id)
     {
       try

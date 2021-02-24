@@ -2,6 +2,7 @@
 using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
+using Chuk.Helpers.AspNetCore.ApiConvension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,12 +11,15 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
 {
+  [Authorize(Policy = "Admin")]
   [Route("api/[controller]")]
   [ApiController]
-  [Authorize(Policy = "Admin")]
+  [Produces(MediaTypeNames.Application.Json)]
+  [Consumes(MediaTypeNames.Application.Json)]
   public class RoleController : ControllerBase
   {
     protected readonly RoleManager<IdentityRole<Guid>> _roleManager;
@@ -38,14 +42,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the roles in the system
     /// </summary>
-    /// <response code="200">Getting roles was successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <returns>List of the roles</returns>
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<IEnumerable<RoleResponse>> Get()
+    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<IEnumerable<RoleResponse>> GetAll()
     {
       try
       {
@@ -61,37 +60,28 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get the role by its ID
     /// </summary>
-    /// <param name="id">Role Id</param>
-    /// <response code="404">Role with current ID was not found</response>
-    /// <response code="200">Getting Role was successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
+    /// <param name="roleId">Role Id</param>
     /// <returns>Role</returns>
-    [HttpGet()]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<RoleResponse> GetById(Guid id)
+    [HttpGet("/[controller]/{roleId:guid}", Name = ("Get[controller]ById"))]
+    public ActionResult<RoleResponse> GetById(Guid roleId)
     {
       try
       {
-        if (_roleManager.FindByIdAsync(id.ToString()).Result is IdentityRole<Guid> entity)
+        if (_roleManager.FindByIdAsync(roleId.ToString()).Result is IdentityRole<Guid> entity)
         {
-          _logger.LogInformation($"Role with ID={id} was getting successfully.");
+          _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
           return Ok(_mapper.Map<IdentityRole<Guid>, RoleResponse>(entity));
         }
         else
         {
-          _logger.LogInformation($"Request on getting unexisting Role with ID={id} was received.");
-          return NotFound($"Role with ID={id} was not found.");
+          _logger.LogInformation($"Request on getting unexisting Role with ID={roleId} was received.");
+          return NotFound($"Role with ID={roleId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting Role with ID={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Role with ID={id} an exception was fired");
+        _logger.LogError($"While getting Role with ID={roleId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Role with ID={roleId} an exception was fired");
       }
     }
 
@@ -99,17 +89,9 @@ namespace Bathhouse.Api.Controllers
     /// Create new role
     /// </summary>
     /// <param name="name">Name of the new role.</param>
-    /// <response code="404">Role with current ID was not found</response>
-    /// <response code="201">Getting Role was successul</response>
-    /// <response code="400">If the request is null or other cases</response>
-    /// <response code="500">Exception on server side was fired</response>
     /// <returns>Created role.</returns>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(IEnumerable<IdentityError>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<RoleResponse> Create(string name)
+    [HttpPost(Name = ("Create[controller]"))]
+    public ActionResult<RoleResponse> Create(string name)
     {
       try
       {
@@ -138,29 +120,19 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Update name of a role
     /// </summary>
-    /// <param name="id">Role Id</param>
+    /// <param name="roleId">Role Id</param>
     /// <param name="newName">New name of the role with Id</param>
-    /// <response code="404">Role with current ID was not found</response>
-    /// <response code="204">Getting Role was successul</response>
-    /// <response code="400">If the request is null or other cases</response>
-    /// <response code="500">Exception on server side was fired</response>
     /// <returns>Nothing</returns>
-    [HttpPut]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(IEnumerable<IdentityError>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult Update(Guid id, string newName)
+    [HttpPut("/[controller]/{roleId:guid}", Name = ("Update[controller]"))]
+    public ActionResult Update(Guid roleId, string newName)
     {
       try
       {
-        var entity = _roleManager.FindByIdAsync(id.ToString()).Result;
+        var entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
         if (entity is null)
         {
-          _logger.LogInformation($"Role with ID={id} was not found.");
-          return NotFound($"Role with ID={id} was not found.");
+          _logger.LogInformation($"Role with ID={roleId} was not found.");
+          return NotFound($"Role with ID={roleId} was not found.");
         }
 
         entity.Name = newName;
@@ -169,46 +141,37 @@ namespace Bathhouse.Api.Controllers
         var result = _roleManager.UpdateAsync(entity).Result;
         if (!result.Succeeded)
         {
-          _logger.LogInformation($"We have had a problem. Role with id={id} was not updated.");
+          _logger.LogInformation($"We have had a problem. Role with id={roleId} was not updated.");
           return BadRequest(result.Errors);
         }
 
-        _logger.LogInformation($"Role id={id} was updated successfully.");
+        _logger.LogInformation($"Role id={roleId} was updated successfully.");
         return NoContent();
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While updating Role id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Role id={id} an exception was fired");
+        _logger.LogError($"While updating Role id={roleId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Role id={roleId} an exception was fired");
       }
     }
 
     /// <summary>
     /// Delete Role
     /// </summary>
-    /// <param name="id">Role Id</param>
-    /// <response code="404">Role with current ID was not found</response>
-    /// <response code="204">Getting Role was successul</response>
-    /// <response code="400">If the request is null or other cases</response>
-    /// <response code="500">Exception on server side was fired</response>
+    /// <param name="roleId">Role Id</param>
     /// <returns>Nothing</returns>
-    [HttpDelete]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(IEnumerable<IdentityError>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual IActionResult Delete(Guid id)
+    [HttpDelete("/[controller]/{roleId:guid}", Name = ("Delete[controller]"))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public IActionResult Delete(Guid roleId)
     {
       try
       {
-        var entity = _roleManager.FindByIdAsync(id.ToString()).Result;
+        var entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
 
         if (entity is null)
         {
-          _logger.LogInformation($"Role with ID={id} was not found.");
-          return NotFound($"Role with ID={id} was not found.");
+          _logger.LogInformation($"Role with ID={roleId} was not found.");
+          return NotFound($"Role with ID={roleId} was not found.");
         }
 
         if (Constants.GetBuildInNormalizedRoleNames().Contains(entity.NormalizedName))
@@ -220,17 +183,17 @@ namespace Bathhouse.Api.Controllers
         var result = _roleManager.DeleteAsync(entity).Result;
         if (!result.Succeeded)
         {
-          _logger.LogInformation($"We have had a problem. Role with id={id} was not deleted.");
+          _logger.LogInformation($"We have had a problem. Role with id={roleId} was not deleted.");
           return BadRequest(result.Errors);
         }
 
-        _logger.LogInformation($"Role id={id} was deleted successfully.");
+        _logger.LogInformation($"Role id={roleId} was deleted successfully.");
         return NoContent();
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While deleting Role id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Role id={id} an exception was fired");
+        _logger.LogError($"While deleting Role id={roleId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Role id={roleId} an exception was fired");
       }
     }
 
@@ -240,18 +203,9 @@ namespace Bathhouse.Api.Controllers
     /// Get all of employees in the role
     /// </summary>
     /// <param name="roleId">Role Id</param>
-    /// <response code="404">Role or Employee was not found</response>
-    /// <response code="200">Getting Role for Employee was successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
     /// <returns>Employee in the role</returns>
-    [HttpGet()]
-    [Route("{roleId:guid}/employees")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<IEnumerable<EmployeeResponse>> GetEmployeesInRole(Guid roleId)
+    [HttpGet("/[controller]/{roleId:guid}/employees", Name = nameof(GetEmployeesInRole))]
+    public ActionResult<IEnumerable<EmployeeResponse>> GetEmployeesInRole(Guid roleId)
     {
       try
       {
@@ -280,19 +234,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
-    /// <response code="404">Employee or Role was not found</response>
-    /// <response code="200">Adding Employee to Role was successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <returns></returns>
-    [HttpPost()]
-    [Route("{roleId:guid}/employees/{employeeId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(IEnumerable<IdentityError>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
+    [HttpPut("/[controller]/{roleId:guid}/employee", Name = nameof(AddEmployeeToRole))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
+    public ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
     {
       try
       {
@@ -336,19 +280,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
-    /// <response code="404">Employee or Role was not found</response>
-    /// <response code="200">Deleting Employee from Role was successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <returns>Nothing</returns>
-    [HttpDelete()]
-    [Route("{roleId:guid}/employees/{employeeId:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(IEnumerable<IdentityError>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
+    [HttpDelete("/[controller]/{roleId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromRole))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public ActionResult DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
     {
       try
       {

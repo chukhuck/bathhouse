@@ -3,20 +3,25 @@ using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
+using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
 {
+  [Authorize]
   [Route("[controller]")]
   [ApiController]
+  [Produces(MediaTypeNames.Application.Json)]
+  [Consumes(MediaTypeNames.Application.Json)]
   public class SurveyController : ControllerBase
   {
-
     protected readonly IBathhouseUnitOfWork _unitOfWork;
     protected readonly IRepository<Survey, Guid> _repository;
     protected readonly ILogger<SurveyController> _logger;
@@ -38,13 +43,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of Surveys
     /// </summary>
-    /// <response code="200">Getting all of Surveys was successful</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<IEnumerable<SurveyResponse>> Get()
+    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<IEnumerable<SurveyResponse>> GetAll()
     {
       try
       {
@@ -63,37 +64,27 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get Survey by ID
     /// </summary>
-    /// <param name="id">The Survey ID</param>
-    /// <response code="404">Survey with current ID is not found</response>
-    /// <response code="200">Getting Survey is successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<SurveyResponse> GetById(Guid id)
+    /// <param name="surveyId">The Survey ID</param>
+    [HttpGet("/[controller]/{surveyId:guid}", Name = ("Get[controller]ById"))]
+    public ActionResult<SurveyResponse> GetById(Guid surveyId)
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Author", "Questions" }) is Survey entity)
+        if (_repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" }) is Survey entity)
         {
-          _logger.LogInformation($"Survey id={id} was getting successfully.");
+          _logger.LogInformation($"Survey id={surveyId} was getting successfully.");
           return Ok(_mapper.Map<Survey, SurveyResponse>(entity));
         }
         else
         {
-          _logger.LogInformation($"Request on getting unexisting Survey id={id} was received.");
-          return NotFound($"Survey with ID={id} was not found.");
+          _logger.LogInformation($"Request on getting unexisting Survey id={surveyId} was received.");
+          return NotFound($"Survey with ID={surveyId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting Survey id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={id} an exception was fired");
+        _logger.LogError($"While getting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={surveyId} an exception was fired");
       }
     }
 
@@ -101,15 +92,8 @@ namespace Bathhouse.Api.Controllers
     /// Add Survey.
     /// </summary>
     /// <param name="request">Newly creating Survey</param>
-    /// <response code="201">Creating Survey is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<SurveyResponse> Create(SurveyRequest request)
+    [HttpPost(Name = ("Create[controller]"))]
+    public ActionResult<SurveyResponse> Create(SurveyRequest request)
     {
       try
       {
@@ -131,36 +115,26 @@ namespace Bathhouse.Api.Controllers
     /// Update Survey
     /// </summary>
     /// <param name="request">Survey for updating</param>
-    /// <param name="id">ID of Survey for updating</param>
-    /// <response code="204">Updating Survey is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Entity with current ID is not found</response>
+    /// <param name="surveyId">ID of Survey for updating</param>
     /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult Update(Guid id, SurveyRequest request)
+    [HttpPut("/[controller]/{surveyId:guid}", Name = ("Update[controller]"))]
+    public ActionResult Update(Guid surveyId, SurveyRequest request)
     {
       try
       {
-        if (_repository.Get(id, includePropertyNames: new[] { "Questions"}) is Survey entity)
+        if (_repository.Get(surveyId, includePropertyNames: new[] { "Questions"}) is Survey entity)
         {
           Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
 
           _unitOfWork.Complete();
-          _logger.LogInformation($"Survey id={id} was updated successfully.");
+          _logger.LogInformation($"Survey id={surveyId} was updated successfully.");
 
           return NoContent();
         }
         else
         {
-          _logger.LogInformation($"Survey with ID={id} was not found.");
-          return NotFound($"Survey with ID={id} was not found.");
+          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+          return NotFound($"Survey with ID={surveyId} was not found.");
         }
       }
       catch (Exception ex)
@@ -173,43 +147,35 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Delete Survey by ID
     /// </summary>
-    /// <param name="id">Survey ID</param>
-    /// <response code="404">Survey with current ID is not found</response>
-    /// <response code="204">Deleting Survey is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual IActionResult Delete(Guid id)
+    /// <param name="surveyId">Survey ID</param>
+    [HttpDelete("/[controller]/{surveyId:guid}", Name = ("Delete[controller]"))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public IActionResult Delete(Guid surveyId)
     {
       try
       {
-        Survey? entity = _repository.Get(id);
+        Survey? entity = _repository.Get(surveyId);
         if (entity is null)
         {
-          _logger.LogInformation($"Survey with ID={id} was not found.");
-          return NotFound($"Survey with ID={id} was not found.");
+          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+          return NotFound($"Survey with ID={surveyId} was not found.");
         }
 
         //clear results
-        var results = _unitOfWork.SurveyResults.Where(sr=>sr.SurveyId == id);
+        var results = _unitOfWork.SurveyResults.Where(sr=>sr.SurveyId == surveyId);
         _unitOfWork.SurveyResults.DeleteRange(results);
 
         _repository.Delete(entity);
 
         _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={id} was deleted successfully.");
+        _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
 
         return NoContent();
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While deleting Survey id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Survey id={id} an exception was fired");
+        _logger.LogError($"While deleting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Survey id={surveyId} an exception was fired");
       }
     }
     #endregion
@@ -217,36 +183,30 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get summary of survey
     /// </summary>
-    /// <param name="id">Id of summary</param>
+    /// <param name="surveyId">Id of summary</param>
     /// <param name="summaryType">Summary type</param>
-    /// <response code="200">Getting all of entities was successful</response>
-    /// <response code="404">Survey was not found</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet]
-    [Route("{id}/summary")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid id, [FromQuery]SurveyResultSummaryType summaryType)
+    [HttpGet("/[controller]/{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery]SurveyResultSummaryType summaryType)
     {
       try
       {
-        if (_repository.Get(id) is Survey survey)
+        if (_repository.Get(surveyId) is Survey survey)
         {
-          _logger.LogInformation($"The survey ID={id} was received successfully.");
+          _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
           var summary = survey.GetSummary(summaryType);
           return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
         }
         else
         {
-          _logger.LogInformation($"The survey ID={id} was not found.");
-          return NotFound($"The survey ID={id} was not found.");
+          _logger.LogInformation($"The survey ID={surveyId} was not found.");
+          return NotFound($"The survey ID={surveyId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting the survey ID={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting the survey ID={id} an exception was fired.");
+        _logger.LogError($"While getting the survey ID={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting the survey ID={surveyId} an exception was fired.");
       }
     }
   }

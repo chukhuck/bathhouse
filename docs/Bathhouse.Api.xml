@@ -4,509 +4,305 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.ClientController.Get">
+        <member name="M:Bathhouse.Api.Controllers.ClientController.GetAll">
             <summary>
             Get all of Clients
             </summary>
-            <response code="200">Getting all of Clients was successful</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.ClientController.GetById(System.Guid)">
             <summary>
             Get Client by ID
             </summary>
-            <param name="id">The Client ID</param>
-            <response code="404">Client with current ID is not found</response>
-            <response code="200">Getting Client is successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="clientId">The Client ID</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.ClientController.Create(Bathhouse.Contracts.Models.ClientRequest)">
             <summary>
             Add Client.
             </summary>
             <param name="request">Newly creating Client</param>
-            <response code="201">Creating Client is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.ClientController.Update(System.Guid,Bathhouse.Contracts.Models.ClientRequest)">
             <summary>
             Update Client
             </summary>
             <param name="request">Client for updating</param>
-            <param name="id">ID of Client for updating</param>
-            <response code="204">Updating Client is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Client with current ID is not found</response>
+            <param name="clientId">ID of Client for updating</param>
             <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.ClientController.Delete(System.Guid)">
             <summary>
             Delete Client by ID
             </summary>
-            <param name="id">Client ID</param>
-            <response code="404">Client with current ID is not found</response>
-            <response code="204">Deleting Client is successul</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="clientId">Client ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.Get">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAll">
             <summary>
             Get all of Employees
             </summary>
-            <response code="200">Getting all of Employees was successful</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetById(System.Guid)">
             <summary>
             Get Employee by ID
             </summary>
-            <param name="id">The Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="200">Getting Employee is successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="employeeId">The Employee ID</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.Create(Bathhouse.Contracts.Models.EmployeeRequest)">
             <summary>
             Add Employee.
             </summary>
             <param name="request">Newly creating Employee</param>
-            <response code="201">Creating Employee is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.Update(System.Guid,Bathhouse.Contracts.Models.EmployeeRequest)">
             <summary>
             Update Employee
             </summary>
             <param name="request">Employee for updating</param>
-            <param name="id">ID of Employee for updating</param>
-            <response code="204">Updating Employee is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Employee with current ID is not found</response>
-            <returns></returns>
+            <param name="employeeId">ID of Employee for updating</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.Delete(System.Guid)">
             <summary>
             Delete Employee by ID
             </summary>
-            <param name="id">Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="204">Deleting Employee is successul</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="employeeId">Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetRoles(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetRolesForEmployee(System.Guid)">
             <summary>
             Get roles for employee
             </summary>
             <param name="employeeId">The Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="200">Getting roles is successul.</response>
-            <response code="400">If the ID is not valid</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddEmployeeToRole(System.Guid,System.String)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddRoleForEmployee(System.Guid,System.String)">
             <summary>
             Add Role to Employee.
             </summary>
             <param name="employeeId">Employee ID</param>
             <param name="newRole">Name of an adding role</param>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
-            <response code="404">Employee with current ID is not found</response>
-            /// <response code="204">Employee was added to role successfully.</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteEmployeeFromRole(System.Guid,System.String)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteRoleFromEmployee(System.Guid,System.String)">
             <summary>
             Remove Employee from Role.
             </summary>
             <param name="employeeId">Employee ID</param>
             <param name="newRole">Name of an deleting role</param>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="204">Employee was deleted from role successfully.</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetDirectors">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllTheDirectors">
             <summary>
             Get all of the directors in the system
             </summary>
-            <response code="200">Getting the directors is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetEmployees">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllSimpleEmployees">
             <summary>
             Get all of the employees in the system
             </summary>
-            <response code="200">Getting employees is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetManagers">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllManagers">
             <summary>
             Get all of the managers in the system
             </summary>
-            <response code="200">Getting the managers is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetTechSupporters">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllTechSupporters">
             <summary>
             Get all of the tech supporters in the system
             </summary>
-            <response code="200">Getting the tech supporters is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetOffices(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetOfficesForEmployee(System.Guid)">
             <summary>
             Get offices for employee
             </summary>
-            <param name="id">The Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="200">Getting offices is successul.</response>
-            <response code="400">If the ID is not valid</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="employeeId">The Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteOffice(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteOfficeFromEmployee(System.Guid,System.Guid)">
             <summary>
             Delete office for employee
             </summary>
-            <param name="id">Employee ID</param>
+            <param name="employeeId">Employee ID</param>
             <param name="officeId">ID deleting office</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="204">Deleting office is successul</response>
-            <response code="400">If the request is not valid</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddOffice(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.AddOfficeToEmployee(System.Guid,System.Guid)">
             <summary>
             Add office for employee
             </summary>
-            <param name="id">Employee ID</param>
+            <param name="employeeId">Employee ID</param>
             <param name="officeId">Office ID</param>
-            <response code="201">Adding office is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Employee or Office was not found</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.SetEmployees(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.SetOfficesForEmployee(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             Set new list of offices to employee
             </summary>
-            <param name="id">Employee  ID</param>
+            <param name="employeeId">Employee  ID</param>
             <param name="officeIds">Office IDs</param>
-            <response code="201">Setting office is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Office with current ID or one of Employee IDs is not found</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetMyWorkItems(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetWorkItemsForEmployee(System.Guid)">
             <summary>
             Get workitems for current employee
             </summary>
-            <param name="id">The Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="200">Getting offices is successul.</response>
-            <response code="400">If the ID is not valid</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="employeeId">The Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllCreatedWorkItems(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllWorkItemsCreatedByEmployee(System.Guid)">
             <summary>
             Get workitems created by current employee
             </summary>
-            <param name="id">The Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="200">Getting offices is successul.</response>
-            <response code="400">If the ID is not valid</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="employeeId">The Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetCreatedWorkItem(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetWorkItemCreatedByEmployee(System.Guid,System.Guid)">
             <summary>
             Get workitem created by current employee
             </summary>
-            <param name="id">The Employee ID</param>
+            <param name="employeeId">The Employee ID</param>
             <param name="workitemId">WorkItem ID</param>
-            <response code="404">Employee or WorkItem is not found</response>
-            <response code="200">Getting offices is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteCreatedWorkItem(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteWorkItemCreatedByEmployee(System.Guid,System.Guid)">
             <summary>
             Delete workItem
             </summary>
-            <param name="id">Employee ID</param>
+            <param name="employeeId">Employee ID</param>
             <param name="workitemId">WorkItem ID</param>
-            <response code="404">Employee or WorkItem is not found</response>
-            <response code="204">Deleting workItem is successul</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateWorkItem(System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateWorkItemByEmployee(System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Create workItem.
             </summary>
-            <param name="id">Employee ID</param>
+            <param name="employeeId">Employee ID</param>
             <param name="workItem">Newly creating workItem. WokrItemRequest.CreatorId will be overwrited by Employee ID</param>
-            <response code="201">Creating workItem is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateCreatedWorkItem(System.Guid,System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Update WorkItem
             </summary>
             <param name="request">WorkItem for updating</param>
-            <param name="id">ID of entity for updating</param>
+            <param name="employeeId">ID of entity for updating</param>
             <param name="workitemId"></param>
-            <response code="204">Updating entity is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Entity with current ID is not found</response>
-            <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.ChangeStatusMyWorkItem(System.Guid,System.Guid,Bathhouse.ValueTypes.WorkItemStatus)">
             <summary>
             Change status for one of the MyWorkItem
             </summary>
-            <param name="id">ID of entity for updating</param>
+            <param name="employeeId">ID of entity for updating</param>
             <param name="workItemId"></param>
             <param name="newWorkItemStatus">New status for workItem</param>
-            <response code="204">Updating entity is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If you try to cancel workitem</response>
-            <response code="404">Entity with current ID is not found</response>
-            <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllSurveys(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllSurveysForEmployee(System.Guid)">
             <summary>
             Get all of surveys for current employee
             </summary>
-            <param name="id">The Employee ID</param>
-            <response code="404">Employee with current ID is not found</response>
-            <response code="200">Getting offices is successul.</response>
-            <response code="400">If the ID is not valid</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="employeeId">The Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurvey(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurveyForEmployee(System.Guid,System.Guid)">
             <summary>
             Get survey
             </summary>
-            <param name="id">The Employee ID</param>
+            <param name="employeeId">The Employee ID</param>
             <param name="surveyId">Survey ID</param>
-            <response code="404">Employee or Survey is not found</response>
-            <response code="200">Getting Survey is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurveyResult(System.Guid,System.Guid,Bathhouse.ValueTypes.SurveyResultSummaryType)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetSurveySummaryForEmployee(System.Guid,System.Guid,Bathhouse.ValueTypes.SurveyResultSummaryType)">
             <summary>
             Get survey summary
             </summary>
-            <param name="id">The Employee ID</param>
+            <param name="employeeId">The Employee ID</param>
             <param name="surveyId">Survey ID</param>
             <param name="summarytype">Summary type</param>
-            <response code="404">Employee or Survey is not found</response>
-            <response code="200">Getting Survey summary is successul.</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteSurvey(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.DeleteSurveyForEmployee(System.Guid,System.Guid)">
             <summary>
             Delete Survey
             </summary>
-            <param name="id">Employee ID</param>
+            <param name="employeeId">Employee ID</param>
             <param name="surveyId">Survey ID</param>
-            <response code="404">Employee or Survey is not found</response>
-            <response code="204">Deleting Survey is successul</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateSurvey(System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.CreateSurveyForEmployee(System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Create Survey.
             </summary>
-            <param name="id">Employee ID</param>
+            <param name="employeeId">Employee ID</param>
             <param name="survey">Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID</param>
-            <response code="201">Creating Survey is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurvey(System.Guid,System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurveyForEmployee(System.Guid,System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Update Survey
             </summary>
             <param name="request">Survey for updating</param>
-            <param name="id">ID of entity for updating</param>
+            <param name="employeeId">ID of entity for updating</param>
             <param name="surveyId"></param>
-            <response code="204">Updating entity is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Entity with current ID is not found</response>
-            <returns></returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.Get">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetAll">
             <summary>
             Get all of Offices
             </summary>
-            <response code="200">Getting all of Offices was successful</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetById(System.Guid)">
             <summary>
             Get Office by ID
             </summary>
-            <param name="id">The Office ID</param>
-            <response code="404">Office with current ID is not found</response>
-            <response code="200">Getting Office is successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="officeId">The Office ID</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.Create(Bathhouse.Contracts.Models.OfficeRequest)">
             <summary>
             Add Office.
             </summary>
             <param name="request">Newly creating Office</param>
-            <response code="201">Creating Office is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.Update(System.Guid,Bathhouse.Contracts.Models.OfficeRequest)">
             <summary>
             Update Office
             </summary>
             <param name="request">Office for updating</param>
-            <param name="id">ID of Office for updating</param>
-            <response code="204">Updating Office is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Entity with current ID is not found</response>
-            <returns></returns>
+            <param name="officeId">ID of Office for updating</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.Delete(System.Guid,System.Nullable{System.Guid})">
             <summary>
             Delete Office by ID
             </summary>
-            <param name="id">Office ID</param>
+            <param name="officeId">Office ID</param>
             <param name="newOfficeIdForClients">The ID of Office that will be set for clients of the deleting Office. 
             If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
-            <response code="404">Office with current ID is not found</response>
-            <response code="204">Deleting Office is successul</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagers(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagersInOffice(System.Guid)">
             <summary>
             Get managers of office
             </summary>
-            <param name="id">The Office ID</param>
-            <response code="404">Office with current ID is not found</response>
-            <response code="200">Getting managers is successul.</response>
-            <response code="400">If the item is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="officeId">The Office ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetEmployees(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetEmployeesInOffice(System.Guid)">
             <summary>
             Get employees of office
             </summary>
-            <param name="id">The Office ID</param>
-            <response code="404">Office with current ID is not found</response>
-            <response code="200">Getting employees is successul.</response>
-            <response code="400">If the item is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="officeId">The Office ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.DeleteEmployee(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.DeleteEmployeeFromOffice(System.Guid,System.Guid)">
             <summary>
             Delete employee of office
             </summary>
-            <param name="id">Office ID</param>
+            <param name="officeId">Office ID</param>
             <param name="employeeId">ID deleting employee</param>
-            <response code="404">Office with current ID is not found</response>
-            <response code="204">Deleting employee is successul</response>
-            <response code="400">If the item is null</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.AddEmployee(System.Guid,System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.AddEmployeeToOffice(System.Guid,System.Guid)">
             <summary>
             Add employee to office
             </summary>
-            <param name="id">Office ID</param>
+            <param name="officeId">Office ID</param>
             <param name="employeeId">Employee ID</param>
-            <response code="201">Adding employee is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Office of Employee was not found</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.SetEmployees(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.SetEmployeesToOffice(System.Guid,System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             Set new list of employees to office
             </summary>
-            <param name="id">Office ID</param>
+            <param name="officeId">Office ID</param>
             <param name="employeeIds">Employee IDs</param>
             <response code="201">Adding employee is successul</response>
             <response code="500">Exception on server side was fired</response>
             <response code="400">If the item is null</response>
             <response code="404">Office with current ID or one of Employee IDs is not found</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Get">
-            <summary>
-            Get all of entities
-            </summary>
-            <response code="200">Getting all of entities was successful</response>
-            <response code="500">Exception on server side was fired</response>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.GetById(`1)">
-            <summary>
-            Get entity by ID
-            </summary>
-            <param name="id">The entity ID</param>
-            <response code="404">Entity with current ID is not found</response>
-            <response code="200">Getting entity is successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Create(`3)">
-            <summary>
-            Create and add entity.
-            </summary>
-            <param name="request">Newly creating entity</param>
-            <response code="201">Creating entity is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Update(`1,`3)">
-            <summary>
-            Update Entity
-            </summary>
-            <param name="request">Entity for updating</param>
-            <param name="id">ID of entity for updating</param>
-            <response code="204">Updating entity is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Entity with current ID is not found</response>
-            <returns></returns>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.RichControllerBase`4.Delete(`1)">
-            <summary>
-            Delete entity by ID
-            </summary>
-            <param name="id">Entity ID</param>
-            <response code="404">Entity with current ID is not found</response>
-            <response code="204">Deleting entity is successul</response>
-            <response code="500">Exception on server side was fired</response>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.RoleController.Get">
+        <member name="M:Bathhouse.Api.Controllers.RoleController.GetAll">
             <summary>
             Get all of the roles in the system
             </summary>
-            <response code="200">Getting roles was successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <returns>List of the roles</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.GetById(System.Guid)">
             <summary>
             Get the role by its ID
             </summary>
-            <param name="id">Role Id</param>
-            <response code="404">Role with current ID was not found</response>
-            <response code="200">Getting Role was successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="roleId">Role Id</param>
             <returns>Role</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.Create(System.String)">
@@ -514,33 +310,21 @@
             Create new role
             </summary>
             <param name="name">Name of the new role.</param>
-            <response code="404">Role with current ID was not found</response>
-            <response code="201">Getting Role was successul</response>
-            <response code="400">If the request is null or other cases</response>
-            <response code="500">Exception on server side was fired</response>
             <returns>Created role.</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.Update(System.Guid,System.String)">
             <summary>
             Update name of a role
             </summary>
-            <param name="id">Role Id</param>
+            <param name="roleId">Role Id</param>
             <param name="newName">New name of the role with Id</param>
-            <response code="404">Role with current ID was not found</response>
-            <response code="204">Getting Role was successul</response>
-            <response code="400">If the request is null or other cases</response>
-            <response code="500">Exception on server side was fired</response>
             <returns>Nothing</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.Delete(System.Guid)">
             <summary>
             Delete Role
             </summary>
-            <param name="id">Role Id</param>
-            <response code="404">Role with current ID was not found</response>
-            <response code="204">Getting Role was successul</response>
-            <response code="400">If the request is null or other cases</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="roleId">Role Id</param>
             <returns>Nothing</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.GetEmployeesInRole(System.Guid)">
@@ -548,10 +332,6 @@
             Get all of employees in the role
             </summary>
             <param name="roleId">Role Id</param>
-            <response code="404">Role or Employee was not found</response>
-            <response code="200">Getting Role for Employee was successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
             <returns>Employee in the role</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.AddEmployeeToRole(System.Guid,System.Guid)">
@@ -560,11 +340,6 @@
             </summary>
             <param name="roleId">Role ID</param>
             <param name="employeeId">Employee Id</param>
-            <response code="404">Employee or Role was not found</response>
-            <response code="200">Adding Employee to Role was successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
-            <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.DeleteEmployeeFromRole(System.Guid,System.Guid)">
             <summary>
@@ -572,115 +347,75 @@
             </summary>
             <param name="roleId">Role ID</param>
             <param name="employeeId">Employee Id</param>
-            <response code="404">Employee or Role was not found</response>
-            <response code="200">Deleting Employee from Role was successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
-            <returns>Nothing</returns>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.Get">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetAll">
             <summary>
             Get all of Surveys
             </summary>
-            <response code="200">Getting all of Surveys was successful</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.GetById(System.Guid)">
             <summary>
             Get Survey by ID
             </summary>
-            <param name="id">The Survey ID</param>
-            <response code="404">Survey with current ID is not found</response>
-            <response code="200">Getting Survey is successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="surveyId">The Survey ID</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.Create(Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Add Survey.
             </summary>
             <param name="request">Newly creating Survey</param>
-            <response code="201">Creating Survey is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.Update(System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
             <summary>
             Update Survey
             </summary>
             <param name="request">Survey for updating</param>
-            <param name="id">ID of Survey for updating</param>
-            <response code="204">Updating Survey is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Entity with current ID is not found</response>
+            <param name="surveyId">ID of Survey for updating</param>
             <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.Delete(System.Guid)">
             <summary>
             Delete Survey by ID
             </summary>
-            <param name="id">Survey ID</param>
-            <response code="404">Survey with current ID is not found</response>
-            <response code="204">Deleting Survey is successul</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="surveyId">Survey ID</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.GetSurveySummary(System.Guid,Bathhouse.ValueTypes.SurveyResultSummaryType)">
             <summary>
             Get summary of survey
             </summary>
-            <param name="id">Id of summary</param>
+            <param name="surveyId">Id of summary</param>
             <param name="summaryType">Summary type</param>
-            <response code="200">Getting all of entities was successful</response>
-            <response code="404">Survey was not found</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.WorkItemController.Get">
+        <member name="M:Bathhouse.Api.Controllers.WorkItemController.GetAll">
             <summary>
             Get all of WorkItems
             </summary>
-            <response code="200">Getting all of WorkItems was successful</response>
-            <response code="500">Exception on server side was fired</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.WorkItemController.GetById(System.Guid)">
             <summary>
             Get WorkItem by ID
             </summary>
-            <param name="id">The WorkItem ID</param>
-            <response code="404">WorkItem with current ID is not found</response>
-            <response code="200">Getting entity is successul</response>
-            <response code="400">If the request is null</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="workItemId">The WorkItem ID</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.WorkItemController.Create(Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Add WorkItem.
             </summary>
             <param name="request">Newly creating WorkItem</param>
-            <response code="201">Creating WorkItem is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the request is null</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.WorkItemController.Update(System.Guid,Bathhouse.Contracts.Models.WorkItemRequest)">
             <summary>
             Update WorkItem
             </summary>
             <param name="request">WorkItem for updating</param>
-            <param name="id">ID of WorkItem for updating</param>
-            <response code="204">Updating WorkItem is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Entity with current ID is not found</response>
+            <param name="workItemId">ID of WorkItem for updating</param>
             <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.WorkItemController.Delete(System.Guid)">
             <summary>
             Delete WorkItem by ID
             </summary>
-            <param name="id">WorkItem ID</param>
-            <response code="404">WorkItem with current ID is not found</response>
-            <response code="204">Deleting WorkItem is successul</response>
-            <response code="500">Exception on server side was fired</response>
+            <param name="workItemId">WorkItem ID</param>
         </member>
     </members>
 </doc>

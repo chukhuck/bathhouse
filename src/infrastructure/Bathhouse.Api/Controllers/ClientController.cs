@@ -2,6 +2,7 @@
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
+using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,20 +11,21 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
 {
+  [Authorize]
   [Route("[controller]")]
   [ApiController]
+  [Produces(MediaTypeNames.Application.Json)]
+  [Consumes(MediaTypeNames.Application.Json)]
   public class ClientController : ControllerBase
   {
     protected readonly IRepository<Office, Guid> _officeRepository;
-
     protected readonly IBathhouseUnitOfWork _unitOfWork;
     protected readonly IRepository<Client, Guid> _repository;
-
     protected readonly ILogger<ClientController> _logger;
-
     protected readonly IMapper _mapper;
 
     public ClientController(ILogger<ClientController> logger, 
@@ -41,14 +43,9 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of Clients
     /// </summary>
-    /// <response code="200">Getting all of Clients was successful</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [Authorize]
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<IEnumerable<ClientResponse>> Get()
+    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<IEnumerable<ClientResponse>> GetAll()
     {
       try
       {
@@ -70,37 +67,27 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get Client by ID
     /// </summary>
-    /// <param name="id">The Client ID</param>
-    /// <response code="404">Client with current ID is not found</response>
-    /// <response code="200">Getting Client is successul</response>
-    /// <response code="400">If the request is null</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpGet()]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<ClientResponse> GetById(Guid id)
+    /// <param name="clientId">The Client ID</param>
+    [HttpGet("/[controller]/{clientId:guid}", Name = ("Get[controller]ById"))]
+    public ActionResult<ClientResponse> GetById(Guid clientId)
     {
       try
       {
-        if (_repository.Get(key: id, includePropertyNames: new[] { "Office"}) is Client entity)
+        if (_repository.Get(key: clientId, includePropertyNames: new[] { "Office"}) is Client entity)
         {
-          _logger.LogInformation($"Client id={id} was getting successfully.");
+          _logger.LogInformation($"Client id={clientId} was getting successfully.");
           return Ok(_mapper.Map<Client, ClientResponse>(entity));
         }
         else
         {
-          _logger.LogInformation($"Request on getting unexisting Client id={id} was received.");
-          return NotFound($"Client with ID={id} was not found.");
+          _logger.LogInformation($"Request on getting unexisting Client id={clientId} was received.");
+          return NotFound($"Client with ID={clientId} was not found.");
         }
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While getting Client id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Client id={id} an exception was fired");
+        _logger.LogError($"While getting Client id={clientId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Client id={clientId} an exception was fired");
       }
     }
 
@@ -108,15 +95,8 @@ namespace Bathhouse.Api.Controllers
     /// Add Client.
     /// </summary>
     /// <param name="request">Newly creating Client</param>
-    /// <response code="201">Creating Client is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the request is null</response>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult<ClientResponse> Create(ClientRequest request)
+    [HttpPost(Name = ("Create[controller]"))]
+    public ActionResult<ClientResponse> Create(ClientRequest request)
     {
       try
       {
@@ -144,20 +124,10 @@ namespace Bathhouse.Api.Controllers
     /// Update Client
     /// </summary>
     /// <param name="request">Client for updating</param>
-    /// <param name="id">ID of Client for updating</param>
-    /// <response code="204">Updating Client is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Client with current ID is not found</response>
+    /// <param name="clientId">ID of Client for updating</param>
     /// <returns></returns>
-    [HttpPut]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual ActionResult Update(Guid id, ClientRequest request)
+    [HttpPut("/[controller]/{clientId:guid}", Name = ("Update[controller]"))]
+    public ActionResult Update(Guid clientId, ClientRequest request)
     {
       try
       {
@@ -167,19 +137,19 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Office with ID={request.OfficeId} was not found.");
         }
 
-        if (_repository.Get(id) is Client entity)
+        if (_repository.Get(clientId) is Client entity)
         {
           Client updatedEntity = _mapper.Map<ClientRequest, Client>(request, entity);
 
           _unitOfWork.Complete();
-          _logger.LogInformation($"Client id={id} was updated successfully.");
+          _logger.LogInformation($"Client id={clientId} was updated successfully.");
 
           return NoContent();
         }
         else
         {
-          _logger.LogInformation($"Client with ID={id} was not found.");
-          return NotFound($"Client with ID={id} was not found.");
+          _logger.LogInformation($"Client with ID={clientId} was not found.");
+          return NotFound($"Client with ID={clientId} was not found.");
         }
       }
       catch (Exception ex)
@@ -192,39 +162,31 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Delete Client by ID
     /// </summary>
-    /// <param name="id">Client ID</param>
-    /// <response code="404">Client with current ID is not found</response>
-    /// <response code="204">Deleting Client is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    [HttpDelete]
-    [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    [ProducesDefaultResponseType]
-    public virtual IActionResult Delete(Guid id)
+    /// <param name="clientId">Client ID</param>
+    [HttpDelete("/[controller]/{clientId:guid}", Name = ("Delete[controller]"))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public IActionResult Delete(Guid clientId)
     {
       try
       {
-        Client? entity = _repository.Get(id);
+        Client? entity = _repository.Get(clientId);
         if (entity is null)
         {
-          _logger.LogInformation($"Client with ID={id} was not found.");
-          return NotFound($"Client with ID={id} was not found.");
+          _logger.LogInformation($"Client with ID={clientId} was not found.");
+          return NotFound($"Client with ID={clientId} was not found.");
         }
 
         _repository.Delete(entity);
 
         _unitOfWork.Complete();
-        _logger.LogInformation($"Client id={id} was deleted successfully.");
+        _logger.LogInformation($"Client id={clientId} was deleted successfully.");
 
         return NoContent();
       }
       catch (Exception ex)
       {
-        _logger.LogError($"While deleting Client id={id} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Client id={id} an exception was fired");
+        _logger.LogError($"While deleting Client id={clientId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
+        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Client id={clientId} an exception was fired");
       }
     }
     #endregion
