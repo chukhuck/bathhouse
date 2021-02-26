@@ -20,7 +20,7 @@
           "Client"
         ],
         "summary": "Get all of Clients",
-        "operationId": "/Client/GetAllClients",
+        "operationId": "GetAllClients",
         "responses": {
           "default": {
             "description": "Error",
@@ -342,7 +342,7 @@
           "Employee"
         ],
         "summary": "Get all of Employees",
-        "operationId": "/Employee/GetAllEmployees",
+        "operationId": "GetAllEmployees",
         "responses": {
           "default": {
             "description": "Error",
@@ -2373,7 +2373,7 @@
           "Office"
         ],
         "summary": "Get all of Offices",
-        "operationId": "/Office/GetAllOffices",
+        "operationId": "GetAllOffices",
         "responses": {
           "default": {
             "description": "Error",
@@ -3081,7 +3081,7 @@
           "Role"
         ],
         "summary": "Get all of the roles in the system",
-        "operationId": "/Role/GetAllRoles",
+        "operationId": "GetAllRoles",
         "responses": {
           "default": {
             "description": "Error",
@@ -3184,7 +3184,7 @@
         ]
       }
     },
-    "/Role/{roleId}": {
+    "/api/Role/{roleId}": {
       "get": {
         "tags": [
           "Role"
@@ -3395,7 +3395,7 @@
         ]
       }
     },
-    "/Role/{roleId}/employees": {
+    "/api/Role/{roleId}/employees": {
       "get": {
         "tags": [
           "Role"
@@ -3464,7 +3464,7 @@
         ]
       }
     },
-    "/Role/{roleId}/employee": {
+    "/api/Role/{roleId}/employee": {
       "put": {
         "tags": [
           "Role"
@@ -3542,7 +3542,7 @@
         ]
       }
     },
-    "/Role/{roleId}/employees/{employeeId}": {
+    "/api/Role/{roleId}/employees/{employeeId}": {
       "delete": {
         "tags": [
           "Role"
@@ -3630,7 +3630,7 @@
           "Survey"
         ],
         "summary": "Get all of Surveys",
-        "operationId": "/Survey/GetAllSurveys",
+        "operationId": "GetAllSurveys",
         "responses": {
           "default": {
             "description": "Error",
@@ -4026,7 +4026,7 @@
           "WorkItem"
         ],
         "summary": "Get all of WorkItems",
-        "operationId": "/WorkItem/GetAllWorkItems",
+        "operationId": "GetAllWorkItems",
         "responses": {
           "default": {
             "description": "Error",

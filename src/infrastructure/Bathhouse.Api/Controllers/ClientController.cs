@@ -43,7 +43,7 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of Clients
     /// </summary>
-    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<ClientResponse>> GetAll()
     {
@@ -68,7 +68,7 @@ namespace Bathhouse.Api.Controllers
     /// Get Client by ID
     /// </summary>
     /// <param name="clientId">The Client ID</param>
-    [HttpGet("/[controller]/{clientId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("{clientId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<ClientResponse> GetById(Guid clientId)
     {
       try
@@ -126,7 +126,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="request">Client for updating</param>
     /// <param name="clientId">ID of Client for updating</param>
     /// <returns></returns>
-    [HttpPut("/[controller]/{clientId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("{clientId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid clientId, ClientRequest request)
     {
       try
@@ -163,7 +163,7 @@ namespace Bathhouse.Api.Controllers
     /// Delete Client by ID
     /// </summary>
     /// <param name="clientId">Client ID</param>
-    [HttpDelete("/[controller]/{clientId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("{clientId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid clientId)
     {

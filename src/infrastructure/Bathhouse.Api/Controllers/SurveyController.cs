@@ -43,7 +43,7 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of Surveys
     /// </summary>
-    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<SurveyResponse>> GetAll()
     {
@@ -65,7 +65,7 @@ namespace Bathhouse.Api.Controllers
     /// Get Survey by ID
     /// </summary>
     /// <param name="surveyId">The Survey ID</param>
-    [HttpGet("/[controller]/{surveyId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("{surveyId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<SurveyResponse> GetById(Guid surveyId)
     {
       try
@@ -117,7 +117,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="request">Survey for updating</param>
     /// <param name="surveyId">ID of Survey for updating</param>
     /// <returns></returns>
-    [HttpPut("/[controller]/{surveyId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("{surveyId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid surveyId, SurveyRequest request)
     {
       try
@@ -148,7 +148,7 @@ namespace Bathhouse.Api.Controllers
     /// Delete Survey by ID
     /// </summary>
     /// <param name="surveyId">Survey ID</param>
-    [HttpDelete("/[controller]/{surveyId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("{surveyId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid surveyId)
     {
@@ -185,7 +185,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="surveyId">Id of summary</param>
     /// <param name="summaryType">Summary type</param>
-    [HttpGet("/[controller]/{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
+    [HttpGet("{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery]SurveyResultSummaryType summaryType)
     {

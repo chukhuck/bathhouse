@@ -42,7 +42,7 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the roles in the system
     /// </summary>
-    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<RoleResponse>> GetAll()
     {
@@ -62,7 +62,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     /// <returns>Role</returns>
-    [HttpGet("/[controller]/{roleId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("{roleId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<RoleResponse> GetById(Guid roleId)
     {
       try
@@ -123,7 +123,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="roleId">Role Id</param>
     /// <param name="newName">New name of the role with Id</param>
     /// <returns>Nothing</returns>
-    [HttpPut("/[controller]/{roleId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("{roleId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid roleId, string newName)
     {
       try
@@ -160,7 +160,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     /// <returns>Nothing</returns>
-    [HttpDelete("/[controller]/{roleId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("{roleId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid roleId)
     {
@@ -204,7 +204,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     /// <returns>Employee in the role</returns>
-    [HttpGet("/[controller]/{roleId:guid}/employees", Name = nameof(GetEmployeesInRole))]
+    [HttpGet("{roleId:guid}/employees", Name = nameof(GetEmployeesInRole))]
     public ActionResult<IEnumerable<EmployeeResponse>> GetEmployeesInRole(Guid roleId)
     {
       try
@@ -234,7 +234,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
-    [HttpPut("/[controller]/{roleId:guid}/employee", Name = nameof(AddEmployeeToRole))]
+    [HttpPut("{roleId:guid}/employee", Name = nameof(AddEmployeeToRole))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
     {
@@ -280,7 +280,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
-    [HttpDelete("/[controller]/{roleId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromRole))]
+    [HttpDelete("{roleId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromRole))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
     {

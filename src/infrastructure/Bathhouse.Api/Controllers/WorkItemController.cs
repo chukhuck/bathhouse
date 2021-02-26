@@ -38,7 +38,7 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of WorkItems
     /// </summary>
-    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<WorkItemResponse>> GetAll()
     {
@@ -60,7 +60,7 @@ namespace Bathhouse.Api.Controllers
     /// Get WorkItem by ID
     /// </summary>
     /// <param name="workItemId">The WorkItem ID</param>
-    [HttpGet("/[controller]/{workItemId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("{workItemId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<WorkItemResponse> GetById(Guid workItemId)
     {
       try
@@ -112,7 +112,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="request">WorkItem for updating</param>
     /// <param name="workItemId">ID of WorkItem for updating</param>
     /// <returns></returns>
-    [HttpPut("/[controller]/{workItemId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("{workItemId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid workItemId, WorkItemRequest request)
     {
       try
@@ -143,7 +143,7 @@ namespace Bathhouse.Api.Controllers
     /// Delete WorkItem by ID
     /// </summary>
     /// <param name="workItemId">WorkItem ID</param>
-    [HttpDelete("/[controller]/{workItemId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("{workItemId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid workItemId)
     {

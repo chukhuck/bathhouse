@@ -44,7 +44,7 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of Offices
     /// </summary>
-    [HttpGet(Name = ("/[controller]/GetAll[controller]s"))]
+    [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<OfficeResponse>> GetAll()
     {
@@ -66,7 +66,7 @@ namespace Bathhouse.Api.Controllers
     /// Get Office by ID
     /// </summary>
     /// <param name="officeId">The Office ID</param>
-    [HttpGet("/[controller]/{officeId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("{officeId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<EmployeeResponse> GetById(Guid officeId)
     {
       try
@@ -117,7 +117,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">Office for updating</param>
     /// <param name="officeId">ID of Office for updating</param>
-    [HttpPut("/[controller]/{officeId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("{officeId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid officeId, OfficeRequest request)
     {
       try
@@ -150,7 +150,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="officeId">Office ID</param>
     /// <param name="newOfficeIdForClients">The ID of Office that will be set for clients of the deleting Office. 
     /// If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
-    [HttpDelete("/[controller]/{officeId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("{officeId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid officeId, [FromQuery] Guid? newOfficeIdForClients)
     {
@@ -201,7 +201,7 @@ namespace Bathhouse.Api.Controllers
     /// Get managers of office
     /// </summary>
     /// <param name="officeId">The Office ID</param>
-    [HttpGet("/[controller]/{officeId:guid}/managers", Name = nameof(GetManagersInOffice))]
+    [HttpGet("{officeId:guid}/managers", Name = nameof(GetManagersInOffice))]
     public ActionResult<EmployeeResponse> GetManagersInOffice(Guid officeId)
     {
       try
@@ -230,7 +230,7 @@ namespace Bathhouse.Api.Controllers
     /// Get employees of office
     /// </summary>
     /// <param name="officeId">The Office ID</param>
-    [HttpGet("/[controller]/{officeId:guid}/employees", Name = nameof(GetEmployeesInOffice))]
+    [HttpGet("{officeId:guid}/employees", Name = nameof(GetEmployeesInOffice))]
     public ActionResult<EmployeeResponse> GetEmployeesInOffice(Guid officeId)
     {
       try
@@ -260,7 +260,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="officeId">Office ID</param>
     /// <param name="employeeId">ID deleting employee</param>
-    [HttpDelete("/[controller]/{officeId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromOffice))]
+    [HttpDelete("{officeId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromOffice))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public virtual IActionResult DeleteEmployeeFromOffice(Guid officeId, Guid employeeId)
     {
@@ -293,7 +293,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="officeId">Office ID</param>
     /// <param name="employeeId">Employee ID</param>
-    [HttpPost("/[controller]/{officeId:guid}/employees", Name = nameof(AddEmployeeToOffice))]
+    [HttpPost("{officeId:guid}/employees", Name = nameof(AddEmployeeToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public virtual ActionResult<IEnumerable<EmployeeResponse>> AddEmployeeToOffice(Guid officeId, Guid employeeId)
     {
@@ -331,7 +331,7 @@ namespace Bathhouse.Api.Controllers
     /// <response code="500">Exception on server side was fired</response>
     /// <response code="400">If the item is null</response>
     /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
-    [HttpPut("/[controller]/{officeId:guid}/employees", Name = nameof(SetEmployeesToOffice))]
+    [HttpPut("{officeId:guid}/employees", Name = nameof(SetEmployeesToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployeesToOffice(Guid officeId, [FromBody]IEnumerable<Guid> employeeIds)
     {
