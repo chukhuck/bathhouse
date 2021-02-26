@@ -65,16 +65,15 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" }) is WorkItem entity)
+        WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
+        if (entity is null)
         {
-          _logger.LogInformation($"WorkItem id={workItemId} was getting successfully.");
-          return Ok(_mapper.Map<WorkItem, WorkItemResponse>(entity));
-        }
-        else
-        {
-          _logger.LogInformation($"Request on getting unexisting WorkItem id={workItemId} was received.");
+          _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
           return NotFound($"WorkItem with ID={workItemId} was not found.");
         }
+
+        _logger.LogInformation($"WorkItem id={workItemId} was getting successfully.");
+        return Ok(_mapper.Map<WorkItem, WorkItemResponse>(entity));
       }
       catch (Exception ex)
       {
@@ -97,7 +96,10 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"WorkItem id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
+        return CreatedAtAction(
+          "GetById",
+          new { id = newEntity.Id },
+          _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
       }
       catch (Exception ex)
       {
@@ -117,20 +119,19 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(workItemId) is WorkItem entity)
-        {
-          WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, entity);
-
-          _unitOfWork.Complete();
-          _logger.LogInformation($"WorkItem id={workItemId}  was updated successfully.");
-
-          return NoContent();
-        }
-        else
+        WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
+        if (entity is null)
         {
           _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
           return NotFound($"WorkItem with ID={workItemId} was not found.");
         }
+
+        WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"WorkItem id={workItemId}  was updated successfully.");
+
+        return NoContent();
       }
       catch (Exception ex)
       {

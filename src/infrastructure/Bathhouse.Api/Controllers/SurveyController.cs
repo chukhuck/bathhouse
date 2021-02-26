@@ -28,8 +28,8 @@ namespace Bathhouse.Api.Controllers
     protected readonly IMapper _mapper;
 
     public SurveyController(
-      ILogger<SurveyController> logger, 
-      IMapper mapper, 
+      ILogger<SurveyController> logger,
+      IMapper mapper,
       IBathhouseUnitOfWork unitOfWork)
     {
       _logger = logger;
@@ -49,7 +49,7 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        var allEntities = _repository.GetAll(includePropertyNames: new[] { "Author"});
+        var allEntities = _repository.GetAll(includePropertyNames: new[] { "Author" });
         _logger.LogInformation($"All of Surveys was got.");
 
         return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(allEntities));
@@ -70,16 +70,15 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" }) is Survey entity)
+        Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" });
+        if (entity is null)
         {
-          _logger.LogInformation($"Survey id={surveyId} was getting successfully.");
-          return Ok(_mapper.Map<Survey, SurveyResponse>(entity));
-        }
-        else
-        {
-          _logger.LogInformation($"Request on getting unexisting Survey id={surveyId} was received.");
+          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
           return NotFound($"Survey with ID={surveyId} was not found.");
         }
+
+        _logger.LogInformation($"Survey id={surveyId} was getting successfully.");
+        return Ok(_mapper.Map<Survey, SurveyResponse>(entity));
       }
       catch (Exception ex)
       {
@@ -102,7 +101,10 @@ namespace Bathhouse.Api.Controllers
         _unitOfWork.Complete();
         _logger.LogInformation($"Survey id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Survey, SurveyResponse>(newEntity));
+        return CreatedAtAction(
+          "GetById",
+          new { id = newEntity.Id },
+          _mapper.Map<Survey, SurveyResponse>(newEntity));
       }
       catch (Exception ex)
       {
@@ -122,20 +124,19 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(surveyId, includePropertyNames: new[] { "Questions"}) is Survey entity)
-        {
-          Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
-
-          _unitOfWork.Complete();
-          _logger.LogInformation($"Survey id={surveyId} was updated successfully.");
-
-          return NoContent();
-        }
-        else
+        Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
+        if (entity is null)
         {
           _logger.LogInformation($"Survey with ID={surveyId} was not found.");
           return NotFound($"Survey with ID={surveyId} was not found.");
         }
+
+        Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Survey id={surveyId} was updated successfully.");
+
+        return NoContent();
       }
       catch (Exception ex)
       {
@@ -162,7 +163,7 @@ namespace Bathhouse.Api.Controllers
         }
 
         //clear results
-        var results = _unitOfWork.SurveyResults.Where(sr=>sr.SurveyId == surveyId);
+        var results = _unitOfWork.SurveyResults.Where(sr => sr.SurveyId == surveyId);
         _unitOfWork.SurveyResults.DeleteRange(results);
 
         _repository.Delete(entity);
@@ -187,21 +188,20 @@ namespace Bathhouse.Api.Controllers
     /// <param name="summaryType">Summary type</param>
     [HttpGet("{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
-    public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery]SurveyResultSummaryType summaryType)
+    public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery] SurveyResultSummaryType summaryType)
     {
       try
       {
-        if (_repository.Get(surveyId) is Survey survey)
+        Survey? survey = _repository.Get(key: surveyId);
+        if (survey is null)
         {
-          _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
-          var summary = survey.GetSummary(summaryType);
-          return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
+          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+          return NotFound($"Survey with ID={surveyId} was not found.");
         }
-        else
-        {
-          _logger.LogInformation($"The survey ID={surveyId} was not found.");
-          return NotFound($"The survey ID={surveyId} was not found.");
-        }
+
+        _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
+        var summary = survey.GetSummary(summaryType);
+        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
       }
       catch (Exception ex)
       {

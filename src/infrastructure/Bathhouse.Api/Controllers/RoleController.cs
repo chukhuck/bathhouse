@@ -67,16 +67,15 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_roleManager.FindByIdAsync(roleId.ToString()).Result is IdentityRole<Guid> entity)
-        {
-          _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
-          return Ok(_mapper.Map<IdentityRole<Guid>, RoleResponse>(entity));
-        }
-        else
+        IdentityRole<Guid>? entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
+        if (entity is null)
         {
           _logger.LogInformation($"Request on getting unexisting Role with ID={roleId} was received.");
           return NotFound($"Role with ID={roleId} was not found.");
         }
+
+        _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
+        return Ok(_mapper.Map<IdentityRole<Guid>, RoleResponse>(entity));
       }
       catch (Exception ex)
       {
@@ -209,18 +208,17 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_roleManager.FindByIdAsync(roleId.ToString()).Result is IdentityRole<Guid> entity)
+        IdentityRole<Guid>? entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
+        if (entity is null)
         {
-          _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
-
-          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
-            _userManager.GetUsersInRoleAsync(entity.Name).Result));
-        }
-        else
-        {
-          _logger.LogInformation($"Request on getting unexisting Role with ID={roleId} was received.");
+          _logger.LogInformation($"Role with ID={roleId} was not found.");
           return NotFound($"Role with ID={roleId} was not found.");
         }
+
+        _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
+
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+          _userManager.GetUsersInRoleAsync(entity.Name).Result));
       }
       catch (Exception ex)
       {
@@ -257,7 +255,7 @@ namespace Bathhouse.Api.Controllers
         }
         _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
 
-        var result =_userManager.AddToRoleAsync(employee, role.Name).Result;
+        var result = _userManager.AddToRoleAsync(employee, role.Name).Result;
 
         if (!result.Succeeded)
         {
@@ -266,7 +264,6 @@ namespace Bathhouse.Api.Controllers
         }
 
         return NoContent();
-
       }
       catch (Exception ex)
       {
@@ -312,10 +309,9 @@ namespace Bathhouse.Api.Controllers
         }
 
         return NoContent();
-
       }
       catch (Exception ex)
-      { 
+      {
         _logger.LogError($"While deleting Employee id={employeeId} from Role with ID={roleId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
         return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={employeeId} from Role with ID={roleId} an exception was fired");
       }

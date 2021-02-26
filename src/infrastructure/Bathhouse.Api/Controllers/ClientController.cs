@@ -28,8 +28,8 @@ namespace Bathhouse.Api.Controllers
     protected readonly ILogger<ClientController> _logger;
     protected readonly IMapper _mapper;
 
-    public ClientController(ILogger<ClientController> logger, 
-                            IMapper mapper, 
+    public ClientController(ILogger<ClientController> logger,
+                            IMapper mapper,
                             IBathhouseUnitOfWork unitOfWork)
     {
       _officeRepository = unitOfWork.Repository<Office, Guid>();
@@ -50,8 +50,8 @@ namespace Bathhouse.Api.Controllers
       try
       {
         var allEntities = _repository.GetAll(
-          includePropertyNames: new[] { "Office" }, 
-          orderBy: all=> all.OrderBy(c=>c.LastName));
+          includePropertyNames: new[] { "Office" },
+          orderBy: all => all.OrderBy(c => c.LastName));
 
         _logger.LogInformation($"All of Clients was got.");
 
@@ -73,16 +73,16 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: clientId, includePropertyNames: new[] { "Office"}) is Client entity)
-        {
-          _logger.LogInformation($"Client id={clientId} was getting successfully.");
-          return Ok(_mapper.Map<Client, ClientResponse>(entity));
-        }
-        else
+        Client? entity = _repository.Get(key: clientId, includePropertyNames: new[] { "Office" });
+
+        if (entity is null)
         {
           _logger.LogInformation($"Request on getting unexisting Client id={clientId} was received.");
           return NotFound($"Client with ID={clientId} was not found.");
         }
+
+        _logger.LogInformation($"Client id={clientId} was getting successfully.");
+        return Ok(_mapper.Map<Client, ClientResponse>(entity));
       }
       catch (Exception ex)
       {
@@ -137,20 +137,19 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Office with ID={request.OfficeId} was not found.");
         }
 
-        if (_repository.Get(clientId) is Client entity)
-        {
-          Client updatedEntity = _mapper.Map<ClientRequest, Client>(request, entity);
-
-          _unitOfWork.Complete();
-          _logger.LogInformation($"Client id={clientId} was updated successfully.");
-
-          return NoContent();
-        }
-        else
+        Client? entity = _repository.Get(clientId);
+        if (entity is null)
         {
           _logger.LogInformation($"Client with ID={clientId} was not found.");
           return NotFound($"Client with ID={clientId} was not found.");
         }
+
+        Client updatedEntity = _mapper.Map<ClientRequest, Client>(request, entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Client id={clientId} was updated successfully.");
+
+        return NoContent();
       }
       catch (Exception ex)
       {

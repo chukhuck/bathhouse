@@ -71,16 +71,17 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(officeId) is Office entity)
+        Office? entity = _repository.Get(officeId);
+
+        if (entity is null)
         {
-          _logger.LogInformation($"Office id={officeId} was getting successfully.");
-          return Ok(_mapper.Map<Office, OfficeResponse>(entity));
-        }
-        else
-        {
-          _logger.LogInformation($"Request on getting unexisting Office id={officeId} was received.");
+          _logger.LogInformation($"Office with ID={officeId} was not found.");
           return NotFound($"Office with ID={officeId} was not found.");
         }
+
+        _logger.LogInformation($"Office id={officeId} was getting successfully.");
+        return Ok(_mapper.Map<Office, OfficeResponse>(entity));
+
       }
       catch (Exception ex)
       {
@@ -122,20 +123,21 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(officeId) is Office entity)
-        {
-          Office updatedEntity = _mapper.Map<OfficeRequest, Office>(request, entity);
+        Office? entity = _repository.Get(officeId);
 
-          _unitOfWork.Complete();
-          _logger.LogInformation($"Office id={officeId} was updated successfully.");
-
-          return NoContent();
-        }
-        else
+        if (entity is null)
         {
           _logger.LogInformation($"Office with ID={officeId} was not found.");
           return NotFound($"Office with ID={officeId} was not found.");
         }
+
+        Office updatedEntity = _mapper.Map<OfficeRequest, Office>(request, entity);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Office id={officeId} was updated successfully.");
+
+        return NoContent();
+
       }
       catch (Exception ex)
       {
@@ -148,11 +150,11 @@ namespace Bathhouse.Api.Controllers
     /// Delete Office by ID
     /// </summary>
     /// <param name="officeId">Office ID</param>
-    /// <param name="newOfficeIdForClients">The ID of Office that will be set for clients of the deleting Office. 
+    /// <param name="newOfficeId">The ID of Office that will be set for clients of the deleting Office. 
     /// If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
     [HttpDelete("{officeId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
-    public IActionResult Delete(Guid officeId, [FromQuery] Guid? newOfficeIdForClients)
+    public IActionResult Delete(Guid officeId, [FromQuery] Guid? newOfficeId)
     {
       try
       {
@@ -163,14 +165,14 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Office with ID={officeId} was not found.");
         }
 
-        if (newOfficeIdForClients is not null)
+        if (newOfficeId is not null)
         {
-          Office? newOffice = _repository.Get(newOfficeIdForClients.Value);
+          Office? newOffice = _repository.Get(newOfficeId.Value);
 
           if (newOffice is null)
           {
-            _logger.LogInformation($"New Office with ID={newOfficeIdForClients.Value} was not found.");
-            return NotFound($"New Office with ID={newOfficeIdForClients.Value} was not found.");
+            _logger.LogInformation($"New Office with ID={newOfficeId.Value} was not found.");
+            return NotFound($"New Office with ID={newOfficeId.Value} was not found.");
           }
 
           var clients = _unitOfWork.Clients.Where(c => c.OfficeId == officeId);
@@ -206,18 +208,18 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(officeId) is Office office)
-        {
-          _logger.LogInformation($"Office id={officeId} was getting successfully.");
-          _logger.LogInformation($"Managers for office id={officeId} was getting successfully.");
+        Office? office = _repository.Get(officeId);
 
-          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
-        }
-        else
+        if (office is null)
         {
           _logger.LogInformation($"Office with ID={officeId} was not found.");
           return NotFound($"Office with ID={officeId} was not found.");
         }
+
+        _logger.LogInformation($"Office id={officeId} was getting successfully.");
+        _logger.LogInformation($"Managers for office id={officeId} was getting successfully.");
+
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
       }
       catch (Exception ex)
       {
@@ -235,18 +237,19 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: officeId, includePropertyNames: new[] { "Employees"}) is Office office)
-        {
-          _logger.LogInformation($"Office id={officeId} was getting successfully.");
-          _logger.LogInformation($"Employees for office id={officeId} was getting successfully.");
+        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
 
-          return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
-        }
-        else
+        if (office is null)
         {
           _logger.LogInformation($"Office with ID={officeId} was not found.");
           return NotFound($"Office with ID={officeId} was not found.");
         }
+
+        _logger.LogInformation($"Office id={officeId} was getting successfully.");
+        _logger.LogInformation($"Employees for office id={officeId} was getting successfully.");
+
+        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+
       }
       catch (Exception ex)
       {
@@ -262,24 +265,24 @@ namespace Bathhouse.Api.Controllers
     /// <param name="employeeId">ID deleting employee</param>
     [HttpDelete("{officeId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromOffice))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
-    public virtual IActionResult DeleteEmployeeFromOffice(Guid officeId, Guid employeeId)
+    public IActionResult DeleteEmployeeFromOffice(Guid officeId, Guid employeeId)
     {
       try
       {
-        if (_repository.Get(key: officeId, includePropertyNames: new[] { "Employees" }) is Office office)
-        {
-          office.DeleteEmployee(employeeId);
+        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
 
-          _unitOfWork.Complete();
-          _logger.LogInformation($"Employee of office id={officeId} was deleted successfully.");
-
-          return NoContent();
-        }
-        else
+        if (office is null)
         {
           _logger.LogInformation($"Office with ID={officeId} was not found.");
           return NotFound($"Office with ID={officeId} was not found.");
         }
+
+        office.DeleteEmployee(employeeId);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Employee of office id={officeId} was deleted successfully.");
+
+        return NoContent();
       }
       catch (Exception ex)
       {
@@ -299,21 +302,26 @@ namespace Bathhouse.Api.Controllers
     {
       try
       {
-        if (_repository.Get(key: officeId, includePropertyNames: new[] { "Employees" }) is Office office 
-          && _employeeRepository.Get(employeeId) is Employee addingEmployee)
+        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
+        if (office == null)
         {
-          office.AddEmployee(addingEmployee);
-
-          _unitOfWork.Complete();
-          _logger.LogInformation($"Employee id={employeeId} was added to Office ID={officeId} successfully.");
-
-          return NoContent();
+          _logger.LogInformation($"Office with ID={officeId} was not found.");
+          return NotFound($"Office with ID={officeId} was not found.");
         }
-        else
+
+        Employee? addingEmployee = _employeeRepository.Get(employeeId);
+        if (addingEmployee == null)
         {
-          _logger.LogInformation($"Office with ID={officeId} or Employee with ID={employeeId} was not found.");
-          return NotFound($"Office with ID={officeId} or Employee with ID={employeeId} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
+
+        office.AddEmployee(addingEmployee);
+
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Employee id={employeeId} was added to Office ID={officeId} successfully.");
+
+        return NoContent();
       }
       catch (Exception ex)
       {
@@ -333,7 +341,9 @@ namespace Bathhouse.Api.Controllers
     /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
     [HttpPut("{officeId:guid}/employees", Name = nameof(SetEmployeesToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
-    public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployeesToOffice(Guid officeId, [FromBody]IEnumerable<Guid> employeeIds)
+    public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployeesToOffice(
+      Guid officeId,
+      [FromBody] IEnumerable<Guid> employeeIds)
     {
       try
       {
@@ -341,9 +351,9 @@ namespace Bathhouse.Api.Controllers
         if (office == null)
         {
           _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Employee with ID={officeId} was not found.");
+          return NotFound($"Office with ID={officeId} was not found.");
         }
-        
+
         office.Employees.Clear();
 
         foreach (var employeeId in employeeIds)
