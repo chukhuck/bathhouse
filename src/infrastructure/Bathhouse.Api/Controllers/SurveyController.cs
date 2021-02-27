@@ -6,7 +6,6 @@ using Bathhouse.ValueTypes;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -94,7 +93,6 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">Survey for updating</param>
     /// <param name="surveyId">ID of Survey for updating</param>
-    /// <returns></returns>
     [HttpPut("{surveyId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid surveyId, SurveyRequest request)
     {
@@ -158,7 +156,9 @@ namespace Bathhouse.Api.Controllers
       }
 
       _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
+
       var summary = survey.GetSummary(summaryType);
+      _logger.LogInformation($"The summary of survey ID={surveyId} was received successfully.");
       return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
     }
   }

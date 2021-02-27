@@ -4,7 +4,6 @@ using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -61,7 +60,7 @@ namespace Bathhouse.Api.Controllers
       IdentityRole<Guid>? entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
       if (entity is null)
       {
-        _logger.LogInformation($"Request on getting unexisting Role with ID={roleId} was received.");
+        _logger.LogInformation($"Role with ID={roleId} was not found.");
         return NotFound($"Role with ID={roleId} was not found.");
       }
 
@@ -73,7 +72,6 @@ namespace Bathhouse.Api.Controllers
     /// Create new role
     /// </summary>
     /// <param name="name">Name of the new role.</param>
-    /// <returns>Created role.</returns>
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<RoleResponse> Create(string name)
     {
@@ -98,7 +96,6 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     /// <param name="newName">New name of the role with Id</param>
-    /// <returns>Nothing</returns>
     [HttpPut("{roleId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid roleId, string newName)
     {
@@ -127,7 +124,6 @@ namespace Bathhouse.Api.Controllers
     /// Delete Role
     /// </summary>
     /// <param name="roleId">Role Id</param>
-    /// <returns>Nothing</returns>
     [HttpDelete("{roleId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid roleId)
@@ -163,7 +159,6 @@ namespace Bathhouse.Api.Controllers
     /// Get all of employees in the role
     /// </summary>
     /// <param name="roleId">Role Id</param>
-    /// <returns>Employee in the role</returns>
     [HttpGet("{roleId:guid}/employees", Name = nameof(GetEmployeesInRole))]
     public ActionResult<IEnumerable<EmployeeResponse>> GetEmployeesInRole(Guid roleId)
     {
@@ -197,11 +192,11 @@ namespace Bathhouse.Api.Controllers
         _logger.LogInformation($"Employee with ID={employeeId} was not found.");
         return NotFound($"Employee with ID={employeeId}  was not found.");
       }
-      _logger.LogInformation($"Role with ID={employeeId} was getting successfully.");
+      _logger.LogInformation($"Employee with ID={employeeId} was getting successfully.");
 
       if (role is null)
       {
-        _logger.LogInformation($"Request on getting unexisting Role with ID={roleId} was received.");
+        _logger.LogInformation($"Role with ID={roleId} was not found.");
         return NotFound($"Role with ID={roleId} was not found.");
       }
       _logger.LogInformation($"Role with ID={roleId} was getting successfully.");
@@ -210,7 +205,7 @@ namespace Bathhouse.Api.Controllers
 
       if (!result.Succeeded)
       {
-        _logger.LogInformation($"Employee id={employeeId}was not added to Role with ID={roleId}.");
+        _logger.LogInformation($"Employee id={employeeId} was not added to Role with ID={roleId}.");
         return BadRequest(result.Errors);
       }
 
@@ -234,11 +229,11 @@ namespace Bathhouse.Api.Controllers
         _logger.LogInformation($"Employee with ID={employeeId} was not found.");
         return NotFound($"Employee with ID={employeeId}  was not found.");
       }
-      _logger.LogInformation($"Role with ID={employeeId} was getting successfully.");
+      _logger.LogInformation($"Employee with ID={employeeId} was getting successfully.");
 
       if (role is null)
       {
-        _logger.LogInformation($"Request on getting unexisting Role with ID={roleId} was received.");
+        _logger.LogInformation($"Role with ID={roleId} was not found.");
         return NotFound($"Role with ID={roleId} was not found.");
       }
       _logger.LogInformation($"Role with ID={roleId} was got successfully.");

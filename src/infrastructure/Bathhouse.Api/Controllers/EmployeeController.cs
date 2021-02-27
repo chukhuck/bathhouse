@@ -7,7 +7,6 @@ using Bathhouse.ValueTypes;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -78,7 +77,7 @@ namespace Bathhouse.Api.Controllers
 
       if (entity is null)
       {
-        _logger.LogInformation($"Request on getting unexisting Employee id={employeeId} was received.");
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
         return NotFound($"Employee with ID={employeeId} was not found.");
       }
 
@@ -96,7 +95,7 @@ namespace Bathhouse.Api.Controllers
       Employee newEntity = _repository.Add(_mapper.Map<EmployeeRequest, Employee>(request));
 
       _unitOfWork.Complete();
-      _logger.LogInformation($"Employee id= was creating successfully.");
+      _logger.LogInformation($"Employee was creating successfully.");
 
       return CreatedAtAction(
         nameof(GetById),
@@ -391,7 +390,7 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Office with ID={officeId} was not found.");
         }
 
-        employee.Offices.Add(addingOffice);
+        employee.AddOffice(addingOffice);
         _logger.LogInformation($"Office id={officeId} was found.");
       }
 
@@ -573,7 +572,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
 
-      if (workItem.ExecutorId == employeeId)
+      if (workItem.ExecutorId != employeeId)
       {
         _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
         return Forbid();

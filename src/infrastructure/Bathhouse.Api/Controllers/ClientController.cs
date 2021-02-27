@@ -66,7 +66,7 @@ namespace Bathhouse.Api.Controllers
 
       if (entity is null)
       {
-        _logger.LogInformation($"Request on getting unexisting Client id={clientId} was received.");
+        _logger.LogInformation($"Client with ID={clientId} was not found.");
         return NotFound($"Client with ID={clientId} was not found.");
       }
 
@@ -103,7 +103,6 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">Client for updating</param>
     /// <param name="clientId">ID of Client for updating</param>
-    /// <returns></returns>
     [HttpPut("{clientId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid clientId, ClientRequest request)
     {

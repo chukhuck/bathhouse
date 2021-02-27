@@ -5,7 +5,6 @@ using Bathhouse.Repositories.Common;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -147,6 +146,8 @@ namespace Bathhouse.Api.Controllers
         foreach (var client in clients)
         {
           client.SetOffice(newOffice);
+          _logger.LogInformation($"Set New Office with ID={newOfficeId.Value} to client id={client.Id}.");
+
         }
       }
 
@@ -159,7 +160,7 @@ namespace Bathhouse.Api.Controllers
     }
     #endregion
 
-    // TODO 
+    // TODO Add functionality to getting managers for office
     /// <summary>
     /// Get managers of office
     /// </summary>
@@ -234,7 +235,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="employeeId">Employee ID</param>
     [HttpPost("{officeId:guid}/employees", Name = nameof(AddEmployeeToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
-    public virtual ActionResult<IEnumerable<EmployeeResponse>> AddEmployeeToOffice(Guid officeId, Guid employeeId)
+    public ActionResult<IEnumerable<EmployeeResponse>> AddEmployeeToOffice(Guid officeId, Guid employeeId)
     {
       Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
       if (office == null)
@@ -263,13 +264,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="officeId">Office ID</param>
     /// <param name="employeeIds">Employee IDs</param>
-    /// <response code="201">Adding employee is successul</response>
-    /// <response code="500">Exception on server side was fired</response>
-    /// <response code="400">If the item is null</response>
-    /// <response code="404">Office with current ID or one of Employee IDs is not found</response>
     [HttpPut("{officeId:guid}/employees", Name = nameof(SetEmployeesToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
-    public virtual ActionResult<IEnumerable<EmployeeResponse>> SetEmployeesToOffice(
+    public ActionResult<IEnumerable<EmployeeResponse>> SetEmployeesToOffice(
       Guid officeId,
       [FromBody] IEnumerable<Guid> employeeIds)
     {
@@ -292,8 +289,8 @@ namespace Bathhouse.Api.Controllers
           return NotFound($"Employee with ID={employeeId} was not found.");
         }
 
-        office.Employees.Add(addingEmployee);
         _logger.LogInformation($"Employee id={employeeId} was found.");
+        office.AddEmployee(addingEmployee);
       }
 
       _unitOfWork.Complete();

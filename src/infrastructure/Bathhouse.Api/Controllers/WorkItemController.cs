@@ -5,7 +5,6 @@ using Bathhouse.Repositories.Common;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
