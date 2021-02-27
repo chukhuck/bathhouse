@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
@@ -45,7 +47,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
-    public ActionResult<PaginatedResponse<SurveyResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
+    public ActionResult<PaginatedResponse<SurveyResponse>> GetAll(
+      [FromQuery] PaginationQuery paginationQuery,
+      [FromQuery] SurveyFilterQuery filter)
     {
       PaginationFilter paginationFilter = new()
       {
@@ -55,7 +59,9 @@ namespace Bathhouse.Api.Controllers
 
       var allEntities = _repository.GetAll(
         paginationFilter: paginationFilter, 
-        includePropertyNames: new[] { "Author" });
+        filter: filter.Compose(),
+        includePropertyNames: new[] { "Author" },
+        orderBy: all => all.OrderByDescending(c => c.CreationDate));
 
       _logger.LogInformation($"All of Surveys was got.");
 

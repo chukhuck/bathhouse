@@ -47,7 +47,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
-    public ActionResult<PaginatedResponse<OfficeResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
+    public ActionResult<PaginatedResponse<OfficeResponse>> GetAll(
+      [FromQuery] PaginationQuery paginationQuery,
+      [FromQuery] int? officeNumber)
     {
       PaginationFilter paginationFilter = new()
       {
@@ -56,7 +58,8 @@ namespace Bathhouse.Api.Controllers
       };
 
       var allEntities = _repository.GetAll(
-        paginationFilter: paginationFilter, 
+        paginationFilter: paginationFilter,
+        filter: officeNumber == null ? null : office => office.Number == officeNumber,
         orderBy: all => all.OrderBy(c => c.Number));
 
       _logger.LogInformation($"All of Offices was got.");

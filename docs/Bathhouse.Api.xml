@@ -4,7 +4,7 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.ClientController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery)">
+        <member name="M:Bathhouse.Api.Controllers.ClientController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,System.Nullable{System.Guid})">
             <summary>
             Get all of Clients
             </summary>
@@ -34,7 +34,7 @@
             </summary>
             <param name="clientId">Client ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAll">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery)">
             <summary>
             Get all of Employees
             </summary>
@@ -224,7 +224,7 @@
             <param name="newName">New name</param>
             <param name="newDescription">New Description</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetAll">
+        <member name="M:Bathhouse.Api.Controllers.OfficeController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,System.Nullable{System.Int32})">
             <summary>
             Get all of Offices
             </summary>
@@ -340,7 +340,7 @@
             <param name="roleId">Role ID</param>
             <param name="employeeId">Employee Id</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetAll">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,Bathhouse.Contracts.Models.SurveyFilterQuery)">
             <summary>
             Get all of Surveys
             </summary>
@@ -378,7 +378,7 @@
             <param name="surveyId">Id of summary</param>
             <param name="summaryType">Summary type</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.WorkItemController.GetAll">
+        <member name="M:Bathhouse.Api.Controllers.WorkItemController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,Bathhouse.Contracts.Models.WorkItemFilterQuery)">
             <summary>
             Get all of WorkItems
             </summary>

@@ -39,6 +39,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "officeId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -57,10 +65,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ClientResponse"
-                  }
+                  "$ref": "#/components/schemas/ClientResponsePaginatedResponse"
                 }
               }
             }
@@ -363,6 +368,26 @@
         ],
         "summary": "Get all of Employees",
         "operationId": "GetAllEmployees",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -379,10 +404,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmployeeResponse"
-                  }
+                  "$ref": "#/components/schemas/EmployeeResponsePaginatedResponse"
                 }
               }
             }
@@ -2400,6 +2422,34 @@
         ],
         "summary": "Get all of Offices",
         "operationId": "GetAllOffices",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "officeNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -2416,10 +2466,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OfficeResponse"
-                  }
+                  "$ref": "#/components/schemas/OfficeResponsePaginatedResponse"
                 }
               }
             }
@@ -3651,6 +3698,41 @@
         ],
         "summary": "Get all of Surveys",
         "operationId": "GetAllSurveys",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AuthorId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/SurveyStatus"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -3667,10 +3749,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SurveyResponse"
-                  }
+                  "$ref": "#/components/schemas/SurveyResponsePaginatedResponse"
                 }
               }
             }
@@ -4053,6 +4132,49 @@
         ],
         "summary": "Get all of WorkItems",
         "operationId": "GetAllWorkItems",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "CreatorId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ExecutorId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/WorkItemStatus"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -4069,10 +4191,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkItemResponse"
-                  }
+                  "$ref": "#/components/schemas/WorkItemResponsePaginatedResponse"
                 }
               }
             }
@@ -4552,6 +4671,34 @@
         },
         "additionalProperties": false
       },
+      "ClientResponsePaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClientResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "DataType": {
         "enum": [
           "Text",
@@ -4650,6 +4797,34 @@
         },
         "additionalProperties": false
       },
+      "EmployeeResponsePaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmployeeResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "OfficeRequest": {
         "required": [
           "number"
@@ -4724,6 +4899,34 @@
           },
           "workingTimeRange": {
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OfficeResponsePaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OfficeResponse"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4909,6 +5112,34 @@
         },
         "additionalProperties": false
       },
+      "SurveyResponsePaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurveyResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SurveyResultSummaryType": {
         "enum": [
           "Simple",
@@ -5050,6 +5281,34 @@
           "executorId": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkItemResponsePaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkItemResponse"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -41,7 +41,9 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
-    public ActionResult<PaginatedResponse<WorkItemResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
+    public ActionResult<PaginatedResponse<WorkItemResponse>> GetAll(
+      [FromQuery] PaginationQuery paginationQuery,
+      [FromQuery] WorkItemFilterQuery filter)
     {
       PaginationFilter paginationFilter = new()
       {
@@ -51,6 +53,7 @@ namespace Bathhouse.Api.Controllers
 
       var allEntities = _repository.GetAll(
         paginationFilter: paginationFilter, 
+        filter: filter.Compose(),
         includePropertyNames: new[] { "Creator", "Executor" });
 
       _logger.LogInformation($"All of WorkItems was got.");
