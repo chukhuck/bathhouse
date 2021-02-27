@@ -58,12 +58,23 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
-    public ActionResult<IEnumerable<EmployeeResponse>> GetAll()
+    public ActionResult<PaginatedResponse<EmployeeResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
     {
-      var allEntities = _repository.GetAll();
+      PaginationFilter paginationFilter = new()
+      {
+        PageSize = paginationQuery.PageSize,
+        PageNumber = paginationQuery.PageNumber
+      };
+
+      var allEntities = _repository.GetAll(paginationFilter: paginationFilter);
       _logger.LogInformation($"All of Employees was got.");
 
-      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(allEntities));
+      return Ok(new PaginatedResponse<EmployeeResponse>()
+      {
+        Data = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(allEntities),
+        PageNumber = paginationFilter.IsValid ? paginationFilter.PageNumber : null,
+        PageSize = paginationFilter.IsValid ? paginationFilter.PageSize : null
+      });
     }
 
     // TODO Add offices to response 

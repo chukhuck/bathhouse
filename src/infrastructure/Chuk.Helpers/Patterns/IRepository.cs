@@ -10,6 +10,7 @@ namespace Chuk.Helpers.Patterns
     where TEntityKey : struct
   {
     IEnumerable<TEntity> GetAll(
+      PaginationFilter paginationFilter = null,
       Expression<Func<TEntity, bool>> filter = null,
       IEnumerable<string> includePropertyNames = null,
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);

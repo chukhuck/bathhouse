@@ -4,7 +4,7 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.ClientController.GetAll">
+        <member name="M:Bathhouse.Api.Controllers.ClientController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery)">
             <summary>
             Get all of Clients
             </summary>
@@ -215,13 +215,14 @@
             <param name="employeeId">Employee ID</param>
             <param name="survey">Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurveyForEmployee(System.Guid,System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.EmployeeController.UpdateSurveyForEmployee(System.Guid,System.Guid,System.String,System.String)">
             <summary>
             Update Survey
             </summary>
-            <param name="request">Survey for updating</param>
             <param name="employeeId">ID of entity for updating</param>
-            <param name="surveyId"></param>
+            <param name="surveyId">Survey for updating</param>
+            <param name="newName">New name</param>
+            <param name="newDescription">New Description</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetAll">
             <summary>
@@ -356,12 +357,13 @@
             </summary>
             <param name="request">Newly creating Survey</param>
         </member>
-        <member name="M:Bathhouse.Api.Controllers.SurveyController.Update(System.Guid,Bathhouse.Contracts.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.Controllers.SurveyController.Update(System.Guid,System.String,System.String)">
             <summary>
             Update Survey
             </summary>
-            <param name="request">Survey for updating</param>
             <param name="surveyId">ID of Survey for updating</param>
+            <param name="newName">New Name</param>
+            <param name="newDescription">New Description</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.Delete(System.Guid)">
             <summary>

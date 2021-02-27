@@ -21,6 +21,26 @@
         ],
         "summary": "Get all of Clients",
         "operationId": "GetAllClients",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -2215,24 +2235,30 @@
           {
             "name": "surveyId",
             "in": "path",
-            "description": "",
+            "description": "Survey for updating",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
             }
-          }
-        ],
-        "requestBody": {
-          "description": "Survey for updating",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SurveyRequest"
-              }
+          },
+          {
+            "name": "newName",
+            "in": "query",
+            "description": "New name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "newDescription",
+            "in": "query",
+            "description": "New Description",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "204": {
             "description": "Success"
@@ -3808,18 +3834,24 @@
               "type": "string",
               "format": "uuid"
             }
-          }
-        ],
-        "requestBody": {
-          "description": "Survey for updating",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SurveyRequest"
-              }
+          },
+          {
+            "name": "newName",
+            "in": "query",
+            "description": "New Name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "newDescription",
+            "in": "query",
+            "description": "New Description",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "204": {
             "description": "Success"

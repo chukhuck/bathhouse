@@ -45,12 +45,26 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
-    public ActionResult<IEnumerable<SurveyResponse>> GetAll()
+    public ActionResult<PaginatedResponse<SurveyResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
     {
-      var allEntities = _repository.GetAll(includePropertyNames: new[] { "Author" });
+      PaginationFilter paginationFilter = new()
+      {
+        PageSize = paginationQuery.PageSize,
+        PageNumber = paginationQuery.PageNumber
+      };
+
+      var allEntities = _repository.GetAll(
+        paginationFilter: paginationFilter, 
+        includePropertyNames: new[] { "Author" });
+
       _logger.LogInformation($"All of Surveys was got.");
 
-      return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(allEntities));
+      return Ok(new PaginatedResponse<SurveyResponse>()
+      {
+        Data = _mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(allEntities),
+        PageNumber = paginationFilter.IsValid ? paginationFilter.PageNumber : null,
+        PageSize = paginationFilter.IsValid ? paginationFilter.PageSize : null
+      });
     }
 
     /// <summary>

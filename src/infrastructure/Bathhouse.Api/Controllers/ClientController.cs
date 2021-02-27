@@ -2,6 +2,7 @@
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
+using Chuk.Helpers.AspNetCore;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
@@ -44,15 +45,25 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     [HttpGet(Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
-    public ActionResult<IEnumerable<ClientResponse>> GetAll()
+    public ActionResult<PaginatedResponse<ClientResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
     {
+      PaginationFilter paginationFilter = new() {
+        PageSize = paginationQuery.PageSize,
+        PageNumber = paginationQuery.PageNumber };
+
       var allEntities = _repository.GetAll(
+        paginationFilter: paginationFilter,
         includePropertyNames: new[] { "Office" },
         orderBy: all => all.OrderBy(c => c.LastName));
 
       _logger.LogInformation($"All of Clients was got.");
 
-      return Ok(_mapper.Map<IEnumerable<Client>, IEnumerable<ClientResponse>>(allEntities));
+      return Ok(new PaginatedResponse<ClientResponse>()
+      {
+        Data = _mapper.Map<IEnumerable<Client>, IEnumerable<ClientResponse>>(allEntities),
+        PageNumber = paginationFilter.IsValid ? paginationFilter.PageNumber : null,
+        PageSize = paginationFilter.IsValid ? paginationFilter.PageSize : null
+      });
     }
 
     /// <summary>

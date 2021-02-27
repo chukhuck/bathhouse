@@ -78,6 +78,7 @@ namespace Chuk.Helpers.Patterns
 
 
     public IEnumerable<TEntity> GetAll(
+      PaginationFilter? paginationFilter = null,
       Expression<Func<TEntity, bool>>? filter = null, 
       IEnumerable<string>? includePropertyNames = null, 
       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null)
@@ -96,6 +97,13 @@ namespace Chuk.Helpers.Patterns
           query = query.Include(includeExpression);
         }
       }
+
+      if (paginationFilter != null && paginationFilter.PageNumber > 0 && paginationFilter.PageSize > 0)
+      {
+        int skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+        query = query.Skip(skip).Take(paginationFilter.PageSize);
+      }
+
 
       if (orderBy != null)
       {
