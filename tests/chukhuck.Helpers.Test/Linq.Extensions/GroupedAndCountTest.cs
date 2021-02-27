@@ -1,5 +1,5 @@
 ﻿using Chuk.Helpers.Generators;
-using Chuk.Helpers.Linq.Extensions;
+using Chuk.Helpers.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;

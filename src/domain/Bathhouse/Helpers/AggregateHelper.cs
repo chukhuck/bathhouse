@@ -1,5 +1,5 @@
 ﻿using Bathhouse.ValueTypes;
-using Chuk.Helpers.Linq.Extensions;
+using Chuk.Helpers.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;

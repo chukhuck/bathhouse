@@ -27,7 +27,6 @@
             </summary>
             <param name="request">Client for updating</param>
             <param name="clientId">ID of Client for updating</param>
-            <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.ClientController.Delete(System.Guid)">
             <summary>
@@ -288,10 +287,6 @@
             </summary>
             <param name="officeId">Office ID</param>
             <param name="employeeIds">Employee IDs</param>
-            <response code="201">Adding employee is successul</response>
-            <response code="500">Exception on server side was fired</response>
-            <response code="400">If the item is null</response>
-            <response code="404">Office with current ID or one of Employee IDs is not found</response>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.GetAll">
             <summary>
@@ -310,7 +305,6 @@
             Create new role
             </summary>
             <param name="name">Name of the new role.</param>
-            <returns>Created role.</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.Update(System.Guid,System.String)">
             <summary>
@@ -318,21 +312,18 @@
             </summary>
             <param name="roleId">Role Id</param>
             <param name="newName">New name of the role with Id</param>
-            <returns>Nothing</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.Delete(System.Guid)">
             <summary>
             Delete Role
             </summary>
             <param name="roleId">Role Id</param>
-            <returns>Nothing</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.GetEmployeesInRole(System.Guid)">
             <summary>
             Get all of employees in the role
             </summary>
             <param name="roleId">Role Id</param>
-            <returns>Employee in the role</returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.RoleController.AddEmployeeToRole(System.Guid,System.Guid)">
             <summary>
@@ -371,7 +362,6 @@
             </summary>
             <param name="request">Survey for updating</param>
             <param name="surveyId">ID of Survey for updating</param>
-            <returns></returns>
         </member>
         <member name="M:Bathhouse.Api.Controllers.SurveyController.Delete(System.Guid)">
             <summary>
