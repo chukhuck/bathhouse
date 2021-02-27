@@ -14,7 +14,7 @@ using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
 {
-  [Authorize(Policy = "Admin")]
+  [Authorize]
   [Route("api/[controller]")]
   [ApiController]
   [Produces(MediaTypeNames.Application.Json)]
@@ -72,6 +72,7 @@ namespace Bathhouse.Api.Controllers
     /// Create new role
     /// </summary>
     /// <param name="name">Name of the new role.</param>
+    [Authorize(Policy = "Admin")]
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<RoleResponse> Create(string name)
     {
@@ -96,6 +97,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     /// <param name="newName">New name of the role with Id</param>
+    [Authorize(Policy = "Admin")]
     [HttpPut("{roleId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid roleId, string newName)
     {
@@ -124,6 +126,7 @@ namespace Bathhouse.Api.Controllers
     /// Delete Role
     /// </summary>
     /// <param name="roleId">Role Id</param>
+    [Authorize(Policy = "Admin")]
     [HttpDelete("{roleId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid roleId)
@@ -180,6 +183,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
+    [Authorize(Policy = "Admin")]
     [HttpPut("{roleId:guid}/employee", Name = nameof(AddEmployeeToRole))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
@@ -217,6 +221,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
+    [Authorize(Policy = "Admin")]
     [HttpDelete("{roleId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromRole))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
