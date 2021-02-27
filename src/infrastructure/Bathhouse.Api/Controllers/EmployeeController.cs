@@ -179,7 +179,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="newRole">Name of an adding role</param>
-    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = Constants.AdminRoleName)]
     [HttpPost("{employeeId:guid}/roles", Name = nameof(AddRoleForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IdentityResult> AddRoleForEmployee(Guid employeeId, string newRole)
@@ -210,7 +210,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="newRole">Name of an deleting role</param>
-    [Authorize(Policy = "Admin")]
+    [Authorize(Policy = Constants.AdminRoleName)]
     [HttpDelete("{employeeId:guid}/roles", Name = nameof(DeleteRoleFromEmployee))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteRoleFromEmployee(Guid employeeId, string newRole)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Bathhouse.Contracts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,9 +35,14 @@ namespace Bathhouse.Api.Installers
 
       services.AddAuthorization(option =>
       {
-        option.AddPolicy("Admin", policyDirector =>
-        policyDirector.RequireClaim("role", "Admin"));
+        option.AddPolicy(Constants.AdminRoleName, 
+          policyAdmin => policyAdmin.RequireClaim("role", Constants.AdminRoleName));
 
+        option.AddPolicy(Constants.DirectorRoleName, 
+          policyDirector => policyDirector.RequireClaim("role", Constants.DirectorRoleName));
+
+        option.AddPolicy(Constants.ManagerRoleName,
+          policyManager => policyManager.RequireClaim("role", Constants.ManagerRoleName));
       });
 
 
