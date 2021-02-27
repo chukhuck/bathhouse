@@ -407,5 +407,12 @@
             </summary>
             <param name="workItemId">WorkItem ID</param>
         </member>
+        <member name="M:Bathhouse.Api.Controllers.WorkItemController.ChangeStatusOfWorkItem(System.Guid,Bathhouse.ValueTypes.WorkItemStatus)">
+            <summary>
+            Change status
+            </summary>
+            <param name="workitemId"></param>
+            <param name="newWorkItemStatus">New status for workItem</param>
+        </member>
     </members>
 </doc>

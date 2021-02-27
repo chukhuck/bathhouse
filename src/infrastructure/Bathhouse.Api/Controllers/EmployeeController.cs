@@ -94,9 +94,19 @@ namespace Bathhouse.Api.Controllers
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<EmployeeResponse> Create(EmployeeRequest request)
     {
-      Employee newEntity = _repository.Add(_mapper.Map<EmployeeRequest, Employee>(request));
+      Employee newEntity = _mapper.Map<EmployeeRequest, Employee>(request);
+      newEntity.NormalizedEmail = newEntity.Email.ToUpper();
+      newEntity.UserName = newEntity.Email;
+      newEntity.NormalizedUserName = newEntity.UserName.ToUpper();
 
-      _unitOfWork.Complete();
+      IdentityResult result = _userManager.CreateAsync(newEntity, Constants.DefaultPassword).Result;
+
+      if (!result.Succeeded)
+      {
+        _logger.LogInformation("Creating of new user is failed.");
+        return BadRequest(result.Errors);
+      }
+
       _logger.LogInformation($"Employee was creating successfully.");
 
       return CreatedAtAction(

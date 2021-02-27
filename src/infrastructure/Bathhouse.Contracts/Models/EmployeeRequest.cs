@@ -42,9 +42,10 @@ namespace Bathhouse.Contracts.Models
     /// <summary>
     /// Email of employee
     /// </summary>
+    [Required]
     [DefaultValue("noreply@mail.com")]
     [EmailAddress(ErrorMessage = "Incorrect email address format.")]
-    public string? Email { get; set; } = "noreply@mail.com";
+    public string Email { get; set; } = "noreply@mail.com";
 
     /// <summary>
     /// Day of Birth
