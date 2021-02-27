@@ -2,6 +2,7 @@
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
+using Bathhouse.ValueTypes;
 using Chuk.Helpers.AspNetCore;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
@@ -145,6 +146,36 @@ namespace Bathhouse.Api.Controllers
 
       return NoContent();
 
+    }
+
+    /// <summary>
+    /// Change status
+    /// </summary>
+    /// <param name="workitemId"></param>
+    /// <param name="newWorkItemStatus">New status for workItem</param>
+    [HttpPut("{employeeId:guid}/workitems/{workitemId:guid}/status", Name = nameof(ChangeStatusOfWorkItem))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
+    public ActionResult ChangeStatusOfWorkItem(Guid workitemId, WorkItemStatus newWorkItemStatus)
+    {
+      WorkItem? workItem = _repository.Get(workitemId);
+      if (workItem == null)
+      {
+        _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
+        return NotFound($"WorkItem with ID={workitemId} was not found.");
+      }
+
+      if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != HttpContext.GetGuidUserId())
+      {
+        _logger.LogInformation($"Unauthorized canceled to workitem ID={workitemId}.");
+        return Forbid();
+      }
+
+      workItem.Status = newWorkItemStatus;
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={workitemId} was updated successfully.");
+
+      return NoContent();
     }
     #endregion
   }
