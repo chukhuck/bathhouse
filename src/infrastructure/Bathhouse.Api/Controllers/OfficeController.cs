@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
@@ -76,6 +77,7 @@ namespace Bathhouse.Api.Controllers
     /// Add Office.
     /// </summary>
     /// <param name="request">Newly creating Office</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<EmployeeResponse> Create(OfficeRequest request)
     {
@@ -95,6 +97,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="request">Office for updating</param>
     /// <param name="officeId">ID of Office for updating</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpPut("{officeId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid officeId, OfficeRequest request)
     {
@@ -120,6 +123,7 @@ namespace Bathhouse.Api.Controllers
     /// <param name="officeId">Office ID</param>
     /// <param name="newOfficeId">The ID of Office that will be set for clients of the deleting Office. 
     /// If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpDelete("{officeId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid officeId, [FromQuery] Guid? newOfficeId)
@@ -186,6 +190,7 @@ namespace Bathhouse.Api.Controllers
     /// Get employees of office
     /// </summary>
     /// <param name="officeId">The Office ID</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpGet("{officeId:guid}/employees", Name = nameof(GetEmployeesInOffice))]
     public ActionResult<EmployeeResponse> GetEmployeesInOffice(Guid officeId)
     {
@@ -208,6 +213,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="officeId">Office ID</param>
     /// <param name="employeeId">ID deleting employee</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpDelete("{officeId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromOffice))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult DeleteEmployeeFromOffice(Guid officeId, Guid employeeId)
@@ -233,6 +239,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="officeId">Office ID</param>
     /// <param name="employeeId">Employee ID</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpPost("{officeId:guid}/employees", Name = nameof(AddEmployeeToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IEnumerable<EmployeeResponse>> AddEmployeeToOffice(Guid officeId, Guid employeeId)
@@ -264,6 +271,7 @@ namespace Bathhouse.Api.Controllers
     /// </summary>
     /// <param name="officeId">Office ID</param>
     /// <param name="employeeIds">Employee IDs</param>
+    [Authorize(Policy = Constants.OfficeModifyPolicy)]
     [HttpPut("{officeId:guid}/employees", Name = nameof(SetEmployeesToOffice))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IEnumerable<EmployeeResponse>> SetEmployeesToOffice(

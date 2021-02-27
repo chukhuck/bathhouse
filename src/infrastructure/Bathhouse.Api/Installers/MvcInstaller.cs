@@ -43,6 +43,9 @@ namespace Bathhouse.Api.Installers
 
         option.AddPolicy(Constants.ManagerRoleName,
           policyManager => policyManager.RequireClaim("role", Constants.ManagerRoleName));
+
+        option.AddPolicy(Constants.OfficeModifyPolicy,
+          policyManager => policyManager.RequireClaim("role", Constants.AdminRoleName, Constants.DirectorRoleName));
       });
 
 
