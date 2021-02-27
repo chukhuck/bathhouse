@@ -36,16 +36,21 @@ namespace Bathhouse.Api.Installers
       services.AddAuthorization(option =>
       {
         option.AddPolicy(Constants.AdminRoleName, 
-          policyAdmin => policyAdmin.RequireClaim("role", Constants.AdminRoleName));
+          adminPolicy => adminPolicy.RequireClaim("role", Constants.AdminRoleName));
 
         option.AddPolicy(Constants.DirectorRoleName, 
-          policyDirector => policyDirector.RequireClaim("role", Constants.DirectorRoleName));
+          directorPolicy => directorPolicy.RequireClaim("role", Constants.DirectorRoleName));
 
         option.AddPolicy(Constants.ManagerRoleName,
-          policyManager => policyManager.RequireClaim("role", Constants.ManagerRoleName));
+          managerPolicy => managerPolicy.RequireClaim("role", Constants.ManagerRoleName));
 
         option.AddPolicy(Constants.OfficeModifyPolicy,
-          policyManager => policyManager.RequireClaim("role", Constants.AdminRoleName, Constants.DirectorRoleName));
+          officeModifyPolicy => officeModifyPolicy.RequireClaim(
+            "role", Constants.AdminRoleName, Constants.DirectorRoleName));
+
+        option.AddPolicy(Constants.EmployeeAddOrDeletePolicy,
+          employeeAddOrDeletePolicy => employeeAddOrDeletePolicy.RequireClaim(
+            "role", Constants.AdminRoleName, Constants.DirectorRoleName));
       });
 
 

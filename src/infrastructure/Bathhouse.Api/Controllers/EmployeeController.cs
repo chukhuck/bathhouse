@@ -90,6 +90,7 @@ namespace Bathhouse.Api.Controllers
     /// Add Employee.
     /// </summary>
     /// <param name="request">Newly creating Employee</param>
+    [Authorize(Policy = Constants.EmployeeAddOrDeletePolicy)]
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<EmployeeResponse> Create(EmployeeRequest request)
     {
@@ -132,6 +133,7 @@ namespace Bathhouse.Api.Controllers
     /// Delete Employee by ID
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
+    [Authorize(Policy = Constants.EmployeeAddOrDeletePolicy)]
     [HttpDelete("{employeeId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid employeeId)
