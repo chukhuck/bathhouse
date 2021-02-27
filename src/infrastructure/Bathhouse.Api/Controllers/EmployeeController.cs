@@ -543,7 +543,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
 
-      if (workItem.CreatorId != employeeId)
+      if (workItem.CreatorId != employeeId || workItem.CreatorId != HttpContext.GetGuidUserId())
       {
         _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
         return Forbid();

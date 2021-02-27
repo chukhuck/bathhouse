@@ -4858,7 +4858,6 @@
       },
       "WorkItemRequest": {
         "required": [
-          "creatorId",
           "description"
         ],
         "type": "object",
@@ -4870,10 +4869,6 @@
             "format": "string",
             "default": "Опиши текст задачи."
           },
-          "creationDate": {
-            "type": "string",
-            "format": "date"
-          },
           "startDate": {
             "type": "string",
             "format": "date"
@@ -4882,16 +4877,9 @@
             "type": "string",
             "format": "date"
           },
-          "status": {
-            "$ref": "#/components/schemas/WorkItemStatus"
-          },
           "isImportant": {
             "type": "boolean",
             "default": false
-          },
-          "creatorId": {
-            "type": "string",
-            "format": "uuid"
           },
           "executorId": {
             "type": "string",
