@@ -132,6 +132,12 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"WorkItem with ID={workItemId} was not found.");
       }
 
+      if (entity.CreatorId != HttpContext.GetGuidUserId())
+      {
+        _logger.LogInformation($"Unauthorized access to WorkItem  ID={workItemId}.");
+        return Forbid();
+      }
+
       _repository.Delete(entity);
 
       _unitOfWork.Complete();

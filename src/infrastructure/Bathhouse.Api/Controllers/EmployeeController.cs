@@ -489,7 +489,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
 
-      if (workItem.CreatorId != employeeId)
+      if (workItem.CreatorId != employeeId || workItem.CreatorId != HttpContext.GetGuidUserId())
       {
         _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
         return Forbid();
@@ -574,13 +574,9 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
 
-      if (workItem.ExecutorId != employeeId)
-      {
-        _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
-        return Forbid();
-      }
-
-      if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != employeeId)
+      if (newWorkItemStatus == WorkItemStatus.Canceled 
+        && (workItem.CreatorId != employeeId ||
+            workItem.CreatorId != HttpContext.GetGuidUserId()))
       {
         _logger.LogInformation($"Unauthorized canceled to workitem ID={workitemId}.");
         return Forbid();
@@ -589,7 +585,7 @@ namespace Bathhouse.Api.Controllers
       workItem.Status = newWorkItemStatus;
 
       _unitOfWork.Complete();
-      _logger.LogInformation($"WorkItem id={employeeId} was updated successfully.");
+      _logger.LogInformation($"WorkItem id={workitemId} was updated successfully.");
 
       return NoContent();
     }
