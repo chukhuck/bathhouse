@@ -159,6 +159,12 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Survey with ID={surveyId} was not found.");
       }
 
+      if (survey.AuthorId != HttpContext.GetGuidUserId())
+      {
+        _logger.LogInformation($"Unauthorized access to summary of Survey ID={surveyId}.");
+        return Forbid();
+      }
+
       _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
 
       var summary = survey.GetSummary(summaryType);

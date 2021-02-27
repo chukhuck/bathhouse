@@ -715,7 +715,6 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
     public ActionResult<SurveyResponse> CreateSurveyForEmployee(Guid employeeId, SurveyRequest survey)
     {
-      survey.AuthorId = employeeId;
       Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
 
       _unitOfWork.Complete();
@@ -750,7 +749,6 @@ namespace Bathhouse.Api.Controllers
         return Forbid();
       }
 
-      request.AuthorId = employeeId;
       Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, survey);
 
       _unitOfWork.Complete();
