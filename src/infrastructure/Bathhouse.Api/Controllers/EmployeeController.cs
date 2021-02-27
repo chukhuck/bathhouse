@@ -123,6 +123,16 @@ namespace Bathhouse.Api.Controllers
     [HttpPut("{employeeId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid employeeId, EmployeeRequest request)
     {
+      if (employeeId != HttpContext.GetGuidUserId()
+        && (!HttpContext.User?.IsInRole(Constants.AdminRoleName) ?? true)
+        && (!HttpContext.User?.IsInRole(Constants.DirectorRoleName) ?? true)
+        )
+      {
+        
+        _logger.LogInformation($"Unauthorized acces to user id={employeeId}.");
+        return Forbid();
+      }
+
       Employee? entity = _repository.Get(employeeId);
 
       if (entity is null)
@@ -132,8 +142,14 @@ namespace Bathhouse.Api.Controllers
       }
 
       _mapper.Map<EmployeeRequest, Employee>(request, entity);
+      IdentityResult result = _userManager.UpdateAsync(entity).Result;
 
-      _unitOfWork.Complete();
+      if (!result.Succeeded)
+      {
+        _logger.LogInformation("Creating of new user is failed.");
+        return BadRequest(result.Errors);
+      }
+
       _logger.LogInformation($"Employee id={employeeId} was updated successfully.");
 
       return NoContent();
