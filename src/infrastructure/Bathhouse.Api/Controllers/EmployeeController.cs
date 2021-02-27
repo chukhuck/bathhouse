@@ -275,6 +275,7 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Get all of the tech supporters in the system
     /// </summary>
+    [AllowAnonymous]
     [HttpGet("techsupporters", Name = nameof(GetAllTechSupporters))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllTechSupporters()
