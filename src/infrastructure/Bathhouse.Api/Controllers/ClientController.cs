@@ -5,7 +5,6 @@ using Bathhouse.Repositories.Common;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -93,7 +92,10 @@ namespace Bathhouse.Api.Controllers
       _unitOfWork.Complete();
       _logger.LogInformation($"Client id={newEntity.Id} was creating successfully.");
 
-      return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Client, ClientResponse>(newEntity));
+      return CreatedAtAction(
+        nameof(GetById), 
+        new { clientId = newEntity.Id }, 
+        _mapper.Map<Client, ClientResponse>(newEntity));
     }
 
     /// <summary>

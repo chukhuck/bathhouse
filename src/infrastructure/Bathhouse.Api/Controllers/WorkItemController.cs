@@ -79,8 +79,8 @@ namespace Bathhouse.Api.Controllers
       _logger.LogInformation($"WorkItem id={newEntity.Id} was creating successfully.");
 
       return CreatedAtAction(
-        "GetById",
-        new { id = newEntity.Id },
+        nameof(GetById),
+        new { workItemId = newEntity.Id },
         _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
     }
 

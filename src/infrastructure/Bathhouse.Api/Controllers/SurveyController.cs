@@ -84,8 +84,8 @@ namespace Bathhouse.Api.Controllers
       _logger.LogInformation($"Survey id={newEntity.Id} was creating successfully.");
 
       return CreatedAtAction(
-        "GetById",
-        new { id = newEntity.Id },
+        nameof(GetById),
+        new { surveyId = newEntity.Id },
         _mapper.Map<Survey, SurveyResponse>(newEntity));
     }
 

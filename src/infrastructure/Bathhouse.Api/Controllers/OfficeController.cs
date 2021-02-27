@@ -86,8 +86,8 @@ namespace Bathhouse.Api.Controllers
       _logger.LogInformation($"Office id= was creating successfully.");
 
       return CreatedAtAction(
-        "GetById",
-        new { id = newEntity.Id },
+        nameof(GetById),
+        new { officeId = newEntity.Id },
         _mapper.Map<Office, OfficeResponse>(newEntity));
     }
 

@@ -88,8 +88,8 @@ namespace Bathhouse.Api.Controllers
 
       _logger.LogInformation($"Role name={name} was created successfully.");
       return CreatedAtAction(
-        "GetById",
-        new { id = newEntity.Id },
+        nameof(GetById),
+        new { roleId = newEntity.Id },
         _mapper.Map<IdentityRole<Guid>, RoleResponse>(newEntity));
     }
 

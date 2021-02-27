@@ -99,8 +99,8 @@ namespace Bathhouse.Api.Controllers
       _logger.LogInformation($"Employee id= was creating successfully.");
 
       return CreatedAtAction(
-        "GetById",
-        new { id = newEntity.Id },
+        nameof(GetById),
+        new { employeeId = newEntity.Id },
         _mapper.Map<Employee, EmployeeResponse>(newEntity));
     }
 
@@ -519,7 +519,7 @@ namespace Bathhouse.Api.Controllers
       _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
       return CreatedAtAction(
-        "GetCreatedWorkItem",
+        nameof(GetWorkItemCreatedByEmployee),
         new { employeeId, workitemid = newWorkItem.Id },
         _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
     }
@@ -722,7 +722,10 @@ namespace Bathhouse.Api.Controllers
       _unitOfWork.Complete();
       _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
 
-      return CreatedAtAction("GetSurvey", new { employeeId, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
+      return CreatedAtAction(
+        nameof(GetSurveyForEmployee), 
+        new { employeeId, surveyId = newSurvey.Id }, 
+        _mapper.Map<Survey, SurveyResponse>(newSurvey));
     }
 
     /// <summary>
