@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chuk.Helpers.Linq.Extensions
+namespace Chuk.Helpers.Linq
 {
   public static partial class EnumerableExtension
   {

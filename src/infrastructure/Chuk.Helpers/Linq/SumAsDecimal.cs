@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Chuk.Helpers.Linq.Extensions
+namespace Chuk.Helpers.Linq
 {
   public static partial class EnumerableExtension
   {
