@@ -714,6 +714,9 @@ namespace Bathhouse.Api.Controllers
     public ActionResult<SurveyResponse> CreateSurveyForEmployee(Guid employeeId, SurveyRequest survey)
     {
       Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
+      newSurvey.AuthorId = HttpContext.GetGuidUserId();
+      newSurvey.CreationDate = DateTime.Now;
+      newSurvey.Status = SurveyStatus.Work;
 
       _unitOfWork.Complete();
       _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
