@@ -124,11 +124,6 @@
             Description of task.
             </summary>
         </member>
-        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.CreationDate">
-            <summary>
-            Day of creation work item
-            </summary>
-        </member>
         <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.StartDate">
             <summary>
             Day of start work item
@@ -139,19 +134,9 @@
             Day of end work item
             </summary>
         </member>
-        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.Status">
-            <summary>
-            Status  of work item
-            </summary>
-        </member>
         <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.IsImportant">
             <summary>
             Flag that indicate importance of workitem
-            </summary>
-        </member>
-        <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.CreatorId">
-            <summary>
-            Id of workitem creator
             </summary>
         </member>
         <member name="P:Bathhouse.Contracts.Models.WorkItemRequest.ExecutorId">

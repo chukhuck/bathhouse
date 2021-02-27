@@ -2,6 +2,7 @@
 using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
+using Chuk.Helpers.AspNetCore;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
@@ -73,6 +74,9 @@ namespace Bathhouse.Api.Controllers
     public ActionResult<WorkItemResponse> Create(WorkItemRequest request)
     {
       WorkItem newEntity = _repository.Add(_mapper.Map<WorkItemRequest, WorkItem>(request));
+      newEntity.CreationDate = DateTime.Now;
+      newEntity.CreatorId = HttpContext.GetGuidUserId();
+      newEntity.Status = ValueTypes.WorkItemStatus.Created;
 
       _unitOfWork.Complete();
       _logger.LogInformation($"WorkItem id={newEntity.Id} was creating successfully.");

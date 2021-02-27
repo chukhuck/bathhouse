@@ -4,6 +4,7 @@ using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
+using Chuk.Helpers.AspNetCore;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
@@ -511,8 +512,10 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
     public ActionResult<WorkItemResponse> CreateWorkItemByEmployee(Guid employeeId, WorkItemRequest workItem)
     {
-      workItem.CreatorId = employeeId;
       WorkItem newWorkItem = _workItemRepository.Add(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
+      newWorkItem.CreatorId = HttpContext.GetGuidUserId();
+      newWorkItem.CreationDate = DateTime.Now;
+      newWorkItem.Status = WorkItemStatus.Created;
 
       _unitOfWork.Complete();
       _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
@@ -546,7 +549,6 @@ namespace Bathhouse.Api.Controllers
         return Forbid();
       }
 
-      request.CreatorId = employeeId;
       WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, workItem);
 
       _unitOfWork.Complete();
