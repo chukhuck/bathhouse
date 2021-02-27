@@ -758,12 +758,17 @@ namespace Bathhouse.Api.Controllers
     /// <summary>
     /// Update Survey
     /// </summary>
-    /// <param name="request">Survey for updating</param>
     /// <param name="employeeId">ID of entity for updating</param>
-    /// <param name="surveyId"></param>
+    /// <param name="surveyId">Survey for updating</param>
+    /// <param name="newName">New name</param>
+    /// <param name="newDescription">New Description</param>
     [HttpPut("{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(UpdateSurveyForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
-    public ActionResult UpdateSurveyForEmployee(Guid employeeId, Guid surveyId, SurveyRequest request)
+    public ActionResult UpdateSurveyForEmployee(
+      Guid employeeId, 
+      Guid surveyId, 
+      string? newName, 
+      string? newDescription)
     {
       Survey? survey = _surveyRepository.Get(surveyId);
       if (survey == null)
@@ -778,10 +783,11 @@ namespace Bathhouse.Api.Controllers
         return Forbid();
       }
 
-      Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, survey);
+      survey.Name = newName ?? survey.Name;
+      survey.Description = newDescription ?? survey.Description;
 
       _unitOfWork.Complete();
-      _logger.LogInformation($"Survey id={updatedEntity.Id} was updated successfully.");
+      _logger.LogInformation($"Survey id={survey.Id} was updated successfully.");
 
       return NoContent();
     }
