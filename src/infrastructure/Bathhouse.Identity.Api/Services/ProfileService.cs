@@ -68,6 +68,7 @@ namespace Bathhouse.Identity.Api.Services
     {
       var claims = new List<Claim>
             {
+                new Claim(JwtClaimTypes.Id, user.Id.ToString()),
                 new Claim(JwtClaimTypes.Subject, user.Id.ToString()),
                 new Claim(JwtClaimTypes.PreferredUserName, user.ShortName),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
