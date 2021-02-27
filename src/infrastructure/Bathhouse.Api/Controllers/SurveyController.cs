@@ -3,6 +3,7 @@ using Bathhouse.Contracts.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
+using Chuk.Helpers.AspNetCore;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
@@ -78,6 +79,9 @@ namespace Bathhouse.Api.Controllers
     public ActionResult<SurveyResponse> Create(SurveyRequest request)
     {
       Survey newEntity = _repository.Add(_mapper.Map<SurveyRequest, Survey>(request));
+      newEntity.AuthorId = HttpContext.GetGuidUserId();
+      newEntity.CreationDate = DateTime.Now;
+      newEntity.Status = SurveyStatus.Work;
 
       _unitOfWork.Complete();
       _logger.LogInformation($"Survey id={newEntity.Id} was creating successfully.");

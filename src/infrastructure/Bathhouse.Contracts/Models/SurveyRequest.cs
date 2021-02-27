@@ -18,9 +18,6 @@ namespace Bathhouse.Contracts.Models
     [DefaultValue("Описание нового опроса")]
     public string? Description { get; set; } = "Описание нового опроса";
 
-    [Required]
-    public Guid AuthorId { get; set; }
-
     public ICollection<QuestionRequest> Questions { get; set; } = new List<QuestionRequest>();
   }
 }
