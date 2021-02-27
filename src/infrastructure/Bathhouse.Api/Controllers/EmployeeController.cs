@@ -660,25 +660,6 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
-    /// Get survey
-    /// </summary>
-    /// <param name="employeeId">The Employee ID</param>
-    /// <param name="surveyId">Survey ID</param>
-    [HttpGet("{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(GetSurveyForEmployee))]
-    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
-    public ActionResult<SurveyResponse> GetSurveyForEmployee(Guid employeeId, Guid surveyId)
-    {
-      Survey? survey = _surveyRepository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
-      if (survey == null)
-      {
-        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-        return NotFound($"Survey with ID={surveyId} was not found.");
-      }
-
-      return Ok(_mapper.Map<Survey, SurveyResponse>(survey));
-    }
-
-    /// <summary>
     /// Get survey summary
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
