@@ -136,6 +136,12 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Survey with ID={surveyId} was not found.");
       }
 
+      if (entity.AuthorId != HttpContext.GetGuidUserId())
+      {
+        _logger.LogInformation($"Unauthorized access to Survey  ID={surveyId}.");
+        return Forbid();
+      }
+
       //clear results
       var results = _unitOfWork.SurveyResults.Where(sr => sr.SurveyId == surveyId);
       _unitOfWork.SurveyResults.DeleteRange(results);

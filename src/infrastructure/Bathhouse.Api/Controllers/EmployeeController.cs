@@ -690,7 +690,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Survey with ID={surveyId} was not found.");
       }
 
-      if (survey.AuthorId != employeeId)
+      if (survey.AuthorId != employeeId || survey.AuthorId != HttpContext.GetGuidUserId())
       {
         _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
         return Forbid();
