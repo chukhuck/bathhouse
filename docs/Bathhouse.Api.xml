@@ -178,7 +178,7 @@
             Change status for one of the MyWorkItem
             </summary>
             <param name="employeeId">ID of entity for updating</param>
-            <param name="workItemId"></param>
+            <param name="workitemId"></param>
             <param name="newWorkItemStatus">New status for workItem</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.EmployeeController.GetAllSurveysForEmployee(System.Guid)">
@@ -253,7 +253,7 @@
             Delete Office by ID
             </summary>
             <param name="officeId">Office ID</param>
-            <param name="newOfficeIdForClients">The ID of Office that will be set for clients of the deleting Office. 
+            <param name="newOfficeId">The ID of Office that will be set for clients of the deleting Office. 
             If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.OfficeController.GetManagersInOffice(System.Guid)">

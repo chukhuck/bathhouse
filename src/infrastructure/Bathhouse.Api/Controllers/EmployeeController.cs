@@ -60,18 +60,10 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<EmployeeResponse>> GetAll()
     {
-      try
-      {
-        var allEntities = _repository.GetAll();
-        _logger.LogInformation($"All of Employees was got.");
+      var allEntities = _repository.GetAll();
+      _logger.LogInformation($"All of Employees was got.");
 
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(allEntities));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting all of Employees an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of Employees an exception was fired.");
-      }
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(allEntities));
     }
 
     // TODO Add offices to response 
@@ -82,24 +74,16 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{employeeId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<EmployeeResponse> GetById(Guid employeeId)
     {
-      try
-      {
-        Employee? entity = _repository.Get(employeeId);
+      Employee? entity = _repository.Get(employeeId);
 
-        if (entity is null)
-        {
-          _logger.LogInformation($"Request on getting unexisting Employee id={employeeId} was received.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
-        return Ok(_mapper.Map<Employee, EmployeeResponse>(entity));
-      }
-      catch (Exception ex)
+      if (entity is null)
       {
-        _logger.LogError($"While getting Employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Employee id={employeeId} an exception was fired");
+        _logger.LogInformation($"Request on getting unexisting Employee id={employeeId} was received.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
+
+      _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+      return Ok(_mapper.Map<Employee, EmployeeResponse>(entity));
     }
 
     /// <summary>
@@ -109,23 +93,15 @@ namespace Bathhouse.Api.Controllers
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<EmployeeResponse> Create(EmployeeRequest request)
     {
-      try
-      {
-        Employee newEntity = _repository.Add(_mapper.Map<EmployeeRequest, Employee>(request));
+      Employee newEntity = _repository.Add(_mapper.Map<EmployeeRequest, Employee>(request));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Employee id= was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Employee id= was creating successfully.");
 
-        return CreatedAtAction(
-          "GetById", 
-          new { id = newEntity.Id }, 
-          _mapper.Map<Employee, EmployeeResponse>(newEntity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating Employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Employee an exception was fired");
-      }
+      return CreatedAtAction(
+        "GetById",
+        new { id = newEntity.Id },
+        _mapper.Map<Employee, EmployeeResponse>(newEntity));
     }
 
     /// <summary>
@@ -136,28 +112,20 @@ namespace Bathhouse.Api.Controllers
     [HttpPut("{employeeId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid employeeId, EmployeeRequest request)
     {
-      try
+      Employee? entity = _repository.Get(employeeId);
+
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(employeeId);
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        Employee updatedEntity = _mapper.Map<EmployeeRequest, Employee>(request, entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Employee id={employeeId} was updated successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While updating Employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Employee an exception was fired");
-      }
+
+      Employee updatedEntity = _mapper.Map<EmployeeRequest, Employee>(request, entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Employee id={employeeId} was updated successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -168,27 +136,19 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid employeeId)
     {
-      try
+      Employee? entity = _repository.Get(employeeId);
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(employeeId);
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _repository.Delete(entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Employee id={employeeId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting Employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={employeeId} an exception was fired");
-      }
+
+      _repository.Delete(entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Employee id={employeeId} was deleted successfully.");
+
+      return NoContent();
     }
     #endregion
 
@@ -201,25 +161,17 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{employeeId:guid}/roles", Name = nameof(GetRolesForEmployee))]
     public ActionResult<string> GetRolesForEmployee(Guid employeeId)
     {
-      try
+      Employee? entity = _repository.Get(key: employeeId);
+
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(key: employeeId);
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
-
-        return Ok(_userManager.GetRolesAsync(entity).Result);
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting roles of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting roles of employee id={employeeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+
+      return Ok(_userManager.GetRolesAsync(entity).Result);
     }
 
     /// <summary>
@@ -231,33 +183,25 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IdentityResult> AddRoleForEmployee(Guid employeeId, string newRole)
     {
-      try
+      Employee? entity = _repository.Get(key: employeeId);
+
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(key: employeeId);
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
-
-        var identityResult = _userManager.AddToRoleAsync(entity, newRole).Result;
-
-        if (!identityResult.Succeeded)
-        {
-          _logger.LogInformation($"Error is fired while adding Employee id={employeeId} to role {newRole}.");
-          return BadRequest(identityResult.Errors);
-        }
-
-        return NoContent();
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
+
+      _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+
+      var identityResult = _userManager.AddToRoleAsync(entity, newRole).Result;
+
+      if (!identityResult.Succeeded)
       {
-        _logger.LogError($"While adding Employee id={employeeId} to role {newRole} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding Employee id={employeeId} to role {newRole} an exception was fired");
+        _logger.LogInformation($"Error is fired while adding Employee id={employeeId} to role {newRole}.");
+        return BadRequest(identityResult.Errors);
       }
+
+      return NoContent();
     }
 
     /// <summary>
@@ -269,33 +213,25 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteRoleFromEmployee(Guid employeeId, string newRole)
     {
-      try
+      Employee? entity = _repository.Get(key: employeeId);
+
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(key: employeeId);
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
-
-        var identityResult = _userManager.RemoveFromRoleAsync(entity, newRole).Result;
-
-        if (!identityResult.Succeeded)
-        {
-          _logger.LogInformation($"Error is fired while deleting Employee id={employeeId} from role {newRole}.");
-          return BadRequest(identityResult.Errors);
-        }
-
-        return NoContent();
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
+
+      _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+
+      var identityResult = _userManager.RemoveFromRoleAsync(entity, newRole).Result;
+
+      if (!identityResult.Succeeded)
       {
-        _logger.LogError($"While deleting Employee id={employeeId} from role {newRole} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Employee id={employeeId} from role {newRole} an exception was fired");
+        _logger.LogInformation($"Error is fired while deleting Employee id={employeeId} from role {newRole}.");
+        return BadRequest(identityResult.Errors);
       }
+
+      return NoContent();
     }
 
 
@@ -310,16 +246,8 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllTheDirectors()
     {
-      try
-      {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
-          _userManager.GetUsersInRoleAsync(Constants.DirectorRoleName).Result));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting directors an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting directors an exception was fired");
-      }
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+        _userManager.GetUsersInRoleAsync(Constants.DirectorRoleName).Result));
     }
 
     /// <summary>
@@ -329,16 +257,8 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllSimpleEmployees()
     {
-      try
-      {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
-          _userManager.GetUsersInRoleAsync(Constants.EmployeeRoleName).Result));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting employees an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting employees an exception was fired");
-      }
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+        _userManager.GetUsersInRoleAsync(Constants.EmployeeRoleName).Result));
     }
 
     /// <summary>
@@ -348,16 +268,8 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllManagers()
     {
-      try
-      {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
-          _userManager.GetUsersInRoleAsync(Constants.ManagerRoleName).Result));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting managers an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting managers an exception was fired");
-      }
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+        _userManager.GetUsersInRoleAsync(Constants.ManagerRoleName).Result));
     }
 
     /// <summary>
@@ -367,16 +279,8 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllTechSupporters()
     {
-      try
-      {
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
-          _userManager.GetUsersInRoleAsync(Constants.AdminRoleName).Result));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting the tech supporters an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While the tech supporters directors an exception was fired");
-      }
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(
+        _userManager.GetUsersInRoleAsync(Constants.AdminRoleName).Result));
     }
 
     #endregion
@@ -389,26 +293,18 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{employeeId:guid}/offices", Name = nameof(GetOfficesForEmployee))]
     public ActionResult<OfficeResponse> GetOfficesForEmployee(Guid employeeId)
     {
-      try
+      Employee? entity = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
+
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
-        _logger.LogInformation($"Office for employee id={employeeId} was getting successfully.");
-
-        return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(entity.Offices));
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting offices of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting offices of employee id={employeeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+      _logger.LogInformation($"Office for employee id={employeeId} was getting successfully.");
+
+      return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(entity.Offices));
     }
 
     /// <summary>
@@ -420,28 +316,20 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult DeleteOfficeFromEmployee(Guid employeeId, Guid officeId)
     {
-      try
+      Employee? entity = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
+
+      if (entity is null)
       {
-        Employee? entity = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        entity.DeleteOffice(officeId);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Office of employee id={employeeId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting office for manager  id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting office for manager  id={employeeId}  an exception was fired");
-      }
+
+      entity.DeleteOffice(officeId);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Office of employee id={employeeId} was deleted successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -453,34 +341,26 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IEnumerable<OfficeResponse>> AddOfficeToEmployee(Guid employeeId, Guid officeId)
     {
-      try
+      Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
+      if (employee is null)
       {
-        Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
-        if (employee is null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        Office? addingOffice = _officesRepository.Get(officeId);
-        if (addingOffice is null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        employee.AddOffice(addingOffice);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Office id={officeId} was added to Employee ID={employeeId} successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
+
+      Office? addingOffice = _officesRepository.Get(officeId);
+      if (addingOffice is null)
       {
-        _logger.LogError($"While adding office to employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding office to employee  an exception was fired");
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
+
+      employee.AddOffice(addingOffice);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Office id={officeId} was added to Employee ID={employeeId} successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -492,41 +372,33 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IEnumerable<OfficeResponse>> SetOfficesForEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> officeIds)
     {
-      try
+      Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
+      if (employee == null)
       {
-        Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
-        if (employee == null)
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
+      }
+
+      employee.Offices.Clear();
+
+      foreach (var officeId in officeIds)
+      {
+        Office? addingOffice = _officesRepository.Get(officeId);
+
+        if (addingOffice == null)
         {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
+          _logger.LogInformation($"Office with ID={officeId} was not found.");
+          return NotFound($"Office with ID={officeId} was not found.");
         }
 
-        employee.Offices.Clear();
-
-        foreach (var officeId in officeIds)
-        {
-          Office? addingOffice = _officesRepository.Get(officeId);
-
-          if (addingOffice == null)
-          {
-            _logger.LogInformation($"Office with ID={officeId} was not found.");
-            return NotFound($"Office with ID={officeId} was not found.");
-          }
-
-          employee.Offices.Add(addingOffice);
-          _logger.LogInformation($"Office id={officeId} was found.");
-        }
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Office was added to Employee ID={employeeId} successfully.");
-
-        return NoContent();
+        employee.Offices.Add(addingOffice);
+        _logger.LogInformation($"Office id={officeId} was found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While setting offices to employee an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While setting offices to employee an exception was fired");
-      }
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Office was added to Employee ID={employeeId} successfully.");
+
+      return NoContent();
     }
 
     #endregion
@@ -539,27 +411,19 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{employeeId:guid}/myworkitems", Name = nameof(GetWorkItemsForEmployee))]
     public ActionResult<WorkItemResponse> GetWorkItemsForEmployee(Guid employeeId)
     {
-      try
+      if (_repository.Get(key: employeeId) is not Employee employee)
       {
-        if (_repository.Get(key: employeeId) is not Employee employee)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"WorkItems for employee id={employeeId} was getting successfully.");
-
-        var workItems = _workItemRepository.GetAll(
-          filter: wi => wi.ExecutorId == employeeId,
-          includePropertyNames: new[] { "Executor", "Creator" },
-          orderBy: all => all.OrderBy(wi => wi.CreationDate));
-        return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting workitems of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems of employee id={employeeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"WorkItems for employee id={employeeId} was getting successfully.");
+
+      var workItems = _workItemRepository.GetAll(
+        filter: wi => wi.ExecutorId == employeeId,
+        includePropertyNames: new[] { "Executor", "Creator" },
+        orderBy: all => all.OrderBy(wi => wi.CreationDate));
+      return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
     }
 
     /// <summary>
@@ -569,27 +433,19 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{employeeId:guid}/workitems", Name = nameof(GetAllWorkItemsCreatedByEmployee))]
     public ActionResult<IEnumerable<WorkItemResponse>> GetAllWorkItemsCreatedByEmployee(Guid employeeId)
     {
-      try
+      if (_repository.Get(key: employeeId) is not Employee employee)
       {
-        if (_repository.Get(key: employeeId) is not Employee employee)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"WorkItems for employee id={employeeId} was getting successfully.");
-
-        var workItems = _workItemRepository.GetAll(
-          filter: wi => wi.CreatorId == employeeId,
-          includePropertyNames: new[] { "Executor", "Creator" },
-          orderBy: all => all.OrderBy(wi => wi.CreationDate));
-        return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting workitems created by employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitems created by employee id={employeeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"WorkItems for employee id={employeeId} was getting successfully.");
+
+      var workItems = _workItemRepository.GetAll(
+        filter: wi => wi.CreatorId == employeeId,
+        includePropertyNames: new[] { "Executor", "Creator" },
+        orderBy: all => all.OrderBy(wi => wi.CreationDate));
+      return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(workItems));
     }
 
     /// <summary>
@@ -601,28 +457,20 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<WorkItemResponse> GetWorkItemCreatedByEmployee(Guid employeeId, Guid workitemId)
     {
-      try
+      WorkItem? workItem = _workItemRepository.Get(workitemId);
+      if (workItem == null)
       {
-        WorkItem? workItem = _workItemRepository.Get(workitemId);
-        if (workItem == null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
-          return NotFound($"WorkItem with ID={workitemId} was not found.");
-        }
-
-        if (workItem.CreatorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
-          return Forbid();
-        }
-
-        return Ok(_mapper.Map<WorkItem, WorkItemResponse>(workItem));
+        _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
+        return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
-      catch (Exception ex)
+
+      if (workItem.CreatorId != employeeId)
       {
-        _logger.LogError($"While getting workitem id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting workitem id={employeeId} an exception was fired");
+        _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
+        return Forbid();
       }
+
+      return Ok(_mapper.Map<WorkItem, WorkItemResponse>(workItem));
     }
 
     /// <summary>
@@ -634,33 +482,25 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteWorkItemCreatedByEmployee(Guid employeeId, Guid workitemId)
     {
-      try
+      WorkItem? workItem = _workItemRepository.Get(workitemId);
+      if (workItem == null)
       {
-        WorkItem? workItem = _workItemRepository.Get(workitemId);
-        if (workItem == null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
-          return NotFound($"WorkItem with ID={workitemId} was not found.");
-        }
-
-        if (workItem.CreatorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
-          return Forbid();
-        }
-
-        _workItemRepository.Delete(workitemId);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={workitemId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
+        return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
-      catch (Exception ex)
+
+      if (workItem.CreatorId != employeeId)
       {
-        _logger.LogError($"While deleting WorkItem id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting WorkItem id={employeeId} an exception was fired");
+        _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
+        return Forbid();
       }
+
+      _workItemRepository.Delete(workitemId);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={workitemId} was deleted successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -672,24 +512,16 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
     public ActionResult<WorkItemResponse> CreateWorkItemByEmployee(Guid employeeId, WorkItemRequest workItem)
     {
-      try
-      {
-        workItem.CreatorId = employeeId;
-        WorkItem newWorkItem = _workItemRepository.Add(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
+      workItem.CreatorId = employeeId;
+      WorkItem newWorkItem = _workItemRepository.Add(_mapper.Map<WorkItemRequest, WorkItem>(workItem));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={newWorkItem.Id} was creating successfully.");
 
-        return CreatedAtAction(
-          "GetCreatedWorkItem", 
-          new { employeeId, workitemid = newWorkItem.Id }, 
-          _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating workitem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating workitem an exception was fired");
-      }
+      return CreatedAtAction(
+        "GetCreatedWorkItem",
+        new { employeeId, workitemid = newWorkItem.Id },
+        _mapper.Map<WorkItem, WorkItemResponse>(newWorkItem));
     }
 
     /// <summary>
@@ -702,34 +534,26 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult UpdateCreatedWorkItem(Guid employeeId, Guid workitemId, WorkItemRequest request)
     {
-      try
+      WorkItem? workItem = _workItemRepository.Get(workitemId);
+      if (workItem == null)
       {
-        WorkItem? workItem = _workItemRepository.Get(workitemId);
-        if (workItem == null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
-          return NotFound($"WorkItem with ID={workitemId} was not found.");
-        }
-
-        if (workItem.CreatorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
-          return Forbid();
-        }
-
-        request.CreatorId = employeeId;
-        WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, workItem);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
+        return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
-      catch (Exception ex)
+
+      if (workItem.CreatorId != employeeId)
       {
-        _logger.LogError($"While updating workitem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
+        _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
+        return Forbid();
       }
+
+      request.CreatorId = employeeId;
+      WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, workItem);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={updatedEntity.Id} was updated successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -742,40 +566,31 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult ChangeStatusMyWorkItem(Guid employeeId, Guid workitemId, WorkItemStatus newWorkItemStatus)
     {
-      try
+      WorkItem? workItem = _workItemRepository.Get(workitemId);
+      if (workItem == null)
       {
-        WorkItem? workItem = _workItemRepository.Get(workitemId);
-        if (workItem == null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
-          return NotFound($"WorkItem with ID={workitemId} was not found.");
-        }
-
-        if (workItem.ExecutorId == employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
-          return Forbid();
-        }
-
-        if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized canceled to workitem ID={workitemId}.");
-          return Forbid();
-        }
-
-        workItem.Status = newWorkItemStatus;
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={employeeId} was updated successfully.");
-
-        return NoContent();
-
+        _logger.LogInformation($"WorkItem with ID={workitemId} was not found.");
+        return NotFound($"WorkItem with ID={workitemId} was not found.");
       }
-      catch (Exception ex)
+
+      if (workItem.ExecutorId == employeeId)
       {
-        _logger.LogError($"While updating workitem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating workitem an exception was fired");
+        _logger.LogInformation($"Unauthorized access to workitem ID={workitemId}.");
+        return Forbid();
       }
+
+      if (newWorkItemStatus == WorkItemStatus.Canceled && workItem.CreatorId != employeeId)
+      {
+        _logger.LogInformation($"Unauthorized canceled to workitem ID={workitemId}.");
+        return Forbid();
+      }
+
+      workItem.Status = newWorkItemStatus;
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={employeeId} was updated successfully.");
+
+      return NoContent();
     }
 
     #endregion
@@ -789,25 +604,17 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{employeeId:guid}/surveys", Name = nameof(GetAllSurveysForEmployee))]
     public ActionResult<IEnumerable<SurveyResponse>> GetAllSurveysForEmployee(Guid employeeId)
     {
-      try
+      Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Surveys" });
+      if (employee == null)
       {
-        Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Surveys" });
-        if (employee == null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
-        _logger.LogInformation($"Surveys for employee id={employeeId} was getting successfully.");
-
-        return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(employee.Surveys));
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting surveys of employee id={employeeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting surveys of employee id={employeeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"Employee id={employeeId} was getting successfully.");
+      _logger.LogInformation($"Surveys for employee id={employeeId} was getting successfully.");
+
+      return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(employee.Surveys));
     }
 
     /// <summary>
@@ -819,28 +626,20 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveyResponse> GetSurveyForEmployee(Guid employeeId, Guid surveyId)
     {
-      try
+      Survey? survey = _surveyRepository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
+      if (survey == null)
       {
-        Survey? survey = _surveyRepository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
-        if (survey == null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
-
-        if (survey.AuthorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
-          return Forbid();
-        }
-
-        return Ok(_mapper.Map<Survey, SurveyResponse>(survey));
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
       }
-      catch (Exception ex)
+
+      if (survey.AuthorId != employeeId)
       {
-        _logger.LogError($"While getting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={surveyId} an exception was fired");
+        _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
+        return Forbid();
       }
+
+      return Ok(_mapper.Map<Survey, SurveyResponse>(survey));
     }
 
     /// <summary>
@@ -853,37 +652,29 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveySummaryResponse> GetSurveySummaryForEmployee(Guid employeeId, Guid surveyId, SurveyResultSummaryType summarytype)
     {
-      try
+      Survey? survey = _surveyRepository.Get(
+        key: surveyId,
+        includePropertyNames: new[] { "Questions", "Author" });
+      if (survey == null)
       {
-        Survey? survey = _surveyRepository.Get(
-          key: surveyId,
-          includePropertyNames: new[] { "Questions", "Author" });
-        if (survey == null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
-
-        if (survey.AuthorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
-          return Forbid();
-        }
-
-        survey.Results = _unitOfWork.SurveyResults
-          .GetAll(
-              filter: result => result.SurveyId == survey.Id,
-              includePropertyNames: new[] { "Author", "Answers" })
-          .ToList();
-
-        var summary = survey.GetSummary(summarytype);
-        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
       }
-      catch (Exception ex)
+
+      if (survey.AuthorId != employeeId)
       {
-        _logger.LogError($"While getting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={surveyId} an exception was fired");
+        _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
+        return Forbid();
       }
+
+      survey.Results = _unitOfWork.SurveyResults
+        .GetAll(
+            filter: result => result.SurveyId == survey.Id,
+            includePropertyNames: new[] { "Author", "Answers" })
+        .ToList();
+
+      var summary = survey.GetSummary(summarytype);
+      return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
     }
 
     /// <summary>
@@ -895,33 +686,25 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteSurveyForEmployee(Guid employeeId, Guid surveyId)
     {
-      try
+      Survey? survey = _surveyRepository.Get(surveyId);
+      if (survey == null)
       {
-        Survey? survey = _surveyRepository.Get(surveyId);
-        if (survey == null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
-
-        if (survey.AuthorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
-          return Forbid();
-        }
-
-        _surveyRepository.Delete(surveyId);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
       }
-      catch (Exception ex)
+
+      if (survey.AuthorId != employeeId)
       {
-        _logger.LogError($"While deleting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Survey id={surveyId} an exception was fired");
+        _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
+        return Forbid();
       }
+
+      _surveyRepository.Delete(surveyId);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -933,21 +716,13 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
     public ActionResult<SurveyResponse> CreateSurveyForEmployee(Guid employeeId, SurveyRequest survey)
     {
-      try
-      {
-        survey.AuthorId = employeeId;
-        Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
+      survey.AuthorId = employeeId;
+      Survey newSurvey = _surveyRepository.Add(_mapper.Map<SurveyRequest, Survey>(survey));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Survey id={newSurvey.Id} was creating successfully.");
 
-        return CreatedAtAction("GetSurvey", new { employeeId, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating Survey an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Survey an exception was fired");
-      }
+      return CreatedAtAction("GetSurvey", new { employeeId, surveyId = newSurvey.Id }, _mapper.Map<Survey, SurveyResponse>(newSurvey));
     }
 
     /// <summary>
@@ -960,34 +735,26 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult UpdateSurveyForEmployee(Guid employeeId, Guid surveyId, SurveyRequest request)
     {
-      try
+      Survey? survey = _surveyRepository.Get(surveyId);
+      if (survey == null)
       {
-        Survey? survey = _surveyRepository.Get(surveyId);
-        if (survey == null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
-
-        if (survey.AuthorId != employeeId)
-        {
-          _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
-          return Forbid();
-        }
-
-        request.AuthorId = employeeId;
-        Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, survey);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={updatedEntity.Id} was updated successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
       }
-      catch (Exception ex)
+
+      if (survey.AuthorId != employeeId)
       {
-        _logger.LogError($"While updating Survey an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Survey an exception was fired");
+        _logger.LogInformation($"Unauthorized access to survey ID={surveyId}.");
+        return Forbid();
       }
+
+      request.AuthorId = employeeId;
+      Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, survey);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Survey id={updatedEntity.Id} was updated successfully.");
+
+      return NoContent();
     }
     #endregion
   }

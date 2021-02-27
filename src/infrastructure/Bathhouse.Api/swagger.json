@@ -1829,7 +1829,7 @@
             }
           },
           {
-            "name": "workItemId",
+            "name": "workitemId",
             "in": "path",
             "description": "",
             "required": true,
@@ -2636,7 +2636,7 @@
             }
           },
           {
-            "name": "newOfficeIdForClients",
+            "name": "newOfficeId",
             "in": "query",
             "description": "The ID of Office that will be set for clients of the deleting Office. \r\n            If newOfficeIdForClients equal NULL, then for clients of the deleting Office OfficeId will be set NULL",
             "schema": {

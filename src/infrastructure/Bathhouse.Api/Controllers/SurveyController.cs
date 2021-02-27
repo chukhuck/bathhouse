@@ -47,18 +47,10 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<SurveyResponse>> GetAll()
     {
-      try
-      {
-        var allEntities = _repository.GetAll(includePropertyNames: new[] { "Author" });
-        _logger.LogInformation($"All of Surveys was got.");
+      var allEntities = _repository.GetAll(includePropertyNames: new[] { "Author" });
+      _logger.LogInformation($"All of Surveys was got.");
 
-        return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(allEntities));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting all of Surveys an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of Surveys an exception was fired.");
-      }
+      return Ok(_mapper.Map<IEnumerable<Survey>, IEnumerable<SurveyResponse>>(allEntities));
     }
 
     /// <summary>
@@ -68,23 +60,15 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{surveyId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<SurveyResponse> GetById(Guid surveyId)
     {
-      try
+      Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" });
+      if (entity is null)
       {
-        Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" });
-        if (entity is null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
+      }
 
-        _logger.LogInformation($"Survey id={surveyId} was getting successfully.");
-        return Ok(_mapper.Map<Survey, SurveyResponse>(entity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Survey id={surveyId} an exception was fired");
-      }
+      _logger.LogInformation($"Survey id={surveyId} was getting successfully.");
+      return Ok(_mapper.Map<Survey, SurveyResponse>(entity));
     }
 
     /// <summary>
@@ -94,23 +78,15 @@ namespace Bathhouse.Api.Controllers
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<SurveyResponse> Create(SurveyRequest request)
     {
-      try
-      {
-        Survey newEntity = _repository.Add(_mapper.Map<SurveyRequest, Survey>(request));
+      Survey newEntity = _repository.Add(_mapper.Map<SurveyRequest, Survey>(request));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={newEntity.Id} was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Survey id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction(
-          "GetById",
-          new { id = newEntity.Id },
-          _mapper.Map<Survey, SurveyResponse>(newEntity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating Survey an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Survey an exception was fired");
-      }
+      return CreatedAtAction(
+        "GetById",
+        new { id = newEntity.Id },
+        _mapper.Map<Survey, SurveyResponse>(newEntity));
     }
 
     /// <summary>
@@ -122,27 +98,19 @@ namespace Bathhouse.Api.Controllers
     [HttpPut("{surveyId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid surveyId, SurveyRequest request)
     {
-      try
+      Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
+      if (entity is null)
       {
-        Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
-        if (entity is null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
-
-        Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={surveyId} was updated successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While updating Survey an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Survey an exception was fired");
-      }
+
+      Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Survey id={surveyId} was updated successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -153,31 +121,23 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid surveyId)
     {
-      try
+      Survey? entity = _repository.Get(surveyId);
+      if (entity is null)
       {
-        Survey? entity = _repository.Get(surveyId);
-        if (entity is null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
-
-        //clear results
-        var results = _unitOfWork.SurveyResults.Where(sr => sr.SurveyId == surveyId);
-        _unitOfWork.SurveyResults.DeleteRange(results);
-
-        _repository.Delete(entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting Survey id={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Survey id={surveyId} an exception was fired");
-      }
+
+      //clear results
+      var results = _unitOfWork.SurveyResults.Where(sr => sr.SurveyId == surveyId);
+      _unitOfWork.SurveyResults.DeleteRange(results);
+
+      _repository.Delete(entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Survey id={surveyId} was deleted successfully.");
+
+      return NoContent();
     }
     #endregion
 
@@ -190,24 +150,16 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery] SurveyResultSummaryType summaryType)
     {
-      try
+      Survey? survey = _repository.Get(key: surveyId);
+      if (survey is null)
       {
-        Survey? survey = _repository.Get(key: surveyId);
-        if (survey is null)
-        {
-          _logger.LogInformation($"Survey with ID={surveyId} was not found.");
-          return NotFound($"Survey with ID={surveyId} was not found.");
-        }
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
+      }
 
-        _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
-        var summary = survey.GetSummary(summaryType);
-        return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting the survey ID={surveyId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting the survey ID={surveyId} an exception was fired.");
-      }
+      _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
+      var summary = survey.GetSummary(summaryType);
+      return Ok(_mapper.Map<SurveySummary, SurveySummaryResponse>(summary));
     }
   }
 }

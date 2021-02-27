@@ -48,18 +48,10 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<OfficeResponse>> GetAll()
     {
-      try
-      {
-        var allEntities = _repository.GetAll(orderBy: all => all.OrderBy(c => c.Number));
-        _logger.LogInformation($"All of Offices was got.");
+      var allEntities = _repository.GetAll(orderBy: all => all.OrderBy(c => c.Number));
+      _logger.LogInformation($"All of Offices was got.");
 
-        return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(allEntities));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting all of Offices an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of Offices an exception was fired.");
-      }
+      return Ok(_mapper.Map<IEnumerable<Office>, IEnumerable<OfficeResponse>>(allEntities));
     }
 
     /// <summary>
@@ -69,25 +61,16 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{officeId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<EmployeeResponse> GetById(Guid officeId)
     {
-      try
+      Office? entity = _repository.Get(officeId);
+
+      if (entity is null)
       {
-        Office? entity = _repository.Get(officeId);
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        _logger.LogInformation($"Office id={officeId} was getting successfully.");
-        return Ok(_mapper.Map<Office, OfficeResponse>(entity));
-
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting Office id={officeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting Office id={officeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"Office id={officeId} was getting successfully.");
+      return Ok(_mapper.Map<Office, OfficeResponse>(entity));
     }
 
     /// <summary>
@@ -97,20 +80,15 @@ namespace Bathhouse.Api.Controllers
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<EmployeeResponse> Create(OfficeRequest request)
     {
-      try
-      {
-        Office newEntity = _repository.Add(_mapper.Map<OfficeRequest, Office>(request));
+      Office newEntity = _repository.Add(_mapper.Map<OfficeRequest, Office>(request));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Office id= was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Office id= was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity.Id }, _mapper.Map<Office, OfficeResponse>(newEntity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating Office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating Office an exception was fired");
-      }
+      return CreatedAtAction(
+        "GetById",
+        new { id = newEntity.Id },
+        _mapper.Map<Office, OfficeResponse>(newEntity));
     }
 
     /// <summary>
@@ -121,29 +99,20 @@ namespace Bathhouse.Api.Controllers
     [HttpPut("{officeId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid officeId, OfficeRequest request)
     {
-      try
+      Office? entity = _repository.Get(officeId);
+
+      if (entity is null)
       {
-        Office? entity = _repository.Get(officeId);
-
-        if (entity is null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        Office updatedEntity = _mapper.Map<OfficeRequest, Office>(request, entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Office id={officeId} was updated successfully.");
-
-        return NoContent();
-
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While updating Office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating Office an exception was fired");
-      }
+
+      Office updatedEntity = _mapper.Map<OfficeRequest, Office>(request, entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Office id={officeId} was updated successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -156,45 +125,37 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid officeId, [FromQuery] Guid? newOfficeId)
     {
-      try
+      Office? entity = _repository.Get(officeId);
+      if (entity is null)
       {
-        Office? entity = _repository.Get(officeId);
-        if (entity is null)
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
+      }
+
+      if (newOfficeId is not null)
+      {
+        Office? newOffice = _repository.Get(newOfficeId.Value);
+
+        if (newOffice is null)
         {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
+          _logger.LogInformation($"New Office with ID={newOfficeId.Value} was not found.");
+          return NotFound($"New Office with ID={newOfficeId.Value} was not found.");
         }
 
-        if (newOfficeId is not null)
+        var clients = _unitOfWork.Clients.Where(c => c.OfficeId == officeId);
+
+        foreach (var client in clients)
         {
-          Office? newOffice = _repository.Get(newOfficeId.Value);
-
-          if (newOffice is null)
-          {
-            _logger.LogInformation($"New Office with ID={newOfficeId.Value} was not found.");
-            return NotFound($"New Office with ID={newOfficeId.Value} was not found.");
-          }
-
-          var clients = _unitOfWork.Clients.Where(c => c.OfficeId == officeId);
-
-          foreach (var client in clients)
-          {
-            client.SetOffice(newOffice);
-          }
+          client.SetOffice(newOffice);
         }
-
-        _repository.Delete(entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Office id={officeId} was deleted successfully.");
-
-        return NoContent();
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting Office id={officeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting Office id={officeId} an exception was fired");
-      }
+
+      _repository.Delete(entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Office id={officeId} was deleted successfully.");
+
+      return NoContent();
     }
     #endregion
 
@@ -206,26 +167,18 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{officeId:guid}/managers", Name = nameof(GetManagersInOffice))]
     public ActionResult<EmployeeResponse> GetManagersInOffice(Guid officeId)
     {
-      try
+      Office? office = _repository.Get(officeId);
+
+      if (office is null)
       {
-        Office? office = _repository.Get(officeId);
-
-        if (office is null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        _logger.LogInformation($"Office id={officeId} was getting successfully.");
-        _logger.LogInformation($"Managers for office id={officeId} was getting successfully.");
-
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting manager of office id={officeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting manager of office id={officeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"Office id={officeId} was getting successfully.");
+      _logger.LogInformation($"Managers for office id={officeId} was getting successfully.");
+
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
     }
 
     /// <summary>
@@ -235,27 +188,18 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{officeId:guid}/employees", Name = nameof(GetEmployeesInOffice))]
     public ActionResult<EmployeeResponse> GetEmployeesInOffice(Guid officeId)
     {
-      try
+      Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
+
+      if (office is null)
       {
-        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
-
-        if (office is null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        _logger.LogInformation($"Office id={officeId} was getting successfully.");
-        _logger.LogInformation($"Employees for office id={officeId} was getting successfully.");
-
-        return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
-
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting manager of office id={officeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting manager of office id={officeId} an exception was fired");
-      }
+
+      _logger.LogInformation($"Office id={officeId} was getting successfully.");
+      _logger.LogInformation($"Employees for office id={officeId} was getting successfully.");
+
+      return Ok(_mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeResponse>>(office.Employees));
     }
 
     /// <summary>
@@ -267,28 +211,20 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult DeleteEmployeeFromOffice(Guid officeId, Guid employeeId)
     {
-      try
+      Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
+
+      if (office is null)
       {
-        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
-
-        if (office is null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        office.DeleteEmployee(employeeId);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Employee of office id={officeId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting manager for office  id={officeId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting manager for office  id={officeId}  an exception was fired");
-      }
+
+      office.DeleteEmployee(employeeId);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Employee of office id={officeId} was deleted successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -300,34 +236,26 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public virtual ActionResult<IEnumerable<EmployeeResponse>> AddEmployeeToOffice(Guid officeId, Guid employeeId)
     {
-      try
+      Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
+      if (office == null)
       {
-        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
-        if (office == null)
-        {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
-        }
-
-        Employee? addingEmployee = _employeeRepository.Get(employeeId);
-        if (addingEmployee == null)
-        {
-          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-          return NotFound($"Employee with ID={employeeId} was not found.");
-        }
-
-        office.AddEmployee(addingEmployee);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Employee id={employeeId} was added to Office ID={officeId} successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
       }
-      catch (Exception ex)
+
+      Employee? addingEmployee = _employeeRepository.Get(employeeId);
+      if (addingEmployee == null)
       {
-        _logger.LogError($"While adding employee to office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding employee to office an exception was fired");
+        _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+        return NotFound($"Employee with ID={employeeId} was not found.");
       }
+
+      office.AddEmployee(addingEmployee);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Employee id={employeeId} was added to Office ID={officeId} successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -345,41 +273,33 @@ namespace Bathhouse.Api.Controllers
       Guid officeId,
       [FromBody] IEnumerable<Guid> employeeIds)
     {
-      try
+      Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
+      if (office == null)
       {
-        Office? office = _repository.Get(key: officeId, includePropertyNames: new[] { "Employees" });
-        if (office == null)
+        _logger.LogInformation($"Office with ID={officeId} was not found.");
+        return NotFound($"Office with ID={officeId} was not found.");
+      }
+
+      office.Employees.Clear();
+
+      foreach (var employeeId in employeeIds)
+      {
+        Employee? addingEmployee = _employeeRepository.Get(employeeId);
+
+        if (addingEmployee == null)
         {
-          _logger.LogInformation($"Office with ID={officeId} was not found.");
-          return NotFound($"Office with ID={officeId} was not found.");
+          _logger.LogInformation($"Employee with ID={employeeId} was not found.");
+          return NotFound($"Employee with ID={employeeId} was not found.");
         }
 
-        office.Employees.Clear();
-
-        foreach (var employeeId in employeeIds)
-        {
-          Employee? addingEmployee = _employeeRepository.Get(employeeId);
-
-          if (addingEmployee == null)
-          {
-            _logger.LogInformation($"Employee with ID={employeeId} was not found.");
-            return NotFound($"Employee with ID={employeeId} was not found.");
-          }
-
-          office.Employees.Add(addingEmployee);
-          _logger.LogInformation($"Employee id={employeeId} was found.");
-        }
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Employees was added to Office ID={officeId} successfully.");
-
-        return NoContent();
+        office.Employees.Add(addingEmployee);
+        _logger.LogInformation($"Employee id={employeeId} was found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While adding employee to office an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While adding employee to office an exception was fired");
-      }
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Employees was added to Office ID={officeId} successfully.");
+
+      return NoContent();
     }
   }
 }

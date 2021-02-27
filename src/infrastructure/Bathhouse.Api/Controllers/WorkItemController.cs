@@ -42,18 +42,10 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<WorkItemResponse>> GetAll()
     {
-      try
-      {
-        var allEntities = _repository.GetAll(includePropertyNames: new[] { "Creator", "Executor" });
-        _logger.LogInformation($"All of WorkItems was got.");
+      var allEntities = _repository.GetAll(includePropertyNames: new[] { "Creator", "Executor" });
+      _logger.LogInformation($"All of WorkItems was got.");
 
-        return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(allEntities));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting all of WorkItems an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of WorkItems an exception was fired.");
-      }
+      return Ok(_mapper.Map<IEnumerable<WorkItem>, IEnumerable<WorkItemResponse>>(allEntities));
     }
 
     /// <summary>
@@ -63,23 +55,15 @@ namespace Bathhouse.Api.Controllers
     [HttpGet("{workItemId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<WorkItemResponse> GetById(Guid workItemId)
     {
-      try
+      WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
+      if (entity is null)
       {
-        WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
-        if (entity is null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
-          return NotFound($"WorkItem with ID={workItemId} was not found.");
-        }
+        _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
+        return NotFound($"WorkItem with ID={workItemId} was not found.");
+      }
 
-        _logger.LogInformation($"WorkItem id={workItemId} was getting successfully.");
-        return Ok(_mapper.Map<WorkItem, WorkItemResponse>(entity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting WorkItem id={workItemId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting WorkItem id={workItemId} an exception was fired");
-      }
+      _logger.LogInformation($"WorkItem id={workItemId} was getting successfully.");
+      return Ok(_mapper.Map<WorkItem, WorkItemResponse>(entity));
     }
 
     /// <summary>
@@ -89,23 +73,15 @@ namespace Bathhouse.Api.Controllers
     [HttpPost(Name = ("Create[controller]"))]
     public ActionResult<WorkItemResponse> Create(WorkItemRequest request)
     {
-      try
-      {
-        WorkItem newEntity = _repository.Add(_mapper.Map<WorkItemRequest, WorkItem>(request));
+      WorkItem newEntity = _repository.Add(_mapper.Map<WorkItemRequest, WorkItem>(request));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={newEntity.Id} was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={newEntity.Id} was creating successfully.");
 
-        return CreatedAtAction(
-          "GetById",
-          new { id = newEntity.Id },
-          _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating WorkItem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating WorkItem an exception was fired");
-      }
+      return CreatedAtAction(
+        "GetById",
+        new { id = newEntity.Id },
+        _mapper.Map<WorkItem, WorkItemResponse>(newEntity));
     }
 
     /// <summary>
@@ -117,27 +93,19 @@ namespace Bathhouse.Api.Controllers
     [HttpPut("{workItemId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid workItemId, WorkItemRequest request)
     {
-      try
+      WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
+      if (entity is null)
       {
-        WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
-        if (entity is null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
-          return NotFound($"WorkItem with ID={workItemId} was not found.");
-        }
-
-        WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={workItemId}  was updated successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
+        return NotFound($"WorkItem with ID={workItemId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While updating WorkItem an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating WorkItem an exception was fired");
-      }
+
+      WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={workItemId}  was updated successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
@@ -148,27 +116,20 @@ namespace Bathhouse.Api.Controllers
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid workItemId)
     {
-      try
+      WorkItem? entity = _repository.Get(workItemId);
+      if (entity is null)
       {
-        WorkItem? entity = _repository.Get(workItemId);
-        if (entity is null)
-        {
-          _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
-          return NotFound($"WorkItem with ID={workItemId} was not found.");
-        }
-
-        _repository.Delete(entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"WorkItem id={workItemId} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"WorkItem with ID={workItemId} was not found.");
+        return NotFound($"WorkItem with ID={workItemId} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting WorkItem id={workItemId} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting WorkItem id={workItemId} an exception was fired");
-      }
+
+      _repository.Delete(entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"WorkItem id={workItemId} was deleted successfully.");
+
+      return NoContent();
+
     }
     #endregion
   }
