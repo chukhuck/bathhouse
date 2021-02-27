@@ -119,7 +119,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Employee with ID={employeeId} was not found.");
       }
 
-      Employee updatedEntity = _mapper.Map<EmployeeRequest, Employee>(request, entity);
+      _mapper.Map<EmployeeRequest, Employee>(request, entity);
 
       _unitOfWork.Complete();
       _logger.LogInformation($"Employee id={employeeId} was updated successfully.");

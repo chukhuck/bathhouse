@@ -99,7 +99,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"WorkItem with ID={workItemId} was not found.");
       }
 
-      WorkItem updatedEntity = _mapper.Map<WorkItemRequest, WorkItem>(request, entity);
+      _mapper.Map<WorkItemRequest, WorkItem>(request, entity);
 
       _unitOfWork.Complete();
       _logger.LogInformation($"WorkItem id={workItemId}  was updated successfully.");

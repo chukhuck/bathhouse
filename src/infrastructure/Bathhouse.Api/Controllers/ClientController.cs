@@ -119,7 +119,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Client with ID={clientId} was not found.");
       }
 
-      Client updatedEntity = _mapper.Map<ClientRequest, Client>(request, entity);
+      _mapper.Map<ClientRequest, Client>(request, entity);
 
       _unitOfWork.Complete();
       _logger.LogInformation($"Client id={clientId} was updated successfully.");

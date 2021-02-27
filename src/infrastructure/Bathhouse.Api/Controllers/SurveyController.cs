@@ -107,7 +107,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Survey with ID={surveyId} was not found.");
       }
 
-      Survey updatedEntity = _mapper.Map<SurveyRequest, Survey>(request, entity);
+      _mapper.Map<SurveyRequest, Survey>(request, entity);
 
       _unitOfWork.Complete();
       _logger.LogInformation($"Survey id={surveyId} was updated successfully.");

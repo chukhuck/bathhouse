@@ -106,7 +106,7 @@ namespace Bathhouse.Api.Controllers
         return NotFound($"Office with ID={officeId} was not found.");
       }
 
-      Office updatedEntity = _mapper.Map<OfficeRequest, Office>(request, entity);
+      _mapper.Map<OfficeRequest, Office>(request, entity);
 
       _unitOfWork.Complete();
       _logger.LogInformation($"Office id={officeId} was updated successfully.");

@@ -2942,7 +2942,7 @@
             "description": "Success"
           },
           "404": {
-            "description": "Office with current ID or one of Employee IDs is not found",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -2952,7 +2952,7 @@
             }
           },
           "400": {
-            "description": "If the item is null",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -2970,12 +2970,6 @@
                 }
               }
             }
-          },
-          "201": {
-            "description": "Adding employee is successul"
-          },
-          "500": {
-            "description": "Exception on server side was fired"
           },
           "401": {
             "description": "Unauthorized"
@@ -4737,7 +4731,6 @@
       },
       "SurveyRequest": {
         "required": [
-          "authorId",
           "name"
         ],
         "type": "object",
@@ -4756,10 +4749,6 @@
             "format": "string",
             "default": "Описание нового опроса",
             "nullable": true
-          },
-          "authorId": {
-            "type": "string",
-            "format": "uuid"
           },
           "questions": {
             "type": "array",
