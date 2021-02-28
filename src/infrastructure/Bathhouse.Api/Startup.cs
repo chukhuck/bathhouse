@@ -1,5 +1,7 @@
 using Bathhouse.Api.Installers;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,8 @@ namespace Bathhouse.Api
         app.UseExceptionHandler("/error-local-development");
       }
 
+      app.UseHttpsRedirection();
+
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
@@ -40,8 +44,14 @@ namespace Bathhouse.Api
         c.OAuthClientId("bathhouseswaggerui");
       });
 
-
-      app.UseHttpsRedirection();
+      app.UseHealthChecks("/selfcheck", new HealthCheckOptions
+      {
+        Predicate = _ => true,
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+      }).UseHealthChecksUI(setup =>
+      {
+        setup.AddCustomStylesheet($"{env.ContentRootPath}/HealthChecks/Ux/branding.css");
+      });
 
       app.UseRouting();
 
