@@ -75,7 +75,7 @@ namespace Bathhouse.Api.Extensions
         CsvReader csvReader = new CsvReader(reader, new CsvConfiguration(CultureInfo.CurrentCulture)
         {
           Encoding = Encoding.UTF8,
-          MissingFieldFound = (headerNames, index, context) => { return; },
+          MissingFieldFound = null,
           HeaderValidated = null
         });
 
@@ -156,7 +156,7 @@ namespace Bathhouse.Api.Extensions
         CsvReader csvReader = new CsvReader(reader, new CsvConfiguration(CultureInfo.CurrentCulture)
         {
           Encoding = Encoding.UTF8,
-          MissingFieldFound = (headerNames, index, context) => { return; },
+          MissingFieldFound = null,
           HeaderValidated = null
         });
 
