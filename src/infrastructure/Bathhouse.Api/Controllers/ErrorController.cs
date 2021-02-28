@@ -10,8 +10,7 @@ namespace Bathhouse.Api.Controllers
   public class ErrorController : ControllerBase
   {
     [Route("/error-local-development")]
-    public IActionResult ErrorLocalDevelopment(
-        [FromServices] IWebHostEnvironment webHostEnvironment)
+    public IActionResult ErrorLocalDevelopment([FromServices] IWebHostEnvironment webHostEnvironment)
     {
       if (webHostEnvironment.EnvironmentName != "Development")
       {
