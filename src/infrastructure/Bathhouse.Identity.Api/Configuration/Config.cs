@@ -19,7 +19,7 @@ namespace Bathhouse.Identity.Api.Configuration
     {
       return new[]
       {
-                new ApiScope(name: "bathhouse",   displayName: "Access API Bathhouse")
+                new ApiScope(name: "bathhouse.core",   displayName: "Full Access API Bathhouse")
             };
     }
 
@@ -29,9 +29,9 @@ namespace Bathhouse.Identity.Api.Configuration
     {
       return new List<ApiResource>
             {
-                new ApiResource("bathhouse", "Bathhouse Service") 
+                new ApiResource("bathhouse.core", "Bathhouse Service") 
                 {
-                  Scopes = new []{ "bathhouse" } 
+                  Scopes = new []{ "bathhouse.core" } 
                 }
             };
     }
@@ -64,7 +64,7 @@ namespace Bathhouse.Identity.Api.Configuration
                     AllowedCorsOrigins = {_config["Clients:BathhouseApi:Url"] },
                     AllowedScopes =
                     {
-                        "bathhouse",
+                        "bathhouse.core",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OfflineAccess

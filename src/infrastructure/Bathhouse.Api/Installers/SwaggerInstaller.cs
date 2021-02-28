@@ -1,5 +1,4 @@
-﻿using Bathhouse.Api.Options;
-using Chuk.Helpers.AspNetCore.Swagger;
+﻿using Chuk.Helpers.AspNetCore.Swagger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -14,9 +13,6 @@ namespace Bathhouse.Api.Installers
   {
     public void InstallService(IServiceCollection services, IConfiguration Configuration)
     {
-      var identityServiceOpt = new IdentityServiceOpt();
-      Configuration.Bind("IdentityService", identityServiceOpt);
-
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1",
@@ -56,11 +52,11 @@ namespace Bathhouse.Api.Installers
           {
             Password= new OpenApiOAuthFlow 
             {
-              AuthorizationUrl = new Uri(identityServiceOpt.AuthUrl),
-              TokenUrl = new Uri(identityServiceOpt.TokenUrl),
+              AuthorizationUrl = new Uri(Configuration.GetValue<string>("ApiResourceBaseUrls:AuthEndpointAuthServer")),
+              TokenUrl = new Uri(Configuration.GetValue<string>("ApiResourceBaseUrls:TokenEndpointAuthServer")),
               Scopes = new Dictionary<string, string>
               {
-                  {"bathhouse", "Demo API - full access"}
+                  {Configuration.GetValue<string>("Self:Id"), "Bathhouse API - full access"}
               }
             },
           }

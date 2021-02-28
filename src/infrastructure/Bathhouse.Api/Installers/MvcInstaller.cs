@@ -22,15 +22,16 @@ namespace Bathhouse.Api.Installers
         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        
+
       })
         .AddIdentityServerAuthentication(options =>
         {
-          options.Authority = Configuration.GetValue<string>("IdentityService:URL");
+          options.Authority = Configuration.GetValue<string>("ApiResourceBaseUrls:AuthServer");
           options.SaveToken = true;
           options.RequireHttpsMetadata = false;
-          options.ApiSecret = Configuration.GetValue<string>("IdentityService:Secret");
-          options.ApiName = "bathhouse";
+          options.ApiSecret = Configuration.GetValue<string>("Self:Secret");
+          options.ApiName = Configuration.GetValue<string>("Self:Id");
+          options.RoleClaimType = "role";
         });
 
       services.AddAuthorization(option =>

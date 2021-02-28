@@ -73,6 +73,12 @@ namespace Bathhouse.Identity.Api
         app.UseDeveloperExceptionPage();
       }
 
+      app.UseCors(policy =>
+        policy
+        .AllowAnyMethod()
+        .AllowAnyOrigin()
+        .AllowAnyHeader());
+
       app.UseHttpsRedirection();
 
       app.UseRouting();
