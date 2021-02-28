@@ -39,12 +39,23 @@ namespace Chuk.Helpers.AspNetCore
     /// Get all of entities
     /// </summary>
     [HttpGet]
-    public virtual ActionResult<IEnumerable<TEntityResponse>> GetAll()
+    public virtual ActionResult<PaginatedResponse<TEntityResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
     {
-      var allEntities = _repository.GetAll();
+      PaginationFilter paginationFilter = new()
+      {
+        PageSize = paginationQuery.PageSize,
+        PageNumber = paginationQuery.PageNumber
+      };
+
+      var allEntities = _repository.GetAll(paginationFilter: paginationFilter);
       _logger.LogInformation($"All of entities was got.");
 
-      return Ok(_mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityResponse>>(allEntities));
+      return Ok(new PaginatedResponse<TEntityResponse>()
+      {
+        Data = _mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityResponse>>(allEntities),
+        PageNumber = paginationFilter.IsValid ? paginationFilter.PageNumber : null,
+        PageSize = paginationFilter.IsValid ? paginationFilter.PageSize : null
+      });
     }
 
     /// <summary>
