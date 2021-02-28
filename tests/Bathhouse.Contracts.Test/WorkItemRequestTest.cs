@@ -24,10 +24,8 @@ namespace Bathhouse.Contracts.Test
       WorkItemRequest emptyWorkItem = new();
 
       Assert.Equal("Опиши текст задачи.", emptyWorkItem.Description);
-      Assert.Equal(DateTime.Now.Date, emptyWorkItem.CreationDate.Date);
       Assert.Equal(DateTime.Now.Date, emptyWorkItem.StartDate.Date);
       Assert.Equal(DateTime.Now.AddDays(1).Date, emptyWorkItem.EndDate.Date);
-      Assert.Equal(Guid.Empty, emptyWorkItem.CreatorId);
       Assert.Null(emptyWorkItem.ExecutorId);
       Assert.False(emptyWorkItem.IsImportant);
     }
@@ -109,32 +107,6 @@ namespace Bathhouse.Contracts.Test
       List<ValidationResult> results = new List<ValidationResult>();
 
       emptyRequest.Description = "LastName";
-
-      Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
-      Assert.Empty(results);
-    }
-
-    [Fact]
-    public void Create_With_Incorrect_Status_EnumDataTypeAttribute_Is_False()
-    {
-      List<ValidationResult> results = new List<ValidationResult>();
-
-      emptyRequest.Status = (WorkItemStatus)int.MaxValue;
-
-      Assert.False(Validator.TryValidateObject(emptyRequest, context, results, true));
-      Assert.Single(results);
-      Assert.Contains(
-        new ValidationResult("Incorrect a data type.", new[] { "Status" }),
-        results,
-        new ValidationResultEquilityComparer());
-    }
-
-    [Fact]
-    public void Create_With_Correct_Status_EnumDataTypeAttribute_Is_True()
-    {
-      List<ValidationResult> results = new List<ValidationResult>();
-
-      emptyRequest.Status = WorkItemStatus.Done;
 
       Assert.True(Validator.TryValidateObject(emptyRequest, context, results, true));
       Assert.Empty(results);

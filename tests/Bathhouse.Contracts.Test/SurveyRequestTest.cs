@@ -24,7 +24,6 @@ namespace Bathhouse.Contracts.Test
 
       Assert.Equal("Описание нового опроса", emptySurvey.Description);
       Assert.Equal("Новый опрос", emptySurvey.Name);
-      Assert.Equal(Guid.Empty, emptySurvey.AuthorId);
       Assert.NotNull(emptySurvey.Questions);
     }
 
