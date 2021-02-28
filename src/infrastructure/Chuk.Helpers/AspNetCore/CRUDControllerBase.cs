@@ -54,16 +54,15 @@ namespace Chuk.Helpers.AspNetCore
     [HttpGet("{id:guid}", Name = ("Get[controller]ById"))]
     public virtual ActionResult<TEntityResponse> GetById(TEntityKey id)
     {
-      if (_repository.Get(id) is TEntity entity)
+      TEntity? entity = _repository.Get(id);
+      if (entity is null)
       {
-        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
-        return Ok(_mapper.Map<TEntity, TEntityResponse>(entity));
-      }
-      else
-      {
-        _logger.LogInformation($"Request on getting unexisting entity id={id} of type {typeof(TEntity)} was received.");
+        _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
       }
+
+      _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
+      return Ok(_mapper.Map<TEntity, TEntityResponse>(entity));
     }
 
     /// <summary>
@@ -76,7 +75,7 @@ namespace Chuk.Helpers.AspNetCore
       TEntity newEntity = _repository.Add(_mapper.Map<TEntityRequest, TEntity>(request));
 
       _unitOfWork.Complete();
-      _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");
+      _logger.LogInformation($"Entity id={newEntity.Id} of type {typeof(TEntity)} was creating successfully.");
 
       return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
     }
@@ -89,20 +88,19 @@ namespace Chuk.Helpers.AspNetCore
     [HttpPut("{id:guid}", Name = ("Update[controller]"))]
     public virtual ActionResult Update(TEntityKey id, TEntityRequest request)
     {
-      if (_repository.Get(id) is TEntity entity)
-      {
-        TEntity updatedEntity = _mapper.Map<TEntityRequest, TEntity>(request, entity);
-
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
-
-        return NoContent();
-      }
-      else
+      TEntity? entity = _repository.Get(id);
+      if (entity is null)
       {
         _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
         return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
       }
+
+      _mapper.Map<TEntityRequest, TEntity>(request, entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
+
+      return NoContent();
     }
 
     /// <summary>
