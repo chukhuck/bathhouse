@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 
 namespace Bathhouse.Api.Controllers
@@ -54,7 +55,8 @@ namespace Bathhouse.Api.Controllers
       var allEntities = _repository.GetAll(
         paginationFilter: paginationFilter, 
         filter: filter.Compose(),
-        includePropertyNames: new[] { "Creator", "Executor" });
+        includePropertyNames: new[] { "Creator", "Executor" },
+        orderBy: all => all.OrderBy(c => c.CreationDate));
 
       _logger.LogInformation($"All of WorkItems was got.");
 

@@ -66,7 +66,9 @@ namespace Bathhouse.Api.Controllers
         PageNumber = paginationQuery.PageNumber
       };
 
-      var allEntities = _repository.GetAll(paginationFilter: paginationFilter);
+      var allEntities = _repository.GetAll(
+        paginationFilter: paginationFilter,
+        orderBy: all => all.OrderBy(employee => employee.LastName));
       _logger.LogInformation($"All of Employees was got.");
 
       return Ok(new PaginatedResponse<EmployeeResponse>()
