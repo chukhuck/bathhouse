@@ -41,18 +41,10 @@ namespace Chuk.Helpers.AspNetCore
     [HttpGet]
     public virtual ActionResult<IEnumerable<TEntityResponse>> GetAll()
     {
-      try
-      {
-        var allEntities = _repository.GetAll();
-        _logger.LogInformation($"All of entities was got.");
+      var allEntities = _repository.GetAll();
+      _logger.LogInformation($"All of entities was got.");
 
-        return Ok(_mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityResponse>>(allEntities));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While getting all of entities an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting all of entities an exception was fired.");
-      }
+      return Ok(_mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityResponse>>(allEntities));
     }
 
     /// <summary>
@@ -62,23 +54,15 @@ namespace Chuk.Helpers.AspNetCore
     [HttpGet("{id:guid}", Name = ("Get[controller]ById"))]
     public virtual ActionResult<TEntityResponse> GetById(TEntityKey id)
     {
-      try
+      if (_repository.Get(id) is TEntity entity)
       {
-        if (_repository.Get(id) is TEntity entity)
-        {
-          _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
-          return Ok(_mapper.Map<TEntity, TEntityResponse>(entity));
-        }
-        else
-        {
-          _logger.LogInformation($"Request on getting unexisting entity id={id} of type {typeof(TEntity)} was received.");
-          return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
-        }
+        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was getting successfully.");
+        return Ok(_mapper.Map<TEntity, TEntityResponse>(entity));
       }
-      catch (Exception ex)
+      else
       {
-        _logger.LogError($"While getting entity id={id} of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While getting entity id={id} of type {typeof(TEntity)} an exception was fired");
+        _logger.LogInformation($"Request on getting unexisting entity id={id} of type {typeof(TEntity)} was received.");
+        return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
       }
     }
 
@@ -89,20 +73,12 @@ namespace Chuk.Helpers.AspNetCore
     [HttpPost(Name = ("Create[controller]"))]
     public virtual ActionResult<TEntityResponse> Create(TEntityRequest request)
     {
-      try
-      {
-        TEntity newEntity = _repository.Add(_mapper.Map<TEntityRequest, TEntity>(request));
+      TEntity newEntity = _repository.Add(_mapper.Map<TEntityRequest, TEntity>(request));
 
-        _unitOfWork.Complete();
-        _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Entity id= of type {typeof(TEntity)} was creating successfully.");
 
-        return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While creating entity of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While creating entity of type {typeof(TEntity)} an exception was fired");
-      }
+      return CreatedAtAction("GetById", new { id = newEntity }, _mapper.Map<TEntity, TEntityResponse>(newEntity));
     }
 
     /// <summary>
@@ -113,27 +89,19 @@ namespace Chuk.Helpers.AspNetCore
     [HttpPut("{id:guid}", Name = ("Update[controller]"))]
     public virtual ActionResult Update(TEntityKey id, TEntityRequest request)
     {
-      try
+      if (_repository.Get(id) is TEntity entity)
       {
-        if (_repository.Get(id) is TEntity entity)
-        {
-          TEntity updatedEntity = _mapper.Map<TEntityRequest, TEntity>(request, entity);
+        TEntity updatedEntity = _mapper.Map<TEntityRequest, TEntity>(request, entity);
 
-          _unitOfWork.Complete();
-          _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
+        _unitOfWork.Complete();
+        _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was updated successfully.");
 
-          return NoContent();
-        }
-        else
-        {
-          _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
-          return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
-        }
+        return NoContent();
       }
-      catch (Exception ex)
+      else
       {
-        _logger.LogError($"While updating entity of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While updating entity of type {typeof(TEntity)} an exception was fired");
+        _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
+        return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
       }
     }
 
@@ -144,27 +112,19 @@ namespace Chuk.Helpers.AspNetCore
     [HttpDelete("{id:guid}", Name = ("Delete[controller]"))]
     public virtual IActionResult Delete(TEntityKey id)
     {
-      try
+      TEntity? entity = _repository.Get(id);
+      if (entity is null)
       {
-        TEntity? entity = _repository.Get(id);
-        if (entity is null)
-        {
-          _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
-          return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
-        }
-
-        _repository.Delete(entity);
-
-        _unitOfWork.Complete();
-          _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
-
-        return NoContent();
+        _logger.LogInformation($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
+        return NotFound($"Entity with ID={id} of type {typeof(TEntity)} was not found.");
       }
-      catch (Exception ex)
-      {
-        _logger.LogError($"While deleting entity id={id} of type {typeof(TEntity)} an exception was fired. Exception: {ex.Data}. Inner ex: {ex.InnerException}");
-        return StatusCode(StatusCodes.Status500InternalServerError, $"While deleting entity id={id} of type {typeof(TEntity)} an exception was fired");
-      }
+
+      _repository.Delete(entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Entity id={id} of type {typeof(TEntity)} was deleted successfully.");
+
+      return NoContent();
     }
   }
 }
