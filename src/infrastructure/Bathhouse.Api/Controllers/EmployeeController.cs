@@ -727,6 +727,31 @@ namespace Bathhouse.Api.Controllers
     }
 
     /// <summary>
+    /// Get survey
+    /// </summary>
+    /// <param name="employeeId">The Employee ID</param>
+    /// <param name="surveyId">Survey ID</param>
+    [HttpGet("{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(GetSurveyForEmployee))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    public ActionResult<SurveyResponse> GetSurveyForEmployee(Guid employeeId, Guid surveyId)
+    {
+      Survey? survey = _surveyRepository.Get(key: surveyId, includePropertyNames: new[] { "Questions" });
+      if (survey == null)
+      {
+        _logger.LogInformation($"Survey with ID={surveyId} created by {employeeId} was not found.");
+        return NotFound($"Survey with ID={surveyId} created by {employeeId} was not found.");
+      }
+
+      if (survey.AuthorId != employeeId)
+      {
+        _logger.LogInformation($"Unauthorized acces to survey with ID={surveyId} created by {employeeId}.");
+        return Forbid();
+      }
+
+      return Ok(_mapper.Map<Survey, SurveyResponse>(survey));
+    }
+
+    /// <summary>
     /// Create Survey.
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
