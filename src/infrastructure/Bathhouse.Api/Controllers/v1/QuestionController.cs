@@ -5,6 +5,7 @@ using Bathhouse.Repositories.Common;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -45,7 +46,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// <param name="questionId">The question Id in Survey ID</param>
     [HttpGet("{questionId:guid}", Name = ("Get[controller]ById"))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
-    public ActionResult<QuestionResponse> GetQuestionById(Guid questionId)
+    public ActionResult<QuestionResponse> GetById(Guid questionId)
     {
       Question? question = _unitOfWork.Questions.Get(key: questionId);
       if (question is null)
@@ -56,6 +57,46 @@ namespace Bathhouse.Api.Controllers.v1
 
       _logger.LogInformation($"Question id={questionId} was getting successfully.");
       return Ok(_mapper.Map<Question, QuestionResponse>(question));
+    }
+
+    /// <summary>
+    /// Add Question.
+    /// </summary>
+    /// <param name="surveyId">Survey where new question will be added</param>
+    /// <param name="request">Newly creating Question</param>
+    [HttpPost(Name = ("Create[controller]"))]
+    [ProducesDefaultResponseType]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public ActionResult<QuestionResponse> Create(Guid surveyId, QuestionRequest request)
+    {
+      Survey? survey = _unitOfWork.Surveys.Get(key: surveyId, includePropertyNames: new[] { "Questions", "Results"});
+      if (survey is null)
+      {
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
+      }
+
+      if (survey.Results.Count > 0)
+      {
+        _logger.LogInformation($"Impossible to add new question to a survey id={surveyId} with results.");
+        return Conflict($"Impossible to add new question to a survey id={surveyId} with results.");
+      }
+
+      Question addingQuestion = _mapper.Map<QuestionRequest, Question>(request);
+      addingQuestion.SurveyId = survey.Id;
+
+      Question newEntity = _unitOfWork.Questions.Add(addingQuestion);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Question id={newEntity.Id} was creating successfully.");
+
+      return CreatedAtAction(
+        nameof(GetById),
+        new { questionId = newEntity.Id },
+        _mapper.Map<Question, QuestionResponse>(newEntity));
     }
 
     /// <summary>

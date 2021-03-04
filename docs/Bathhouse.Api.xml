@@ -4,11 +4,18 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.GetQuestionById(System.Guid)">
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.GetById(System.Guid)">
             <summary>
             Get Question by ID
             </summary>
             <param name="questionId">The question Id in Survey ID</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Create(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
+            <summary>
+            Add Question.
+            </summary>
+            <param name="surveyId">Survey where new question will be added</param>
+            <param name="request">Newly creating Question</param>
         </member>
         <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Update(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
             <summary>
