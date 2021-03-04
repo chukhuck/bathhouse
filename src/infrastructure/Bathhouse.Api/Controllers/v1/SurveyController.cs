@@ -178,6 +178,8 @@ namespace Bathhouse.Api.v1.Controllers
     }
     #endregion
 
+ 
+
     /// <summary>
     /// Get summary of survey
     /// </summary>
@@ -201,6 +203,11 @@ namespace Bathhouse.Api.v1.Controllers
       }
 
       _logger.LogInformation($"The survey ID={surveyId} was received successfully.");
+
+      survey.Questions = _unitOfWork.Questions.Where(q => q.SurveyId == survey.Id).ToList();
+      survey.Results = _unitOfWork.SurveyResults.GetAll(
+        filter: sr=>sr.SurveyId == survey.Id, 
+        includePropertyNames: new[]  { "Answers", "Author"}).ToList();
 
       var summary = survey.GetSummary(summaryType);
       _logger.LogInformation($"The summary of survey ID={surveyId} was received successfully.");
