@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bathhouse.Contracts.Models
+namespace Bathhouse.Contracts.v1.Models
 {
   public record RoleResponse(
   Guid Id,

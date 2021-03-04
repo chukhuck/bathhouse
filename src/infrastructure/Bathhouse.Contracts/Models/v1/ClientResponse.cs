@@ -1,7 +1,7 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 
-namespace Bathhouse.Contracts.Models
+namespace Bathhouse.Contracts.v1.Models
 {
   /// <summary>
   /// 

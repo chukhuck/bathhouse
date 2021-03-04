@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts;
-using Bathhouse.Contracts.Models;
+using Bathhouse.Contracts.v1.Models;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Chuk.Helpers.AspNetCore;
@@ -14,11 +14,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 
-namespace Bathhouse.Api.Controllers
+namespace Bathhouse.Api.v1.Controllers
 {
   [Authorize]
   [Route("[controller]")]
   [ApiController]
+  [ApiVersion("1.0")]
   [Produces(MediaTypeNames.Application.Json)]
   [Consumes(MediaTypeNames.Application.Json)]
   public class OfficeController : ControllerBase

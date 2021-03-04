@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Bathhouse.Contracts.Models;
+using Bathhouse.Contracts.v1.Models;
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;
 using Microsoft.AspNetCore.Identity;

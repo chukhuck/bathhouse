@@ -4,7 +4,7 @@ using Chuk.Helpers.Expressions;
 using System;
 using System.Linq.Expressions;
 
-namespace Bathhouse.Contracts.Models
+namespace Bathhouse.Contracts.v1.Models
 {
   public class SurveyFilterQuery
   {

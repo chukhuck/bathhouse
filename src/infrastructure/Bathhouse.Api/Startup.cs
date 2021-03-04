@@ -3,6 +3,7 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +26,10 @@ namespace Bathhouse.Api
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(
+      IApplicationBuilder app, 
+      IWebHostEnvironment env, 
+      IApiVersionDescriptionProvider provider)
     {
       app.UseExceptionHandler("/error");
 
@@ -36,12 +40,19 @@ namespace Bathhouse.Api
 
       app.UseHttpsRedirection();
 
+
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
         c.DisplayOperationId();
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bathhouse.Api v1");
         c.OAuthClientId("bathhouseswaggerui");
+
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+          c.SwaggerEndpoint(
+                  $"/swagger/{description.GroupName}/swagger.json",
+                  "Bathhouse.Api " + description.GroupName.ToUpperInvariant());
+        }
       });
 
       app.UseHealthChecks("/selfcheck", new HealthCheckOptions

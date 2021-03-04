@@ -7,6 +7,7 @@ namespace Bathhouse.Api.Controllers
 {
   [ApiExplorerSettings(IgnoreApi = true)]
   [ApiController]
+  [ApiVersionNeutral]
   public class ErrorController : ControllerBase
   {
     [Route("/error-local-development")]

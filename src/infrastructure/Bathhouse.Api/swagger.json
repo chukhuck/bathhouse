@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Bathhouse.Api",
-    "description": "An API to Bathhouse",
+    "title": "Bathhouse.API",
+    "description": "An API to Bathhouse.",
     "contact": {
       "name": "Alex Potapchuk",
       "email": "a.v.potapchuk@yandex.ru"
@@ -11,7 +11,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "v1"
+    "version": "1.0"
   },
   "paths": {
     "/Client": {
@@ -46,6 +46,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -91,6 +100,17 @@
         ],
         "summary": "Add Client.",
         "operationId": "CreateClient",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Newly creating Client",
           "content": {
@@ -165,6 +185,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -228,6 +257,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -305,6 +343,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -386,6 +433,15 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -430,6 +486,17 @@
         ],
         "summary": "Add Employee.",
         "operationId": "CreateEmployee",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Newly creating Employee",
           "content": {
@@ -504,6 +571,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -567,6 +643,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -645,6 +730,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -717,6 +811,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -788,6 +891,15 @@
             "description": "Name of an adding role",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -864,6 +976,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -926,6 +1047,17 @@
         ],
         "summary": "Get all of the directors in the system",
         "operationId": "GetAllTheDirectors",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -970,6 +1102,17 @@
         ],
         "summary": "Get all of the employees in the system",
         "operationId": "GetAllSimpleEmployees",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -1014,6 +1157,17 @@
         ],
         "summary": "Get all of the managers in the system",
         "operationId": "GetAllManagers",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -1058,6 +1212,17 @@
         ],
         "summary": "Get all of the tech supporters in the system",
         "operationId": "GetAllTechSupporters",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -1111,6 +1276,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -1185,6 +1359,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -1251,6 +1434,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -1345,6 +1537,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -1417,6 +1618,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -1482,6 +1692,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -1549,6 +1768,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -1636,6 +1864,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -1709,6 +1946,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -1789,6 +2035,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -1887,6 +2142,15 @@
             "schema": {
               "$ref": "#/components/schemas/WorkItemStatus"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -1956,6 +2220,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2022,6 +2295,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -2117,6 +2399,15 @@
             "schema": {
               "$ref": "#/components/schemas/SurveyResultSummaryType"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2192,6 +2483,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -2272,6 +2572,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -2363,6 +2672,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2448,6 +2766,15 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2492,6 +2819,17 @@
         ],
         "summary": "Add Office.",
         "operationId": "CreateOffice",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Newly creating Office",
           "content": {
@@ -2566,6 +2904,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2629,6 +2976,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -2716,6 +3072,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2788,6 +3153,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2853,6 +3227,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -2927,6 +3310,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -2993,6 +3385,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3087,6 +3488,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -3149,6 +3559,17 @@
         ],
         "summary": "Get all of the roles in the system",
         "operationId": "GetAllRoles",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": "Error",
@@ -3201,6 +3622,15 @@
             "description": "Name of the new role.",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3267,6 +3697,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3340,6 +3779,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -3406,6 +3854,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3478,6 +3935,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3557,6 +4023,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -3635,6 +4110,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3731,6 +4215,15 @@
             "schema": {
               "$ref": "#/components/schemas/SurveyStatus"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -3775,6 +4268,17 @@
         ],
         "summary": "Add Survey.",
         "operationId": "CreateSurvey",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Newly creating Survey",
           "content": {
@@ -3848,6 +4352,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -3929,6 +4442,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -3995,6 +4517,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -4075,6 +4606,15 @@
             "description": "Summary type",
             "schema": {
               "$ref": "#/components/schemas/SurveyResultSummaryType"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -4173,6 +4713,15 @@
             "schema": {
               "$ref": "#/components/schemas/WorkItemStatus"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -4217,6 +4766,17 @@
         ],
         "summary": "Add WorkItem.",
         "operationId": "CreateWorkItem",
+        "parameters": [
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Newly creating WorkItem",
           "content": {
@@ -4291,6 +4851,15 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
+            }
           }
         ],
         "responses": {
@@ -4354,6 +4923,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -4431,6 +5009,15 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
@@ -4519,6 +5106,15 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "x-api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0"
             }
           }
         ],
