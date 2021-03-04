@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Versioning;
+﻿using Chuk.Helpers.AspNetCore;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

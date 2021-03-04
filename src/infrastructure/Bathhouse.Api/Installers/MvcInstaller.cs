@@ -1,4 +1,5 @@
 ﻿using Bathhouse.Contracts;
+using Chuk.Helpers.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;

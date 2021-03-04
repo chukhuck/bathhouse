@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Bathhouse.Api.Installers
+namespace Chuk.Helpers.AspNetCore
 {
   public interface IServiceInstaller
   {

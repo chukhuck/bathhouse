@@ -1,4 +1,4 @@
-using Bathhouse.Api.Installers;
+using Chuk.Helpers.AspNetCore;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -22,7 +22,8 @@ namespace Bathhouse.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.InstallServicesInAssembly(Configuration);
+      var currentAssembly = typeof(Startup).Assembly;
+      services.InstallServicesInAssembly(currentAssembly, Configuration);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
