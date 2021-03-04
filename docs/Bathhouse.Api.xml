@@ -4,6 +4,25 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.GetQuestionById(System.Guid)">
+            <summary>
+            Get Question by ID
+            </summary>
+            <param name="questionId">The question Id in Survey ID</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Update(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
+            <summary>
+            Update Question
+            </summary>
+            <param name="questionId">ID of Question for updating</param>
+            <param name="request">Updating question</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Delete(System.Guid)">
+            <summary>
+            Delete Question by ID
+            </summary>
+            <param name="questionId">Question ID</param>
+        </member>
         <member name="M:Bathhouse.Api.v1.Controllers.ClientController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,System.Nullable{System.Guid})">
             <summary>
             Get all of Clients
