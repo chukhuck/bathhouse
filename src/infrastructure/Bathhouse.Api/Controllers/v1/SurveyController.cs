@@ -7,6 +7,7 @@ using Chuk.Helpers.AspNetCore;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Chuk.Helpers.Patterns;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -58,7 +59,7 @@ namespace Bathhouse.Api.v1.Controllers
       };
 
       var allEntities = _repository.GetAll(
-        paginationFilter: paginationFilter, 
+        paginationFilter: paginationFilter,
         filter: filter.Compose(),
         includePropertyNames: new[] { "Author" },
         orderBy: all => all.OrderByDescending(c => c.CreationDate));
@@ -178,7 +179,155 @@ namespace Bathhouse.Api.v1.Controllers
     }
     #endregion
 
- 
+    #region Question
+
+    /// <summary>
+    /// Get all of Question in Survey
+    /// </summary>
+    [HttpGet("{surveyId:guid}/questions", Name = ("GetAllQuestionsInSurvey"))]
+    [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
+    public ActionResult<PaginatedResponse<SurveyResponse>> GetAllQuestionsInSurvey(Guid surveyId)
+    {
+      var allEntities = _unitOfWork.Questions.GetAll(
+        filter: q => q.SurveyId == surveyId);
+
+      _logger.LogInformation($"All of Questions in Survey id={surveyId} was got.");
+
+      return Ok(_mapper.Map<IEnumerable<Question>, IEnumerable<QuestionResponse>>(allEntities));
+    }
+
+    /// <summary>
+    /// Get Question by ID in Survey
+    /// </summary>
+    /// <param name="surveyId">Exploring Survey ID</param>
+    /// <param name="questionId">The question Id in Survey ID</param>
+    [HttpGet("{surveyId:guid}/questions/{questionId:guid}", Name = ("GetQuestionInSurvey"))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
+    public ActionResult<QuestionResponse> GetQuestionInSurvey(Guid surveyId, Guid questionId)
+    {
+      Question? question = _unitOfWork.Questions.Get(key: questionId);
+      if (question is null)
+      {
+        _logger.LogInformation($"Question with ID={questionId} was not found.");
+        return NotFound($"Question with ID={questionId} was not found.");
+      }
+
+      if (question.SurveyId != surveyId)
+      {
+        _logger.LogInformation($"Question with ID={questionId} was not found in survey id={surveyId}.");
+        return NotFound($"Question with ID={questionId} was not found in survey id={surveyId}.");
+      }
+
+      _logger.LogInformation($"Question id={questionId} was getting successfully.");
+      return Ok(_mapper.Map<Question, QuestionResponse>(question));
+    }
+
+    /// <summary>
+    /// Add Question to Survey.
+    /// </summary>
+    /// <param name="surveyId">Survey where new question will be added</param>
+    /// <param name="request">Newly creating Question</param>
+    [HttpPost("{surveyId:guid}/questions", Name = ("AddQuestionToSurvey"))]
+    [ProducesDefaultResponseType]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public ActionResult<QuestionResponse> AddQuestionToSurvey(Guid surveyId, QuestionRequest request)
+    {
+      Survey? survey = _unitOfWork.Surveys.Get(key: surveyId, includePropertyNames: new[] { "Results" });
+      if (survey is null)
+      {
+        _logger.LogInformation($"Survey with ID={surveyId} was not found.");
+        return NotFound($"Survey with ID={surveyId} was not found.");
+      }
+
+      if (survey.Results.Count > 0)
+      {
+        _logger.LogInformation($"Impossible to add new question to a survey id={surveyId} with results.");
+        return Conflict($"Impossible to add new question to a survey id={surveyId} with results.");
+      }
+
+      Question addingQuestion = _mapper.Map<QuestionRequest, Question>(request);
+      addingQuestion.SurveyId = survey.Id;
+
+      Question newEntity = _unitOfWork.Questions.Add(addingQuestion);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Question id={newEntity.Id} was creating successfully.");
+
+      return CreatedAtAction(
+        nameof(GetQuestionInSurvey),
+        new { questionId = newEntity.Id, surveyId = newEntity.SurveyId },
+        _mapper.Map<Question, QuestionResponse>(newEntity));
+    }
+
+    /// <summary>
+    /// Update Question in Survey
+    /// </summary>
+    /// <param name="surveyId">Exploring Survey ID</param>
+    /// <param name="questionId">ID of Question for updating</param>
+    /// <param name="request">Updating question</param>
+    [HttpPut("{surveyId:guid}/questions/{questionId:guid}", Name = ("UpdateQuestionInSurvey"))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
+    public ActionResult UpdateQuestionInSurvey(Guid surveyId, Guid questionId, QuestionRequest request)
+    {
+      Question? entity = _unitOfWork.Questions.Get(key: questionId);
+      if (entity is null)
+      {
+        _logger.LogInformation($"Question with ID={questionId} was not found.");
+        return NotFound($"Question with ID={questionId} was not found.");
+      }
+
+      if (entity.SurveyId != surveyId)
+      {
+        _logger.LogInformation($"Question with ID={questionId} was not found in survey id={surveyId}.");
+        return NotFound($"Question with ID={questionId} was not found in survey id={surveyId}.");
+      }
+
+      _mapper.Map<QuestionRequest, Question>(request, entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Question with ID={questionId} was updated successfully.");
+
+      return NoContent();
+    }
+
+    /// <summary>
+    /// Delete Question from Survey
+    /// </summary>
+    /// <param name="surveyId">Exploring Survey ID</param>
+    /// <param name="questionId">Question ID</param>
+    [HttpDelete("{surveyId:guid}/questions/{questionId:guid}", Name = ("DeleteQuestionFromSurvey"))]
+    [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
+    public IActionResult DeleteQuestionFromSurvey(Guid surveyId, Guid questionId)
+    {
+      Question? entity = _unitOfWork.Questions.Get(questionId);
+      if (entity is null)
+      {
+        _logger.LogInformation($"Question with ID={questionId} was not found.");
+        return NotFound($"Question with ID={questionId} was not found.");
+      }
+
+      if (entity.SurveyId != surveyId)
+      {
+        _logger.LogInformation($"Question with ID={questionId} was not found in survey id={surveyId}.");
+        return NotFound($"Question with ID={questionId} was not found in survey id={surveyId}.");
+      }
+
+      //clear results
+      var results = _unitOfWork.Answers.Where(a => a.QuestionId == questionId);
+      _unitOfWork.Answers.DeleteRange(results);
+
+      _unitOfWork.Questions.Delete(entity);
+
+      _unitOfWork.Complete();
+      _logger.LogInformation($"Question id={questionId} was deleted successfully.");
+
+      return NoContent();
+    }
+
+    #endregion
 
     /// <summary>
     /// Get summary of survey
@@ -206,8 +355,8 @@ namespace Bathhouse.Api.v1.Controllers
 
       survey.Questions = _unitOfWork.Questions.Where(q => q.SurveyId == survey.Id).ToList();
       survey.Results = _unitOfWork.SurveyResults.GetAll(
-        filter: sr=>sr.SurveyId == survey.Id, 
-        includePropertyNames: new[]  { "Answers", "Author"}).ToList();
+        filter: sr => sr.SurveyId == survey.Id,
+        includePropertyNames: new[] { "Answers", "Author" }).ToList();
 
       var summary = survey.GetSummary(summaryType);
       _logger.LogInformation($"The summary of survey ID={surveyId} was received successfully.");

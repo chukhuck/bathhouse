@@ -397,6 +397,40 @@
             </summary>
             <param name="surveyId">Survey ID</param>
         </member>
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.GetAllQuestionsInSurvey(System.Guid)">
+            <summary>
+            Get all of Question in Survey
+            </summary>
+        </member>
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.GetQuestionInSurvey(System.Guid,System.Guid)">
+            <summary>
+            Get Question by ID
+            </summary>
+            <param name="surveyId">Exploring Survey ID</param>
+            <param name="questionId">The question Id in Survey ID</param>
+        </member>
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.AddQuestionToSurvey(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
+            <summary>
+            Add Question.
+            </summary>
+            <param name="surveyId">Survey where new question will be added</param>
+            <param name="request">Newly creating Question</param>
+        </member>
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.UpdateQuestionInSurvey(System.Guid,System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
+            <summary>
+            Update Question
+            </summary>
+            <param name="surveyId">Exploring Survey ID</param>
+            <param name="questionId">ID of Question for updating</param>
+            <param name="request">Updating question</param>
+        </member>
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.DeleteQuestionFromSurvey(System.Guid,System.Guid)">
+            <summary>
+            Delete Question by ID
+            </summary>
+            <param name="surveyId">Exploring Survey ID</param>
+            <param name="questionId">Question ID</param>
+        </member>
         <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.GetSurveySummary(System.Guid,Bathhouse.ValueTypes.SurveyResultSummaryType)">
             <summary>
             Get summary of survey
