@@ -74,6 +74,11 @@ namespace Bathhouse.Api.Installers
       var xmlFileDTO = $"Bathhouse.xml";
       var xmlPathDTO = Path.Combine(AppContext.BaseDirectory, xmlFileDTO);
       options.IncludeXmlComments(xmlPathDTO);
+
+      // Set the comments path for the Swagger JSON and UI.
+      var xmlFileContract = $"Bathhouse.Contracts.xml";
+      var xmlPathContract = Path.Combine(AppContext.BaseDirectory, xmlFileContract);
+      options.IncludeXmlComments(xmlPathContract);
     }
 
     private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)

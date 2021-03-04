@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Writers;
@@ -33,9 +34,14 @@ namespace Bathhouse.Api.Extensions
     {
       try
       {
-        var json = host.GenerateSwagger("v1", null);
-        File.WriteAllText("swagger.json", json);
-        logger.LogInformation($"File swagger.json generated successfully.");
+        var provider = host.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+          var json = host.GenerateSwagger(description.GroupName, null);
+          File.WriteAllText(@$"..\..\..\docs\spec\{description.GroupName}\Bathhouse.json", json);
+          logger.LogInformation($"File Bathhouse.{description.GroupName}.json generated successfully.");
+        }
       }
       catch (Exception ex)
       {
