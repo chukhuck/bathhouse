@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Bathhouse.Api.Common.Filters;
 using Bathhouse.Contracts;
-using Bathhouse.Contracts.Models.v1.Requests;
-using Bathhouse.Contracts.Models.v1.Responses;
-using Bathhouse.Contracts.v1.Models.Queries;
+using Bathhouse.Contracts.Models.Requests.v1;
+using Bathhouse.Contracts.Models.Responses.v1;
+using Bathhouse.Contracts.Models.Queries.v1;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 
-namespace Bathhouse.Api.v1.Controllers
+namespace Bathhouse.Api.Controllers.v1
 {
   [Authorize]
   [ApiController]

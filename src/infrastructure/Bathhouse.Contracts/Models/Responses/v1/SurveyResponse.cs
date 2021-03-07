@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Bathhouse.Contracts.Models.v1.Responses
+namespace Bathhouse.Contracts.Models.Responses.v1
 {
   public record SurveyResponse(
   Guid Id,

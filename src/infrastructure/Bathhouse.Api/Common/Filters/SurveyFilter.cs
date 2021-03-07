@@ -1,4 +1,4 @@
-﻿using Bathhouse.Contracts.v1.Models.Queries;
+﻿using Bathhouse.Contracts.Models.Queries.v1;
 using Bathhouse.Entities;
 using Chuk.Helpers.Expressions;
 using System;

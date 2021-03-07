@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts;
-using Bathhouse.Contracts.Models.v1.Responses;
+using Bathhouse.Contracts.Models.Responses.v1;
 using Bathhouse.Entities;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 
-namespace Bathhouse.Api.v1.Controllers
+namespace Bathhouse.Api.Controllers.v1
 {
   [Authorize]
   [ApiController]

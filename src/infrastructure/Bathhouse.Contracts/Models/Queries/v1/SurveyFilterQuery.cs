@@ -1,7 +1,7 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 
-namespace Bathhouse.Contracts.v1.Models.Queries
+namespace Bathhouse.Contracts.Models.Queries.v1
 {
   public class SurveyFilterQuery
   {

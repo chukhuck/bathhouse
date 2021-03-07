@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Bathhouse.Contracts;
-using Bathhouse.Contracts.Models.v1.Requests;
-using Bathhouse.Contracts.Models.v1.Responses;
+using Bathhouse.Contracts.Models.Requests.v1;
+using Bathhouse.Contracts.Models.Responses.v1;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Chuk.Helpers.AspNetCore.ApiConvension;

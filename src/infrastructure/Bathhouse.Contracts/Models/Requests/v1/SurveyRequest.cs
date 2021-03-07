@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bathhouse.Contracts.Models.v1.Requests
+namespace Bathhouse.Contracts.Models.Requests.v1
 {
   public class SurveyRequest
   {
