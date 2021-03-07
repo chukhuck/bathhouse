@@ -36,7 +36,7 @@ namespace Chuk.Helpers.Expressions
 
       protected override Expression VisitParameter(ParameterExpression node)
       {
-        if (subst.TryGetValue(node, out Expression newValue))
+        if (subst.TryGetValue(node, out Expression? newValue))
         {
           return newValue;
         }

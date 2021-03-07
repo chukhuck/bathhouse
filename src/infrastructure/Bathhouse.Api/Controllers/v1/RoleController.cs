@@ -185,7 +185,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// <param name="employeeId">Employee Id</param>
     [Authorize(Policy = Constants.AdminRoleName)]
     [HttpPost(ApiRoutes.AddEmployeeToRole, Name = nameof(ApiRoutes.AddEmployeeToRole))]
-    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
     {
       var employee = _userManager.FindByIdAsync(employeeId.ToString()).Result;
