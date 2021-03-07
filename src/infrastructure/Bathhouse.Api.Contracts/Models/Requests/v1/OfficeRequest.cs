@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bathhouse.Contracts.Models.Requests.v1
+namespace Bathhouse.Api.Contracts.Models.Requests.v1
 {
   public class OfficeRequest
   {

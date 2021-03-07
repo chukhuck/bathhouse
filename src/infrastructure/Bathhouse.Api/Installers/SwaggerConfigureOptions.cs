@@ -76,7 +76,7 @@ namespace Bathhouse.Api.Installers
       options.IncludeXmlComments(xmlPathDTO);
 
       // Set the comments path for the Swagger JSON and UI.
-      var xmlFileContract = $"Bathhouse.Contracts.xml";
+      var xmlFileContract = $"Bathhouse.Api.Contracts.xml";
       var xmlPathContract = Path.Combine(AppContext.BaseDirectory, xmlFileContract);
       options.IncludeXmlComments(xmlPathContract);
     }

@@ -1,4 +1,4 @@
-﻿using Bathhouse.Contracts;
+﻿using Bathhouse.Api.Contracts;
 using Bathhouse.EF.Data;
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;

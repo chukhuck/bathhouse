@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Xunit;
 
-namespace Bathhouse.Contracts.Test
+namespace Bathhouse.Api.Contracts.Test
 {
   public class EntityMappingProfileTest
   {

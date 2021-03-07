@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Bathhouse.Contracts.Models.Requests.v1;
-using Bathhouse.Contracts.Models.Responses.v1;
+using Bathhouse.Api.Contracts.Models.Requests.v1;
+using Bathhouse.Api.Contracts.Models.Responses.v1;
 using Bathhouse.Entities;
 using Bathhouse.ValueTypes;
 using Microsoft.AspNetCore.Identity;

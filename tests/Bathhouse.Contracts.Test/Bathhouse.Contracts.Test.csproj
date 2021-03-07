@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\infrastructure\Bathhouse.Contracts\Bathhouse.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\infrastructure\Bathhouse.Api.Contracts\Bathhouse.Api.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

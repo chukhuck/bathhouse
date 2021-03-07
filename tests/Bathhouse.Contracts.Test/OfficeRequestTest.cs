@@ -1,10 +1,10 @@
-﻿using Bathhouse.Contracts.Models.Requests.v1;
+﻿using Bathhouse.Api.Contracts.Models.Requests.v1;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 
-namespace Bathhouse.Contracts.Test
+namespace Bathhouse.Api.Contracts.Test
 {
   public class OfficeRequestTest
   {

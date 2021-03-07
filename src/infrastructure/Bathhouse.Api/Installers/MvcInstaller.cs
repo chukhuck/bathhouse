@@ -1,4 +1,4 @@
-﻿using Bathhouse.Contracts;
+﻿using Bathhouse.Api.Contracts;
 using Chuk.Helpers.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

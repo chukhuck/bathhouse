@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\domain\Bathhouse\Bathhouse.csproj" />
-    <ProjectReference Include="..\Bathhouse.Contracts\Bathhouse.Contracts.csproj" />
+    <ProjectReference Include="..\Bathhouse.Api.Contracts\Bathhouse.Api.Contracts.csproj" />
     <ProjectReference Include="..\Chuk.Helpers\Chuk.Helpers.csproj" />
   </ItemGroup>
 

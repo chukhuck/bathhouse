@@ -1,4 +1,4 @@
-﻿namespace Bathhouse.Contracts
+﻿namespace Bathhouse.Api.Contracts
 {
   public partial class Constants
   {

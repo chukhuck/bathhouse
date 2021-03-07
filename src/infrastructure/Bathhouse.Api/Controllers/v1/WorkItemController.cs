@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Bathhouse.Api.Common.Filters;
-using Bathhouse.Contracts;
-using Bathhouse.Contracts.Models.Requests.v1;
-using Bathhouse.Contracts.Models.Responses.v1;
-using Bathhouse.Contracts.Models.Queries.v1;
+using Bathhouse.Api.Contracts;
+using Bathhouse.Api.Contracts.Models.Requests.v1;
+using Bathhouse.Api.Contracts.Models.Responses.v1;
+using Bathhouse.Api.Contracts.Models.Queries.v1;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;

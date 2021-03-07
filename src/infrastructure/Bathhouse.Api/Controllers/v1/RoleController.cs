@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Bathhouse.Contracts;
-using Bathhouse.Contracts.Models.Responses.v1;
+using Bathhouse.Api.Contracts;
+using Bathhouse.Api.Contracts.Models.Responses.v1;
 using Bathhouse.Entities;
 using Chuk.Helpers.AspNetCore.ApiConvension;
 using Microsoft.AspNetCore.Authorization;

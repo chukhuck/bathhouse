@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Bathhouse.Contracts.Test
+namespace Bathhouse.Api.Contracts.Test
 {
   public class ValidationResultEquilityComparer : IEqualityComparer<ValidationResult>
   {

@@ -1,4 +1,4 @@
-﻿using Bathhouse.Contracts;
+﻿using Bathhouse.Api.Contracts;
 using Bathhouse.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
