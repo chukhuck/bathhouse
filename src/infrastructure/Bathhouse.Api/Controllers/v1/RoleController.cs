@@ -15,7 +15,6 @@ using System.Net.Mime;
 namespace Bathhouse.Api.v1.Controllers
 {
   [Authorize]
-  [Route("api/[controller]")]
   [ApiController]
   [ApiVersion("1.0")]
   [Produces(MediaTypeNames.Application.Json)]
@@ -42,7 +41,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of the roles in the system
     /// </summary>
-    [HttpGet(Name = ("GetAll[controller]s"))]
+    [HttpGet("[controller]s", Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<IEnumerable<RoleResponse>> GetAll()
     {
@@ -55,7 +54,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     /// <returns>Role</returns>
-    [HttpGet("{roleId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("[controller]s/{roleId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<RoleResponse> GetById(Guid roleId)
     {
       IdentityRole<Guid>? entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
@@ -74,7 +73,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="name">Name of the new role.</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpPost(Name = ("Create[controller]"))]
+    [HttpPost("[controller]s", Name = ("Create[controller]"))]
     public ActionResult<RoleResponse> Create(string name)
     {
       IdentityRole<Guid> newEntity = new IdentityRole<Guid>(name);
@@ -99,7 +98,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="roleId">Role Id</param>
     /// <param name="newName">New name of the role with Id</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpPut("{roleId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("[controller]s/{roleId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid roleId, string newName)
     {
       var entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
@@ -128,7 +127,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="roleId">Role Id</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpDelete("{roleId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("[controller]s/{roleId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid roleId)
     {
@@ -163,7 +162,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get all of employees in the role
     /// </summary>
     /// <param name="roleId">Role Id</param>
-    [HttpGet("{roleId:guid}/employees", Name = nameof(GetEmployeesInRole))]
+    [HttpGet("[controller]s/{roleId:guid}/employees", Name = nameof(GetEmployeesInRole))]
     public ActionResult<IEnumerable<EmployeeResponse>> GetEmployeesInRole(Guid roleId)
     {
       IdentityRole<Guid>? entity = _roleManager.FindByIdAsync(roleId.ToString()).Result;
@@ -185,7 +184,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpPut("{roleId:guid}/employee", Name = nameof(AddEmployeeToRole))]
+    [HttpPut("[controller]s/{roleId:guid}/employees", Name = nameof(AddEmployeeToRole))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult AddEmployeeToRole(Guid roleId, Guid employeeId)
     {
@@ -223,7 +222,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="roleId">Role ID</param>
     /// <param name="employeeId">Employee Id</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpDelete("{roleId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromRole))]
+    [HttpDelete("[controller]s/{roleId:guid}/employees/{employeeId:guid}", Name = nameof(DeleteEmployeeFromRole))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteEmployeeFromRole(Guid roleId, Guid employeeId)
     {

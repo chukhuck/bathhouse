@@ -9,15 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
-using System.Threading.Tasks;
 
 namespace Bathhouse.Api.Controllers.v1
 {
   [Authorize]
-  [Route("[controller]")]
   [ApiController]
   [ApiVersion("1.0")]
   [Produces(MediaTypeNames.Application.Json)]
@@ -44,7 +40,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// Get Question by ID
     /// </summary>
     /// <param name="questionId">The question Id in Survey ID</param>
-    [HttpGet("{questionId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("[controller]s/{questionId:guid}", Name = ("Get[controller]ById"))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<QuestionResponse> GetById(Guid questionId)
     {
@@ -64,7 +60,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// </summary>
     /// <param name="surveyId">Survey where new question will be added</param>
     /// <param name="request">Newly creating Question</param>
-    [HttpPost(Name = ("Create[controller]"))]
+    [HttpPost("[controller]s", Name = ("Create[controller]"))]
     [ProducesDefaultResponseType]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -104,7 +100,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// </summary>
     /// <param name="questionId">ID of Question for updating</param>
     /// <param name="request">Updating question</param>
-    [HttpPut("{questionId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("[controller]s/{questionId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid questionId, QuestionRequest request)
     {
       Question? entity = _repository.Get(key: questionId);
@@ -126,7 +122,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// Delete Question by ID
     /// </summary>
     /// <param name="questionId">Question ID</param>
-    [HttpDelete("{questionId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("[controller]s/{questionId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid questionId)
     {

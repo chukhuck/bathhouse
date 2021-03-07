@@ -14,7 +14,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/Client": {
+    "/Clients": {
       "get": {
         "tags": [
           "Client"
@@ -168,7 +168,7 @@
         ]
       }
     },
-    "/Client/{clientId}": {
+    "/Clients/{clientId}": {
       "get": {
         "tags": [
           "Client"
@@ -408,7 +408,7 @@
         ]
       }
     },
-    "/Employee": {
+    "/Employees": {
       "get": {
         "tags": [
           "Employee"
@@ -554,7 +554,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}": {
+    "/Employees/{employeeId}": {
       "get": {
         "tags": [
           "Employee"
@@ -794,7 +794,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/roles": {
+    "/Employees/{employeeId}/roles": {
       "get": {
         "tags": [
           "Employee"
@@ -1040,7 +1040,7 @@
         ]
       }
     },
-    "/Employee/directors": {
+    "/Employees/directors": {
       "get": {
         "tags": [
           "Employee"
@@ -1095,7 +1095,7 @@
         ]
       }
     },
-    "/Employee/employees": {
+    "/Employees/employees": {
       "get": {
         "tags": [
           "Employee"
@@ -1150,7 +1150,7 @@
         ]
       }
     },
-    "/Employee/managers": {
+    "/Employees/managers": {
       "get": {
         "tags": [
           "Employee"
@@ -1205,7 +1205,7 @@
         ]
       }
     },
-    "/Employee/techsupporters": {
+    "/Employees/techsupporters": {
       "get": {
         "tags": [
           "Employee"
@@ -1260,7 +1260,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/offices": {
+    "/Employees/{employeeId}/offices": {
       "get": {
         "tags": [
           "Employee"
@@ -1510,7 +1510,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/offices/{officeId}": {
+    "/Employees/{employeeId}/offices/{officeId}": {
       "delete": {
         "tags": [
           "Employee"
@@ -1601,7 +1601,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/myworkitems": {
+    "/Employees/{employeeId}/myworkitems": {
       "get": {
         "tags": [
           "Employee"
@@ -1676,7 +1676,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/workitems": {
+    "/Employees/{employeeId}/workitems": {
       "get": {
         "tags": [
           "Employee"
@@ -1837,7 +1837,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/workitems/{workitemId}": {
+    "/Employees/{employeeId}/workitems/{workitemId}": {
       "get": {
         "tags": [
           "Employee"
@@ -2107,7 +2107,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/workitems/{workitemId}/status": {
+    "/Employees/{employeeId}/workitems/{workitemId}/status": {
       "put": {
         "tags": [
           "Employee"
@@ -2203,7 +2203,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/surveys": {
+    "/Employees/{employeeId}/surveys": {
       "get": {
         "tags": [
           "Employee"
@@ -2364,7 +2364,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/surveys/{surveyId}/summary": {
+    "/Employees/{employeeId}/surveys/{surveyId}/summary": {
       "get": {
         "tags": [
           "Employee"
@@ -2457,7 +2457,7 @@
         ]
       }
     },
-    "/Employee/{employeeId}/surveys/{surveyId}": {
+    "/Employees/{employeeId}/surveys/{surveyId}": {
       "delete": {
         "tags": [
           "Employee"
@@ -2733,7 +2733,7 @@
         ]
       }
     },
-    "/Office": {
+    "/Offices": {
       "get": {
         "tags": [
           "Office"
@@ -2887,7 +2887,7 @@
         ]
       }
     },
-    "/Office/{officeId}": {
+    "/Offices/{officeId}": {
       "get": {
         "tags": [
           "Office"
@@ -3136,7 +3136,7 @@
         ]
       }
     },
-    "/Office/{officeId}/managers": {
+    "/Offices/{officeId}/managers": {
       "get": {
         "tags": [
           "Office"
@@ -3211,7 +3211,7 @@
         ]
       }
     },
-    "/Office/{officeId}/employees": {
+    "/Offices/{officeId}/employees": {
       "get": {
         "tags": [
           "Office"
@@ -3461,7 +3461,7 @@
         ]
       }
     },
-    "/Office/{officeId}/employees/{employeeId}": {
+    "/Offices/{officeId}/employees/{employeeId}": {
       "delete": {
         "tags": [
           "Office"
@@ -3552,7 +3552,7 @@
         ]
       }
     },
-    "/Question/{questionId}": {
+    "/Questions/{questionId}": {
       "get": {
         "tags": [
           "Question"
@@ -3792,7 +3792,7 @@
         ]
       }
     },
-    "/Question": {
+    "/Questions": {
       "post": {
         "tags": [
           "Question"
@@ -3896,7 +3896,7 @@
         ]
       }
     },
-    "/api/Role": {
+    "/Roles": {
       "get": {
         "tags": [
           "Role"
@@ -4025,7 +4025,7 @@
         ]
       }
     },
-    "/api/Role/{roleId}": {
+    "/Roles/{roleId}": {
       "get": {
         "tags": [
           "Role"
@@ -4263,7 +4263,7 @@
         ]
       }
     },
-    "/api/Role/{roleId}/employees": {
+    "/Roles/{roleId}/employees": {
       "get": {
         "tags": [
           "Role"
@@ -4339,9 +4339,7 @@
             ]
           }
         ]
-      }
-    },
-    "/api/Role/{roleId}/employee": {
+      },
       "put": {
         "tags": [
           "Role"
@@ -4428,7 +4426,7 @@
         ]
       }
     },
-    "/api/Role/{roleId}/employees/{employeeId}": {
+    "/Roles/{roleId}/employees/{employeeId}": {
       "delete": {
         "tags": [
           "Role"
@@ -4519,7 +4517,7 @@
         ]
       }
     },
-    "/Survey": {
+    "/Surveys": {
       "get": {
         "tags": [
           "Survey"
@@ -4680,7 +4678,7 @@
         ]
       }
     },
-    "/Survey/{surveyId}": {
+    "/Surveys/{surveyId}": {
       "get": {
         "tags": [
           "Survey"
@@ -4926,7 +4924,7 @@
         ]
       }
     },
-    "/Survey/{surveyId}/questions": {
+    "/Surveys/{surveyId}/questions": {
       "get": {
         "tags": [
           "Survey"
@@ -4993,7 +4991,7 @@
         "tags": [
           "Survey"
         ],
-        "summary": "Add Question.",
+        "summary": "Add Question to Survey.",
         "operationId": "AddQuestionToSurvey",
         "parameters": [
           {
@@ -5093,12 +5091,12 @@
         ]
       }
     },
-    "/Survey/{surveyId}/questions/{questionId}": {
+    "/Surveys/{surveyId}/questions/{questionId}": {
       "get": {
         "tags": [
           "Survey"
         ],
-        "summary": "Get Question by ID",
+        "summary": "Get Question by ID in Survey",
         "operationId": "GetQuestionInSurvey",
         "parameters": [
           {
@@ -5181,7 +5179,7 @@
         "tags": [
           "Survey"
         ],
-        "summary": "Update Question",
+        "summary": "Update Question in Survey",
         "operationId": "UpdateQuestionInSurvey",
         "parameters": [
           {
@@ -5277,7 +5275,7 @@
         "tags": [
           "Survey"
         ],
-        "summary": "Delete Question by ID",
+        "summary": "Delete Question from Survey",
         "operationId": "DeleteQuestionFromSurvey",
         "parameters": [
           {
@@ -5363,7 +5361,7 @@
         ]
       }
     },
-    "/Survey/{surveyId}/summary": {
+    "/Surveys/{surveyId}/summary": {
       "get": {
         "tags": [
           "Survey"
@@ -5446,7 +5444,7 @@
         ]
       }
     },
-    "/WorkItem": {
+    "/WorkItems": {
       "get": {
         "tags": [
           "WorkItem"
@@ -5615,7 +5613,7 @@
         ]
       }
     },
-    "/WorkItem/{workItemId}": {
+    "/WorkItems/{workItemId}": {
       "get": {
         "tags": [
           "WorkItem"
@@ -5855,7 +5853,7 @@
         ]
       }
     },
-    "/WorkItem/{employeeId}/workitems/{workitemId}/status": {
+    "/WorkItems/{workitemId}/status": {
       "put": {
         "tags": [
           "WorkItem"
@@ -5879,14 +5877,6 @@
             "description": "New status for workItem",
             "schema": {
               "$ref": "#/components/schemas/WorkItemStatus"
-            }
-          },
-          {
-            "name": "employeeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
           },
           {

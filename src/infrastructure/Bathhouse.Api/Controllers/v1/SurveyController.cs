@@ -18,7 +18,6 @@ using System.Net.Mime;
 namespace Bathhouse.Api.v1.Controllers
 {
   [Authorize]
-  [Route("[controller]")]
   [ApiController]
   [ApiVersion("1.0")]
   [Produces(MediaTypeNames.Application.Json)]
@@ -46,7 +45,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of Surveys
     /// </summary>
-    [HttpGet(Name = ("GetAll[controller]s"))]
+    [HttpGet("[controller]s", Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<SurveyResponse>> GetAll(
       [FromQuery] PaginationQuery paginationQuery,
@@ -78,7 +77,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get Survey by ID
     /// </summary>
     /// <param name="surveyId">The Survey ID</param>
-    [HttpGet("{surveyId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("[controller]s/{surveyId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<SurveyResponse> GetById(Guid surveyId)
     {
       Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" });
@@ -96,7 +95,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Add Survey.
     /// </summary>
     /// <param name="request">Newly creating Survey</param>
-    [HttpPost(Name = ("Create[controller]"))]
+    [HttpPost("[controller]s", Name = ("Create[controller]"))]
     public ActionResult<SurveyResponse> Create(SurveyRequest request)
     {
       Survey newEntity = _repository.Add(_mapper.Map<SurveyRequest, Survey>(request));
@@ -119,7 +118,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="surveyId">ID of Survey for updating</param>
     /// <param name="newName">New Name</param>
     /// <param name="newDescription">New Description</param>
-    [HttpPut("{surveyId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("[controller]s/{surveyId:guid}", Name = ("Update[controller]"))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult Update(Guid surveyId, string? newName, string? newDescription)
     {
@@ -149,7 +148,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Delete Survey by ID
     /// </summary>
     /// <param name="surveyId">Survey ID</param>
-    [HttpDelete("{surveyId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("[controller]s/{surveyId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid surveyId)
     {
@@ -184,7 +183,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of Question in Survey
     /// </summary>
-    [HttpGet("{surveyId:guid}/questions", Name = ("GetAllQuestionsInSurvey"))]
+    [HttpGet("[controller]s/{surveyId:guid}/questions", Name = ("GetAllQuestionsInSurvey"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<SurveyResponse>> GetAllQuestionsInSurvey(Guid surveyId)
     {
@@ -201,7 +200,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Exploring Survey ID</param>
     /// <param name="questionId">The question Id in Survey ID</param>
-    [HttpGet("{surveyId:guid}/questions/{questionId:guid}", Name = ("GetQuestionInSurvey"))]
+    [HttpGet("[controller]s/{surveyId:guid}/questions/{questionId:guid}", Name = ("GetQuestionInSurvey"))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<QuestionResponse> GetQuestionInSurvey(Guid surveyId, Guid questionId)
     {
@@ -227,7 +226,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Survey where new question will be added</param>
     /// <param name="request">Newly creating Question</param>
-    [HttpPost("{surveyId:guid}/questions", Name = ("AddQuestionToSurvey"))]
+    [HttpPost("[controller]s/{surveyId:guid}/questions", Name = ("AddQuestionToSurvey"))]
     [ProducesDefaultResponseType]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -268,7 +267,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="surveyId">Exploring Survey ID</param>
     /// <param name="questionId">ID of Question for updating</param>
     /// <param name="request">Updating question</param>
-    [HttpPut("{surveyId:guid}/questions/{questionId:guid}", Name = ("UpdateQuestionInSurvey"))]
+    [HttpPut("[controller]s/{surveyId:guid}/questions/{questionId:guid}", Name = ("UpdateQuestionInSurvey"))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult UpdateQuestionInSurvey(Guid surveyId, Guid questionId, QuestionRequest request)
     {
@@ -298,7 +297,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Exploring Survey ID</param>
     /// <param name="questionId">Question ID</param>
-    [HttpDelete("{surveyId:guid}/questions/{questionId:guid}", Name = ("DeleteQuestionFromSurvey"))]
+    [HttpDelete("[controller]s/{surveyId:guid}/questions/{questionId:guid}", Name = ("DeleteQuestionFromSurvey"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult DeleteQuestionFromSurvey(Guid surveyId, Guid questionId)
     {
@@ -334,7 +333,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Id of summary</param>
     /// <param name="summaryType">Summary type</param>
-    [HttpGet("{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
+    [HttpGet("[controller]s/{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery] SurveyResultSummaryType summaryType)
     {

@@ -17,7 +17,6 @@ using System.Net.Mime;
 namespace Bathhouse.Api.v1.Controllers
 {
   [Authorize]
-  [Route("[controller]")]
   [ApiController]
   [ApiVersion("1.0")]
   [Produces(MediaTypeNames.Application.Json)]
@@ -41,7 +40,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of WorkItems
     /// </summary>
-    [HttpGet(Name = ("GetAll[controller]s"))]
+    [HttpGet("[controller]s", Name = ("GetAll[controller]s"))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<WorkItemResponse>> GetAll(
       [FromQuery] PaginationQuery paginationQuery,
@@ -73,7 +72,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get WorkItem by ID
     /// </summary>
     /// <param name="workItemId">The WorkItem ID</param>
-    [HttpGet("{workItemId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet("[controller]s/{workItemId:guid}", Name = ("Get[controller]ById"))]
     public ActionResult<WorkItemResponse> GetById(Guid workItemId)
     {
       WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
@@ -91,7 +90,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Add WorkItem.
     /// </summary>
     /// <param name="request">Newly creating WorkItem</param>
-    [HttpPost(Name = ("Create[controller]"))]
+    [HttpPost("[controller]s", Name = ("Create[controller]"))]
     public ActionResult<WorkItemResponse> Create(WorkItemRequest request)
     {
       WorkItem newEntity = _repository.Add(_mapper.Map<WorkItemRequest, WorkItem>(request));
@@ -114,7 +113,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="request">WorkItem for updating</param>
     /// <param name="workItemId">ID of WorkItem for updating</param>
     /// <returns></returns>
-    [HttpPut("{workItemId:guid}", Name = ("Update[controller]"))]
+    [HttpPut("[controller]s/{workItemId:guid}", Name = ("Update[controller]"))]
     public ActionResult Update(Guid workItemId, WorkItemRequest request)
     {
       WorkItem? entity = _repository.Get(key: workItemId, includePropertyNames: new[] { "Creator", "Executor" });
@@ -142,7 +141,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Delete WorkItem by ID
     /// </summary>
     /// <param name="workItemId">WorkItem ID</param>
-    [HttpDelete("{workItemId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete("[controller]s/{workItemId:guid}", Name = ("Delete[controller]"))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid workItemId)
     {
@@ -173,7 +172,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="workitemId"></param>
     /// <param name="newWorkItemStatus">New status for workItem</param>
-    [HttpPut("{employeeId:guid}/workitems/{workitemId:guid}/status", Name = nameof(ChangeStatusOfWorkItem))]
+    [HttpPut("[controller]s/{workitemId:guid}/status", Name = nameof(ChangeStatusOfWorkItem))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult ChangeStatusOfWorkItem(Guid workitemId, WorkItemStatus newWorkItemStatus)
     {
