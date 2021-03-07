@@ -4,32 +4,6 @@
         <name>Bathhouse.Api</name>
     </assembly>
     <members>
-        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.GetById(System.Guid)">
-            <summary>
-            Get Question by ID
-            </summary>
-            <param name="questionId">The question Id in Survey ID</param>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Create(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
-            <summary>
-            Add Question.
-            </summary>
-            <param name="surveyId">Survey where new question will be added</param>
-            <param name="request">Newly creating Question</param>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Update(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
-            <summary>
-            Update Question
-            </summary>
-            <param name="questionId">ID of Question for updating</param>
-            <param name="request">Updating question</param>
-        </member>
-        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Delete(System.Guid)">
-            <summary>
-            Delete Question by ID
-            </summary>
-            <param name="questionId">Question ID</param>
-        </member>
         <member name="M:Bathhouse.Api.v1.Controllers.ClientController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,System.Nullable{System.Guid})">
             <summary>
             Get all of Clients
@@ -41,13 +15,13 @@
             </summary>
             <param name="clientId">The Client ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.ClientController.Create(Bathhouse.Contracts.v1.Models.ClientRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.ClientController.Create(Bathhouse.Contracts.Models.v1.Requests.ClientRequest)">
             <summary>
             Add Client.
             </summary>
             <param name="request">Newly creating Client</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.ClientController.Update(System.Guid,Bathhouse.Contracts.v1.Models.ClientRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.ClientController.Update(System.Guid,Bathhouse.Contracts.Models.v1.Requests.ClientRequest)">
             <summary>
             Update Client
             </summary>
@@ -71,13 +45,13 @@
             </summary>
             <param name="employeeId">The Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.Create(Bathhouse.Contracts.v1.Models.EmployeeRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.Create(Bathhouse.Contracts.Models.v1.Requests.EmployeeRequest)">
             <summary>
             Add Employee.
             </summary>
             <param name="request">Newly creating Employee</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.Update(System.Guid,Bathhouse.Contracts.v1.Models.EmployeeRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.Update(System.Guid,Bathhouse.Contracts.Models.v1.Requests.EmployeeRequest)">
             <summary>
             Update Employee
             </summary>
@@ -183,14 +157,14 @@
             <param name="employeeId">Employee ID</param>
             <param name="workitemId">WorkItem ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.CreateWorkItemByEmployee(System.Guid,Bathhouse.Contracts.v1.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.CreateWorkItemByEmployee(System.Guid,Bathhouse.Contracts.Models.v1.Requests.WorkItemRequest)">
             <summary>
             Create workItem.
             </summary>
             <param name="employeeId">Employee ID</param>
             <param name="workItem">Newly creating workItem. WokrItemRequest.CreatorId will be overwrited by Employee ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.UpdateCreatedWorkItem(System.Guid,System.Guid,Bathhouse.Contracts.v1.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.UpdateCreatedWorkItem(System.Guid,System.Guid,Bathhouse.Contracts.Models.v1.Requests.WorkItemRequest)">
             <summary>
             Update WorkItem
             </summary>
@@ -234,7 +208,7 @@
             <param name="employeeId">The Employee ID</param>
             <param name="surveyId">Survey ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.CreateSurveyForEmployee(System.Guid,Bathhouse.Contracts.v1.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.EmployeeController.CreateSurveyForEmployee(System.Guid,Bathhouse.Contracts.Models.v1.Requests.SurveyRequest)">
             <summary>
             Create Survey.
             </summary>
@@ -261,13 +235,13 @@
             </summary>
             <param name="officeId">The Office ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.OfficeController.Create(Bathhouse.Contracts.v1.Models.OfficeRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.OfficeController.Create(Bathhouse.Contracts.Models.v1.Requests.OfficeRequest)">
             <summary>
             Add Office.
             </summary>
             <param name="request">Newly creating Office</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.OfficeController.Update(System.Guid,Bathhouse.Contracts.v1.Models.OfficeRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.OfficeController.Update(System.Guid,Bathhouse.Contracts.Models.v1.Requests.OfficeRequest)">
             <summary>
             Update Office
             </summary>
@@ -366,7 +340,7 @@
             <param name="roleId">Role ID</param>
             <param name="employeeId">Employee Id</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,Bathhouse.Contracts.v1.Models.SurveyFilterQuery)">
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,Bathhouse.Contracts.v1.Models.Queries.SurveyFilterQuery)">
             <summary>
             Get all of Surveys
             </summary>
@@ -377,7 +351,7 @@
             </summary>
             <param name="surveyId">The Survey ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.Create(Bathhouse.Contracts.v1.Models.SurveyRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.Create(Bathhouse.Contracts.Models.v1.Requests.SurveyRequest)">
             <summary>
             Add Survey.
             </summary>
@@ -409,14 +383,14 @@
             <param name="surveyId">Exploring Survey ID</param>
             <param name="questionId">The question Id in Survey ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.AddQuestionToSurvey(System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.AddQuestionToSurvey(System.Guid,Bathhouse.Contracts.Models.v1.Requests.QuestionRequest)">
             <summary>
             Add Question to Survey.
             </summary>
             <param name="surveyId">Survey where new question will be added</param>
             <param name="request">Newly creating Question</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.UpdateQuestionInSurvey(System.Guid,System.Guid,Bathhouse.Contracts.v1.Models.QuestionRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.SurveyController.UpdateQuestionInSurvey(System.Guid,System.Guid,Bathhouse.Contracts.Models.v1.Requests.QuestionRequest)">
             <summary>
             Update Question in Survey
             </summary>
@@ -438,7 +412,7 @@
             <param name="surveyId">Id of summary</param>
             <param name="summaryType">Summary type</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.WorkItemController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,Bathhouse.Contracts.v1.Models.WorkItemFilterQuery)">
+        <member name="M:Bathhouse.Api.v1.Controllers.WorkItemController.GetAll(Chuk.Helpers.AspNetCore.PaginationQuery,Bathhouse.Contracts.v1.Models.Queries.WorkItemFilterQuery)">
             <summary>
             Get all of WorkItems
             </summary>
@@ -449,13 +423,13 @@
             </summary>
             <param name="workItemId">The WorkItem ID</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.WorkItemController.Create(Bathhouse.Contracts.v1.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.WorkItemController.Create(Bathhouse.Contracts.Models.v1.Requests.WorkItemRequest)">
             <summary>
             Add WorkItem.
             </summary>
             <param name="request">Newly creating WorkItem</param>
         </member>
-        <member name="M:Bathhouse.Api.v1.Controllers.WorkItemController.Update(System.Guid,Bathhouse.Contracts.v1.Models.WorkItemRequest)">
+        <member name="M:Bathhouse.Api.v1.Controllers.WorkItemController.Update(System.Guid,Bathhouse.Contracts.Models.v1.Requests.WorkItemRequest)">
             <summary>
             Update WorkItem
             </summary>
@@ -475,6 +449,32 @@
             </summary>
             <param name="workitemId"></param>
             <param name="newWorkItemStatus">New status for workItem</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.GetById(System.Guid)">
+            <summary>
+            Get Question by ID
+            </summary>
+            <param name="questionId">The question Id in Survey ID</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Create(System.Guid,Bathhouse.Contracts.Models.v1.Requests.QuestionRequest)">
+            <summary>
+            Add Question.
+            </summary>
+            <param name="surveyId">Survey where new question will be added</param>
+            <param name="request">Newly creating Question</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Update(System.Guid,Bathhouse.Contracts.Models.v1.Requests.QuestionRequest)">
+            <summary>
+            Update Question
+            </summary>
+            <param name="questionId">ID of Question for updating</param>
+            <param name="request">Updating question</param>
+        </member>
+        <member name="M:Bathhouse.Api.Controllers.v1.QuestionController.Delete(System.Guid)">
+            <summary>
+            Delete Question by ID
+            </summary>
+            <param name="questionId">Question ID</param>
         </member>
     </members>
 </doc>

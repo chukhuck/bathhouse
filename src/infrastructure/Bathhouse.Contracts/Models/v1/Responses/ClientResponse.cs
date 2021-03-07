@@ -1,11 +1,8 @@
 ﻿using Bathhouse.ValueTypes;
 using System;
 
-namespace Bathhouse.Contracts.v1.Models
+namespace Bathhouse.Contracts.Models.v1.Responses
 {
-  /// <summary>
-  /// 
-  /// </summary>
   public record ClientResponse(
     Guid Id, 
     string LastName, 

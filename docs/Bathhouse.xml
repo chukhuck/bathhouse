@@ -10,41 +10,6 @@
             </summary>
             <returns>Result</returns>
         </member>
-        <member name="T:Bathhouse.ValueTypes.DataType">
-            <summary>
-            Type of data in column
-            </summary>
-        </member>
-        <member name="T:Bathhouse.ValueTypes.Sex">
-            <summary>
-            Gender of person
-            </summary>
-        </member>
-        <member name="T:Bathhouse.ValueTypes.EmployeeType">
-            <summary>
-            Type of employee
-            </summary>
-        </member>
-        <member name="T:Bathhouse.ValueTypes.QuestionType">
-            <summary>
-            Type of question
-            </summary>
-        </member>
-        <member name="T:Bathhouse.ValueTypes.SurveyResultSummaryType">
-            <summary>
-            Type of generating survey summary
-            </summary>
-        </member>
-        <member name="T:Bathhouse.ValueTypes.SurveyStatus">
-            <summary>
-            Status of survey
-            </summary>
-        </member>
-        <member name="T:Bathhouse.ValueTypes.WorkItemStatus">
-            <summary>
-            Status of WorkItem
-            </summary>
-        </member>
         <member name="M:Bathhouse.ValueTypes.SimpleSurveySummary.GetFooters">
             <summary>
             Get footers for this survey

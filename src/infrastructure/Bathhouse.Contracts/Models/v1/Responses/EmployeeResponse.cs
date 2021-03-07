@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bathhouse.Contracts.v1.Models
+namespace Bathhouse.Contracts.Models.v1.Responses
 {
   public record EmployeeResponse(
     Guid Id,

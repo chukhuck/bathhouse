@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bathhouse.Contracts.v1.Models
+namespace Bathhouse.Contracts.Models.v1.Requests
 {
   public class SurveyRequest
   {

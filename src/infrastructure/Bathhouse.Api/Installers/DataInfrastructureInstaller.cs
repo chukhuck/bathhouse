@@ -1,4 +1,4 @@
-﻿using Bathhouse.Contracts.Infrastructure;
+﻿using Bathhouse.Api.v1.Common.Mapper;
 using Bathhouse.EF.Data;
 using Bathhouse.EF.Repositories.Common;
 using Bathhouse.Entities;

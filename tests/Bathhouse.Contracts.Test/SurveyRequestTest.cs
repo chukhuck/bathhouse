@@ -1,5 +1,4 @@
-﻿using Bathhouse.Contracts.v1.Models;
-using System;
+﻿using Bathhouse.Contracts.Models.v1.Requests;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Xunit;

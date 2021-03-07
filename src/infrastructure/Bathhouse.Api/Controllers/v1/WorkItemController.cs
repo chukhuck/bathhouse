@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
-using Bathhouse.Contracts.v1.Models;
+using Bathhouse.Api.Common.Filters;
+using Bathhouse.Contracts.Models.v1.Requests;
+using Bathhouse.Contracts.Models.v1.Responses;
+using Bathhouse.Contracts.v1.Models.Queries;
 using Bathhouse.Entities;
 using Bathhouse.Repositories.Common;
 using Bathhouse.ValueTypes;
@@ -44,13 +47,15 @@ namespace Bathhouse.Api.v1.Controllers
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<WorkItemResponse>> GetAll(
       [FromQuery] PaginationQuery paginationQuery,
-      [FromQuery] WorkItemFilterQuery filter)
+      [FromQuery] WorkItemFilterQuery filterQuery)
     {
       PaginationFilter paginationFilter = new()
       {
         PageSize = paginationQuery.PageSize,
         PageNumber = paginationQuery.PageNumber
       };
+
+      WorkItemFilter filter = new(filterQuery);
 
       var allEntities = _repository.GetAll(
         paginationFilter: paginationFilter, 
