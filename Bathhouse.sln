@@ -43,7 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chuk.Helpers", "src\infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.Identity.Api", "src\infrastructure\Bathhouse.Identity.Api\Bathhouse.Identity.Api.csproj", "{52816536-0A9C-4F9D-A569-1DEE2E927DB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Api.Sdk", "src\infrastructure\Bathhouse.Api.Sdk\Bathhouse.Api.Sdk.csproj", "{011BC3CC-E7E7-4DF5-ABA1-B27C19A24B58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bathhouse.Api.Sdk", "src\infrastructure\Bathhouse.Api.Sdk\Bathhouse.Api.Sdk.csproj", "{011BC3CC-E7E7-4DF5-ABA1-B27C19A24B58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bathhouse.Enums", "src\domain\Bathhouse.Enums\Bathhouse.Enums.csproj", "{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -211,6 +213,18 @@ Global
 		{011BC3CC-E7E7-4DF5-ABA1-B27C19A24B58}.Release|x64.Build.0 = Release|Any CPU
 		{011BC3CC-E7E7-4DF5-ABA1-B27C19A24B58}.Release|x86.ActiveCfg = Release|Any CPU
 		{011BC3CC-E7E7-4DF5-ABA1-B27C19A24B58}.Release|x86.Build.0 = Release|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Debug|x64.Build.0 = Debug|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Debug|x86.Build.0 = Debug|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Release|x64.ActiveCfg = Release|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Release|x64.Build.0 = Release|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Release|x86.ActiveCfg = Release|Any CPU
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,6 +246,7 @@ Global
 		{82D2C2F3-2628-4249-9CFC-3D20353C7E25} = {BA1760D6-E6A4-4E68-AF3D-02E112D102B5}
 		{52816536-0A9C-4F9D-A569-1DEE2E927DB9} = {BA1760D6-E6A4-4E68-AF3D-02E112D102B5}
 		{011BC3CC-E7E7-4DF5-ABA1-B27C19A24B58} = {BA1760D6-E6A4-4E68-AF3D-02E112D102B5}
+		{13C65C77-9A7B-4EF5-B621-E3528D00D0A4} = {7A3A31A6-AAB8-44AC-9ADB-B2372B1E3674}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CCC43692-0E4B-45C2-907D-222FBB234B1A}

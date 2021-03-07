@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\infrastructure\Chuk.Helpers\Chuk.Helpers.csproj" />
+    <ProjectReference Include="..\Bathhouse.Enums\Bathhouse.Enums.csproj" />
   </ItemGroup>
 
 </Project>

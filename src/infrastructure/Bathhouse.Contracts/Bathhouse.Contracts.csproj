@@ -11,11 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\domain\Bathhouse\Bathhouse.csproj" />
+    <ProjectReference Include="..\..\domain\Bathhouse.Enums\Bathhouse.Enums.csproj" />
   </ItemGroup>
 
 </Project>
