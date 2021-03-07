@@ -1,4 +1,5 @@
-﻿using Bathhouse.Contracts.Models.v1.Requests;
+﻿using Bathhouse.Contracts;
+using Bathhouse.Contracts.Models.v1.Requests;
 using Bathhouse.Contracts.Models.v1.Responses;
 using Bathhouse.Contracts.v1.Models.Queries;
 using Bathhouse.ValueTypes;
@@ -7,28 +8,28 @@ using Refit;
 using System;
 using System.Threading.Tasks;
 
-namespace Bathhouse.Api.v1.Sdk
+namespace Bathhouse.Api.Sdk.v1
 {
   interface IBathhouseApi
   {
-    [Get("/Workitems")]
-    Task<PaginatedResponse<WorkItemResponse>> GetAllWorkItems(
+    [Get(ApiRoutes.GetAllWorkItems)]
+    Task<PaginatedResponse<WorkItemResponse>> GetAllWorkItemsAsync(
       [Body]PaginationQuery paginationQuery,
       [Body]WorkItemFilterQuery filter);
     
-    [Get("/Workitems/{workItemId:guid}")]
-    Task<WorkItemResponse> GetWorkItemById(Guid workItemId);
+    [Get(ApiRoutes.GetWorkItemById)]
+    Task<WorkItemResponse> GetWorkItemByIdAsync(Guid workItemId);
 
-    [Post("/Workitems")]
-    Task<WorkItemResponse> CreateWorkItem([Body]WorkItemRequest request);
+    [Post(ApiRoutes.CreateWorkItem)]
+    Task<WorkItemResponse> CreateWorkItemAsync([Body]WorkItemRequest request);
 
-    [Put("/Workitems/{workItemId:guid}")]
-    Task UpdateWorkItem(Guid workItemId, [Body]WorkItemRequest request);
+    [Put(ApiRoutes.UpdateWorkItem)]
+    Task UpdateWorkItemAsync(Guid workItemId, [Body]WorkItemRequest request);
 
-    [Delete("/Workitems/{workItemId:guid}")]
-    Task DeleteWorkItem(Guid workItemId);
+    [Delete(ApiRoutes.DeleteWorkItem)]
+    Task DeleteWorkItemAsync(Guid workItemId);
 
-    [Post("/Workitems/{employeeId:guid}/workitems/{workitemId:guid}/status")]
-    Task ChangeStatusOfWorkItem(Guid workitemId, WorkItemStatus newWorkItemStatus);
+    [Post(ApiRoutes.ChangeStatusOfWorkItem)]
+    Task ChangeStatusOfWorkItemAsync(Guid workitemId, WorkItemStatus newWorkItemStatus);
   }
 }

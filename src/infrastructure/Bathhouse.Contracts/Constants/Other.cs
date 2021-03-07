@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Bathhouse.Contracts
+﻿namespace Bathhouse.Contracts
 {
   public partial class Constants
   {

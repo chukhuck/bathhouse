@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bathhouse.Api.Common.Filters;
+using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models.v1.Requests;
 using Bathhouse.Contracts.Models.v1.Responses;
 using Bathhouse.Contracts.v1.Models.Queries;
@@ -48,7 +49,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of Surveys
     /// </summary>
-    [HttpGet("[controller]s", Name = ("GetAll[controller]s"))]
+    [HttpGet(ApiRoutes.GetAllSurveys, Name = nameof(ApiRoutes.GetAllSurveys))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<SurveyResponse>> GetAll(
       [FromQuery] PaginationQuery paginationQuery,
@@ -82,7 +83,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get Survey by ID
     /// </summary>
     /// <param name="surveyId">The Survey ID</param>
-    [HttpGet("[controller]s/{surveyId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet(ApiRoutes.GetSurveyById, Name = nameof(ApiRoutes.GetSurveyById))]
     public ActionResult<SurveyResponse> GetById(Guid surveyId)
     {
       Survey? entity = _repository.Get(key: surveyId, includePropertyNames: new[] { "Author", "Questions" });
@@ -100,7 +101,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Add Survey.
     /// </summary>
     /// <param name="request">Newly creating Survey</param>
-    [HttpPost("[controller]s", Name = ("Create[controller]"))]
+    [HttpPost(ApiRoutes.CreateSurvey, Name = nameof(ApiRoutes.CreateSurvey))]
     public ActionResult<SurveyResponse> Create(SurveyRequest request)
     {
       Survey newEntity = _repository.Add(_mapper.Map<SurveyRequest, Survey>(request));
@@ -123,7 +124,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="surveyId">ID of Survey for updating</param>
     /// <param name="newName">New Name</param>
     /// <param name="newDescription">New Description</param>
-    [HttpPut("[controller]s/{surveyId:guid}", Name = ("Update[controller]"))]
+    [HttpPut(ApiRoutes.UpdateSurvey, Name = nameof(ApiRoutes.UpdateSurvey))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult Update(Guid surveyId, string? newName, string? newDescription)
     {
@@ -153,7 +154,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Delete Survey by ID
     /// </summary>
     /// <param name="surveyId">Survey ID</param>
-    [HttpDelete("[controller]s/{surveyId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete(ApiRoutes.DeleteSurvey, Name = nameof(ApiRoutes.DeleteSurvey))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid surveyId)
     {
@@ -188,7 +189,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of Question in Survey
     /// </summary>
-    [HttpGet("[controller]s/{surveyId:guid}/questions", Name = ("GetAllQuestionsInSurvey"))]
+    [HttpGet(ApiRoutes.GetAllQuestionsInSurvey, Name = nameof(ApiRoutes.GetAllQuestionsInSurvey))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<SurveyResponse>> GetAllQuestionsInSurvey(Guid surveyId)
     {
@@ -205,7 +206,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Exploring Survey ID</param>
     /// <param name="questionId">The question Id in Survey ID</param>
-    [HttpGet("[controller]s/{surveyId:guid}/questions/{questionId:guid}", Name = ("GetQuestionInSurvey"))]
+    [HttpGet(ApiRoutes.GetQuestionInSurvey, Name = nameof(ApiRoutes.GetQuestionInSurvey))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<QuestionResponse> GetQuestionInSurvey(Guid surveyId, Guid questionId)
     {
@@ -231,7 +232,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Survey where new question will be added</param>
     /// <param name="request">Newly creating Question</param>
-    [HttpPost("[controller]s/{surveyId:guid}/questions", Name = ("AddQuestionToSurvey"))]
+    [HttpPost(ApiRoutes.AddQuestionToSurvey, Name = nameof(ApiRoutes.AddQuestionToSurvey))]
     [ProducesDefaultResponseType]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -272,7 +273,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="surveyId">Exploring Survey ID</param>
     /// <param name="questionId">ID of Question for updating</param>
     /// <param name="request">Updating question</param>
-    [HttpPut("[controller]s/{surveyId:guid}/questions/{questionId:guid}", Name = ("UpdateQuestionInSurvey"))]
+    [HttpPut(ApiRoutes.UpdateQuestionInSurvey, Name = nameof(ApiRoutes.UpdateQuestionInSurvey))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult UpdateQuestionInSurvey(Guid surveyId, Guid questionId, QuestionRequest request)
     {
@@ -302,7 +303,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Exploring Survey ID</param>
     /// <param name="questionId">Question ID</param>
-    [HttpDelete("[controller]s/{surveyId:guid}/questions/{questionId:guid}", Name = ("DeleteQuestionFromSurvey"))]
+    [HttpDelete(ApiRoutes.DeleteQuestionFromSurvey, Name = nameof(ApiRoutes.DeleteQuestionFromSurvey))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult DeleteQuestionFromSurvey(Guid surveyId, Guid questionId)
     {
@@ -338,7 +339,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="surveyId">Id of summary</param>
     /// <param name="summaryType">Summary type</param>
-    [HttpGet("[controller]s/{surveyId:guid}/summary", Name = (nameof(GetSurveySummary)))]
+    [HttpGet(ApiRoutes.GetSurveySummary, Name = nameof(ApiRoutes.GetSurveySummary))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveySummaryResponse> GetSurveySummary(Guid surveyId, [FromQuery] SurveyResultSummaryType summaryType)
     {

@@ -5444,7 +5444,7 @@
         ]
       }
     },
-    "/WorkItems": {
+    "/workitems": {
       "get": {
         "tags": [
           "WorkItem"
@@ -5613,7 +5613,7 @@
         ]
       }
     },
-    "/WorkItems/{workItemId}": {
+    "/workitems/{workItemId}": {
       "get": {
         "tags": [
           "WorkItem"
@@ -5853,7 +5853,7 @@
         ]
       }
     },
-    "/WorkItems/{workitemId}/status": {
+    "/workitems/{workitemId}/status": {
       "put": {
         "tags": [
           "WorkItem"
@@ -6044,8 +6044,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": false,
-        "description": ""
+        "additionalProperties": false
       },
       "ClientResponsePaginatedResponse": {
         "type": "object",
@@ -6084,8 +6083,7 @@
           "Bool",
           "Photo"
         ],
-        "type": "string",
-        "description": "Type of data in column"
+        "type": "string"
       },
       "EmployeeRequest": {
         "required": [
@@ -6408,8 +6406,7 @@
           "Photo",
           "DateTime"
         ],
-        "type": "string",
-        "description": "Type of question"
+        "type": "string"
       },
       "RoleResponse": {
         "type": "object",
@@ -6434,8 +6431,7 @@
           "Female",
           "Unknown"
         ],
-        "type": "string",
-        "description": "Gender of person"
+        "type": "string"
       },
       "SurveyRequest": {
         "required": [
@@ -6533,8 +6529,7 @@
           "Simple",
           "Aggregated"
         ],
-        "type": "string",
-        "description": "Type of generating survey summary"
+        "type": "string"
       },
       "SurveyStatus": {
         "enum": [
@@ -6542,10 +6537,9 @@
           "Archive",
           "Deleted"
         ],
-        "type": "string",
-        "description": "Status of survey"
+        "type": "string"
       },
-      "SurveySummaryHeader": {
+      "SurveySummaryHeaderResponse": {
         "type": "object",
         "properties": {
           "type": {
@@ -6571,7 +6565,7 @@
           "headers": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SurveySummaryHeader"
+              "$ref": "#/components/schemas/SurveySummaryHeaderResponse"
             }
           },
           "data": {
@@ -6713,8 +6707,7 @@
           "Done",
           "Canceled"
         ],
-        "type": "string",
-        "description": "Status of WorkItem"
+        "type": "string"
       }
     },
     "securitySchemes": {

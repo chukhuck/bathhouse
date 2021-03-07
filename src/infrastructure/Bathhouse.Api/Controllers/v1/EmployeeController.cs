@@ -57,7 +57,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of Employees
     /// </summary>
-    [HttpGet("[controller]s", Name = ("GetAll[controller]s"))]
+    [HttpGet(ApiRoutes.GetAllEmployees, Name = nameof(ApiRoutes.GetAllEmployees))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<EmployeeResponse>> GetAll([FromQuery] PaginationQuery paginationQuery)
     {
@@ -85,7 +85,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get Employee by ID
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet(ApiRoutes.GetEmployeeById, Name = nameof(ApiRoutes.GetEmployeeById))]
     public ActionResult<EmployeeResponse> GetById(Guid employeeId)
     {
       Employee? entity = _repository.Get(employeeId);
@@ -105,7 +105,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="request">Newly creating Employee</param>
     [Authorize(Policy = Constants.EmployeeAddOrDeletePolicy)]
-    [HttpPost("[controller]s", Name = ("Create[controller]"))]
+    [HttpPost(ApiRoutes.CreateEmployee, Name = nameof(ApiRoutes.CreateEmployee))]
     public ActionResult<EmployeeResponse> Create(EmployeeRequest request)
     {
       Employee newEntity = _mapper.Map<EmployeeRequest, Employee>(request);
@@ -134,7 +134,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="request">Employee for updating</param>
     /// <param name="employeeId">ID of Employee for updating</param>
-    [HttpPut("[controller]s/{employeeId:guid}", Name = ("Update[controller]"))]
+    [HttpPut(ApiRoutes.UpdateEmployee, Name = nameof(ApiRoutes.UpdateEmployee))]
     public ActionResult Update(Guid employeeId, EmployeeRequest request)
     {
       if (employeeId != HttpContext.GetGuidUserId()
@@ -174,7 +174,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     [Authorize(Policy = Constants.EmployeeAddOrDeletePolicy)]
-    [HttpDelete("[controller]s/{employeeId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete(ApiRoutes.DeleteEmployee, Name = nameof(ApiRoutes.DeleteEmployee))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid employeeId)
     {
@@ -200,7 +200,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get roles for employee
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/roles", Name = nameof(GetRolesForEmployee))]
+    [HttpGet(ApiRoutes.GetRolesForEmployee, Name = nameof(ApiRoutes.GetRolesForEmployee))]
     public ActionResult<string> GetRolesForEmployee(Guid employeeId)
     {
       Employee? entity = _repository.Get(key: employeeId);
@@ -222,7 +222,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">Employee ID</param>
     /// <param name="newRole">Name of an adding role</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpPost("[controller]s/{employeeId:guid}/roles", Name = nameof(AddRoleForEmployee))]
+    [HttpPost(ApiRoutes.AddRoleForEmployee, Name = nameof(ApiRoutes.AddRoleForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IdentityResult> AddRoleForEmployee(Guid employeeId, string newRole)
     {
@@ -253,7 +253,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">Employee ID</param>
     /// <param name="newRole">Name of an deleting role</param>
     [Authorize(Policy = Constants.AdminRoleName)]
-    [HttpDelete("[controller]s/{employeeId:guid}/roles", Name = nameof(DeleteRoleFromEmployee))]
+    [HttpDelete(ApiRoutes.DeleteRoleFromEmployee, Name = nameof(ApiRoutes.DeleteRoleFromEmployee))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteRoleFromEmployee(Guid employeeId, string newRole)
     {
@@ -286,7 +286,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of the directors in the system
     /// </summary>
-    [HttpGet("[controller]s/directors", Name = nameof(GetAllTheDirectors))]
+    [HttpGet(ApiRoutes.GetAllTheDirectors, Name = nameof(ApiRoutes.GetAllTheDirectors))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllTheDirectors()
     {
@@ -297,7 +297,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of the employees in the system
     /// </summary>
-    [HttpGet("[controller]s/employees", Name = nameof(GetAllSimpleEmployees))]
+    [HttpGet(ApiRoutes.GetAllSimpleEmployees, Name = nameof(ApiRoutes.GetAllSimpleEmployees))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllSimpleEmployees()
     {
@@ -308,7 +308,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of the managers in the system
     /// </summary>
-    [HttpGet("[controller]s/managers", Name = nameof(GetAllManagers))]
+    [HttpGet(ApiRoutes.GetAllManagers, Name = nameof(ApiRoutes.GetAllManagers))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllManagers()
     {
@@ -320,7 +320,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get all of the tech supporters in the system
     /// </summary>
     [AllowAnonymous]
-    [HttpGet("[controller]s/techsupporters", Name = nameof(GetAllTechSupporters))]
+    [HttpGet(ApiRoutes.GetAllTechSupporters, Name = nameof(ApiRoutes.GetAllTechSupporters))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<EmployeeResponse> GetAllTechSupporters()
     {
@@ -335,7 +335,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get offices for employee
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/offices", Name = nameof(GetOfficesForEmployee))]
+    [HttpGet(ApiRoutes.GetOfficesForEmployee, Name = nameof(ApiRoutes.GetOfficesForEmployee))]
     public ActionResult<OfficeResponse> GetOfficesForEmployee(Guid employeeId)
     {
       Employee? entity = _repository.Get(key: employeeId, includePropertyNames: new[] { "Offices" });
@@ -358,7 +358,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">Employee ID</param>
     /// <param name="officeId">ID deleting office</param>
     [Authorize(Policy = Constants.OfficeModifyPolicy)]
-    [HttpDelete("[controller]s/{employeeId:guid}/offices/{officeId:guid}", Name = nameof(DeleteOfficeFromEmployee))]
+    [HttpDelete(ApiRoutes.DeleteOfficeFromEmployee, Name = nameof(ApiRoutes.DeleteOfficeFromEmployee))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult DeleteOfficeFromEmployee(Guid employeeId, Guid officeId)
     {
@@ -384,7 +384,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">Employee ID</param>
     /// <param name="officeId">Office ID</param>
     [Authorize(Policy = Constants.OfficeModifyPolicy)]
-    [HttpPost("[controller]s/{employeeId:guid}/offices", Name = nameof(AddOfficeToEmployee))]
+    [HttpPost(ApiRoutes.AddOfficeToEmployee, Name = nameof(ApiRoutes.AddOfficeToEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IEnumerable<OfficeResponse>> AddOfficeToEmployee(Guid employeeId, Guid officeId)
     {
@@ -416,7 +416,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">Employee  ID</param>
     /// <param name="officeIds">Office IDs</param>
     [Authorize(Policy = Constants.OfficeModifyPolicy)]
-    [HttpPut("[controller]s/{employeeId:guid}/offices", Name = nameof(SetOfficesForEmployee))]
+    [HttpPut(ApiRoutes.SetOfficesForEmployee, Name = nameof(ApiRoutes.SetOfficesForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
     public ActionResult<IEnumerable<OfficeResponse>> SetOfficesForEmployee(Guid employeeId, [FromBody] IEnumerable<Guid> officeIds)
     {
@@ -456,7 +456,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get workitems for current employee
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/myworkitems", Name = nameof(GetWorkItemsForEmployee))]
+    [HttpGet(ApiRoutes.GetWorkItemsForEmployee, Name = nameof(ApiRoutes.GetWorkItemsForEmployee))]
     public ActionResult<WorkItemResponse> GetWorkItemsForEmployee(Guid employeeId)
     {
       if (_repository.Get(key: employeeId) is not Employee employee)
@@ -478,7 +478,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get workitems created by current employee
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/workitems", Name = nameof(GetAllWorkItemsCreatedByEmployee))]
+    [HttpGet(ApiRoutes.GetAllWorkItemsCreatedByEmployee, Name = nameof(ApiRoutes.GetAllWorkItemsCreatedByEmployee))]
     public ActionResult<IEnumerable<WorkItemResponse>> GetAllWorkItemsCreatedByEmployee(Guid employeeId)
     {
       if (_repository.Get(key: employeeId) is not Employee employee)
@@ -501,7 +501,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
     /// <param name="workitemId">WorkItem ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/workitems/{workitemId:guid}", Name = nameof(GetWorkItemCreatedByEmployee))]
+    [HttpGet(ApiRoutes.GetWorkItemCreatedByEmployee, Name = nameof(ApiRoutes.GetWorkItemCreatedByEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<WorkItemResponse> GetWorkItemCreatedByEmployee(Guid employeeId, Guid workitemId)
     {
@@ -526,7 +526,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="workitemId">WorkItem ID</param>
-    [HttpDelete("[controller]s/{employeeId:guid}/workitems/{workitemId:guid}", Name = nameof(DeleteWorkItemCreatedByEmployee))]
+    [HttpDelete(ApiRoutes.DeleteWorkItemCreatedByEmployee, Name = nameof(ApiRoutes.DeleteWorkItemCreatedByEmployee))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteWorkItemCreatedByEmployee(Guid employeeId, Guid workitemId)
     {
@@ -556,7 +556,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="workItem">Newly creating workItem. WokrItemRequest.CreatorId will be overwrited by Employee ID</param>
-    [HttpPost("[controller]s/{employeeId:guid}/workitems", Name = nameof(CreateWorkItemByEmployee))]
+    [HttpPost(ApiRoutes.CreateWorkItemByEmployee, Name = nameof(ApiRoutes.CreateWorkItemByEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
     public ActionResult<WorkItemResponse> CreateWorkItemByEmployee(Guid employeeId, WorkItemRequest workItem)
     {
@@ -580,7 +580,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="request">WorkItem for updating</param>
     /// <param name="employeeId">ID of entity for updating</param>
     /// <param name="workitemId"></param>
-    [HttpPut("[controller]s/{employeeId:guid}/workitems/{workitemId:guid}", Name = nameof(UpdateCreatedWorkItem))]
+    [HttpPut(ApiRoutes.UpdateCreatedWorkItem, Name = nameof(ApiRoutes.UpdateCreatedWorkItem))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult UpdateCreatedWorkItem(Guid employeeId, Guid workitemId, WorkItemRequest request)
     {
@@ -611,7 +611,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">ID of entity for updating</param>
     /// <param name="workitemId"></param>
     /// <param name="newWorkItemStatus">New status for workItem</param>
-    [HttpPut("[controller]s/{employeeId:guid}/workitems/{workitemId:guid}/status", Name = nameof(ChangeStatusMyWorkItem))]
+    [HttpPut(ApiRoutes.ChangeStatusMyWorkItem, Name = nameof(ApiRoutes.ChangeStatusMyWorkItem))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult ChangeStatusMyWorkItem(Guid employeeId, Guid workitemId, WorkItemStatus newWorkItemStatus)
     {
@@ -646,7 +646,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get all of surveys for current employee
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/surveys", Name = nameof(GetAllSurveysForEmployee))]
+    [HttpGet(ApiRoutes.GetAllSurveysForEmployee, Name = nameof(ApiRoutes.GetAllSurveysForEmployee))]
     public ActionResult<IEnumerable<SurveyResponse>> GetAllSurveysForEmployee(Guid employeeId)
     {
       Employee? employee = _repository.Get(key: employeeId, includePropertyNames: new[] { "Surveys" });
@@ -668,7 +668,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="employeeId">The Employee ID</param>
     /// <param name="surveyId">Survey ID</param>
     /// <param name="summarytype">Summary type</param>
-    [HttpGet("[controller]s/{employeeId:guid}/surveys/{surveyId:guid}/summary", Name = nameof(GetSurveySummaryForEmployee))]
+    [HttpGet(ApiRoutes.GetSurveySummaryForEmployee, Name = nameof(ApiRoutes.GetSurveySummaryForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveySummaryResponse> GetSurveySummaryForEmployee(Guid employeeId, Guid surveyId, SurveyResultSummaryType summarytype)
     {
@@ -702,7 +702,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="surveyId">Survey ID</param>
-    [HttpDelete("[controller]s/{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(DeleteSurveyForEmployee))]
+    [HttpDelete(ApiRoutes.DeleteSurveyForEmployee, Name = nameof(ApiRoutes.DeleteSurveyForEmployee))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public ActionResult DeleteSurveyForEmployee(Guid employeeId, Guid surveyId)
     {
@@ -732,7 +732,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">The Employee ID</param>
     /// <param name="surveyId">Survey ID</param>
-    [HttpGet("[controller]s/{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(GetSurveyForEmployee))]
+    [HttpGet(ApiRoutes.GetSurveyForEmployee, Name = nameof(ApiRoutes.GetSurveyForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<SurveyResponse> GetSurveyForEmployee(Guid employeeId, Guid surveyId)
     {
@@ -757,7 +757,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="employeeId">Employee ID</param>
     /// <param name="survey">Newly creating Survey. SurveyRequest.AuthorId will be overwrited by Employee ID</param>
-    [HttpPost("[controller]s/{employeeId:guid}/surveys", Name = nameof(CreateSurveyForEmployee))]
+    [HttpPost(ApiRoutes.CreateSurveyForEmployee, Name = nameof(ApiRoutes.CreateSurveyForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
     public ActionResult<SurveyResponse> CreateSurveyForEmployee(Guid employeeId, SurveyRequest survey)
     {
@@ -782,7 +782,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <param name="surveyId">Survey for updating</param>
     /// <param name="newName">New name</param>
     /// <param name="newDescription">New Description</param>
-    [HttpPut("[controller]s/{employeeId:guid}/surveys/{surveyId:guid}", Name = nameof(UpdateSurveyForEmployee))]
+    [HttpPut(ApiRoutes.UpdateSurveyForEmployee, Name = nameof(ApiRoutes.UpdateSurveyForEmployee))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Update))]
     public ActionResult UpdateSurveyForEmployee(
       Guid employeeId, 

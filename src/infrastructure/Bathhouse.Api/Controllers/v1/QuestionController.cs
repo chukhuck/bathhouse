@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models.v1.Requests;
 using Bathhouse.Contracts.Models.v1.Responses;
 using Bathhouse.Entities;
@@ -41,7 +42,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// Get Question by ID
     /// </summary>
     /// <param name="questionId">The question Id in Survey ID</param>
-    [HttpGet("[controller]s/{questionId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet(ApiRoutes.GetQuestionById, Name = nameof(ApiRoutes.GetQuestionById))]
     [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))]
     public ActionResult<QuestionResponse> GetById(Guid questionId)
     {
@@ -61,7 +62,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// </summary>
     /// <param name="surveyId">Survey where new question will be added</param>
     /// <param name="request">Newly creating Question</param>
-    [HttpPost("[controller]s", Name = ("Create[controller]"))]
+    [HttpPost(ApiRoutes.CreateQuestion, Name = nameof(ApiRoutes.CreateQuestion))]
     [ProducesDefaultResponseType]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -101,7 +102,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// </summary>
     /// <param name="questionId">ID of Question for updating</param>
     /// <param name="request">Updating question</param>
-    [HttpPut("[controller]s/{questionId:guid}", Name = ("Update[controller]"))]
+    [HttpPut(ApiRoutes.UpdateQuestion, Name = nameof(ApiRoutes.UpdateQuestion))]
     public ActionResult Update(Guid questionId, QuestionRequest request)
     {
       Question? entity = _repository.Get(key: questionId);
@@ -123,7 +124,7 @@ namespace Bathhouse.Api.Controllers.v1
     /// Delete Question by ID
     /// </summary>
     /// <param name="questionId">Question ID</param>
-    [HttpDelete("[controller]s/{questionId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete(ApiRoutes.DeleteQuestion, Name = nameof(ApiRoutes.DeleteQuestion))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid questionId)
     {

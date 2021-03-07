@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bathhouse.Contracts;
 using Bathhouse.Contracts.Models.v1.Requests;
 using Bathhouse.Contracts.Models.v1.Responses;
 using Bathhouse.Entities;
@@ -44,7 +45,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// <summary>
     /// Get all of Clients
     /// </summary>
-    [HttpGet("[controller]s", Name = ("GetAll[controller]s"))]
+    [HttpGet(ApiRoutes.GetAllClients, Name = nameof(ApiRoutes.GetAllClients))]
     [ApiConventionMethod(typeof(DefaultGetAllApiConvension), nameof(DefaultGetAllApiConvension.GetAll))]
     public ActionResult<PaginatedResponse<ClientResponse>> GetAll(
       [FromQuery] PaginationQuery paginationQuery, 
@@ -74,7 +75,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Get Client by ID
     /// </summary>
     /// <param name="clientId">The Client ID</param>
-    [HttpGet("[controller]s/{clientId:guid}", Name = ("Get[controller]ById"))]
+    [HttpGet(ApiRoutes.GetClientById, Name = nameof(ApiRoutes.GetClientById))]
     public ActionResult<ClientResponse> GetById(Guid clientId)
     {
       Client? entity = _repository.Get(key: clientId, includePropertyNames: new[] { "Office" });
@@ -93,7 +94,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Add Client.
     /// </summary>
     /// <param name="request">Newly creating Client</param>
-    [HttpPost("[controller]s", Name = ("Create[controller]"))]
+    [HttpPost(ApiRoutes.CreateClient, Name = nameof(ApiRoutes.CreateClient))]
     public ActionResult<ClientResponse> Create(ClientRequest request)
     {
       if (request.OfficeId is not null && !_officeRepository.Exist(request.OfficeId.Value))
@@ -118,7 +119,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// </summary>
     /// <param name="request">Client for updating</param>
     /// <param name="clientId">ID of Client for updating</param>
-    [HttpPut("[controller]s/{clientId:guid}", Name = ("Update[controller]"))]
+    [HttpPut(ApiRoutes.UpdateClient, Name = nameof(ApiRoutes.UpdateClient))]
     public ActionResult Update(Guid clientId, ClientRequest request)
     {
       if (request.OfficeId is not null && !_officeRepository.Exist(request.OfficeId.Value))
@@ -146,7 +147,7 @@ namespace Bathhouse.Api.v1.Controllers
     /// Delete Client by ID
     /// </summary>
     /// <param name="clientId">Client ID</param>
-    [HttpDelete("[controller]s/{clientId:guid}", Name = ("Delete[controller]"))]
+    [HttpDelete(ApiRoutes.DeleteClient, Name = nameof(ApiRoutes.DeleteClient))]
     [ApiConventionMethod(typeof(DefaultDeleteApiConvension), nameof(DefaultDeleteApiConvension.Delete))]
     public IActionResult Delete(Guid clientId)
     {
