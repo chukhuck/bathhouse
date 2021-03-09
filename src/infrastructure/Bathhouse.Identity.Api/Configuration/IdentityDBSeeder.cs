@@ -12,6 +12,7 @@ namespace Bathhouse.Identity.Api.Configuration
   {
     public static void SeedIdentityDatabase(this IApplicationBuilder app, IConfiguration configuration)
     {
+#pragma warning disable IDE0063
       using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
       {
         serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
