@@ -24,12 +24,12 @@ namespace Bathhouse.Api
       bool useTestData = config.GetValue<bool>("UseTestData");
 
       // ONLY WHEN DEVELOP
-      using var scope = host.Services.CreateScope();
-      using (BathhouseContext context = scope.ServiceProvider.GetRequiredService<BathhouseContext>())
-      {
-        context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
-      }
+      //using var scope = host.Services.CreateScope();
+      //using (BathhouseContext context = scope.ServiceProvider.GetRequiredService<BathhouseContext>())
+      //{
+      //  context.Database.EnsureDeleted();
+      //  context.Database.EnsureCreated();
+      //}
 
 
       if (generateSwaggerSpec)

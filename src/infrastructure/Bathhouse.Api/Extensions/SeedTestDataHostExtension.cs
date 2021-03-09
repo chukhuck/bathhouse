@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Linq;
 
 namespace Bathhouse.Api.Extensions
 {
@@ -17,6 +18,10 @@ namespace Bathhouse.Api.Extensions
       using var scope = host.Services.CreateScope();
       using (BathhouseContext context = scope.ServiceProvider.GetRequiredService<BathhouseContext>())
       {
+        if (context.Surveys.Any())
+          return;
+
+
         IConfiguration config = host.Services.GetRequiredService<IConfiguration>();
 
         string baseDirectory = Path.GetDirectoryName(typeof(Program)?.Assembly?.Location) ?? string.Empty;
