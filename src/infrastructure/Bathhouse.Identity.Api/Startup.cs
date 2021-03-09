@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Reflection;
 
 namespace Bathhouse.Identity.Api
 {
@@ -33,26 +34,31 @@ namespace Bathhouse.Identity.Api
 
       services.AddDbContext<BathhouseContext>(options =>
       {
-          options.UseSqlServer(Configuration.GetConnectionString("BathhouseDB"));
+        options.UseSqlServer(Configuration.GetConnectionString("BathhouseDB"));
       });
 
       services.AddIdentity<Employee, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<BathhouseContext>()
                 .AddDefaultTokenProviders();
 
+      var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
       var _identityInMemoryConfig = new Config(Configuration);
 
-      var identityServerBuilder = services.AddIdentityServer(x =>
-      {
-        x.Authentication.CookieLifetime = TimeSpan.FromHours(2);
-        
-      })
+      var identityServerBuilder = services
+        .AddIdentityServer(x =>         
+          x.Authentication.CookieLifetime = TimeSpan.FromHours(2))
       .AddAspNetIdentity<Employee>()
-      .AddInMemoryApiResources(_identityInMemoryConfig.GetApis())
-      .AddInMemoryClients(_identityInMemoryConfig.GetClients())
-      .AddInMemoryIdentityResources(_identityInMemoryConfig.GetResources())
-      .AddInMemoryApiScopes(_identityInMemoryConfig.GetApiScopes())
-      .AddProfileService<ProfileService>();
+      .AddProfileService<ProfileService>()
+      .AddConfigurationStore(options =>
+        {
+          options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("IdentityServerDB"), 
+            sql => sql.MigrationsAssembly(migrationsAssembly));
+        })
+      .AddOperationalStore(options =>
+        {
+          options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("IdentityServerDB"),
+              sql => sql.MigrationsAssembly(migrationsAssembly));
+        }); ;
 
       if (Environment.IsDevelopment())
       {
@@ -62,12 +68,13 @@ namespace Bathhouse.Identity.Api
       {
         identityServerBuilder.AddCertificateFromFile(Configuration);
       }
-
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
     {
+      app.SeedIdentityDatabase(configuration);
+
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
