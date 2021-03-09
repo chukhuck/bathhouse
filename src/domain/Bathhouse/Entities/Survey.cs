@@ -2,6 +2,7 @@
 using Chuk.Helpers.Patterns;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bathhouse.Entities
 {
@@ -18,6 +19,11 @@ namespace Bathhouse.Entities
     public Guid AuthorId { get; set; }
     public virtual ICollection<Question> Questions { get; set; } = null!;
     public virtual ICollection<SurveyResult> Results { get; set; } = null!;
+
+    public List<List<string>> GetResultsForQuestions(IEnumerable<Question> questions)
+    {
+       return Results.Select(result => result.GetForQuestions(questions)).ToList();
+    }
 
     /// <summary>
     /// Get All of results of this survey

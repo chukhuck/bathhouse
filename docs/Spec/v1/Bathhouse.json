@@ -14,7 +14,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/Clients": {
+    "/clients": {
       "get": {
         "tags": [
           "Client"
@@ -168,7 +168,7 @@
         ]
       }
     },
-    "/Clients/{clientId}": {
+    "/clients/{clientId}": {
       "get": {
         "tags": [
           "Client"
@@ -408,7 +408,7 @@
         ]
       }
     },
-    "/Employees": {
+    "/empoyees": {
       "get": {
         "tags": [
           "Employee"
@@ -554,7 +554,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}": {
+    "/empoyees/{empoyeeId}": {
       "get": {
         "tags": [
           "Employee"
@@ -564,12 +564,19 @@
         "parameters": [
           {
             "name": "employeeId",
-            "in": "path",
+            "in": "query",
             "description": "The Employee ID",
-            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "empoyeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -637,12 +644,19 @@
         "parameters": [
           {
             "name": "employeeId",
-            "in": "path",
+            "in": "query",
             "description": "ID of Employee for updating",
-            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "empoyeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -723,12 +737,19 @@
         "parameters": [
           {
             "name": "employeeId",
-            "in": "path",
+            "in": "query",
             "description": "Employee ID",
-            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "empoyeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -794,7 +815,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/roles": {
+    "/empoyees/{employeeId}/roles": {
       "get": {
         "tags": [
           "Employee"
@@ -1040,7 +1061,7 @@
         ]
       }
     },
-    "/Employees/directors": {
+    "/empoyees/directors": {
       "get": {
         "tags": [
           "Employee"
@@ -1095,7 +1116,7 @@
         ]
       }
     },
-    "/Employees/employees": {
+    "/empoyees/employees": {
       "get": {
         "tags": [
           "Employee"
@@ -1150,7 +1171,7 @@
         ]
       }
     },
-    "/Employees/managers": {
+    "/empoyees/managers": {
       "get": {
         "tags": [
           "Employee"
@@ -1205,7 +1226,7 @@
         ]
       }
     },
-    "/Employees/techsupporters": {
+    "/empoyees/techsupporters": {
       "get": {
         "tags": [
           "Employee"
@@ -1260,7 +1281,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/offices": {
+    "/empoyees/{employeeId}/offices": {
       "get": {
         "tags": [
           "Employee"
@@ -1510,7 +1531,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/offices/{officeId}": {
+    "/empoyees/{employeeId}/offices/{officeId}": {
       "delete": {
         "tags": [
           "Employee"
@@ -1601,7 +1622,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/myworkitems": {
+    "/empoyees/{employeeId}/myworkitems": {
       "get": {
         "tags": [
           "Employee"
@@ -1676,7 +1697,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/workitems": {
+    "/empoyees/{employeeId}/workitems": {
       "get": {
         "tags": [
           "Employee"
@@ -1837,7 +1858,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/workitems/{workitemId}": {
+    "/empoyees/{employeeId}/workitems/{workitemId}": {
       "get": {
         "tags": [
           "Employee"
@@ -2107,7 +2128,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/workitems/{workitemId}/status": {
+    "/empoyees/{employeeId}/workitems/{workitemId}/status": {
       "put": {
         "tags": [
           "Employee"
@@ -2203,7 +2224,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/surveys": {
+    "/empoyees/{employeeId}/surveys": {
       "get": {
         "tags": [
           "Employee"
@@ -2364,7 +2385,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/surveys/{surveyId}/summary": {
+    "/empoyees/{employeeId}/surveys/{surveyId}/summary": {
       "get": {
         "tags": [
           "Employee"
@@ -2457,7 +2478,7 @@
         ]
       }
     },
-    "/Employees/{employeeId}/surveys/{surveyId}": {
+    "/empoyees/{employeeId}/surveys/{surveyId}": {
       "delete": {
         "tags": [
           "Employee"
@@ -2733,7 +2754,7 @@
         ]
       }
     },
-    "/Offices": {
+    "/offices": {
       "get": {
         "tags": [
           "Office"
@@ -2887,7 +2908,7 @@
         ]
       }
     },
-    "/Offices/{officeId}": {
+    "/offices/{officeId}": {
       "get": {
         "tags": [
           "Office"
@@ -3136,7 +3157,7 @@
         ]
       }
     },
-    "/Offices/{officeId}/managers": {
+    "/offices/{officeId}/managers": {
       "get": {
         "tags": [
           "Office"
@@ -3211,7 +3232,7 @@
         ]
       }
     },
-    "/Offices/{officeId}/employees": {
+    "/offices/{officeId}/employees": {
       "get": {
         "tags": [
           "Office"
@@ -3461,7 +3482,7 @@
         ]
       }
     },
-    "/Offices/{officeId}/employees/{employeeId}": {
+    "/offices/{officeId}/employees/{employeeId}": {
       "delete": {
         "tags": [
           "Office"
@@ -3552,7 +3573,7 @@
         ]
       }
     },
-    "/Questions/{questionId}": {
+    "/questions/{questionId}": {
       "get": {
         "tags": [
           "Question"
@@ -3792,7 +3813,7 @@
         ]
       }
     },
-    "/Questions": {
+    "/questions": {
       "post": {
         "tags": [
           "Question"
@@ -3896,7 +3917,7 @@
         ]
       }
     },
-    "/Roles": {
+    "/roles": {
       "get": {
         "tags": [
           "Role"
@@ -4025,7 +4046,7 @@
         ]
       }
     },
-    "/Roles/{roleId}": {
+    "/roles/{roleId}": {
       "get": {
         "tags": [
           "Role"
@@ -4263,7 +4284,7 @@
         ]
       }
     },
-    "/Roles/{roleId}/employees": {
+    "/roles/{roleId}/employees": {
       "get": {
         "tags": [
           "Role"
@@ -4340,7 +4361,7 @@
           }
         ]
       },
-      "put": {
+      "post": {
         "tags": [
           "Role"
         ],
@@ -4426,7 +4447,7 @@
         ]
       }
     },
-    "/Roles/{roleId}/employees/{employeeId}": {
+    "/roles/{roleId}/employees/{employeeId}": {
       "delete": {
         "tags": [
           "Role"
@@ -4517,7 +4538,7 @@
         ]
       }
     },
-    "/Surveys": {
+    "/surveys": {
       "get": {
         "tags": [
           "Survey"
@@ -4678,7 +4699,7 @@
         ]
       }
     },
-    "/Surveys/{surveyId}": {
+    "/surveys/{surveyId}": {
       "get": {
         "tags": [
           "Survey"
@@ -4924,7 +4945,7 @@
         ]
       }
     },
-    "/Surveys/{surveyId}/questions": {
+    "/surveys/{surveyId}/questions": {
       "get": {
         "tags": [
           "Survey"
@@ -5091,7 +5112,7 @@
         ]
       }
     },
-    "/Surveys/{surveyId}/questions/{questionId}": {
+    "/surveys/{surveyId}/questions/{questionId}": {
       "get": {
         "tags": [
           "Survey"
@@ -5361,7 +5382,7 @@
         ]
       }
     },
-    "/Surveys/{surveyId}/summary": {
+    "/surveys/{surveyId}/summary": {
       "get": {
         "tags": [
           "Survey"

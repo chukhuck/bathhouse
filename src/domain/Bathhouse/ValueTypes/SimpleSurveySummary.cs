@@ -18,7 +18,16 @@ namespace Bathhouse.ValueTypes
     /// Get all of results of this survey as List
     /// </summary>
     /// <returns></returns>
-    protected override List<List<string>> GetData() => Survey?.Results?.Select(r => r.ToList()).ToList() ?? new List<List<string>>();
+    protected override List<List<string>> GetData()
+    {
+      if (Survey is null || Survey.Results is null || Survey.Questions is null)
+      {
+        return new List<List<string>>();
+      }
+
+      return Survey.GetResultsForQuestions(Survey.Questions);
+       
+    }
 
     /// <summary>
     /// Get headrers for this survey
@@ -32,7 +41,12 @@ namespace Bathhouse.ValueTypes
       headers.Add(new SurveySummaryHeader() { Type = DataType.Text, Text = "Author" });
 
       headers.AddRange(
-        Survey?.Questions?.Select(q => new SurveySummaryHeader() { Type = SurveySummaryHeader.ConvertType(q.Type), Text = q.Name })
+        Survey?.Questions?
+        .Select(q => new SurveySummaryHeader() 
+            { 
+                Type = SurveySummaryHeader.ConvertType(q.Type), 
+                Text = q.Name 
+            })
         ?? new List<SurveySummaryHeader>());
 
       return headers;

@@ -18,14 +18,22 @@ namespace Bathhouse.Entities
     public virtual ICollection<Answer> Answers { get; set; } = null!;
 
 
-    public virtual List<string> ToList()
+    public virtual List<string> GetForQuestions(IEnumerable<Question>? questions)
     {
+      if (questions is null)
+      {
+        throw new ArgumentNullException(paramName: nameof(questions));
+      }
+
       List<string> row = new ();
 
       row.Add(CreationDate.ToString());
       row.Add(Author?.LastName ?? "Anonim");
 
-      row.AddRange(Answers.Select(a => a.Value));
+      foreach (var question in questions)
+      {
+        row.Add(Answers.FirstOrDefault(a => a.QuestionId == question.Id)?.Value ?? "None");
+      }
 
       return row;
     }

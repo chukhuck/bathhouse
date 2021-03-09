@@ -34,7 +34,7 @@ namespace Bathhouse.Test
       row.Add(surveyResult.CreationDate.ToString());
       row.Add(surveyResult.Author.LastName);
 
-      Assert.Equal(row, surveyResult.ToList());
+      Assert.Equal(row, surveyResult.GetForQuestions(new List<Question>()));
     }
   }
 }

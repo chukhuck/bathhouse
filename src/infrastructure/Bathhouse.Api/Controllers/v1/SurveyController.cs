@@ -240,7 +240,7 @@ namespace Bathhouse.Api.Controllers.v1
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public ActionResult<QuestionResponse> AddQuestionToSurvey(Guid surveyId, QuestionRequest request)
     {
-      Survey? survey = _unitOfWork.Surveys.Get(key: surveyId, includePropertyNames: new[] { "Results" });
+      Survey? survey = _unitOfWork.Surveys.Get(key: surveyId, includePropertyNames: new[] { "Results", "Questions" });
       if (survey is null)
       {
         _logger.LogInformation($"Survey with ID={surveyId} was not found.");
