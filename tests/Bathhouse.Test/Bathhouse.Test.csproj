@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Chuk.Helpers" Version="0.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -21,7 +22,6 @@
     <ProjectReference Include="..\..\src\domain\Bathhouse\Bathhouse.csproj" />
     <ProjectReference Include="..\..\src\infrastructure\Bathhouse.EF.InMemory\Bathhouse.EF.InMemory.csproj" />
     <ProjectReference Include="..\..\src\infrastructure\Bathhouse.EF\Bathhouse.EF.csproj" />
-    <ProjectReference Include="..\..\src\infrastructure\Chuk.Helpers\Chuk.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

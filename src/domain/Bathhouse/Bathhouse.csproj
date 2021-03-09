@@ -11,11 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Chuk.Helpers" Version="0.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\infrastructure\Chuk.Helpers\Chuk.Helpers.csproj" />
     <ProjectReference Include="..\Bathhouse.Enums\Bathhouse.Enums.csproj" />
   </ItemGroup>
 

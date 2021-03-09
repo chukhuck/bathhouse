@@ -4,10 +4,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Chuk.Helpers" Version="0.1.0" />
     <PackageReference Include="Refit" Version="6.0.24" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bathhouse.Api.Contracts\Bathhouse.Api.Contracts.csproj" />
-    <ProjectReference Include="..\Chuk.Helpers\Chuk.Helpers.csproj" />
   </ItemGroup>
 </Project>
