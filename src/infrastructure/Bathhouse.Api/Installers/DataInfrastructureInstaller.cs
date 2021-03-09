@@ -30,7 +30,9 @@ namespace Bathhouse.Api.Installers
         }
         else
         {
-          options.UseSqlServer(Configuration.GetConnectionString("BathhouseDB"));
+          options.UseSqlServer(
+            Configuration.GetConnectionString("BathhouseDB"),
+            sqlOptions => sqlOptions.EnableRetryOnFailure(5));
         }
       });
 

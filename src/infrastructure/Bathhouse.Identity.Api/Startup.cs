@@ -34,7 +34,9 @@ namespace Bathhouse.Identity.Api
 
       services.AddDbContext<BathhouseContext>(options =>
       {
-        options.UseSqlServer(Configuration.GetConnectionString("BathhouseDB"));
+        options.UseSqlServer(
+          Configuration.GetConnectionString("BathhouseDB"),
+          sqlOptions => sqlOptions.EnableRetryOnFailure(5));
       });
 
       services.AddIdentity<Employee, IdentityRole<Guid>>()
@@ -45,20 +47,28 @@ namespace Bathhouse.Identity.Api
       var _identityInMemoryConfig = new Config(Configuration);
 
       var identityServerBuilder = services
-        .AddIdentityServer(x =>         
+        .AddIdentityServer(x =>
           x.Authentication.CookieLifetime = TimeSpan.FromHours(2))
-      .AddAspNetIdentity<Employee>()
-      .AddProfileService<ProfileService>()
-      .AddConfigurationStore(options =>
-        {
-          options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("IdentityServerDB"), 
-            sql => sql.MigrationsAssembly(migrationsAssembly));
-        })
-      .AddOperationalStore(options =>
-        {
-          options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("IdentityServerDB"),
-              sql => sql.MigrationsAssembly(migrationsAssembly));
-        }); ;
+        .AddAspNetIdentity<Employee>()
+        .AddProfileService<ProfileService>()
+        .AddConfigurationStore(options =>
+          {
+            options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("IdentityServerDB"),
+              sqlOptions =>
+              {
+                sqlOptions.MigrationsAssembly(migrationsAssembly);
+                sqlOptions.EnableRetryOnFailure(5);
+              });
+          })
+        .AddOperationalStore(options =>
+          {
+            options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("IdentityServerDB"),
+                sqlOptions =>
+                {
+                  sqlOptions.MigrationsAssembly(migrationsAssembly);
+                  sqlOptions.EnableRetryOnFailure(5);
+                });
+          }); ;
 
       if (Environment.IsDevelopment())
       {
