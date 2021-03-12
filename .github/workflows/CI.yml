@@ -46,9 +46,9 @@ jobs:
         gist_badge_label: 'Bathhouse: %Counters_passed%/%Counters_total%'
         gist_token: ${{ secrets.GIST_TOKEN }}
     
-    - name: Generate OpenAPI spec
-      run: dotnet run --project ./src/infrastructure/Bathhouse.Api --swagger
-      if: runner.os == 'Linux'
+    #- name: Generate OpenAPI spec
+    #  run: dotnet run --project ./src/infrastructure/Bathhouse.Api --swagger
+    #  if: runner.os == 'Linux'
       
 
 
